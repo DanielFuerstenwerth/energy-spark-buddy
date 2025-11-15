@@ -18,6 +18,20 @@
               "title": "Fehlerquote bei Abrechnung < 10%"
             }
           ]
+        },
+        {
+          "slug": "UK2",
+          "title": "UK2",
+          "kriterien": [
+            {
+              "slug": "UK2K1",
+              "title": "UK2K1"
+            },
+            {
+              "slug": "UK2K2",
+              "title": "UK2K2"
+            }
+          ]
         }
       ]
     },
@@ -25,19 +39,106 @@
       "slug": "TaE",
       "title": "Teilhabe an Energiewende",
       "tabs": ["Performance VNB", "Best Practices"],
-      "unterkategorien": []
+      "unterkategorien": [
+        {
+          "slug": "UK1",
+          "title": "UK1",
+          "kriterien": [
+            {
+              "slug": "UK1K1",
+              "title": "UK1K1"
+            },
+            {
+              "slug": "UK1K2",
+              "title": "UK1K2"
+            }
+          ]
+        },
+        {
+          "slug": "UK2",
+          "title": "UK2",
+          "kriterien": [
+            {
+              "slug": "UK2K1",
+              "title": "UK2K1"
+            },
+            {
+              "slug": "UK2K2",
+              "title": "UK2K2"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "EiG",
       "title": "Elektrifizierung im Gewerbe",
       "tabs": ["Performance VNB", "Best Practices"],
-      "unterkategorien": []
+      "unterkategorien": [
+        {
+          "slug": "UK1",
+          "title": "UK1",
+          "kriterien": [
+            {
+              "slug": "UK1K1",
+              "title": "UK1K1"
+            },
+            {
+              "slug": "UK1K2",
+              "title": "UK1K2"
+            }
+          ]
+        },
+        {
+          "slug": "UK2",
+          "title": "UK2",
+          "kriterien": [
+            {
+              "slug": "UK2K1",
+              "title": "UK2K1"
+            },
+            {
+              "slug": "UK2K2",
+              "title": "UK2K2"
+            }
+          ]
+        }
+      ]
     },
     {
       "slug": "NiH",
       "title": "Netzanschluss Hochspannung",
       "tabs": ["Performance VNB", "Best Practices"],
-      "unterkategorien": []
+      "unterkategorien": [
+        {
+          "slug": "UK1",
+          "title": "UK1",
+          "kriterien": [
+            {
+              "slug": "UK1K1",
+              "title": "UK1K1"
+            },
+            {
+              "slug": "UK1K2",
+              "title": "UK1K2"
+            }
+          ]
+        },
+        {
+          "slug": "UK2",
+          "title": "UK2",
+          "kriterien": [
+            {
+              "slug": "UK2K1",
+              "title": "UK2K1"
+            },
+            {
+              "slug": "UK2K2",
+              "title": "UK2K2"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

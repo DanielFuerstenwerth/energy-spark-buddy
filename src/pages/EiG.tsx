@@ -2,19 +2,18 @@ import { useState, useRef, useCallback } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategoryTabs from "@/components/CategoryTabs";
-import SubcategoryTabs from "@/components/SubcategoryTabs";
-import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
+import MapContainer, { MapContainerHandle } from "@/components/MapContainer";
 import MapLegend from "@/components/MapLegend";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
 import Banner from "@/components/Banner";
 import CommentsSection from "@/components/CommentsSection";
 import { useMapData } from "@/hooks/useMapData";
 
-const Ggv = () => {
-  const [activeCategory, setActiveCategory] = useState("dezentrale-ew");
+const EiG = () => {
+  const [activeCategory, setActiveCategory] = useState("EiG");
   const [selectedVnb, setSelectedVnb] = useState<{ id: string; name: string } | null>(null);
-  const mapRef = useRef<MapGgvHandle>(null);
-  const { scoreData } = useMapData("GGV");
+  const mapRef = useRef<MapContainerHandle>(null);
+  const { scoreData, loading, error } = useMapData("EiG");
 
   const handleRegionClick = useCallback((vnbId: string, vnbName: string) => {
     setSelectedVnb({ id: vnbId, name: vnbName });
@@ -27,25 +26,58 @@ const Ggv = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Banner />
+        <Header />
+        <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+        <main className="flex-grow bg-background">
+          <div className="container mx-auto px-6 py-8">
+            <p>Daten werden geladen...</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Banner />
+        <Header />
+        <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+        <main className="flex-grow bg-background">
+          <div className="container mx-auto px-6 py-8">
+            <p className="text-destructive">Fehler beim Laden der Daten: {error}</p>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <Banner />
       <Header />
       <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
-      <SubcategoryTabs activeSubcategory="ggv" />
       
       <main id="main-content" className="flex-grow bg-background">
         <div className="container mx-auto px-6 py-8">
-          <h1 className="text-3xl font-bold mb-6">Gemeinschaftliche Gebäudeversorgung (GGV)</h1>
+          <h1 className="text-3xl font-bold mb-6">Elektrifizierung im Gewerbe (EiG)</h1>
           
           <div className="grid lg:grid-cols-2 gap-6 mb-8">
-            {/* Left column - Map */}
             <div className="space-y-4">
-              <MapGgv ref={mapRef} onRegionClick={handleRegionClick} />
+              <MapContainer 
+                ref={mapRef} 
+                onRegionClick={handleRegionClick}
+                scoreData={scoreData}
+              />
               <MapLegend />
             </div>
 
-            {/* Right column - Benchmark Panel */}
             <div>
               <BenchmarkPanel 
                 scoreData={scoreData}
@@ -56,7 +88,7 @@ const Ggv = () => {
           </div>
 
           <CommentsSection 
-            route="GGV" 
+            route="EiG" 
             vnbName={selectedVnb?.name}
           />
         </div>
@@ -67,4 +99,4 @@ const Ggv = () => {
   );
 };
 
-export default Ggv;
+export default EiG;
