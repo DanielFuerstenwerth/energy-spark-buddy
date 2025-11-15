@@ -10,9 +10,13 @@ const Logo = ({ variant = 'full', className = '' }: LogoProps) => {
     return (
       <Link
         to="/"
-        className={`inline-flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-primary-foreground font-bold text-xl transition-transform hover:scale-105 ${className}`}
+        className={`inline-flex items-center justify-center w-10 h-10 rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-black text-xl transition-all hover:scale-105 hover:shadow-lg hover:shadow-primary/25 ${className}`}
+        style={{ 
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          letterSpacing: '-0.05em'
+        }}
       >
-        v
+        V
       </Link>
     );
   }
@@ -20,12 +24,18 @@ const Logo = ({ variant = 'full', className = '' }: LogoProps) => {
   return (
     <Link
       to="/"
-      className={`inline-flex items-center gap-2 group ${className}`}
+      className={`inline-flex items-center gap-3 group ${className}`}
     >
-      <div className="w-10 h-10 rounded-lg bg-primary text-primary-foreground font-bold text-xl flex items-center justify-center transition-transform group-hover:scale-105">
-        v
+      <div 
+        className="w-10 h-10 rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-black text-xl flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25"
+        style={{ 
+          fontFamily: 'system-ui, -apple-system, sans-serif',
+          letterSpacing: '-0.05em'
+        }}
+      >
+        V
       </div>
-      <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+      <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
         vnb-transparenz
       </span>
     </Link>

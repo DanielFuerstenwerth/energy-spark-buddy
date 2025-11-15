@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import AdminHeader from '@/components/AdminHeader';
 import Footer from '@/components/Footer';
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CheckCircle, XCircle, MessageCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 
 interface Comment {
   id: string;
@@ -25,12 +27,25 @@ const AdminComments = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { user, isAdmin, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    loadComments();
-  }, []);
+    // Redirect if not authenticated or not admin
+    if (!authLoading && (!user || !isAdmin)) {
+      navigate('/auth');
+    }
+  }, [user, isAdmin, authLoading, navigate]);
+
+  useEffect(() => {
+    if (user && isAdmin) {
+      loadComments();
+    }
+  }, [user, isAdmin]);
 
   const loadComments = async () => {
+    if (!user || !isAdmin) return;
+    
     setLoading(true);
     const { data, error } = await supabase
       .from('comments')
