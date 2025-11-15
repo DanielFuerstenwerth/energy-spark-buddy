@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Warm, modern color palette for 40-60 age group */
+    --background: 36 20% 98%;
+    --foreground: 24 10% 22%;
+    
+    /* Card system with subtle warmth */
+    --card: 0 0% 100%;
+    --card-foreground: 24 10% 22%;
+    
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 10% 22%;
+    
+    /* Primary - Warm Forest Green */
+    --primary: 160 45% 35%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Secondary - Warm Beige/Cream for supporting elements */
+    --secondary: 36 30% 92%;
+    --secondary-foreground: 24 10% 22%;
+    
+    /* Muted - Warm neutrals */
+    --muted: 36 25% 94%;
+    --muted-foreground: 24 8% 45%;
+    
+    /* Accent - Fresh, friendly green */
+    --accent: 142 55% 42%;
+    --accent-foreground: 0 0% 98%;
+    
+    /* Warning - Warm amber */
+    --warning: 38 85% 55%;
+    --warning-foreground: 0 0% 98%;
+    
+    /* Destructive - Softer red */
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* Score colors with warmer tones */
+    --score-excellent: 142 55% 42%;
+    --score-good: 142 50% 50%;
+    --score-moderate: 38 85% 55%;
+    --score-poor: 15 75% 55%;
+    --score-critical: 0 65% 55%;
+    
+    /* Softer borders */
+    --border: 36 20% 88%;
+    --input: 36 20% 88%;
+    --ring: 160 45% 35%;
+    
+    /* Charts with warmth */
+    --chart-1: 142 55% 42%;
+    --chart-2: 38 85% 55%;
+    --chart-3: 0 65% 55%;
+    --chart-4: 160 45% 35%;
+    --chart-5: 24 8% 45%;
+    
+    /* Friendly rounded corners */
+    --radius: 0.75rem;
+    
+    /* Score color tokens for visualization */
+    --neg-50: 8 47% 31%; /* dunkelrot #7F1D1D */
+    --neg-25: 0 72% 51%; /* rot #DC2626 */
+    --neutral: 215 16% 65%; /* grau #9CA3AF */
+    --pos-25: 142 71% 37%; /* grün #16A34A */
+    --pos-50: 160 84% 19%; /* dunkelgrün #065F46 */
+    --unknown: 220 13% 91%; /* hellgrau #E5E7EB */
+    
+    /* Sidebar */
+    --sidebar-background: 36 15% 97%;
+    --sidebar-foreground: 24 10% 22%;
+    --sidebar-primary: 160 45% 35%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 36 25% 92%;
+    --sidebar-accent-foreground: 24 10% 22%;
+    --sidebar-border: 36 20% 88%;
+    --sidebar-ring: 160 45% 35%;
+  }
+
+  .dark {
+    --background: 24 15% 12%;
+    --foreground: 36 10% 92%;
+    
+    --card: 24 12% 15%;
+    --card-foreground: 36 10% 92%;
+    
+    --popover: 24 12% 15%;
+    --popover-foreground: 36 10% 92%;
+    
+    --primary: 160 45% 42%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 24 10% 18%;
+    --secondary-foreground: 36 10% 92%;
+    
+    --muted: 24 10% 18%;
+    --muted-foreground: 36 8% 62%;
+    
+    --accent: 142 52% 48%;
+    --accent-foreground: 0 0% 98%;
+    
+    --warning: 38 80% 52%;
+    --warning-foreground: 0 0% 98%;
+    
+    --destructive: 0 60% 52%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --score-excellent: 142 52% 48%;
+    --score-good: 142 50% 52%;
+    --score-moderate: 38 80% 52%;
+    --score-poor: 15 70% 52%;
+    --score-critical: 0 60% 52%;
+    
+    --border: 24 10% 22%;
+    --input: 24 10% 22%;
+    --ring: 160 45% 42%;
+    
+    --chart-1: 142 52% 48%;
+    --chart-2: 38 80% 52%;
+    --chart-3: 0 60% 52%;
+    --chart-4: 160 45% 35%;
+    --chart-5: 36 8% 62%;
+    
+    --sidebar-background: 24 12% 15%;
+    --sidebar-foreground: 36 10% 92%;
+    --sidebar-primary: 160 45% 42%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 24 10% 18%;
+    --sidebar-accent-foreground: 36 10% 92%;
+    --sidebar-border: 24 10% 22%;
+    --sidebar-ring: 160 45% 42%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+  
+  /* Professional typography scale */
+  h1 {
+    @apply text-4xl md:text-5xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold tracking-tight;
+  }
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+  h4 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+  
+  /* Professional spacing and layout */
+  .container-narrow {
+    @apply max-w-4xl mx-auto;
+  }
+  
+  .container-wide {
+    @apply max-w-7xl mx-auto;
+  }
+}
