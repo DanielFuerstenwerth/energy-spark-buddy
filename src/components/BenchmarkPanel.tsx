@@ -7,40 +7,23 @@ import { CheckCircle2 } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
 
 interface BenchmarkPanelProps {
-  selectedVnbId: string | null;
-  onVnbSelect: (vnbId: string) => void;
+  scoreData: Map<string, ScoreData>;
+  selectedVnb: { id: string; name: string } | null;
+  onVnbSelect: (vnbId: string, vnbName: string) => void;
 }
 
-const BenchmarkPanel = ({ selectedVnbId, onVnbSelect }: BenchmarkPanelProps) => {
-  const [vnbList, setVnbList] = useState<Array<{ id: string; name: string; score: number | null }>>([]);
-  const [loading, setLoading] = useState(true);
+const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
+  const vnbList = Array.from(scoreData.values()).map(sd => ({
+    id: sd.vnb_id,
+    name: sd.vnb_name,
+    score: sd.score
+  })).sort((a, b) => {
+    if (a.score === null) return 1;
+    if (b.score === null) return -1;
+    return b.score - a.score;
+  });
 
-  useEffect(() => {
-    loadScoresFromGoogleSheets()
-      .then((scoresMap) => {
-        const list = Array.from(scoresMap.values()).map(scoreData => ({
-          id: scoreData.vnb_id,
-          name: scoreData.vnb_name,
-          score: scoreData.score
-        }));
-
-        // Sort by score (nulls last)
-        list.sort((a, b) => {
-          if (a.score === null) return 1;
-          if (b.score === null) return -1;
-          return b.score - a.score;
-        });
-
-        setVnbList(list);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error loading VNB data:', error);
-        setLoading(false);
-      });
-  }, []);
-
-  const selectedVnb = vnbList.find(v => v.id === selectedVnbId);
+  const selectedVnbData = selectedVnb ? vnbList.find(v => v.id === selectedVnb.id) : null;
 
   return (
     <Card className="h-full">

@@ -48,6 +48,7 @@ export default {
         "score-moderate": "hsl(var(--score-moderate))",
         "score-poor": "hsl(var(--score-poor))",
         "score-critical": "hsl(var(--score-critical))",
+        "score-unknown": "hsl(var(--score-unknown))",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
