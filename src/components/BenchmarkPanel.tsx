@@ -142,48 +142,29 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
           <TabsContent value="practices" className="flex-1 mt-0">
             <div className="space-y-6">
               <div className="prose prose-sm max-w-none">
-                <h3 className="text-lg font-semibold mb-4">Best Practices zur GGV-Umsetzung</h3>
+                <h3 className="text-lg font-semibold mb-4">Best Practices</h3>
                 
                 <div className="space-y-4">
-                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                  <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-score-5" />
+                      <CheckCircle2 className="w-5 h-5" />
                       Digitale Prozesse
                     </h4>
-                    <p className="text-sm text-muted-foreground">
-                      Führende VNB bieten vollständig digitalisierte Antragsprozesse an, 
-                      die eine schnelle und transparente Abwicklung ermöglichen.
-                    </p>
                   </div>
 
-                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                  <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-score-5" />
-                      Klare Kommunikation
+                      <CheckCircle2 className="w-5 h-5" />
+                      Kommunikation
                     </h4>
-                    <p className="text-sm text-muted-foreground">
-                      Transparente Dokumentation der Anforderungen und proaktive 
-                      Kommunikation während des gesamten Prozesses.
-                    </p>
                   </div>
 
-                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                  <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
-                      <CheckCircle2 className="w-5 h-5 text-score-5" />
+                      <CheckCircle2 className="w-5 h-5" />
                       Standardisierung
                     </h4>
-                    <p className="text-sm text-muted-foreground">
-                      Einsatz standardisierter Verfahren und Schnittstellen zur 
-                      Vereinfachung der Integration.
-                    </p>
                   </div>
-                </div>
-
-                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                  <p className="text-sm text-muted-foreground">
-                    Diese Best Practices basieren auf den Erfahrungen führender 
-                    Verteilnetzbetreiber und werden kontinuierlich aktualisiert.
-                  </p>
                 </div>
               </div>
             </div>

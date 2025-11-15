@@ -23,9 +23,13 @@ const Reply = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-6">
-                Als Verteilnetzbetreiber haben Sie das Recht, zu Bewertungen auf dieser Plattform 
-                Stellung zu nehmen. Wir verpflichten uns, Ihre Rückmeldung innerhalb von 10 Werktagen 
-                zu prüfen und ggf. Korrekturen vorzunehmen.
+                Als Verteilnetzbetreiber können Sie zu den Bewertungen auf dieser Plattform 
+                Stellung nehmen. Wählen Sie dazu Ihren VNB aus und navigieren Sie zum jeweiligen 
+                Kriterium. Dort können Sie einen spezifischen Kommentar abgeben.
+              </p>
+              <p className="text-muted-foreground mb-6">
+                Bitte geben Sie eine geschäftliche E-Mail-Adresse an, um sich als Mitarbeiter 
+                des VNB auszuweisen. Ihre Stellungnahme wird geprüft und veröffentlicht.
               </p>
 
               <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>

@@ -16,5 +16,14 @@
   },
   "EHH/zvNE/fehlerquote-unter-10": {
     "sheet": "https://docs.google.com/spreadsheets/d/PLACEHOLDER_EHH_ZVNE_KR2/export?format=csv"
+  },
+  "TaE": {
+    "sheet": "https://docs.google.com/spreadsheets/d/PLACEHOLDER_TAE/export?format=csv"
+  },
+  "EiG": {
+    "sheet": "https://docs.google.com/spreadsheets/d/PLACEHOLDER_EIG/export?format=csv"
+  },
+  "NiH": {
+    "sheet": "https://docs.google.com/spreadsheets/d/PLACEHOLDER_NIH/export?format=csv"
   }
 }
