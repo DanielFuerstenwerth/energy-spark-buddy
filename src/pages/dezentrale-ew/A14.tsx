@@ -10,15 +10,15 @@ import BenchmarkPanel from "@/components/BenchmarkPanel";
 import { Card, CardContent } from "@/components/ui/card";
 const A14 = () => {
   const [activeCategory, setActiveCategory] = useState("dezentrale-ew");
-  const [selectedVnbId, setSelectedVnbId] = useState<string | null>(null);
+  const [selectedVnb, setSelectedVnb] = useState<{ id: string; name: string } | null>(null);
   const mapRef = useRef<MapA14Handle>(null);
 
   const handleRegionClick = useCallback((vnbId: string, vnbName: string) => {
-    setSelectedVnbId(vnbId);
+    setSelectedVnb({ id: vnbId, name: vnbName });
   }, []);
 
-  const handleVnbSelect = (vnbId: string | null) => {
-    setSelectedVnbId(vnbId);
+  const handleVnbSelect = (vnbId: string, vnbName: string) => {
+    setSelectedVnb({ id: vnbId, name: vnbName });
     if (vnbId && mapRef.current) {
       mapRef.current.zoomToVnb(vnbId);
     }
@@ -42,7 +42,8 @@ const A14 = () => {
 
             <div className="lg:col-span-5">
               <BenchmarkPanel 
-                selectedVnbId={selectedVnbId}
+                scoreData={new Map()}
+                selectedVnb={selectedVnb}
                 onVnbSelect={handleVnbSelect}
               />
               

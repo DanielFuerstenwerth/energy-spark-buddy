@@ -44,29 +44,32 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                 VNB auswählen
               </label>
               <VnbCombobox
-                vnbList={vnbList}
-                selectedVnbId={selectedVnbId}
-                onVnbSelect={onVnbSelect}
-                disabled={loading}
-              />
+              vnbList={vnbList}
+              selectedVnbId={selectedVnb?.id || null}
+              onVnbSelect={(vnbId: string) => {
+                const vnb = vnbList.find(v => v.id === vnbId);
+                if (vnb) onVnbSelect(vnbId, vnb.name);
+              }}
+              disabled={false}
+            />
             </div>
 
             {selectedVnb && (
               <div className="space-y-4">
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <p className="text-sm font-medium mb-1">Punktzahl</p>
-                  <p className="text-2xl font-bold" style={{ color: getColor(selectedVnb.score) }}>
-                    {selectedVnb.score !== null ? (selectedVnb.score > 0 ? '+' : '') + selectedVnb.score : 'N/A'}
-                  </p>
-                </div>
+              <div className="bg-muted/50 p-4 rounded-lg">
+                <p className="text-sm font-medium mb-1">Punktzahl</p>
+                <p className="text-2xl font-bold" style={{ color: getColor(selectedVnbData?.score ?? null) }}>
+                  {selectedVnbData?.score !== null && selectedVnbData?.score !== undefined ? (selectedVnbData.score > 0 ? '+' : '') + selectedVnbData.score : 'N/A'}
+                </p>
+              </div>
 
                 <div>
                   <h4 className="text-sm font-semibold mb-3">Ranking aller VNB</h4>
                   <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
                     {/* All VNBs as vertical bars with score-based height */}
                     <div className="flex items-end justify-start h-32 gap-[1px]">
-                      {vnbList.map((vnb) => {
-                        const isSelected = vnb.id === selectedVnbId;
+                    {vnbList.map((vnb) => {
+                      const isSelected = vnb.id === selectedVnb?.id;
                         const score = vnb.score ?? 0;
                         
                         // Calculate height based on score (-100 to +100 range)
@@ -99,8 +102,8 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                               opacity: isSelected ? 1 : 0.7,
                               border: isSelected ? '1px solid #000' : 'none'
                             }}
-                            title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
-                            onClick={() => onVnbSelect(vnb.id)}
+                          title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
+                            onClick={() => onVnbSelect(vnb.id, vnb.name)}
                           />
                         );
                       })}
@@ -114,12 +117,12 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     </div>
                   </div>
                   
-                  {selectedVnb && (
+                  {selectedVnb && selectedVnbData && (
                     <div className="mt-3 text-center text-sm bg-muted/30 p-3 rounded-lg">
                       <span className="font-medium">{selectedVnb.name}</span>
                       <span className="text-muted-foreground"> - Score: </span>
-                      <span className="font-semibold" style={{ color: getColor(selectedVnb.score) }}>
-                        {selectedVnb.score !== null ? (selectedVnb.score > 0 ? '+' : '') + selectedVnb.score : 'N/A'}
+                      <span className="font-semibold" style={{ color: getColor(selectedVnbData.score) }}>
+                        {selectedVnbData.score !== null ? (selectedVnbData.score > 0 ? '+' : '') + selectedVnbData.score : 'N/A'}
                       </span>
                     </div>
                   )}
@@ -155,7 +158,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
               </div>
             )}
 
-            {!selectedVnb && !loading && (
+            {!selectedVnb && (
               <div className="text-center py-12 text-muted-foreground">
                 <p>Bitte wählen Sie einen VNB aus der Liste oder klicken Sie auf eine Region in der Karte</p>
               </div>

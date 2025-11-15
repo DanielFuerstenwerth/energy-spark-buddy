@@ -17,7 +17,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Modern professional design system */
+    /* Modern professional design system with blue/purple accent */
     /* Core score colors (5-level scale: critical → poor → moderate → good → excellent) */
     --score-critical: 0 72% 42%;      /* Deep red #B91C1C */
     --score-poor: 14 85% 50%;         /* Vibrant orange #F97316 */
@@ -26,8 +26,8 @@ All colors MUST be HSL.
     --score-excellent: 158 64% 32%;   /* Deep green #047857 */
     --score-unknown: 220 13% 91%;     /* Light gray #E5E7EB */
     
-    /* Primary brand - based on excellence green */
-    --primary: 158 64% 32%;
+    /* Primary brand - modern blue */
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
     
     /* Backgrounds */
@@ -50,8 +50,8 @@ All colors MUST be HSL.
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
     
-    /* Accent - good green for CTAs */
-    --accent: 142 76% 45%;
+    /* Accent - vibrant purple */
+    --accent: 262 83% 58%;
     --accent-foreground: 0 0% 100%;
     
     /* Warning - moderate yellow */
@@ -65,14 +65,14 @@ All colors MUST be HSL.
     /* Borders */
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 158 64% 32%;
+    --ring: 217 91% 60%;
     
     /* Charts */
-    --chart-1: 158 64% 32%;
-    --chart-2: 142 76% 45%;
-    --chart-3: 45 93% 47%;
-    --chart-4: 14 85% 50%;
-    --chart-5: 0 72% 42%;
+    --chart-1: 217 91% 60%;
+    --chart-2: 262 83% 58%;
+    --chart-3: 142 76% 45%;
+    --chart-4: 45 93% 47%;
+    --chart-5: 14 85% 50%;
     
     /* Radius */
     --radius: 0.5rem;

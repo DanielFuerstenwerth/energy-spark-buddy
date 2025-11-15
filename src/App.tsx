@@ -13,6 +13,7 @@ import Mitmachen from "./pages/Mitmachen";
 import About from "./pages/About";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
+import AdminComments from "./pages/AdminComments";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/admin/comments" element={<AdminComments />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
