@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import Logo from "./Logo";
 
 const Header = () => {
   return (
@@ -9,19 +9,20 @@ const Header = () => {
       </a>
       <nav className="container mx-auto px-6 py-5" aria-label="Hauptnavigation">
         <div className="flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold text-primary hover:text-accent transition-colors">
-            VNB-Transparenz
-          </Link>
+          <Logo />
           
           <div className="hidden md:flex items-center gap-8">
             <Link to="/news" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               News
             </Link>
-            <Link to="/mitmachen" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-              Mitmachen
+            <Link to="/methodik" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+              Methodik
             </Link>
             <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
               Über uns
+            </Link>
+            <Link to="/impressum" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+              Kontakt
             </Link>
           </div>
         </div>

@@ -1,0 +1,56 @@
+{
+  "kategorien": [
+    {
+      "slug": "EHH",
+      "title": "Elektrifizierung der Haushalte",
+      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "unterkategorien": [
+        {
+          "slug": "zvNE",
+          "title": "zvNE",
+          "kriterien": [
+            {
+              "slug": "modul3-ueber-mako",
+              "title": "Modul 3 kann über MaKo bestellt werden"
+            },
+            {
+              "slug": "fehlerquote-unter-10",
+              "title": "Fehlerquote bei Abrechnung < 10%"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "TaE",
+      "title": "Teilhabe an Energiewende",
+      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "unterkategorien": []
+    },
+    {
+      "slug": "EiG",
+      "title": "Elektrifizierung im Gewerbe",
+      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "unterkategorien": []
+    },
+    {
+      "slug": "NiH",
+      "title": "Netzanschluss Hochspannung",
+      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "unterkategorien": []
+    }
+  ],
+  "anliegen": [
+    {
+      "slug": "GGV",
+      "title": "Gemeinschaftliche Gebäudeversorgung",
+      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "kriterien": [
+        {
+          "slug": "setzt-ggv-als-gmsb-um",
+          "title": "Setzt GGV als gMSB um"
+        }
+      ]
+    }
+  ]
+}
