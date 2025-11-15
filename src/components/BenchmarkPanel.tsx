@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getColor, ScoreData } from "@/utils/dataLoader";
-import { loadScoresFromGoogleSheets } from "@/utils/googleSheetsLoader";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, MessageSquare } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
 
 interface BenchmarkPanelProps {
@@ -26,189 +24,165 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
   const selectedVnbData = selectedVnb ? vnbList.find(v => v.id === selectedVnb.id) : null;
 
   return (
-    <Card className="h-full">
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle>Benchmark-Analyse</CardTitle>
         <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
       </CardHeader>
-      <CardContent>
-        <Tabs defaultValue="benchmark" className="w-full">
+      <CardContent className="flex-1 flex flex-col">
+        <Tabs defaultValue="performance" className="w-full flex-1 flex flex-col">
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="benchmark">Benchmarking</TabsTrigger>
-            <TabsTrigger value="methodik">Methodik & Erläuterungen</TabsTrigger>
+            <TabsTrigger value="performance">Performance VNB</TabsTrigger>
+            <TabsTrigger value="practices">Best Practices</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="benchmark" className="space-y-6">
+          <TabsContent value="performance" className="flex-1 space-y-6 mt-0">
             <div>
               <label htmlFor="vnb-select" className="text-sm font-medium mb-2 block">
                 VNB auswählen
               </label>
               <VnbCombobox
-              vnbList={vnbList}
-              selectedVnbId={selectedVnb?.id || null}
-              onVnbSelect={(vnbId: string) => {
-                const vnb = vnbList.find(v => v.id === vnbId);
-                if (vnb) onVnbSelect(vnbId, vnb.name);
-              }}
-              disabled={false}
-            />
+                vnbList={vnbList}
+                selectedVnbId={selectedVnb?.id || null}
+                onVnbSelect={(vnbId: string) => {
+                  const vnb = vnbList.find(v => v.id === vnbId);
+                  if (vnb) onVnbSelect(vnbId, vnb.name);
+                }}
+                disabled={false}
+              />
             </div>
 
             {selectedVnb && (
-              <div className="space-y-4">
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <p className="text-sm font-medium mb-1">Punktzahl</p>
-                <p className="text-2xl font-bold" style={{ color: getColor(selectedVnbData?.score ?? null) }}>
-                  {selectedVnbData?.score !== null && selectedVnbData?.score !== undefined ? (selectedVnbData.score > 0 ? '+' : '') + selectedVnbData.score : 'N/A'}
-                </p>
-              </div>
+              <div className="space-y-6">
+                <div className="bg-muted/50 p-6 rounded-lg">
+                  <p className="text-sm font-medium mb-2">Punktzahl</p>
+                  <p className="text-3xl font-bold" style={{ color: getColor(selectedVnbData?.score ?? null) }}>
+                    {selectedVnbData?.score !== null && selectedVnbData?.score !== undefined ? (selectedVnbData.score > 0 ? '+' : '') + selectedVnbData.score : 'N/A'}
+                  </p>
+                </div>
 
                 <div>
                   <h4 className="text-sm font-semibold mb-3">Ranking aller VNB</h4>
                   <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
-                    {/* All VNBs as vertical bars with score-based height */}
                     <div className="flex items-end justify-start h-32 gap-[1px]">
-                    {vnbList.map((vnb) => {
-                      const isSelected = vnb.id === selectedVnb?.id;
+                      {vnbList.map((vnb) => {
+                        const isSelected = vnb.id === selectedVnb?.id;
                         const score = vnb.score ?? 0;
                         
-                        // Calculate height based on score (-100 to +100 range)
-                        // Map score to height: 0 or null = 5%, -100 = 5%, +100 = 100%
                         let heightPercent;
                         if (vnb.score === null || vnb.score === 0) {
-                          heightPercent = 5; // Minimum height for visibility
+                          heightPercent = 5;
                         } else {
-                          // Map -100...+100 to 5%...100%
                           heightPercent = 5 + ((vnb.score + 100) / 200) * 95;
                         }
                         
-                        // Hardcoded colors matching map
-                        let fillColor = '#E5E7EB'; // No data
+                        let fillColor = 'hsl(var(--score-unknown))';
                         if (vnb.score !== null) {
-                          if (score <= -50) fillColor = '#7F1D1D';
-                          else if (score <= -25) fillColor = '#DC2626';
-                          else if (score < 25) fillColor = '#9CA3AF';
-                          else if (score < 50) fillColor = '#16A34A';
-                          else fillColor = '#065F46';
+                          if (score <= -50) fillColor = 'hsl(var(--score-1))';
+                          else if (score <= -25) fillColor = 'hsl(var(--score-2))';
+                          else if (score <= 0) fillColor = 'hsl(var(--score-3))';
+                          else if (score <= 25) fillColor = 'hsl(var(--score-4))';
+                          else fillColor = 'hsl(var(--score-5))';
                         }
                         
                         return (
                           <div
                             key={vnb.id}
-                            className="flex-1 min-w-[1px] transition-all cursor-pointer"
+                            className={`flex-1 transition-all cursor-pointer ${isSelected ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
                             style={{
                               height: `${heightPercent}%`,
                               backgroundColor: fillColor,
-                              opacity: isSelected ? 1 : 0.7,
-                              border: isSelected ? '1px solid #000' : 'none'
+                              minHeight: '4px'
                             }}
-                          title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
+                            title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
                             onClick={() => onVnbSelect(vnb.id, vnb.name)}
                           />
                         );
                       })}
                     </div>
-                    
-                    {/* Legend below */}
-                    <div className="flex justify-between text-xs text-muted-foreground mt-3 px-1">
-                      <span>Beste (+100)</span>
-                      <span>{vnbList.length} VNB</span>
-                      <span>Schlechteste (-100)</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold">Kriterien-Details</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
+                      <CheckCircle2 className="w-5 h-5 text-score-5 mt-0.5 flex-shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium">Setzt GGV als gMSB um</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Weitere Details folgen in Kürze
+                        </p>
+                      </div>
                     </div>
                   </div>
                   
-                  {selectedVnb && selectedVnbData && (
-                    <div className="mt-3 text-center text-sm bg-muted/30 p-3 rounded-lg">
-                      <span className="font-medium">{selectedVnb.name}</span>
-                      <span className="text-muted-foreground"> - Score: </span>
-                      <span className="font-semibold" style={{ color: getColor(selectedVnbData.score) }}>
-                        {selectedVnbData.score !== null ? (selectedVnbData.score > 0 ? '+' : '') + selectedVnbData.score : 'N/A'}
-                      </span>
+                  <div className="mt-4 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <MessageSquare className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                      <div>
+                        <p className="text-sm font-medium mb-1">Kommentare zu diesem Kriterium</p>
+                        <p className="text-xs text-muted-foreground">
+                          Scrollen Sie nach unten, um Kommentare zu sehen oder eigene hinzuzufügen
+                        </p>
+                      </div>
                     </div>
-                  )}
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4 mt-6">
-                  <div className="bg-muted/30 p-4 rounded-lg">
-                    <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-score-excellent" />
-                      Best Practices
-                    </h4>
-                    <ul className="text-sm space-y-2 text-muted-foreground">
-                      <li>• Online-Antragsverfahren</li>
-                      <li>• Transparente Fristen</li>
-                      <li>• Digitale Dokumentation</li>
-                      <li>• Support-Hotline</li>
-                    </ul>
-                  </div>
-
-                  <div className="bg-muted/30 p-4 rounded-lg">
-                    <h4 className="text-sm font-semibold mb-3 flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-score-excellent" />
-                      Gesetzliche Anforderungen
-                    </h4>
-                    <ul className="text-sm space-y-2 text-muted-foreground">
-                      <li>• EnWG §19 Abs. 2</li>
-                      <li>• NAV §8</li>
-                      <li>• MsbG §21</li>
-                      <li>• StromNZV §10</li>
-                    </ul>
                   </div>
                 </div>
               </div>
             )}
 
             {!selectedVnb && (
-              <div className="text-center py-12 text-muted-foreground">
-                <p>Bitte wählen Sie einen VNB aus der Liste oder klicken Sie auf eine Region in der Karte</p>
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Wählen Sie einen VNB aus, um Details anzuzeigen</p>
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="methodik" className="space-y-4">
-            <div className="prose prose-sm max-w-none">
-              <h4 className="text-base font-semibold mb-3">Bewertungsmethodik GGV</h4>
-              
-              <div className="space-y-4 text-sm">
-                <div>
-                  <h5 className="font-medium mb-2">Datenquellen</h5>
-                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                    <li>Öffentliche Websites der VNB</li>
-                    <li>Veröffentlichte Geschäftsberichte</li>
-                    <li>Informationsanfragen nach IFG/UIG</li>
-                    <li>Medienberichte und Pressemitteilungen</li>
-                  </ul>
+          <TabsContent value="practices" className="flex-1 mt-0">
+            <div className="space-y-6">
+              <div className="prose prose-sm max-w-none">
+                <h3 className="text-lg font-semibold mb-4">Best Practices zur GGV-Umsetzung</h3>
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-score-5" />
+                      Digitale Prozesse
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Führende VNB bieten vollständig digitalisierte Antragsprozesse an, 
+                      die eine schnelle und transparente Abwicklung ermöglichen.
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-score-5" />
+                      Klare Kommunikation
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Transparente Dokumentation der Anforderungen und proaktive 
+                      Kommunikation während des gesamten Prozesses.
+                    </p>
+                  </div>
+
+                  <div className="p-4 bg-score-5/10 border border-score-5/30 rounded-lg">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <CheckCircle2 className="w-5 h-5 text-score-5" />
+                      Standardisierung
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Einsatz standardisierter Verfahren und Schnittstellen zur 
+                      Vereinfachung der Integration.
+                    </p>
+                  </div>
                 </div>
 
-                <div>
-                  <h5 className="font-medium mb-2">Bewertungskriterien</h5>
-                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                    <li>Transparenz der Prozesse und Fristen</li>
-                    <li>Digitalisierung des Antragsverfahrens</li>
-                    <li>Qualität der Beratung und Unterstützung</li>
-                    <li>Umsetzungsgeschwindigkeit</li>
-                    <li>Anzahl realisierter GGV-Projekte</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h5 className="font-medium mb-2">Scoring-System</h5>
-                  <p className="text-muted-foreground mb-2">
-                    Die Bewertung erfolgt auf einer Skala von -100 bis +100 Punkten:
-                  </p>
-                  <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
-                    <li><strong>+50 bis +100:</strong> Sehr gut - Vorbildliche Umsetzung</li>
-                    <li><strong>+25 bis +49:</strong> Gut - Überdurchschnittlich</li>
-                    <li><strong>-24 bis +24:</strong> Neutral - Durchschnittlich</li>
-                    <li><strong>-49 bis -25:</strong> Verbesserungsbedarf</li>
-                    <li><strong>-100 bis -50:</strong> Mangelhaft - Deutliche Defizite</li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h5 className="font-medium mb-2">Aktualisierung</h5>
-                  <p className="text-muted-foreground">
-                    Die Daten werden quartalsweise aktualisiert. Stand der aktuellen Daten: Oktober 2025.
+                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    Diese Best Practices basieren auf den Erfahrungen führender 
+                    Verteilnetzbetreiber und werden kontinuierlich aktualisiert.
                   </p>
                 </div>
               </div>

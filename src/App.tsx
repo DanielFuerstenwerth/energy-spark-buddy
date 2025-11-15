@@ -14,6 +14,7 @@ import About from "./pages/About";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import AdminComments from "./pages/AdminComments";
+import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +28,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<NewHome />} />
           <Route path="/GGV" element={<GGVPage />} />
+          <Route path="/auth" element={<Auth />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/vnb/:id" element={<VnbDetail />} />

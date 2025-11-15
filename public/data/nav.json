@@ -3,7 +3,7 @@
     {
       "slug": "EHH",
       "title": "Elektrifizierung der Haushalte",
-      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
           "slug": "zvNE",
@@ -24,33 +24,20 @@
     {
       "slug": "TaE",
       "title": "Teilhabe an Energiewende",
-      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": []
     },
     {
       "slug": "EiG",
       "title": "Elektrifizierung im Gewerbe",
-      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": []
     },
     {
       "slug": "NiH",
       "title": "Netzanschluss Hochspannung",
-      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
+      "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": []
-    }
-  ],
-  "anliegen": [
-    {
-      "slug": "GGV",
-      "title": "Gemeinschaftliche Gebäudeversorgung",
-      "tabs": ["Performance VNB", "Best Practices", "Kommentare"],
-      "kriterien": [
-        {
-          "slug": "setzt-ggv-als-gmsb-um",
-          "title": "Setzt GGV als gMSB um"
-        }
-      ]
     }
   ]
 }
