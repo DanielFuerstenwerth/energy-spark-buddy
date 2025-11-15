@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewHome from "./pages/NewHome";
-import GGVPage from "./pages/GGVPage";
 import EHH from "./pages/EHH";
 import TaE from "./pages/TaE";
 import EiG from "./pages/EiG";
@@ -37,7 +36,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<NewHome />} />
-          <Route path="/GGV" element={<GGVPage />} />
+          <Route path="/GGV" element={<Ggv />} />
           
           {/* Dezentrale Energiewende Routes */}
           <Route path="/dezentrale-ew/ggv" element={<Ggv />} />

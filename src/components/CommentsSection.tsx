@@ -98,10 +98,10 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-xl font-semibold flex items-center gap-2">
-          <MessageCircle className="w-5 h-5" />
+    <div className="space-y-6 mt-12">
+      <div className="flex items-center justify-between border-t pt-8">
+        <h3 className="text-2xl font-bold flex items-center gap-2">
+          <MessageCircle className="w-6 h-6" />
           Kommentare {vnbName && `zu ${vnbName}`}
         </h3>
         <Button onClick={() => setShowForm(!showForm)} variant="outline">
