@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
@@ -7,10 +7,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/hooks/useNavigation";
 
-const TaE = () => {
+const UniversalCategory = () => {
+  const { category } = useParams<{ category: string }>();
   const { navData } = useNavigation();
-  const categoryData = navData?.kategorien.find(k => k.slug === 'TaE');
 
+  const categoryData = navData?.kategorien.find(k => k.slug === category);
   
   if (!categoryData) {
     return (
@@ -51,7 +52,7 @@ const TaE = () => {
                       : 'Übersicht'}
                   </p>
                   <Button variant="outline" asChild>
-                    <Link to={`/TaE/${subcat.slug}`}>
+                    <Link to={`/${category}/${subcat.slug}`}>
                       Zur Übersicht →
                     </Link>
                   </Button>
@@ -67,4 +68,4 @@ const TaE = () => {
   );
 };
 
-export default TaE;
+export default UniversalCategory;

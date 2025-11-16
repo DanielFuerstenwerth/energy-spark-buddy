@@ -4,10 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewHome from "./pages/NewHome";
-import EHH from "./pages/EHH";
-import TaE from "./pages/TaE";
-import EiG from "./pages/EiG";
-import NiH from "./pages/NiH";
+import UniversalCategory from "./pages/UniversalCategory";
+import UniversalSubcategoryPage from "./pages/UniversalSubcategoryPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import VnbDetail from "./pages/VnbDetail";
@@ -20,11 +18,11 @@ import AdminComments from "./pages/AdminComments";
 import Auth from "./pages/Auth";
 import Reply from "./pages/Reply";
 import NotFound from "./pages/NotFound";
-import Ggv from "./pages/dezentrale-ew/Ggv";
-import Mieterstrom from "./pages/dezentrale-ew/Mieterstrom";
-import A14 from "./pages/dezentrale-ew/A14";
-import Direktvermarktung from "./pages/dezentrale-ew/Direktvermarktung";
-import ComingSoon from "./pages/dezentrale-ew/ComingSoon";
+import AnliegenGgv from "./pages/anliegen/Ggv";
+import AnliegenZvne from "./pages/anliegen/Zvne";
+import AnliegenDv from "./pages/anliegen/Dv";
+import AnliegenSmgw from "./pages/anliegen/Smgw";
+import AnliegenBidi from "./pages/anliegen/Bidi";
 
 const queryClient = new QueryClient();
 
@@ -36,22 +34,22 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<NewHome />} />
-          <Route path="/GGV" element={<Ggv />} />
           
-          {/* Dezentrale Energiewende Routes */}
-          <Route path="/dezentrale-ew/ggv" element={<Ggv />} />
-          <Route path="/dezentrale-ew/mieterstrom" element={<Mieterstrom />} />
-          <Route path="/dezentrale-ew/14a" element={<A14 />} />
-          <Route path="/dezentrale-ew/direktvermarktung" element={<Direktvermarktung />} />
-          <Route path="/dezentrale-ew/coming-soon" element={<ComingSoon />} />
+          {/* Category Overview Routes */}
+          <Route path="/EHH" element={<UniversalCategory />} />
+          <Route path="/TaE" element={<UniversalCategory />} />
+          <Route path="/EiG" element={<UniversalCategory />} />
+          <Route path="/NiH" element={<UniversalCategory />} />
           
-          {/* Category Routes */}
-          <Route path="/EHH" element={<EHH />} />
-          <Route path="/EHH/zvNE" element={<EHH />} />
-          <Route path="/EHH/zvNE/:kriterium" element={<EHH />} />
-          <Route path="/TaE" element={<TaE />} />
-          <Route path="/EiG" element={<EiG />} />
-          <Route path="/NiH" element={<NiH />} />
+          {/* Subcategory Routes - Dynamic */}
+          <Route path="/:category/:subcategory" element={<UniversalSubcategoryPage />} />
+          
+          {/* Anliegen Landing Pages */}
+          <Route path="/anliegen/ggv" element={<AnliegenGgv />} />
+          <Route path="/anliegen/zvne" element={<AnliegenZvne />} />
+          <Route path="/anliegen/dv" element={<AnliegenDv />} />
+          <Route path="/anliegen/smgw" element={<AnliegenSmgw />} />
+          <Route path="/anliegen/bidi" element={<AnliegenBidi />} />
           
           {/* Other Routes */}
           <Route path="/auth" element={<Auth />} />

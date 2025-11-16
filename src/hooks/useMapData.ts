@@ -45,8 +45,8 @@ export const useMapData = (route: string) => {
       .then(async (config: MapConfig) => {
         const routeConfig = config[route];
         
-        // If route not found in config, use dummy data (all scores = 0)
-        if (!routeConfig) {
+        // If route not found in config or sheet is null, use dummy data
+        if (!routeConfig || !routeConfig.sheet) {
           console.log(`No sheet configured for route: ${route}, using dummy data`);
           const dummyData = await createDummyScoreData();
           setScoreData(dummyData);
