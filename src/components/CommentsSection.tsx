@@ -5,8 +5,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
+
+// Validation schema for comments
+const commentSchema = z.object({
+  text: z.string().trim().min(1, 'Kommentar darf nicht leer sein').max(5000, 'Kommentar zu lang (max 5000 Zeichen)'),
+  author_name: z.string().trim().max(100, 'Name zu lang (max 100 Zeichen)').optional().or(z.literal('')),
+  author_email: z.string().trim().email('Ungültige E-Mail-Adresse').max(255, 'E-Mail zu lang').optional().or(z.literal(''))
+});
 
 interface Comment {
   id: string;
@@ -38,11 +46,11 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
   }, [route, vnbName]);
 
   const loadComments = async () => {
+    // Query from comments_public view which excludes email addresses
     let query = supabase
-      .from('comments')
+      .from('comments_public')
       .select('*')
       .eq('route', route)
-      .eq('status', 'approved')
       .order('created_at', { ascending: false });
 
     if (vnbName) {
@@ -59,9 +67,82 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
     setComments(data || []);
   };
 
+  // Rate limiting: Check if user can submit (max 5 comments per hour)
+  const canSubmitComment = (): { allowed: boolean; waitTime?: number } => {
+    const storageKey = 'comment_submissions';
+    const now = Date.now();
+    const hourInMs = 60 * 60 * 1000;
+    const maxSubmissions = 5;
+
+    try {
+      const stored = localStorage.getItem(storageKey);
+      const submissions: number[] = stored ? JSON.parse(stored) : [];
+      
+      // Filter out submissions older than 1 hour
+      const recentSubmissions = submissions.filter(time => now - time < hourInMs);
+      
+      if (recentSubmissions.length >= maxSubmissions) {
+        const oldestSubmission = Math.min(...recentSubmissions);
+        const waitTime = Math.ceil((hourInMs - (now - oldestSubmission)) / 1000 / 60); // minutes
+        return { allowed: false, waitTime };
+      }
+      
+      return { allowed: true };
+    } catch (error) {
+      // If localStorage fails, allow submission
+      return { allowed: true };
+    }
+  };
+
+  const recordSubmission = () => {
+    const storageKey = 'comment_submissions';
+    const now = Date.now();
+    const hourInMs = 60 * 60 * 1000;
+
+    try {
+      const stored = localStorage.getItem(storageKey);
+      const submissions: number[] = stored ? JSON.parse(stored) : [];
+      
+      // Keep only submissions from last hour
+      const recentSubmissions = submissions.filter(time => now - time < hourInMs);
+      recentSubmissions.push(now);
+      
+      localStorage.setItem(storageKey, JSON.stringify(recentSubmissions));
+    } catch (error) {
+      console.error('Failed to record submission:', error);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!text.trim()) return;
+
+    // Rate limiting check
+    const rateLimit = canSubmitComment();
+    if (!rateLimit.allowed) {
+      toast({
+        title: 'Zu viele Kommentare',
+        description: `Bitte warten Sie noch ${rateLimit.waitTime} Minuten, bevor Sie einen weiteren Kommentar absenden. (Max. 5 Kommentare pro Stunde)`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    // Validate input
+    const validation = commentSchema.safeParse({
+      text,
+      author_name: authorName,
+      author_email: authorEmail
+    });
+
+    if (!validation.success) {
+      const firstError = validation.error.errors[0];
+      toast({
+        title: 'Validierungsfehler',
+        description: firstError.message,
+        variant: 'destructive',
+      });
+      return;
+    }
 
     setSubmitting(true);
 
@@ -69,9 +150,9 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
       route,
       vnb_name: vnbName || null,
       kriterium: kriterium || null,
-      text: text.trim(),
-      author_name: authorName.trim() || null,
-      author_email: authorEmail.trim() || null,
+      text: validation.data.text,
+      author_name: validation.data.author_name || null,
+      author_email: validation.data.author_email || null,
       status: 'pending',
     });
 
@@ -85,6 +166,9 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
       });
       return;
     }
+
+    // Record successful submission for rate limiting
+    recordSubmission();
 
     toast({
       title: 'Kommentar eingereicht',
@@ -149,9 +233,15 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">
-                  * Kommentare werden nach Freigabe sichtbar
-                </p>
+                <div className="space-y-1">
+                  <p className="text-sm text-muted-foreground">
+                    * Kommentare werden nach Freigabe sichtbar
+                  </p>
+                  <p className="text-xs text-muted-foreground flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    Max. 5 Kommentare pro Stunde
+                  </p>
+                </div>
                 <Button type="submit" disabled={submitting}>
                   {submitting ? 'Wird gesendet...' : 'Absenden'}
                 </Button>

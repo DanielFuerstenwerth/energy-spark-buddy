@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          admin_user_id: string
+          created_at: string
+          details: Json | null
+          entity_id: string
+          entity_type: string
+          id: string
+        }
+        Insert: {
+          action: string
+          admin_user_id: string
+          created_at?: string
+          details?: Json | null
+          entity_id: string
+          entity_type: string
+          id?: string
+        }
+        Update: {
+          action?: string
+          admin_user_id?: string
+          created_at?: string
+          details?: Json | null
+          entity_id?: string
+          entity_type?: string
+          id?: string
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           author_email: string | null
@@ -76,7 +106,45 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      comments_public: {
+        Row: {
+          author_name: string | null
+          created_at: string | null
+          id: string | null
+          kriterium: string | null
+          route: string | null
+          status: string | null
+          text: string | null
+          updated_at: string | null
+          views: number | null
+          vnb_name: string | null
+        }
+        Insert: {
+          author_name?: string | null
+          created_at?: string | null
+          id?: string | null
+          kriterium?: string | null
+          route?: string | null
+          status?: string | null
+          text?: string | null
+          updated_at?: string | null
+          views?: number | null
+          vnb_name?: string | null
+        }
+        Update: {
+          author_name?: string | null
+          created_at?: string | null
+          id?: string | null
+          kriterium?: string | null
+          route?: string | null
+          status?: string | null
+          text?: string | null
+          updated_at?: string | null
+          views?: number | null
+          vnb_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
