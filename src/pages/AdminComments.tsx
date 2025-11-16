@@ -7,9 +7,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { CheckCircle, XCircle, MessageCircle } from 'lucide-react';
+import { CheckCircle, XCircle, MessageCircle, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 interface Comment {
   id: string;
@@ -66,6 +77,8 @@ const AdminComments = () => {
   };
 
   const updateCommentStatus = async (id: string, status: 'approved' | 'rejected') => {
+    if (!user) return;
+
     const { error } = await supabase
       .from('comments')
       .update({ status })
@@ -78,9 +91,50 @@ const AdminComments = () => {
         variant: 'destructive',
       });
     } else {
+      // Log the action to audit log
+      await supabase.from('admin_audit_log').insert({
+        admin_user_id: user.id,
+        action: status === 'approved' ? 'comment_approved' : 'comment_rejected',
+        entity_type: 'comment',
+        entity_id: id,
+        details: { status, timestamp: new Date().toISOString() }
+      });
+
       toast({
         title: 'Erfolg',
         description: `Kommentar wurde ${status === 'approved' ? 'genehmigt' : 'abgelehnt'}.`,
+      });
+      loadComments();
+    }
+  };
+
+  const deleteComment = async (id: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('comments')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      toast({
+        title: 'Fehler',
+        description: 'Kommentar konnte nicht gelöscht werden.',
+        variant: 'destructive',
+      });
+    } else {
+      // Log the deletion to audit log
+      await supabase.from('admin_audit_log').insert({
+        admin_user_id: user.id,
+        action: 'comment_deleted',
+        entity_type: 'comment',
+        entity_id: id,
+        details: { timestamp: new Date().toISOString() }
+      });
+
+      toast({
+        title: 'Erfolg',
+        description: 'Kommentar wurde gelöscht.',
       });
       loadComments();
     }
@@ -155,6 +209,32 @@ const AdminComments = () => {
               </Button>
             </div>
           )}
+          
+          {/* Delete button always available for all statuses */}
+          <div className="flex gap-2 pt-2 border-t mt-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="outline" className="w-full">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Löschen
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Kommentar löschen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Diese Aktion kann nicht rückgängig gemacht werden. Der Kommentar wird permanent gelöscht.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => deleteComment(comment.id)}>
+                    Löschen
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </CardContent>
     </Card>
