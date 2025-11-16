@@ -1,56 +1,25 @@
-import { useState, useRef, useCallback } from "react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import CategoryTabs from "@/components/CategoryTabs";
-import MapContainer, { MapContainerHandle } from "@/components/MapContainer";
-import MapLegend from "@/components/MapLegend";
-import BenchmarkPanel from "@/components/BenchmarkPanel";
 import Banner from "@/components/Banner";
-import CommentsSection from "@/components/CommentsSection";
-import { useMapData } from "@/hooks/useMapData";
+import Footer from "@/components/Footer";
+import CategoryNav from "@/components/CategoryNav";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useNavigation } from "@/hooks/useNavigation";
 
 const EHH = () => {
-  const [activeCategory, setActiveCategory] = useState("EHH");
-  const [selectedVnb, setSelectedVnb] = useState<{ id: string; name: string } | null>(null);
-  const mapRef = useRef<MapContainerHandle>(null);
-  const { scoreData, loading, error } = useMapData("EHH");
-
-  const handleRegionClick = useCallback((vnbId: string, vnbName: string) => {
-    setSelectedVnb({ id: vnbId, name: vnbName });
-  }, []);
-
-  const handleVnbSelect = (vnbId: string, vnbName: string) => {
-    setSelectedVnb({ id: vnbId, name: vnbName });
-    if (vnbId && mapRef.current) {
-      mapRef.current.zoomToVnb(vnbId);
-    }
-  };
-
-  if (loading) {
+  const { navData } = useNavigation();
+  const categoryData = navData?.kategorien.find(k => k.slug === 'EHH');
+  
+  if (!categoryData) {
     return (
       <div className="min-h-screen flex flex-col">
         <Banner />
         <Header />
-        <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+        <CategoryNav />
         <main className="flex-grow bg-background">
           <div className="container mx-auto px-6 py-8">
-            <p>Daten werden geladen...</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex flex-col">
-        <Banner />
-        <Header />
-        <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
-        <main className="flex-grow bg-background">
-          <div className="container mx-auto px-6 py-8">
-            <p className="text-destructive">Fehler beim Laden der Daten: {error}</p>
+            <p>Kategorie nicht gefunden</p>
           </div>
         </main>
         <Footer />
@@ -62,35 +31,33 @@ const EHH = () => {
     <div className="min-h-screen flex flex-col">
       <Banner />
       <Header />
-      <CategoryTabs activeCategory={activeCategory} onCategoryChange={setActiveCategory} />
+      <CategoryNav />
       
       <main id="main-content" className="flex-grow bg-background">
         <div className="container mx-auto px-6 py-8">
-          <h1 className="text-3xl font-bold mb-6">Elektrifizierung der Haushalte (EHH)</h1>
+          <h1 className="text-3xl font-bold mb-6">{categoryData.title}</h1>
           
-          <div className="grid lg:grid-cols-2 gap-6 mb-8">
-            <div className="space-y-4">
-              <MapContainer 
-                ref={mapRef} 
-                onRegionClick={handleRegionClick}
-                scoreData={scoreData}
-              />
-              <MapLegend />
-            </div>
-
-            <div>
-              <BenchmarkPanel 
-                scoreData={scoreData}
-                selectedVnb={selectedVnb}
-                onVnbSelect={handleVnbSelect}
-              />
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categoryData.unterkategorien?.map((subcat) => (
+              <Card key={subcat.slug} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>{subcat.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {subcat.kriterien && subcat.kriterien.length > 0 
+                      ? `${subcat.kriterien.length} Kriterien` 
+                      : 'Übersicht'}
+                  </p>
+                  <Button variant="outline" asChild>
+                    <Link to={`/EHH/${subcat.slug}`}>
+                      Zur Übersicht →
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-
-          <CommentsSection 
-            route="EHH" 
-            vnbName={selectedVnb?.name}
-          />
         </div>
       </main>
       

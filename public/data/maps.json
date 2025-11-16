@@ -1,8 +1,47 @@
 {
-  "GGV": {
+  "TaE/ggv": {
     "sheet": "https://docs.google.com/spreadsheets/d/1-LLeZNX-TUYPkI2EBJaWltwHHTJpVnyPWU7_SfiWk9U/export?format=csv"
   },
-  "GGV/setzt-ggv-als-gmsb-um": {
-    "sheet": "https://docs.google.com/spreadsheets/d/1-LLeZNX-TUYPkI2EBJaWltwHHTJpVnyPWU7_SfiWk9U/export?format=csv"
+  "EHH/zvNE": {
+    "sheet": null
+  },
+  "EHH/pv-direktvermarktung": {
+    "sheet": null
+  },
+  "EHH/speicher": {
+    "sheet": null
+  },
+  "EHH/waermepumpe": {
+    "sheet": null
+  },
+  "EHH/elektromobilitaet": {
+    "sheet": null
+  },
+  "TaE/mieterstrom": {
+    "sheet": null
+  },
+  "TaE/virtuelle-ka": {
+    "sheet": null
+  },
+  "TaE/energy-sharing": {
+    "sheet": null
+  },
+  "EiG/tab": {
+    "sheet": null
+  },
+  "EiG/pv-only": {
+    "sheet": null
+  },
+  "EiG/esa": {
+    "sheet": null
+  },
+  "NiH/prozess": {
+    "sheet": null
+  },
+  "NiH/digital": {
+    "sheet": null
+  },
+  "NiH/zeit": {
+    "sheet": null
   }
 }

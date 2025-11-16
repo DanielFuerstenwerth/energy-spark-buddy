@@ -2,16 +2,18 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
+import { ScoreData } from '@/utils/dataLoader';
 
 interface MapGgvProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
+  scoreData?: Map<string, ScoreData>;
 }
 
 export interface MapGgvHandle {
   zoomToVnb: (vnbId: string) => void;
 }
 
-const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick }, ref) => {
+const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData }, ref) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
@@ -61,10 +63,14 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick }, ref) =>
       opacity: 1
     }).addTo(map.current);
 
-    // Load real GeoJSON and scores from Google Sheets
+    // Load real GeoJSON and scores (use external if provided)
+    const scoresPromise = externalScoreData 
+      ? Promise.resolve(externalScoreData)
+      : loadScoresFromGoogleSheets();
+    
     Promise.all([
       fetch('/data/vnb_regions.geojson').then(r => r.json()),
-      loadScoresFromGoogleSheets()
+      scoresPromise
     ]).then(([geoData, scoresMap]) => {
       if (!map.current) return;
 
