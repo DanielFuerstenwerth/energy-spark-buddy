@@ -82,20 +82,30 @@ export const useMapData = (route: string) => {
 const createZeroScoreData = async (): Promise<Map<string, ScoreData>> => {
   const zeroData = new Map<string, ScoreData>();
   
-  const response = await fetch('/data/vnb_regions.json');
-  const vnbRegions = await response.json();
-  
-  vnbRegions.features.forEach((feature: any) => {
+  try {
+    const response = await fetch('/data/vnb_regions.json');
+    if (!response.ok) throw new Error('Failed to load VNB regions');
+    const vnbRegions = await response.json();
+    
+    if (!vnbRegions?.features) {
+      console.warn('No features found in vnb_regions.json');
+      return zeroData;
+    }
+    
+    vnbRegions.features.forEach((feature: any) => {
     const vnbId = feature.properties.VNB_ID;
     const vnbName = feature.properties.VNB_NAME;
     
-    zeroData.set(vnbId, {
-      vnb_id: vnbId,
-      vnb_name: vnbName,
-      score: 0,
-      updated_at: new Date().toISOString()
+      zeroData.set(vnbId, {
+        vnb_id: vnbId,
+        vnb_name: vnbName,
+        score: 0,
+        updated_at: new Date().toISOString()
+      });
     });
-  });
+  } catch (err) {
+    console.error('Error loading VNB regions:', err);
+  }
   
   return zeroData;
 };

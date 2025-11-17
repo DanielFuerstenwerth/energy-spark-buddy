@@ -114,17 +114,22 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     
     const kategorie = kategorienMap.get(row.kategorie_slug)!;
     
-    if (!row.unterkategorie_slug) return;
+    // Determine unterkategorie slug - use name as slug if slug is empty
+    let ukSlug = row.unterkategorie_slug || row.unterkategorie_name;
+    let ukName = row.unterkategorie_name || row.unterkategorie_slug;
+    
+    // Skip if no valid unterkategorie info
+    if (!ukSlug || ukSlug === '-') return;
     
     // Find or create unterkategorie
     let unterkategorie = kategorie.unterkategorien.find(
-      uk => uk.slug === row.unterkategorie_slug
+      uk => uk.slug === ukSlug
     );
     
     if (!unterkategorie) {
       unterkategorie = {
-        slug: row.unterkategorie_slug,
-        title: row.unterkategorie_name,
+        slug: ukSlug,
+        title: ukName,
         kriterien: []
       };
       kategorie.unterkategorien.push(unterkategorie);
