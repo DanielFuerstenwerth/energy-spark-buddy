@@ -94,6 +94,14 @@ export const vnbNameToId: Record<string, string> = {
 };
 
 /**
+ * Reverse mapping: GeoJSON ID to VNB Name
+ * Used for displaying proper names on map tooltips
+ */
+export const idToVnbName: Record<string, string> = Object.fromEntries(
+  Object.entries(vnbNameToId).map(([name, id]) => [id, name])
+);
+
+/**
  * Normalizes a VNB name for matching
  * Removes common suffixes, extra spaces, and converts to lowercase
  */

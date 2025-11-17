@@ -162,14 +162,11 @@ export async function loadScores(
     if (!line) continue;
 
     const parts = parseCSVLine(line);
-    let vnb_id_raw = (parts[idIdx] ?? '').trim();
     const vnb_name = (parts[nameIdx] ?? '').trim();
-
-    // If vnb_id looks like a company name (contains spaces or German chars), translate it to GeoJSON ID
-    // Otherwise use it directly (assuming it's already a GeoJSON ID like "93d3d285")
-    const vnb_id = vnb_id_raw.includes(' ') || /[äöüÄÖÜß]/.test(vnb_id_raw) 
-      ? getVnbIdFromName(vnb_id_raw)
-      : vnb_id_raw;
+    
+    // ALWAYS use VNB name to look up GeoJSON ID
+    // This way the user can keep VNB names in their Google Sheet
+    const geoJsonId = getVnbIdFromName(vnb_name);
 
     // Choose score source: requested column > aggregated > fallback index 2
     let scoreStr = '';
@@ -182,11 +179,27 @@ export async function loadScores(
     const parsed = scoreStr ? parseFloat(scoreStr.replace('+', '').replace(',', '.')) : NaN;
     const score = Number.isFinite(parsed) ? parsed : null;
 
-    if (vnb_id) {
-      scoreMap.set(vnb_id, { vnb_id, vnb_name: vnb_name || vnb_id_raw, score, updated_at });
-      if (vnb_id === 'DE0017' || vnb_id_raw.toLowerCase().includes('enercity')) {
-        console.log('[loadScores] Enercity mapping:', { vnb_id_raw, vnb_id, score, scoreStr, vnb_name });
+    // Store data keyed by GeoJSON ID (for map matching)
+    if (geoJsonId && vnb_name) {
+      scoreMap.set(geoJsonId, { 
+        vnb_id: geoJsonId, 
+        vnb_name: vnb_name, 
+        score, 
+        updated_at 
+      });
+      
+      // Debug logging for specific VNBs
+      if (vnb_name.toLowerCase().includes('enercity')) {
+        console.log('[loadScores] Enercity mapping:', { 
+          vnb_name, 
+          geoJsonId, 
+          score, 
+          scoreStr 
+        });
       }
+    } else if (vnb_name) {
+      // Log unmapped VNBs for debugging
+      console.warn('[loadScores] Unmapped VNB (no GeoJSON ID found):', vnb_name);
     }
   }
   
