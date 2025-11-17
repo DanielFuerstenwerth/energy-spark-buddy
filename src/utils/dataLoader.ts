@@ -35,11 +35,17 @@ export async function loadRegions(url: string): Promise<GeoJSONData> {
 }
 
 export async function loadScores(url: string): Promise<Map<string, ScoreData>> {
+  console.log('[loadScores] Loading scores from:', url);
+  
   async function fetchText(u: string): Promise<string> {
     try {
+      console.log('[loadScores] Fetching:', u);
       const res = await fetch(u);
-      return await res.text();
-    } catch {
+      const text = await res.text();
+      console.log('[loadScores] Received', text.length, 'characters');
+      return text;
+    } catch (err) {
+      console.error('[loadScores] Fetch error:', err);
       return '';
     }
   }
@@ -53,11 +59,13 @@ export async function loadScores(url: string): Promise<Map<string, ScoreData>> {
     text.toLowerCase().includes('<!doctype');
 
   if (looksInvalid) {
+    console.warn('[loadScores] Invalid data from primary source, using fallback');
     // Fallback to local CSV if remote is unavailable
     text = await fetchText('/data/scores_ggv.csv');
   }
   
   const lines = text.trim().split(/\r?\n/);
+  console.log('[loadScores] Parsing', lines.length, 'lines');
   const scoreMap = new Map<string, ScoreData>();
   
   // Skip header
@@ -76,9 +84,14 @@ export async function loadScores(url: string): Promise<Map<string, ScoreData>> {
       const parsed = scoreStr ? parseFloat(scoreStr.replace('+', '').replace(',', '.')) : NaN;
       const score = Number.isFinite(parsed) ? parsed : null;
       scoreMap.set(vnb_id, { vnb_id, vnb_name, score, updated_at });
+      
+      if (vnb_id === 'DE0017') {
+        console.log('[loadScores] Found Enercity Netz (DE0017):', { vnb_name, score, scoreStr });
+      }
     }
   }
   
+  console.log('[loadScores] Loaded', scoreMap.size, 'VNB scores');
   return scoreMap;
 }
 

@@ -35,20 +35,32 @@ export interface NavigationStructure {
 const STRUCTURE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/14n61IcOwk5fUZ-MYbO1D4XJOAN5sDdCZxo6XQIgMf8o/export?format=csv&gid=0';
 
 export async function loadStructureFromSheet(): Promise<NavigationStructure> {
+  console.log('[loadStructureFromSheet] Starting to load structure...');
   try {
+    console.log('[loadStructureFromSheet] Fetching from:', STRUCTURE_SHEET_URL);
     const response = await fetch(STRUCTURE_SHEET_URL);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     
     const text = await response.text();
-    const rows = parseCSV(text);
+    console.log('[loadStructureFromSheet] Received text length:', text.length);
     
-    return buildNavigationStructure(rows);
+    const rows = parseCSV(text);
+    console.log('[loadStructureFromSheet] Parsed rows:', rows.length);
+    
+    const structure = buildNavigationStructure(rows);
+    console.log('[loadStructureFromSheet] Built navigation structure with', structure.kategorien.length, 'categories');
+    
+    return structure;
   } catch (error) {
-    console.error('Error loading structure from sheet:', error);
+    console.error('[loadStructureFromSheet] Error loading structure from sheet:', error);
     // Fallback to local nav.json
+    console.log('[loadStructureFromSheet] Falling back to local nav.json');
     const response = await fetch('/data/nav.json');
+    if (!response.ok) {
+      throw new Error('Failed to load fallback nav.json');
+    }
     return await response.json();
   }
 }
@@ -56,6 +68,8 @@ export async function loadStructureFromSheet(): Promise<NavigationStructure> {
 function parseCSV(text: string): StructureRow[] {
   const lines = text.trim().split(/\r?\n/);
   const rows: StructureRow[] = [];
+  
+  console.log(`[parseCSV] Parsing ${lines.length} lines from structure sheet`);
   
   // Skip header row
   for (let i = 1; i < lines.length; i++) {
@@ -92,20 +106,25 @@ function parseCSV(text: string): StructureRow[] {
         gewichtung_unterkategorie: fields[7],
         gewichtung_kategorie: fields[8]
       });
+    } else {
+      console.warn(`[parseCSV] Line ${i} has only ${fields.length} fields, expected 9`);
     }
   }
   
+  console.log(`[parseCSV] Successfully parsed ${rows.length} rows`);
   return rows;
 }
 
 function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
+  console.log('[buildNavigationStructure] Building structure from', rows.length, 'rows');
   const kategorienMap = new Map<string, NavigationKategorie>();
   
-  rows.forEach(row => {
+  rows.forEach((row, index) => {
     if (!row.kategorie_slug) return;
     
     // Get or create category
     if (!kategorienMap.has(row.kategorie_slug)) {
+      console.log('[buildNavigationStructure] Creating category:', row.kategorie_slug, '-', row.kategorie_name);
       kategorienMap.set(row.kategorie_slug, {
         slug: row.kategorie_slug,
         title: row.kategorie_name,
@@ -129,6 +148,7 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     );
     
     if (!unterkategorie) {
+      console.log('[buildNavigationStructure] Creating unterkategorie:', ukSlug, '-', ukName, 'under', row.kategorie_slug);
       unterkategorie = {
         slug: ukSlug,
         title: ukName,
@@ -152,9 +172,13 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     }
   });
   
-  return {
+  const result = {
     kategorien: Array.from(kategorienMap.values())
   };
+  
+  console.log('[buildNavigationStructure] Final structure:', JSON.stringify(result, null, 2));
+  
+  return result;
 }
 
 // Build maps.json structure from sheet data
