@@ -1,4 +1,5 @@
 import { ScoreData } from './dataLoader';
+import { getVnbIdFromName } from './vnbMapping';
 
 const GOOGLE_SHEETS_URL = 'https://docs.google.com/spreadsheets/d/1-LLeZNX-TUYPkI2EBJaWltwHHTJpVnyPWU7_SfiWk9U/export?format=csv';
 
@@ -38,16 +39,19 @@ export async function loadScoresFromGoogleSheets(): Promise<Map<string, ScoreDat
       fields.push(currentField); // Add last field
       
       if (fields.length >= 4) {
-        const vnb_id = fields[0].trim();
+        // Column B (index 1) contains VNB Name
         const vnb_name = fields[1].trim();
         const scoreStr = fields[5]?.trim(); // score is at index 5
         const updated_at = fields[6]?.trim() || new Date().toISOString().split('T')[0];
         
+        // Translate VNB name to GeoJSON ID
+        const geoJsonId = getVnbIdFromName(vnb_name);
+        
         const score = scoreStr ? parseFloat(scoreStr) : null;
         
-        if (vnb_id && vnb_name) {
-          scoresMap.set(vnb_id, {
-            vnb_id,
+        if (geoJsonId && vnb_name) {
+          scoresMap.set(geoJsonId, {
+            vnb_id: geoJsonId,
             vnb_name,
             score: isNaN(score!) ? null : score,
             updated_at
@@ -56,7 +60,7 @@ export async function loadScoresFromGoogleSheets(): Promise<Map<string, ScoreDat
       }
     }
     
-    console.log(`Loaded ${scoresMap.size} VNB records from Google Sheets`);
+    console.log(`Loaded ${scoresMap.size} VNB records from Google Sheets (mapped to GeoJSON IDs)`);
     return scoresMap;
   } catch (error) {
     console.error('Error loading from Google Sheets:', error);
