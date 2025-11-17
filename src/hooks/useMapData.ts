@@ -62,7 +62,10 @@ export const useMapData = (route: string) => {
         console.log(`[useMapData] Loading scores from: ${routeConfig.sheet}`);
         
         // Load score data from Google Sheets
-        const data = await loadScores(routeConfig.sheet);
+        const data = await loadScores(routeConfig.sheet, {
+          aggregatedColumn: 'aggregated_score',
+          requestedColumn: routeConfig.criterion_column,
+        });
         console.log(`[useMapData] Loaded ${data.size} VNB scores`);
         
         // If this is a criterion-level route, extract only that criterion's column
