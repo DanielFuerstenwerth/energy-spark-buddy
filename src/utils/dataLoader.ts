@@ -83,17 +83,17 @@ export async function loadScores(url: string): Promise<Map<string, ScoreData>> {
 }
 
 export function getColor(score: number | null | undefined): string {
-  if (score === null || score === undefined) return 'hsl(var(--unknown))';
+  // Handle null, undefined, and 0 as same color
+  if (score === null || score === undefined || score === 0) return 'hsl(var(--neutral))';
   
   if (score <= -50) return 'hsl(var(--neg-50))';
-  if (score <= -25) return 'hsl(var(--neg-25))';
-  if (score < 25) return 'hsl(var(--neutral))';
+  if (score < 0) return 'hsl(var(--neg-25))';
   if (score < 50) return 'hsl(var(--pos-25))';
   return 'hsl(var(--pos-50))';
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['≤ -50', '-25', '0', '+25', '≥ +50', 'Keine Daten'];
+  const labels = ['≤ -50', '< 0', '0 / No Data', '< 50', '≥ 50'];
   return labels[index] || '';
 }
 
@@ -103,8 +103,7 @@ export function getColorByIndex(index: number): string {
     'hsl(var(--neg-25))',
     'hsl(var(--neutral))',
     'hsl(var(--pos-25))',
-    'hsl(var(--pos-50))',
-    'hsl(var(--unknown))'
+    'hsl(var(--pos-50))'
   ];
-  return colors[index] || 'hsl(var(--unknown))';
+  return colors[index] || 'hsl(var(--neutral))';
 }

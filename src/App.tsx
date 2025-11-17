@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NewHome from "./pages/NewHome";
 import UniversalCategory from "./pages/UniversalCategory";
 import UniversalSubcategoryPage from "./pages/UniversalSubcategoryPage";
+import UniversalCriterionPage from "./pages/UniversalCriterionPage";
 import News from "./pages/News";
 import NewsDetail from "./pages/NewsDetail";
 import VnbDetail from "./pages/VnbDetail";
@@ -43,6 +44,9 @@ const App = () => (
           
           {/* Subcategory Routes - Dynamic */}
           <Route path="/:category/:subcategory" element={<UniversalSubcategoryPage />} />
+          
+          {/* Criterion Routes - Dynamic */}
+          <Route path="/:category/:subcategory/:criterion" element={<UniversalCriterionPage />} />
           
           {/* Anliegen Landing Pages */}
           <Route path="/anliegen/ggv" element={<AnliegenGgv />} />
