@@ -1,4 +1,5 @@
 import * as topojson from 'topojson-client';
+import { getVnbIdFromName } from './vnbMapping';
 
 export interface ScoreData {
   vnb_id: string;
@@ -161,8 +162,13 @@ export async function loadScores(
     if (!line) continue;
 
     const parts = parseCSVLine(line);
-    const vnb_id = (parts[idIdx] ?? '').trim();
+    let vnb_id_raw = (parts[idIdx] ?? '').trim();
     const vnb_name = (parts[nameIdx] ?? '').trim();
+
+    // If vnb_id looks like a company name (contains spaces or German chars), translate it
+    const vnb_id = vnb_id_raw.includes(' ') || /[äöüÄÖÜß]/.test(vnb_id_raw) 
+      ? getVnbIdFromName(vnb_id_raw)
+      : vnb_id_raw;
 
     // Choose score source: requested column > aggregated > fallback index 2
     let scoreStr = '';
@@ -176,9 +182,9 @@ export async function loadScores(
     const score = Number.isFinite(parsed) ? parsed : null;
 
     if (vnb_id) {
-      scoreMap.set(vnb_id, { vnb_id, vnb_name, score, updated_at });
-      if (vnb_id === 'DE0017') {
-        console.log('[loadScores] Enercity Netz (DE0017):', { score, scoreStr, vnb_name });
+      scoreMap.set(vnb_id, { vnb_id, vnb_name: vnb_name || vnb_id_raw, score, updated_at });
+      if (vnb_id === 'DE0017' || vnb_id_raw.toLowerCase().includes('enercity')) {
+        console.log('[loadScores] Enercity mapping:', { vnb_id_raw, vnb_id, score, scoreStr, vnb_name });
       }
     }
   }
