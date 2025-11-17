@@ -40,23 +40,30 @@ export const useMapData = (route: string) => {
     setLoading(true);
     setError(null);
 
+    console.log(`[useMapData] Loading data for route: ${route}`);
+
     // Load maps config from dynamic structure loader
     import('@/utils/structureLoader')
       .then(({ buildMapsConfig }) => buildMapsConfig())
       .then(async (config: MapConfig) => {
+        console.log(`[useMapData] Maps config loaded, checking route: ${route}`);
         const routeConfig = config[route];
         
         // If route not found in config or sheet is null, create zero data
         if (!routeConfig || !routeConfig.sheet) {
-          console.log(`No sheet configured for route: ${route}, using zero data`);
+          console.warn(`[useMapData] No sheet configured for route: ${route}, using zero data`);
+          console.log(`[useMapData] Available routes:`, Object.keys(config));
           const zeroData = await createZeroScoreData();
           setScoreData(zeroData);
           setLoading(false);
           return;
         }
 
+        console.log(`[useMapData] Loading scores from: ${routeConfig.sheet}`);
+        
         // Load score data from Google Sheets
         const data = await loadScores(routeConfig.sheet);
+        console.log(`[useMapData] Loaded ${data.size} VNB scores`);
         
         // If this is a criterion-level route, extract only that criterion's column
         if (routeConfig.criterion_column) {
@@ -69,7 +76,7 @@ export const useMapData = (route: string) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error('Error loading map data:', err);
+        console.error('[useMapData] Error loading map data:', err);
         setError(err.message);
         setLoading(false);
       });

@@ -158,47 +158,71 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
 }
 
 // Build maps.json structure from sheet data
+// This function handles MULTIPLE TABS within a single Google Sheets file
+// by extracting the gid (tab identifier) from edit URLs and converting to export URLs
 export async function buildMapsConfig(): Promise<Record<string, any>> {
   try {
     const response = await fetch(STRUCTURE_SHEET_URL);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch structure sheet: ${response.status}`);
+    }
+    
     const text = await response.text();
     const rows = parseCSV(text);
     
+    console.log(`[buildMapsConfig] Parsed ${rows.length} rows from structure sheet`);
+    
     const mapsConfig: Record<string, any> = {};
     
-    rows.forEach(row => {
-      if (!row.kategorie_slug || !row.unterkategorie_slug) return;
+    rows.forEach((row, index) => {
+      // Skip rows without required fields
+      if (!row.kategorie_slug || !row.unterkategorie_slug) {
+        return;
+      }
       
       const subKey = `${row.kategorie_slug}/${row.unterkategorie_slug}`;
       
       // Add unterkategorie-level map config
-      if (row.sheet_url && !mapsConfig[subKey]) {
-        // Convert edit URL to export URL
+      // This is for pages like /EHH/zvNE
+      if (row.sheet_url && row.sheet_url.trim() !== '' && !mapsConfig[subKey]) {
+        // Extract spreadsheet ID and tab gid from edit URL
+        // Format: https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit?gid={GID}#gid={GID}
         const sheetId = row.sheet_url.match(/\/d\/([^\/]+)/)?.[1];
-        const gid = row.sheet_url.match(/gid=(\d+)/)?.[1];
+        const gidMatch = row.sheet_url.match(/[?&#]gid=(\d+)/);
+        const gid = gidMatch?.[1];
         
         if (sheetId && gid) {
+          const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
           mapsConfig[subKey] = {
-            sheet: `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+            sheet: exportUrl
           };
+          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} -> gid=${gid}`);
+        } else {
+          console.warn(`[buildMapsConfig] Could not extract sheetId or gid from URL in row ${index}:`, row.sheet_url);
         }
       }
       
       // Add criterion-level map config
-      if (row.kriterium_slug && row.sheet_url) {
+      // This is for pages like /EHH/zvNE/Modul1&2
+      if (row.kriterium_slug && row.kriterium_slug !== '-' && row.sheet_url && row.sheet_url.trim() !== '') {
         const critKey = `${row.kategorie_slug}/${row.unterkategorie_slug}/${row.kriterium_slug}`;
+        
         const sheetId = row.sheet_url.match(/\/d\/([^\/]+)/)?.[1];
-        const gid = row.sheet_url.match(/gid=(\d+)/)?.[1];
+        const gidMatch = row.sheet_url.match(/[?&#]gid=(\d+)/);
+        const gid = gidMatch?.[1];
         
         if (sheetId && gid) {
+          const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
           mapsConfig[critKey] = {
-            sheet: `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`,
+            sheet: exportUrl,
             criterion_column: row.kriterium_slug
           };
+          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}`);
         }
       }
     });
     
+    console.log(`[buildMapsConfig] Built config with ${Object.keys(mapsConfig).length} routes`);
     return mapsConfig;
   } catch (error) {
     console.error('Error building maps config:', error);
