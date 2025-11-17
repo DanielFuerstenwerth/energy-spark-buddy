@@ -1,59 +1,29 @@
 /**
- * VNB Name to ID Mapping
- * Maps VNB company names to their official VNB IDs (DE#### format)
- * This allows Google Sheets to use company names while the system uses IDs internally
+ * VNB Name to GeoJSON ID Mapping
+ * Maps VNB company names to their GeoJSON polygon IDs
+ * This allows Google Sheets to use company names while the system uses GeoJSON IDs internally
  */
 
 export const vnbNameToId: Record<string, string> = {
-  // Major VNBs
-  'enercity Netz GmbH': 'DE0017',
-  'enercity': 'DE0017',
-  'Enercity Netz GmbH': 'DE0017',
-  'Enercity': 'DE0017',
+  // Enercity - based on session replay showing 7506edfa
+  'enercity Netz GmbH': '7506edfa',
+  'enercity': '7506edfa',
+  'Enercity Netz GmbH': '7506edfa',
+  'Enercity': '7506edfa',
+  'ENERCITY NETZ GMBH': '7506edfa',
+  'ENERCITY': '7506edfa',
   
-  // Add more mappings as needed
-  'Avacon Netz GmbH': 'DE0002',
-  'Avacon': 'DE0002',
-  'SachsenNetze GmbH': 'DE0003',
-  'Mitteldeutsche Netzgesellschaft Strom mbH': 'DE0004',
-  'Bayernwerk Netz GmbH': 'DE0005',
-  'Netze BW GmbH': 'DE0006',
-  'Westnetz GmbH': 'DE0007',
-  'E.DIS Netz GmbH': 'DE0008',
-  'Schleswig-Holstein Netz AG': 'DE0009',
-  'SWK NETZE GmbH': 'DE0010',
-  'Stromnetz Berlin GmbH': 'DE0011',
-  'Stromnetz Hamburg GmbH': 'DE0012',
-  'Stadtwerke München GmbH': 'DE0013',
-  'N-ERGIE Netz GmbH': 'DE0014',
-  'Rheinische NETZGesellschaft mbH': 'DE0015',
-  'LEW Verteilnetz GmbH': 'DE0016',
-  'EWE NETZ GmbH': 'DE0018',
-  'Thüringer Energienetze GmbH & Co. KG': 'DE0019',
-  'Energienetze Mitteldeutschland': 'DE0020',
+  // From fallback CSV - known GeoJSON IDs
+  'SachsenNetze GmbH': '0b2d22e0',
+  'Mitteldeutsche Netzgesellschaft Strom mbH': '8bfbc6cc',
+  'Stromnetz Berlin GmbH': '82c8ab84',
+  'Energieversorgung Halle Netz GmbH': '93d3d285',
+  'ASCANETZ GmbH': 'bd80d44d',
+  'Netz Leipzig GmbH': 'afd10af4',
+  'Stadtwerke Merseburg GmbH': '388424b1',
+  'Dessauer Stromversorgung GmbH': '1b8a4503',
   
-  // Stadtwerke
-  'Stadtwerke Stuttgart': 'DE0021',
-  'Stadtwerke Frankfurt am Main': 'DE0022',
-  'Stadtwerke Düsseldorf': 'DE0023',
-  'Stadtwerke Köln': 'DE0024',
-  'Stadtwerke Leipzig': 'DE0025',
-  'Stadtwerke Dresden': 'DE0026',
-  'Stadtwerke Hannover': 'DE0027',
-  'Stadtwerke Nürnberg': 'DE0028',
-  'Stadtwerke Bonn': 'DE0029',
-  'Stadtwerke Bielefeld': 'DE0030',
-  
-  // Regional operators
-  'ASCANETZ GmbH': 'DE0031',
-  'Energieversorgung Halle Netz GmbH': 'DE0032',
-  'Netz Leipzig GmbH': 'DE0033',
-  'Stadtwerke Merseburg GmbH': 'DE0034',
-  'Dessauer Stromversorgung GmbH': 'DE0035',
-  
-  // Add case-insensitive variations
-  'ENERCITY NETZ GMBH': 'DE0017',
-  'ENERCITY': 'DE0017',
+  // Add more mappings as VNBs are identified
 };
 
 /**
