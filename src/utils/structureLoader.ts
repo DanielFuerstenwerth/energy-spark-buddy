@@ -6,7 +6,8 @@ interface StructureRow {
   kriterium_slug: string;
   kriterium_name: string;
   sheet_url: string;
-  gewichtung: string;
+  gewichtung_unterkategorie: string;
+  gewichtung_kategorie: string;
 }
 
 interface NavigationKriterium {
@@ -79,7 +80,7 @@ function parseCSV(text: string): StructureRow[] {
     }
     fields.push(currentField.trim());
     
-    if (fields.length >= 8) {
+    if (fields.length >= 9) {
       rows.push({
         kategorie_slug: fields[0],
         kategorie_name: fields[1],
@@ -88,7 +89,8 @@ function parseCSV(text: string): StructureRow[] {
         kriterium_slug: fields[4],
         kriterium_name: fields[5],
         sheet_url: fields[6],
-        gewichtung: fields[7]
+        gewichtung_unterkategorie: fields[7],
+        gewichtung_kategorie: fields[8]
       });
     }
   }
