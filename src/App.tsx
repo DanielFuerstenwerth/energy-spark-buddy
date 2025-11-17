@@ -16,6 +16,7 @@ import About from "./pages/About";
 import Impressum from "./pages/Impressum";
 import Datenschutz from "./pages/Datenschutz";
 import AdminComments from "./pages/AdminComments";
+import AdminVnbMapping from "./pages/AdminVnbMapping";
 import Auth from "./pages/Auth";
 import Reply from "./pages/Reply";
 import NotFound from "./pages/NotFound";
@@ -67,6 +68,7 @@ const App = () => (
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/admin/comments" element={<AdminComments />} />
+          <Route path="/admin/vnb-mapping" element={<AdminVnbMapping />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
