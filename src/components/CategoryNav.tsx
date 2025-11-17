@@ -6,6 +6,7 @@ import { useNavigation } from '@/hooks/useNavigation';
 const CategoryNav = () => {
   const { navData, loading } = useNavigation();
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
 
   if (loading || !navData) return null;
 
@@ -30,22 +31,30 @@ const CategoryNav = () => {
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
-                        <div key={unterkategorie.slug} className="px-4 py-2">
+                        <div 
+                          key={unterkategorie.slug} 
+                          className="relative"
+                          onMouseEnter={() => setHoveredSubcategory(unterkategorie.slug)}
+                          onMouseLeave={() => setHoveredSubcategory(null)}
+                        >
                           <Link
                             to={`/${kategorie.slug}/${unterkategorie.slug}`}
-                            className="block text-sm font-semibold text-foreground hover:text-primary transition-colors mb-1"
+                            className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                           >
                             {unterkategorie.title}
                           </Link>
-                          {unterkategorie.kriterien && unterkategorie.kriterien.length > 0 && (
-                            <div className="ml-3 space-y-1">
+                          
+                          {hoveredSubcategory === unterkategorie.slug && 
+                           unterkategorie.kriterien && 
+                           unterkategorie.kriterien.length > 0 && (
+                            <div className="absolute left-full top-0 ml-1 min-w-[250px] bg-popover border border-border rounded-md shadow-lg z-50 py-2">
                               {unterkategorie.kriterien.map((kriterium) => (
                                 <Link
                                   key={kriterium.slug}
                                   to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
-                                  className="block text-xs text-muted-foreground hover:text-primary transition-colors"
+                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                 >
-                                  • {kriterium.title}
+                                  {kriterium.title}
                                 </Link>
                               ))}
                             </div>
