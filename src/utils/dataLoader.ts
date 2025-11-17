@@ -165,7 +165,8 @@ export async function loadScores(
     let vnb_id_raw = (parts[idIdx] ?? '').trim();
     const vnb_name = (parts[nameIdx] ?? '').trim();
 
-    // If vnb_id looks like a company name (contains spaces or German chars), translate it
+    // If vnb_id looks like a company name (contains spaces or German chars), translate it to GeoJSON ID
+    // Otherwise use it directly (assuming it's already a GeoJSON ID like "93d3d285")
     const vnb_id = vnb_id_raw.includes(' ') || /[äöüÄÖÜß]/.test(vnb_id_raw) 
       ? getVnbIdFromName(vnb_id_raw)
       : vnb_id_raw;
