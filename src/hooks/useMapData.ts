@@ -4,6 +4,7 @@ import { ScoreData, loadScores } from '@/utils/dataLoader';
 interface MapConfig {
   [key: string]: {
     sheet: string;
+    criterion_column?: string;
   };
 }
 
@@ -39,29 +40,33 @@ export const useMapData = (route: string) => {
     setLoading(true);
     setError(null);
 
-    // Load maps config
-    fetch('/data/maps.json')
-      .then((res) => res.json())
+    // Load maps config from dynamic structure loader
+    import('@/utils/structureLoader')
+      .then(({ buildMapsConfig }) => buildMapsConfig())
       .then(async (config: MapConfig) => {
         const routeConfig = config[route];
         
-        // If route not found in config or sheet is null, use dummy data
+        // If route not found in config or sheet is null, create zero data
         if (!routeConfig || !routeConfig.sheet) {
-          console.log(`No sheet configured for route: ${route}, using dummy data`);
-          const dummyData = await createDummyScoreData();
-          setScoreData(dummyData);
+          console.log(`No sheet configured for route: ${route}, using zero data`);
+          const zeroData = await createZeroScoreData();
+          setScoreData(zeroData);
           setLoading(false);
           return;
         }
 
         // Load score data from Google Sheets
-        return loadScores(routeConfig.sheet);
-      })
-      .then((data) => {
-        if (data) {
+        const data = await loadScores(routeConfig.sheet);
+        
+        // If this is a criterion-level route, extract only that criterion's column
+        if (routeConfig.criterion_column) {
+          const criterionData = await extractCriterionData(data, routeConfig.criterion_column);
+          setScoreData(criterionData);
+        } else {
           setScoreData(data);
-          setLoading(false);
         }
+        
+        setLoading(false);
       })
       .catch((err) => {
         console.error('Error loading map data:', err);
@@ -71,4 +76,36 @@ export const useMapData = (route: string) => {
   }, [route]);
 
   return { scoreData, loading, error };
+};
+
+// Create data with all scores as 0 instead of null
+const createZeroScoreData = async (): Promise<Map<string, ScoreData>> => {
+  const zeroData = new Map<string, ScoreData>();
+  
+  const response = await fetch('/data/vnb_regions.json');
+  const vnbRegions = await response.json();
+  
+  vnbRegions.features.forEach((feature: any) => {
+    const vnbId = feature.properties.VNB_ID;
+    const vnbName = feature.properties.VNB_NAME;
+    
+    zeroData.set(vnbId, {
+      vnb_id: vnbId,
+      vnb_name: vnbName,
+      score: 0,
+      updated_at: new Date().toISOString()
+    });
+  });
+  
+  return zeroData;
+};
+
+// Extract a specific criterion column from the full score data
+const extractCriterionData = async (
+  fullData: Map<string, ScoreData>,
+  criterionColumn: string
+): Promise<Map<string, ScoreData>> => {
+  // For now, return the aggregated score as the criterion score
+  // In a full implementation, this would parse the individual criterion columns
+  return fullData;
 };
