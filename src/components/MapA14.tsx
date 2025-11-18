@@ -2,6 +2,7 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
+import { getVnbNameFromId } from '@/utils/vnbMapping';
 
 interface MapA14Props {
   onRegionClick: (vnbId: string, vnbName: string) => void;
@@ -91,7 +92,7 @@ const MapA14 = forwardRef<MapA14Handle, MapA14Props>(({ onRegionClick }, ref) =>
         onEachFeature: (feature: any, layer) => {
           const vnbId = feature?.id;
           const scoreData = scoresMap.get(vnbId);
-          const vnbName = scoreData?.vnb_name || vnbId;
+          const vnbName = scoreData?.vnb_name || getVnbNameFromId(vnbId) || vnbId;
 
           layer.bindTooltip(
             vnbName,

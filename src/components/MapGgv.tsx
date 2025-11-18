@@ -3,7 +3,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
 import { ScoreData } from '@/utils/dataLoader';
-import { idToVnbName } from '@/utils/vnbMapping';
+import { getVnbNameFromId } from '@/utils/vnbMapping';
 
 interface MapGgvProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
@@ -102,7 +102,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const vnbId = feature?.id;
           const scoreData = scoresMap.get(vnbId);
           // Use scoreData.vnb_name first, then lookup by ID, then fall back to showing the ID
-          const vnbName = scoreData?.vnb_name || idToVnbName[vnbId] || `VNB ${vnbId}`;
+          const vnbName = scoreData?.vnb_name || getVnbNameFromId(vnbId) || `VNB ${vnbId}`;
 
           layer.bindTooltip(
             scoreData 
