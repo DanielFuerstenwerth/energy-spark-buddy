@@ -1,8 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { getColor, ScoreData } from "@/utils/dataLoader";
+import { getColor, ScoreData, loadAllVnbNames } from "@/utils/dataLoader";
 import { CheckCircle2, MessageSquare } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
+import { useEffect, useState } from "react";
 
 interface BenchmarkPanelProps {
   scoreData: Map<string, ScoreData>;
@@ -10,30 +11,75 @@ interface BenchmarkPanelProps {
   onVnbSelect: (vnbId: string, vnbName: string) => void;
 }
 
+interface VnbItem {
+  id: string;
+  name: string;
+  score: number | null;
+}
+
 const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
-  // Split VNBs into positive and non-positive groups
-  const allVnbs = Array.from(scoreData.values()).map(sd => ({
-    id: sd.vnb_id,
-    name: sd.vnb_name,
-    score: sd.score
-  }));
+  const [allVnbs, setAllVnbs] = useState<VnbItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const positiveVnbs = allVnbs
-    .filter(v => v.score !== null && v.score > 0)
-    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  useEffect(() => {
+    const loadAllVnbs = async () => {
+      try {
+        const vnbNamesMap = await loadAllVnbNames();
+        
+        // Create a complete list by merging vnbNamesMap with scoreData
+        const completeList: VnbItem[] = [];
+        
+        vnbNamesMap.forEach((name, id) => {
+          const scoreInfo = scoreData.get(id);
+          completeList.push({
+            id,
+            name,
+            score: scoreInfo?.score ?? null
+          });
+        });
+        
+        // Split into positive and non-positive, then sort
+        const positiveVnbs = completeList
+          .filter(v => v.score !== null && v.score > 0)
+          .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
 
-  const nonPositiveVnbs = allVnbs
-    .filter(v => v.score === null || v.score <= 0)
-    .sort((a, b) => {
-      if (a.score === null && b.score === null) return 0;
-      if (a.score === null) return 1;
-      if (b.score === null) return -1;
-      return (b.score ?? 0) - (a.score ?? 0);
-    });
+        const nonPositiveVnbs = completeList
+          .filter(v => v.score === null || v.score <= 0)
+          .sort((a, b) => {
+            if (a.score === null && b.score === null) return 0;
+            if (a.score === null) return 1;
+            if (b.score === null) return -1;
+            return (b.score ?? 0) - (a.score ?? 0);
+          });
 
-  const vnbList = [...positiveVnbs, ...nonPositiveVnbs];
+        setAllVnbs([...positiveVnbs, ...nonPositiveVnbs]);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading all VNBs:', error);
+        setLoading(false);
+      }
+    };
 
-  const selectedVnbData = selectedVnb ? vnbList.find(v => v.id === selectedVnb.id) : null;
+    loadAllVnbs();
+  }, [scoreData]);
+
+  const positiveVnbs = allVnbs.filter(v => v.score !== null && v.score > 0);
+  const nonPositiveVnbs = allVnbs.filter(v => v.score === null || v.score <= 0);
+  const selectedVnbData = selectedVnb ? allVnbs.find(v => v.id === selectedVnb.id) : null;
+
+  if (loading) {
+    return (
+      <Card className="h-full flex flex-col">
+        <CardHeader>
+          <CardTitle>Benchmark-Analyse</CardTitle>
+          <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
+        </CardHeader>
+        <CardContent className="flex-1 flex items-center justify-center">
+          <p className="text-muted-foreground">Lade VNB-Daten...</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="h-full flex flex-col">
@@ -54,10 +100,10 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                 VNB auswählen
               </label>
               <VnbCombobox
-                vnbList={vnbList}
+                vnbList={allVnbs}
                 selectedVnbId={selectedVnb?.id || null}
                 onVnbSelect={(vnbId: string) => {
-                  const vnb = vnbList.find(v => v.id === vnbId);
+                  const vnb = allVnbs.find(v => v.id === vnbId);
                   if (vnb) onVnbSelect(vnbId, vnb.name);
                 }}
                 disabled={false}
@@ -75,7 +121,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
 
             <div>
               <h4 className="text-sm font-semibold mb-3">
-                Ranking aller {vnbList.length} VNB
+                Ranking aller {allVnbs.length} VNB
                 {positiveVnbs.length > 0 && (
                   <span className="text-xs text-muted-foreground ml-2">
                     ({positiveVnbs.length} mit positiven Werten, {nonPositiveVnbs.length} mit 0 oder negativen Werten)
@@ -83,7 +129,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                 )}
               </h4>
               <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
-                <div className="flex items-end justify-start h-32 gap-1">
+                <div className="flex items-end justify-start h-32 gap-[0.5px]">
                   {/* Positive VNBs - links */}
                   {positiveVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
@@ -103,7 +149,8 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                         style={{
                           height: `${heightPercent}%`,
                           backgroundColor: fillColor,
-                          minHeight: '4px'
+                          minHeight: '4px',
+                          minWidth: '1px'
                         }}
                         title={`${vnb.name}: +${score}`}
                         onClick={() => onVnbSelect(vnb.id, vnb.name)}
@@ -144,7 +191,8 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                         style={{
                           height: `${heightPercent}%`,
                           backgroundColor: fillColor,
-                          minHeight: '4px'
+                          minHeight: '4px',
+                          minWidth: '1px'
                         }}
                         title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
                         onClick={() => onVnbSelect(vnb.id, vnb.name)}
