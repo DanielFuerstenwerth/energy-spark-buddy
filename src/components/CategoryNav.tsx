@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useNavigation } from '@/hooks/useNavigation';
 
 const CategoryNav = () => {
   const { navData, loading } = useNavigation();
+  const navigate = useNavigate();
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
@@ -164,20 +165,20 @@ const CategoryNav = () => {
                             }, 200);
                           }}
                         >
-                          <Link
-                            to={`/${kategorie.slug}/${unterkategorie.slug}`}
-                            className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                          <div
+                            className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
                               if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                               if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
+                              navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
                               setClickedCategory(null);
                               setHoveredCategory(null);
                               setHoveredSubcategory(null);
                             }}
                           >
                             {unterkategorie.title}
-                          </Link>
+                          </div>
                           
                           {hoveredSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
@@ -203,21 +204,21 @@ const CategoryNav = () => {
                               }}
                             >
                                {unterkategorie.kriterien.map((kriterium) => (
-                                <Link
+                                <div
                                   key={kriterium.slug}
-                                  to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
-                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                                     if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
+                                    navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
                                     setClickedCategory(null);
                                     setHoveredCategory(null);
                                     setHoveredSubcategory(null);
                                   }}
                                 >
                                   {kriterium.title}
-                                </Link>
+                                </div>
                               ))}
                             </div>,
                             document.body
@@ -228,35 +229,35 @@ const CategoryNav = () => {
                   ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
                     <div>
                       {kategorie.kriterien.map((kriterium) => (
-                        <Link
+                        <div
                           key={kriterium.slug}
-                          to={`/${kategorie.slug}/${kriterium.slug}`}
-                          className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                          className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
                             if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                            navigate(`/${kategorie.slug}/${kriterium.slug}`);
                             setClickedCategory(null);
                             setHoveredCategory(null);
                           }}
                         >
                           {kriterium.title}
-                        </Link>
+                        </div>
                       ))}
                     </div>
                   ) : (
                     <div className="px-4 py-2">
-                      <Link
-                        to={`/${kategorie.slug}`}
-                        className="block text-sm text-foreground hover:text-primary transition-colors"
+                      <div
+                        className="block text-sm text-foreground hover:text-primary transition-colors cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                          navigate(`/${kategorie.slug}`);
                           setClickedCategory(null);
                           setHoveredCategory(null);
                         }}
                       >
                         Zur Übersicht →
-                      </Link>
+                      </div>
                     </div>
                   )}
                 </div>,
