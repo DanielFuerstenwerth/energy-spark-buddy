@@ -76,15 +76,17 @@ const UniversalSubcategoryPage = () => {
       <CategoryNav />
       
       <main id="main-content" className="flex-grow bg-background">
-        <div className="container mx-auto px-6 py-8">
-          <div className="mb-6">
+        <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
+          <div className="mb-4 md:mb-6">
             <p className="text-sm text-muted-foreground mb-2">{categoryTitle}</p>
-            <h1 className="text-3xl font-bold">{pageTitle}</h1>
+            <h1 className="text-2xl md:text-3xl font-bold">{pageTitle}</h1>
           </div>
           
-          <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             <div className="space-y-4">
-              <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
+              <div className="h-[400px] md:h-[500px]">
+                <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
+              </div>
               <MapLegend />
             </div>
 

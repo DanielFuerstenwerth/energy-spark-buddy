@@ -89,7 +89,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
         <Tabs defaultValue="performance" className="w-full flex-1 flex flex-col">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-2 mb-4 md:mb-6">
             <TabsTrigger value="performance">Performance VNB</TabsTrigger>
             <TabsTrigger value="practices">Best Practices</TabsTrigger>
           </TabsList>

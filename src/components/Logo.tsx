@@ -24,10 +24,10 @@ const Logo = ({ variant = 'full', className = '' }: LogoProps) => {
   return (
     <Link
       to="/"
-      className={`inline-flex items-center gap-3 group ${className}`}
+      className={`inline-flex items-center gap-2 md:gap-3 group ${className}`}
     >
       <div 
-        className="w-10 h-10 rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-black text-xl flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25"
+        className="w-8 h-8 md:w-10 md:h-10 rounded-md bg-gradient-to-br from-primary to-primary/80 text-primary-foreground font-black text-lg md:text-xl flex items-center justify-center transition-all group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-primary/25"
         style={{ 
           fontFamily: 'system-ui, -apple-system, sans-serif',
           letterSpacing: '-0.05em'
@@ -35,7 +35,7 @@ const Logo = ({ variant = 'full', className = '' }: LogoProps) => {
       >
         V
       </div>
-      <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
+      <span className="text-base md:text-xl font-bold text-foreground group-hover:text-primary transition-colors tracking-tight">
         vnb-transparenz
       </span>
     </Link>

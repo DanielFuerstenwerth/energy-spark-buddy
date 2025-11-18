@@ -10,10 +10,10 @@ const NewHome = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted/20">
       {/* Header */}
       <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <nav className="container mx-auto px-6 py-5">
+        <nav className="container mx-auto px-4 md:px-6 py-3 md:py-5">
           <div className="flex items-center justify-between">
             <Logo />
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6 md:gap-8">
               <Link to="/news" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                 News
               </Link>
@@ -36,28 +36,28 @@ const NewHome = () => {
 
       {/* Hero Section */}
       <main id="main-content" className="flex-1">
-        <section className="container mx-auto px-6 py-20">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h1 className="text-5xl font-bold mb-6 text-foreground">
+        <section className="container mx-auto px-4 md:px-6 py-12 md:py-20">
+          <div className="max-w-4xl mx-auto text-center mb-12 md:mb-16">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 text-foreground leading-tight">
               Transparenz über Verteilnetzbetreiber
             </h1>
             
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+            <p className="text-base md:text-xl text-muted-foreground mb-6 md:mb-8 leading-relaxed px-2">
               Datenbasierte Analyse der Performance von Netzbetreibern in Deutschland
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
+              <Button size="lg" asChild className="w-full sm:w-auto min-h-[44px]">
                 <Link to="/TaE/ggv">Zur Karte</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" asChild className="w-full sm:w-auto min-h-[44px]">
                 <Link to="/methodik">Methodik</Link>
               </Button>
             </div>
           </div>
 
           {/* Quick Access Cards */}
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
             <Card>
               <CardHeader>
                 <CardTitle>Aktuelle Inhalte</CardTitle>

@@ -134,7 +134,7 @@ const SandraChatWidget = () => {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 rounded-full w-16 h-16 shadow-lg hover:shadow-xl transition-shadow z-50"
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 rounded-full w-14 h-14 md:w-16 md:h-16 shadow-lg hover:shadow-xl transition-shadow z-50"
         aria-label="Chat mit Sandra öffnen"
       >
         <SandraAvatar width={32} height={32} />
@@ -143,7 +143,7 @@ const SandraChatWidget = () => {
   }
 
   return (
-    <div className="fixed bottom-6 right-6 w-96 h-[600px] bg-background border border-border rounded-lg shadow-2xl flex flex-col z-50">
+    <div className="fixed bottom-0 right-0 left-0 md:bottom-6 md:right-6 md:left-auto w-full md:w-96 h-[85vh] md:h-[600px] bg-background border-t md:border border-border md:rounded-lg shadow-2xl flex flex-col z-50">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-border bg-primary/5">
         <div className="flex items-center gap-3">
