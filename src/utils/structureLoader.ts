@@ -257,11 +257,15 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+          
+          // For now, use the unterkategorie sheet with the aggregated score
+          // Until criterion-specific columns are added to the sheet
           mapsConfig[critKey] = {
             sheet: exportUrl,
+            // Try to use criterion column if it exists, fallback to aggregated_score
             criterion_column: row.kriterium_slug
           };
-          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}, column=${row.kriterium_slug}`);
+          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}, column=${row.kriterium_slug} (fallback to aggregated if not found)`);
         }
       }
     });

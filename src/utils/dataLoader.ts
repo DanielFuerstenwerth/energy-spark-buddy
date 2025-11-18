@@ -159,12 +159,16 @@ export async function loadScores(
 
   const aggregatedColumn = opts?.aggregatedColumn ?? 'aggregated_score';
   let aggIdx = headerIndex(aggregatedColumn);
+  // Fallback to 'score' if 'aggregated_score' not found
+  if (aggIdx === -1) aggIdx = headerIndex('score');
 
   let requestedIdx = -1;
   if (opts?.requestedColumn) {
     requestedIdx = headerIndex(opts.requestedColumn);
     if (requestedIdx === -1) {
-      console.warn('[loadScores] Requested column not found:', opts.requestedColumn, 'Headers:', header);
+      console.warn('[loadScores] Requested column not found:', opts.requestedColumn, '- falling back to aggregated score');
+      // If requested column not found, use the aggregated column as fallback
+      requestedIdx = aggIdx;
     }
   }
 
