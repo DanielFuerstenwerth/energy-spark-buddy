@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -8,9 +9,26 @@ const CategoryNav = () => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null);
   const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subcategoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+  // Update dropdown position when category changes
+  useEffect(() => {
+    const activeCategory = clickedCategory || hoveredCategory;
+    if (activeCategory && buttonRefs.current[activeCategory]) {
+      const button = buttonRefs.current[activeCategory];
+      const rect = button!.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom,
+        left: rect.left
+      });
+    } else {
+      setDropdownPosition(null);
+    }
+  }, [clickedCategory, hoveredCategory]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -78,7 +96,8 @@ const CategoryNav = () => {
                 }, 300);
               }}
             >
-              <button 
+              <button
+                ref={(el) => buttonRefs.current[kategorie.slug] = el}
                 onClick={(e) => {
                   e.stopPropagation();
                   setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
@@ -89,8 +108,16 @@ const CategoryNav = () => {
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {isOpen && (
-                <div className="absolute top-full left-0 mt-0 min-w-[280px] md:min-w-[300px] bg-background border border-border rounded-md shadow-lg z-[10000] py-2 max-h-[70vh] overflow-y-auto">
+              {isOpen && dropdownPosition && createPortal(
+                <div 
+                  className="min-w-[280px] md:min-w-[300px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto"
+                  style={{
+                    position: 'fixed',
+                    top: `${dropdownPosition.top}px`,
+                    left: `${dropdownPosition.left}px`,
+                    zIndex: 99999
+                  }}
+                >
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
@@ -156,7 +183,8 @@ const CategoryNav = () => {
                       </Link>
                     </div>
                   )}
-                </div>
+                </div>,
+                document.body
               )}
             </div>
           );
