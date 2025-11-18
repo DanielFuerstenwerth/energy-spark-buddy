@@ -25,7 +25,7 @@ export interface NavigationData {
   anliegen?: NavigationItem[];
 }
 
-const CACHE_KEY = 'nav_structure_cache';
+const CACHE_KEY = 'nav_structure_cache_v2';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
 
 export const useNavigation = () => {
@@ -35,7 +35,9 @@ export const useNavigation = () => {
   useEffect(() => {
     const loadNavigation = async () => {
       try {
-        // Check cache first
+        // Invalidate old cache key to force reload after updates
+        localStorage.removeItem('nav_structure_cache');
+        // Check cache first (versioned)
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           const { data, timestamp } = JSON.parse(cached);
