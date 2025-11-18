@@ -166,9 +166,13 @@ export async function loadScores(
   if (opts?.requestedColumn) {
     requestedIdx = headerIndex(opts.requestedColumn);
     if (requestedIdx === -1) {
-      console.warn('[loadScores] Requested column not found:', opts.requestedColumn, '- falling back to aggregated score');
+      console.warn('[loadScores] Requested column not found:', opts.requestedColumn);
+      console.warn('[loadScores] Available columns:', header);
+      console.warn('[loadScores] Falling back to aggregated score column');
       // If requested column not found, use the aggregated column as fallback
       requestedIdx = aggIdx;
+    } else {
+      console.log('[loadScores] Using requested column:', opts.requestedColumn, 'at index', requestedIdx);
     }
   }
 
