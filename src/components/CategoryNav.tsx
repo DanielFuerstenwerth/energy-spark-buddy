@@ -130,9 +130,9 @@ const CategoryNav = () => {
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Mobile: Simple inline dropdown - NO PORTAL */}
-              {isMobile && isOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto min-w-[280px]" style={{ zIndex: 999999 }}>
+              {/* Mobile: Portal dropdown to escape stacking context */}
+              {isMobile && isOpen && dropdownPosition && createPortal(
+                <div className="min-w-[280px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto" style={{ position: 'fixed', top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px`, zIndex: 999999 }}>
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
@@ -204,7 +204,8 @@ const CategoryNav = () => {
                       Zur Übersicht →
                     </button>
                   )}
-                </div>
+                </div>,
+                document.body
               )}
 
               {/* Desktop: Portal-based dropdown with hover */}
