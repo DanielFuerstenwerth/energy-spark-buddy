@@ -1,10 +1,9 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import * as topojson from 'topojson-client';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
 import { ScoreData } from '@/utils/dataLoader';
-import { getVnbNameFromId, ensureVnbMappingLoaded } from '@/utils/vnbMapping';
+import { idToVnbName } from '@/utils/vnbMapping';
 
 interface MapGgvProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
@@ -65,18 +64,15 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
       opacity: 1
     }).addTo(map.current);
 
-    // Load TopoJSON polygons, VNB mapping, and scores
+    // Load real GeoJSON and scores (use external if provided)
     const scoresPromise = externalScoreData 
       ? Promise.resolve(externalScoreData)
       : loadScoresFromGoogleSheets();
     
     Promise.all([
-      fetch('/data/Polygone_ID.json').then(r => r.json()),
-      ensureVnbMappingLoaded(),
+      fetch('/data/vnb_regions.geojson').then(r => r.json()),
       scoresPromise
-    ]).then(([topoData, _, scoresMap]) => {
-      // Convert TopoJSON to GeoJSON
-      const geoData = topojson.feature(topoData, topoData.objects.data) as any;
+    ]).then(([geoData, scoresMap]) => {
       if (!map.current) return;
 
       geoLayer.current = L.geoJSON(geoData, {
@@ -106,7 +102,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const vnbId = feature?.id;
           const scoreData = scoresMap.get(vnbId);
           // Use scoreData.vnb_name first, then lookup by ID, then fall back to showing the ID
-          const vnbName = scoreData?.vnb_name || getVnbNameFromId(vnbId) || `VNB ${vnbId}`;
+          const vnbName = scoreData?.vnb_name || idToVnbName[vnbId] || `VNB ${vnbId}`;
 
           layer.bindTooltip(
             scoreData 

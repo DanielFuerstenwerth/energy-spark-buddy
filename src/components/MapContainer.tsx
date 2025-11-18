@@ -1,9 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import * as topojson from 'topojson-client';
 import { ScoreData } from '@/utils/dataLoader';
-import { getVnbNameFromId, ensureVnbMappingLoaded } from '@/utils/vnbMapping';
 
 interface MapContainerProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
@@ -65,21 +63,17 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
         opacity: 1,
       }).addTo(map.current);
 
-      // Load TopoJSON polygons and VNB mapping
-      Promise.all([
-        fetch('/data/Polygone_ID.json').then(r => r.json()),
-        ensureVnbMappingLoaded()
-      ]).then(([topoData, _]) => {
-        // Convert TopoJSON to GeoJSON
-        const geoData = topojson.feature(topoData, topoData.objects.data) as any;
-        
-        if (!map.current) return;
+      // Load GeoJSON
+      fetch('/data/vnb_regions.geojson')
+        .then((r) => r.json())
+        .then((geoData) => {
+          if (!map.current) return;
 
-        geoLayer.current = L.geoJSON(geoData, {
-          style: (feature: any) => {
-            const vnbId = feature?.id;
-            const data = vnbId ? scoreData.get(vnbId) : null;
-            const score = data?.score;
+          geoLayer.current = L.geoJSON(geoData, {
+            style: (feature: any) => {
+              const vnbId = feature?.id;
+              const data = vnbId ? scoreData.get(vnbId) : null;
+              const score = data?.score;
 
               let fillColor = 'hsl(var(--score-unknown))';
               if (score !== null && score !== undefined) {
@@ -101,7 +95,7 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
             onEachFeature: (feature: any, layer) => {
               const vnbId = feature?.id;
               const data = scoreData.get(vnbId);
-              const vnbName = data?.vnb_name || getVnbNameFromId(vnbId);
+              const vnbName = data?.vnb_name || vnbId;
 
               layer.bindTooltip(
                 data
@@ -110,7 +104,7 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
                         ? (data.score > 0 ? '+' : '') + data.score
                         : 'N/A'
                     }`
-                  : vnbName,
+                  : `VNB ${vnbId}`,
                 { sticky: true, className: 'custom-tooltip' }
               );
 
