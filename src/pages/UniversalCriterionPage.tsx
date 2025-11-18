@@ -75,7 +75,7 @@ const UniversalCriterionPage = () => {
       <Banner />
       <CategoryNav />
       
-      <main className="flex-grow container mx-auto px-4 md:px-6 py-6 md:py-8">
+      <main className="flex-grow container mx-auto px-4 md:px-6 py-6 md:py-8" style={{ position: 'relative', zIndex: 1 }}>
         <div className="mb-6 md:mb-8">
           <p className="text-sm text-muted-foreground mb-2">
             {categoryData?.title} → {subcategoryData?.title}

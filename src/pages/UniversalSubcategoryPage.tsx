@@ -75,7 +75,7 @@ const UniversalSubcategoryPage = () => {
       <Header />
       <CategoryNav />
       
-      <main id="main-content" className="flex-grow bg-background">
+      <main id="main-content" className="flex-grow bg-background" style={{ position: 'relative', zIndex: 1 }}>
         <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
           <div className="mb-4 md:mb-6">
             <p className="text-sm text-muted-foreground mb-2">{categoryTitle}</p>
