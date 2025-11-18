@@ -11,15 +11,27 @@ interface BenchmarkPanelProps {
 }
 
 const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
-  const vnbList = Array.from(scoreData.values()).map(sd => ({
+  // Split VNBs into positive and non-positive groups
+  const allVnbs = Array.from(scoreData.values()).map(sd => ({
     id: sd.vnb_id,
     name: sd.vnb_name,
     score: sd.score
-  })).sort((a, b) => {
-    if (a.score === null) return 1;
-    if (b.score === null) return -1;
-    return b.score - a.score;
-  });
+  }));
+
+  const positiveVnbs = allVnbs
+    .filter(v => v.score !== null && v.score > 0)
+    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+
+  const nonPositiveVnbs = allVnbs
+    .filter(v => v.score === null || v.score <= 0)
+    .sort((a, b) => {
+      if (a.score === null && b.score === null) return 0;
+      if (a.score === null) return 1;
+      if (b.score === null) return -1;
+      return (b.score ?? 0) - (a.score ?? 0);
+    });
+
+  const vnbList = [...positiveVnbs, ...nonPositiveVnbs];
 
   const selectedVnbData = selectedVnb ? vnbList.find(v => v.id === selectedVnb.id) : null;
 
@@ -62,10 +74,50 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
             )}
 
             <div>
-              <h4 className="text-sm font-semibold mb-3">Ranking aller {vnbList.length} VNB</h4>
+              <h4 className="text-sm font-semibold mb-3">
+                Ranking aller {vnbList.length} VNB
+                {positiveVnbs.length > 0 && (
+                  <span className="text-xs text-muted-foreground ml-2">
+                    ({positiveVnbs.length} mit positiven Werten, {nonPositiveVnbs.length} mit 0 oder negativen Werten)
+                  </span>
+                )}
+              </h4>
               <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
-                <div className="flex items-end justify-start h-32 gap-[1px]">
-                  {vnbList.map((vnb) => {
+                <div className="flex items-end justify-start h-32 gap-1">
+                  {/* Positive VNBs - links */}
+                  {positiveVnbs.map((vnb) => {
+                    const isSelected = vnb.id === selectedVnb?.id;
+                    const score = vnb.score ?? 0;
+                    
+                    const heightPercent = 5 + ((score + 100) / 200) * 95;
+                    
+                    let fillColor = 'hsl(var(--score-5))';
+                    if (score <= 25) fillColor = 'hsl(var(--score-4))';
+                    
+                    return (
+                      <div
+                        key={vnb.id}
+                        className={`flex-1 cursor-pointer transition-all hover:opacity-80 ${
+                          isSelected ? 'ring-2 ring-primary ring-offset-2' : ''
+                        }`}
+                        style={{
+                          height: `${heightPercent}%`,
+                          backgroundColor: fillColor,
+                          minHeight: '4px'
+                        }}
+                        title={`${vnb.name}: +${score}`}
+                        onClick={() => onVnbSelect(vnb.id, vnb.name)}
+                      />
+                    );
+                  })}
+                  
+                  {/* Visual separator */}
+                  {positiveVnbs.length > 0 && nonPositiveVnbs.length > 0 && (
+                    <div className="w-1 h-full bg-border/50 mx-1" />
+                  )}
+                  
+                  {/* Non-positive VNBs - rechts */}
+                  {nonPositiveVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
                     const score = vnb.score ?? 0;
                     
@@ -73,7 +125,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     if (vnb.score === null || vnb.score === 0) {
                       heightPercent = 5;
                     } else {
-                      heightPercent = 5 + ((vnb.score + 100) / 200) * 95;
+                      heightPercent = 5 + ((score + 100) / 200) * 95;
                     }
                     
                     let fillColor = 'hsl(var(--score-unknown))';
@@ -81,8 +133,6 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                       if (score <= -50) fillColor = 'hsl(var(--score-1))';
                       else if (score <= -25) fillColor = 'hsl(var(--score-2))';
                       else if (score <= 0) fillColor = 'hsl(var(--score-3))';
-                      else if (score <= 25) fillColor = 'hsl(var(--score-4))';
-                      else fillColor = 'hsl(var(--score-5))';
                     }
                     
                     return (
