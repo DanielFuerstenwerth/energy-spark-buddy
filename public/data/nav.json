@@ -7,29 +7,111 @@
       "unterkategorien": [
         {
           "slug": "zvNE",
-          "title": "zvNE",
+          "title": "zeitvariable Netzentgelte",
           "kriterien": [
             {
-              "slug": "modul3-ueber-mako",
-              "title": "Modul 3 kann über MaKo bestellt werden"
+              "slug": "Modul1&2",
+              "title": "Modul 1&2 wird angeboten und abgerechnet"
             },
             {
-              "slug": "fehlerquote-unter-10",
-              "title": "Fehlerquote bei Abrechnung < 10%"
+              "slug": "Modul3",
+              "title": "Modul 3 wird angeboten"
+            },
+            {
+              "slug": "Modul3-MaKo",
+              "title": "Modul 3 kann über Mako bestellt werden"
+            },
+            {
+              "slug": "Modul3-Abrechnung-Frist",
+              "title": "Modul 3 Netzentgelte werden fristgerecht abgerechnet in >90% der Fälle"
+            },
+            {
+              "slug": "Modul3-Abrechnung-Korrektheit",
+              "title": "Modul 3 Netzentgelte werden korrekt abgerechnet in >90% der Fälle"
             }
           ]
         },
         {
-          "slug": "UK2",
-          "title": "UK2",
+          "slug": "DV",
+          "title": "PV-DV",
           "kriterien": [
             {
-              "slug": "UK2K1",
-              "title": "UK2K1"
+              "slug": "K1",
+              "title": "K1"
             },
             {
-              "slug": "UK2K2",
-              "title": "UK2K2"
+              "slug": "K2",
+              "title": "MaLo-ID wird umgehend zugewiesen"
+            },
+            {
+              "slug": "K3",
+              "title": "WIM Prozesse laufen"
+            },
+            {
+              "slug": "K4",
+              "title": "GPKE Prozesse laufen"
+            },
+            {
+              "slug": "K5",
+              "title": "Speicheranmeldung"
+            }
+          ]
+        },
+        {
+          "slug": "Sflex",
+          "title": "Speicher flex",
+          "kriterien": [
+            {
+              "slug": "K6",
+              "title": "K6"
+            },
+            {
+              "slug": "K7",
+              "title": "UK 1"
+            },
+            {
+              "slug": "K8",
+              "title": "UK 2"
+            }
+          ]
+        },
+        {
+          "slug": "Wp",
+          "title": "Wärmepumpe",
+          "kriterien": [
+            {
+              "slug": "K9",
+              "title": "K9"
+            },
+            {
+              "slug": "K10",
+              "title": "UK1"
+            },
+            {
+              "slug": "K11",
+              "title": "UK 2"
+            }
+          ]
+        },
+        {
+          "slug": "Emob",
+          "title": "Elektromobilität",
+          "kriterien": [
+            {
+              "slug": "K12",
+              "title": "K12"
+            },
+            {
+              "slug": "K13",
+              "title": "UK 1"
+            },
+            {
+              "slug": "K14",
+              "title": "UK 2"
+            },
+            {
+              "slug": "K15",
+              "title": "UK3"
             }
           ]
         }
@@ -41,30 +123,58 @@
       "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
-          "slug": "UK1",
-          "title": "UK1",
+          "slug": "GGV",
+          "title": "Gemeinschaftliche Gebäudeversorgung",
           "kriterien": [
             {
-              "slug": "UK1K1",
-              "title": "UK1K1"
+              "slug": "K17",
+              "title": "UK1"
             },
             {
-              "slug": "UK1K2",
-              "title": "UK1K2"
+              "slug": "K18",
+              "title": "UK 2"
             }
           ]
         },
         {
-          "slug": "UK2",
-          "title": "UK2",
+          "slug": "MS",
+          "title": "Mieterstrom",
           "kriterien": [
             {
-              "slug": "UK2K1",
-              "title": "UK2K1"
+              "slug": "K20",
+              "title": "UK1"
             },
             {
-              "slug": "UK2K2",
-              "title": "UK2K2"
+              "slug": "K21",
+              "title": "UK 2"
+            }
+          ]
+        },
+        {
+          "slug": "vSZ",
+          "title": "virtueller Summenzähler",
+          "kriterien": [
+            {
+              "slug": "K23",
+              "title": "UK1"
+            },
+            {
+              "slug": "K24",
+              "title": "UK 2"
+            }
+          ]
+        },
+        {
+          "slug": "ES",
+          "title": "Energy Sharing",
+          "kriterien": [
+            {
+              "slug": "K26",
+              "title": "UK1"
+            },
+            {
+              "slug": "K27",
+              "title": "UK 2"
             }
           ]
         }
@@ -76,30 +186,38 @@
       "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
-          "slug": "UK1",
-          "title": "UK1",
+          "slug": "NaHS",
+          "title": "Netzanschluss Hochspannung",
           "kriterien": [
             {
-              "slug": "UK1K1",
-              "title": "UK1K1"
+              "slug": "K28",
+              "title": "K28"
             },
             {
-              "slug": "UK1K2",
-              "title": "UK1K2"
+              "slug": "K29",
+              "title": "UK1"
+            },
+            {
+              "slug": "K30",
+              "title": "UK 2"
             }
           ]
         },
         {
-          "slug": "UK2",
-          "title": "UK2",
+          "slug": "NaMS",
+          "title": "Netzanschluss Mittelspannung",
           "kriterien": [
             {
-              "slug": "UK2K1",
-              "title": "UK2K1"
+              "slug": "K31",
+              "title": "K31"
             },
             {
-              "slug": "UK2K2",
-              "title": "UK2K2"
+              "slug": "K32",
+              "title": "UK1"
+            },
+            {
+              "slug": "K33",
+              "title": "UK 2"
             }
           ]
         }
@@ -111,30 +229,20 @@
       "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
-          "slug": "UK1",
-          "title": "UK1",
+          "slug": "NA",
+          "title": "Netzanschluss",
           "kriterien": [
             {
-              "slug": "UK1K1",
-              "title": "UK1K1"
+              "slug": "K34",
+              "title": "K34"
             },
             {
-              "slug": "UK1K2",
-              "title": "UK1K2"
-            }
-          ]
-        },
-        {
-          "slug": "UK2",
-          "title": "UK2",
-          "kriterien": [
-            {
-              "slug": "UK2K1",
-              "title": "UK2K1"
+              "slug": "K35",
+              "title": "UK1"
             },
             {
-              "slug": "UK2K2",
-              "title": "UK2K2"
+              "slug": "K36",
+              "title": "UK 2"
             }
           ]
         }
