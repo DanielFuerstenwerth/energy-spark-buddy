@@ -3,10 +3,12 @@ import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useNavigation } from '@/hooks/useNavigation';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const CategoryNav = () => {
   const { navData, loading } = useNavigation();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
@@ -101,12 +103,14 @@ const CategoryNav = () => {
               key={kategorie.slug}
               className="relative group snap-start"
               onMouseEnter={() => {
+                if (isMobile) return; // No hover on mobile
                 if (categoryTimeoutRef.current) {
                   clearTimeout(categoryTimeoutRef.current);
                 }
                 setHoveredCategory(kategorie.slug);
               }}
               onMouseLeave={() => {
+                if (isMobile) return; // No hover on mobile
                 categoryTimeoutRef.current = setTimeout(() => {
                   setHoveredCategory(null);
                   setHoveredSubcategory(null);
@@ -135,11 +139,13 @@ const CategoryNav = () => {
                     zIndex: 99999
                   }}
                   onMouseEnter={() => {
+                    if (isMobile) return; // No hover on mobile
                     if (categoryTimeoutRef.current) {
                       clearTimeout(categoryTimeoutRef.current);
                     }
                   }}
                   onMouseLeave={() => {
+                    if (isMobile) return; // No hover on mobile
                     categoryTimeoutRef.current = setTimeout(() => {
                       setHoveredCategory(null);
                       setClickedCategory(null);
@@ -154,12 +160,14 @@ const CategoryNav = () => {
                           key={unterkategorie.slug}
                           ref={(el) => subcategoryRefs.current[unterkategorie.slug] = el}
                           onMouseEnter={() => {
+                            if (isMobile) return; // No hover on mobile
                             if (subcategoryTimeoutRef.current) {
                               clearTimeout(subcategoryTimeoutRef.current);
                             }
                             setHoveredSubcategory(unterkategorie.slug);
                           }}
                           onMouseLeave={() => {
+                            if (isMobile) return; // No hover on mobile
                             subcategoryTimeoutRef.current = setTimeout(() => {
                               setHoveredSubcategory(null);
                             }, 200);
@@ -171,10 +179,20 @@ const CategoryNav = () => {
                               e.stopPropagation();
                               if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                               if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
-                              navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
-                              setClickedCategory(null);
-                              setHoveredCategory(null);
-                              setHoveredSubcategory(null);
+                              
+                              // Immediate navigation on mobile, no delays
+                              if (isMobile) {
+                                setClickedCategory(null);
+                                setHoveredCategory(null);
+                                setHoveredSubcategory(null);
+                                // Use setTimeout to ensure state updates before navigation
+                                setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}`), 0);
+                              } else {
+                                navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
+                                setClickedCategory(null);
+                                setHoveredCategory(null);
+                                setHoveredSubcategory(null);
+                              }
                             }}
                           >
                             {unterkategorie.title}
@@ -193,28 +211,40 @@ const CategoryNav = () => {
                                 zIndex: 100000
                               }}
                               onMouseEnter={() => {
+                                if (isMobile) return; // No hover on mobile
                                 if (subcategoryTimeoutRef.current) {
                                   clearTimeout(subcategoryTimeoutRef.current);
                                 }
                               }}
                               onMouseLeave={() => {
+                                if (isMobile) return; // No hover on mobile
                                 subcategoryTimeoutRef.current = setTimeout(() => {
                                   setHoveredSubcategory(null);
                                 }, 200);
                               }}
                             >
                                {unterkategorie.kriterien.map((kriterium) => (
-                                <div
+                               <div
                                   key={kriterium.slug}
                                   className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                                     if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
-                                    navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
-                                    setClickedCategory(null);
-                                    setHoveredCategory(null);
-                                    setHoveredSubcategory(null);
+                                    
+                                    // Immediate navigation on mobile, no delays
+                                    if (isMobile) {
+                                      setClickedCategory(null);
+                                      setHoveredCategory(null);
+                                      setHoveredSubcategory(null);
+                                      // Use setTimeout to ensure state updates before navigation
+                                      setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`), 0);
+                                    } else {
+                                      navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
+                                      setClickedCategory(null);
+                                      setHoveredCategory(null);
+                                      setHoveredSubcategory(null);
+                                    }
                                   }}
                                 >
                                   {kriterium.title}
@@ -235,9 +265,17 @@ const CategoryNav = () => {
                           onClick={(e) => {
                             e.stopPropagation();
                             if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
-                            navigate(`/${kategorie.slug}/${kriterium.slug}`);
-                            setClickedCategory(null);
-                            setHoveredCategory(null);
+                            
+                            // Immediate navigation on mobile, no delays
+                            if (isMobile) {
+                              setClickedCategory(null);
+                              setHoveredCategory(null);
+                              setTimeout(() => navigate(`/${kategorie.slug}/${kriterium.slug}`), 0);
+                            } else {
+                              navigate(`/${kategorie.slug}/${kriterium.slug}`);
+                              setClickedCategory(null);
+                              setHoveredCategory(null);
+                            }
                           }}
                         >
                           {kriterium.title}
@@ -251,9 +289,17 @@ const CategoryNav = () => {
                         onClick={(e) => {
                           e.stopPropagation();
                           if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
-                          navigate(`/${kategorie.slug}`);
-                          setClickedCategory(null);
-                          setHoveredCategory(null);
+                          
+                          // Immediate navigation on mobile, no delays
+                          if (isMobile) {
+                            setClickedCategory(null);
+                            setHoveredCategory(null);
+                            setTimeout(() => navigate(`/${kategorie.slug}`), 0);
+                          } else {
+                            navigate(`/${kategorie.slug}`);
+                            setClickedCategory(null);
+                            setHoveredCategory(null);
+                          }
                         }}
                       >
                         Zur Übersicht →
