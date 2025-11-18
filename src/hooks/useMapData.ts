@@ -125,7 +125,11 @@ const extractCriterionData = async (
   fullData: Map<string, ScoreData>,
   criterionColumn: string
 ): Promise<Map<string, ScoreData>> => {
-  // For now, return the aggregated score as the criterion score
-  // In a full implementation, this would parse the individual criterion columns
+  console.log('[extractCriterionData] Extracting criterion column:', criterionColumn);
+  console.log('[extractCriterionData] Full data size:', fullData.size);
+  
+  // The fullData already contains the criterion-specific scores because
+  // loadScores was called with the requestedColumn parameter
+  // So we just return the fullData as-is
   return fullData;
 };
