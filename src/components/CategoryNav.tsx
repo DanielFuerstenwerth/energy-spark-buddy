@@ -130,7 +130,85 @@ const CategoryNav = () => {
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {isOpen && dropdownPosition && createPortal(
+              {/* Mobile: Simple inline dropdown - NO PORTAL */}
+              {isMobile && isOpen && (
+                <div className="absolute left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto z-[99999]">
+                  {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
+                    <div>
+                      {kategorie.unterkategorien.map((unterkategorie) => (
+                        <div key={unterkategorie.slug}>
+                          <button
+                            className="w-full text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                            onClick={() => {
+                              if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
+                                setClickedSubcategory(
+                                  clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug
+                                );
+                              } else {
+                                navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
+                                setClickedCategory(null);
+                              }
+                            }}
+                          >
+                            {unterkategorie.title}
+                            {unterkategorie.kriterien && unterkategorie.kriterien.length > 0 && (
+                              <ChevronDown className={`inline-block ml-2 w-3 h-3 transition-transform ${clickedSubcategory === unterkategorie.slug ? 'rotate-180' : ''}`} />
+                            )}
+                          </button>
+                          
+                          {clickedSubcategory === unterkategorie.slug && 
+                           unterkategorie.kriterien && 
+                           unterkategorie.kriterien.length > 0 && (
+                            <div className="pl-4 bg-accent/30">
+                              {unterkategorie.kriterien.map((kriterium) => (
+                                <button
+                                  key={kriterium.slug}
+                                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                                  onClick={() => {
+                                    navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
+                                    setClickedCategory(null);
+                                    setClickedSubcategory(null);
+                                  }}
+                                >
+                                  {kriterium.title}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
+                    <div>
+                      {kategorie.kriterien.map((kriterium) => (
+                        <button
+                          key={kriterium.slug}
+                          className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                          onClick={() => {
+                            navigate(`/${kategorie.slug}/${kriterium.slug}`);
+                            setClickedCategory(null);
+                          }}
+                        >
+                          {kriterium.title}
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <button
+                      className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary transition-colors"
+                      onClick={() => {
+                        navigate(`/${kategorie.slug}`);
+                        setClickedCategory(null);
+                      }}
+                    >
+                      Zur Übersicht →
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {/* Desktop: Portal-based dropdown with hover */}
+              {!isMobile && isOpen && dropdownPosition && createPortal(
                 <div 
                   className="min-w-[280px] md:min-w-[300px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto"
                   style={{
@@ -140,13 +218,11 @@ const CategoryNav = () => {
                     zIndex: 99999
                   }}
                   onMouseEnter={() => {
-                    if (isMobile) return; // No hover on mobile
                     if (categoryTimeoutRef.current) {
                       clearTimeout(categoryTimeoutRef.current);
                     }
                   }}
                   onMouseLeave={() => {
-                    if (isMobile) return; // No hover on mobile
                     categoryTimeoutRef.current = setTimeout(() => {
                       setHoveredCategory(null);
                       setClickedCategory(null);
