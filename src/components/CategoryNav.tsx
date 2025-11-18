@@ -7,8 +7,24 @@ const CategoryNav = () => {
   const { navData, loading } = useNavigation();
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
+  const [clickedCategory, setClickedCategory] = useState<string | null>(null);
   const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subcategoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setClickedCategory(null);
+        setHoveredCategory(null);
+        setHoveredSubcategory(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Show nothing while loading or if no data - but don't block the app
   if (loading) return null;
@@ -18,7 +34,7 @@ const CategoryNav = () => {
   }
 
   return (
-    <nav className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-[3000] touch-pan-y">
+    <nav ref={navRef} className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-[100] touch-pan-y">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center gap-4 md:gap-8 py-3 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 snap-x">
           <style>{`
@@ -42,7 +58,10 @@ const CategoryNav = () => {
               }
             }
           `}</style>
-          {navData.kategorien.map((kategorie) => (
+          {navData.kategorien.map((kategorie) => {
+            const isOpen = hoveredCategory === kategorie.slug || clickedCategory === kategorie.slug;
+            
+            return (
             <div 
               key={kategorie.slug}
               className="relative group snap-start"
@@ -59,13 +78,19 @@ const CategoryNav = () => {
                 }, 300);
               }}
             >
-              <button className="flex items-center gap-1 md:gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors py-2 whitespace-nowrap">
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
+                }}
+                className="flex items-center gap-1 md:gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors py-2 whitespace-nowrap"
+              >
                 {kategorie.title}
-                <ChevronDown className="w-3 h-3 md:w-4 md:h-4" />
+                <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {hoveredCategory === kategorie.slug && (
-                <div className="absolute top-full left-0 mt-0 min-w-[280px] md:min-w-[300px] bg-background border border-border rounded-md shadow-lg z-[3010] py-2 max-h-[70vh] overflow-y-auto">
+              {isOpen && (
+                <div className="absolute top-full left-0 mt-0 min-w-[280px] md:min-w-[300px] bg-background border border-border rounded-md shadow-lg z-[200] py-2 max-h-[70vh] overflow-y-auto">
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
@@ -104,10 +129,11 @@ const CategoryNav = () => {
                                   {kriterium.title}
                                 </Link>
                               ))}
-                            </div>
-                          )}
-                        </div>
-                      ))}
+                </div>
+              )}
+            </div>
+          );
+          })}
                     </div>
                   ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
                     <div>
