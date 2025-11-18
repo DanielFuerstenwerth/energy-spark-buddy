@@ -138,7 +138,7 @@ const CategoryNav = () => {
                       {kategorie.unterkategorien.map((unterkategorie) => (
                         <div key={unterkategorie.slug}>
                           <button
-                            className="w-full text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                            className="w-full text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors flex items-center justify-between"
                             onClick={() => {
                               if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
                                 setClickedSubcategory(
@@ -150,20 +150,20 @@ const CategoryNav = () => {
                               }
                             }}
                           >
-                            {unterkategorie.title}
+                            <span>{unterkategorie.title}</span>
                             {unterkategorie.kriterien && unterkategorie.kriterien.length > 0 && (
-                              <ChevronDown className={`inline-block ml-2 w-3 h-3 transition-transform ${clickedSubcategory === unterkategorie.slug ? 'rotate-180' : ''}`} />
+                              <ChevronDown className={`w-3 h-3 transition-transform ${clickedSubcategory === unterkategorie.slug ? 'rotate-180' : ''}`} />
                             )}
                           </button>
                           
                           {clickedSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
                            unterkategorie.kriterien.length > 0 && (
-                            <div className="pl-4 bg-accent/30">
+                            <div className="bg-accent/20 border-l-2 border-primary/40 ml-2">
                               {unterkategorie.kriterien.map((kriterium) => (
                                 <button
                                   key={kriterium.slug}
-                                  className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                                  className="w-full text-left px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                   onClick={() => {
                                     navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
                                     setClickedCategory(null);
