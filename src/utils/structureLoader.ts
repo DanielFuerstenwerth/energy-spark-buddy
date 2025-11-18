@@ -218,6 +218,11 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
     
     const mapsConfig: Record<string, any> = {};
     
+    // Define local fallback files for known routes
+    const localFallbacks: Record<string, string> = {
+      'EHH/zvNE': '/data/scores_ehh_zvne.csv'
+    };
+    
     rows.forEach((row, index) => {
       // Skip rows without required fields
       if (!row.kategorie_slug || !row.unterkategorie_slug) {
@@ -238,9 +243,10 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
           mapsConfig[subKey] = {
-            sheet: exportUrl
+            sheet: exportUrl,
+            fallback: localFallbacks[subKey] // Add fallback if available
           };
-          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} -> gid=${gid}`);
+          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} -> gid=${gid}${localFallbacks[subKey] ? ', fallback=' + localFallbacks[subKey] : ''}`);
         } else {
           console.warn(`[buildMapsConfig] Could not extract sheetId or gid from URL in row ${index}:`, row.sheet_url);
         }
@@ -262,6 +268,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
           // Until criterion-specific columns are added to the sheet
           mapsConfig[critKey] = {
             sheet: exportUrl,
+            fallback: localFallbacks[subKey], // Use same fallback as parent
             // Try to use criterion column if it exists, fallback to aggregated_score
             criterion_column: row.kriterium_slug
           };

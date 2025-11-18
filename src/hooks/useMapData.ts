@@ -5,6 +5,7 @@ interface MapConfig {
   [key: string]: {
     sheet: string;
     criterion_column?: string;
+    fallback?: string;
   };
 }
 
@@ -60,11 +61,13 @@ export const useMapData = (route: string) => {
         }
 
         console.log(`[useMapData] Loading scores from: ${routeConfig.sheet}`);
+        console.log(`[useMapData] Fallback URL: ${routeConfig.fallback || 'none'}`);
         
         // Load score data from Google Sheets
         const data = await loadScores(routeConfig.sheet, {
           aggregatedColumn: 'aggregated_score',
           requestedColumn: routeConfig.criterion_column,
+          fallbackUrl: routeConfig.fallback,
         });
         console.log(`[useMapData] Loaded ${data.size} VNB scores`);
         

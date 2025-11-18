@@ -55,7 +55,7 @@ export async function loadAllVnbNames(): Promise<Map<string, string>> {
 
 export async function loadScores(
   url: string,
-  opts?: { aggregatedColumn?: string; requestedColumn?: string }
+  opts?: { aggregatedColumn?: string; requestedColumn?: string; fallbackUrl?: string }
 ): Promise<Map<string, ScoreData>> {
   console.log('[loadScores] Loading scores from:', url, 'opts:', opts);
 
@@ -113,9 +113,24 @@ export async function loadScores(
     text.toLowerCase().includes('<!doctype');
 
   if (looksInvalid) {
-    console.warn('[loadScores] Invalid data from primary source, using fallback');
+    console.warn('[loadScores] Invalid data from primary source, using general fallback');
     // Fallback to local CSV if remote is unavailable
     text = await fetchText('/data/scores_ggv.csv');
+  } else {
+    // Check if this looks like the structure sheet (wrong tab exported)
+    const firstLine = text.split('\n')[0];
+    if (firstLine.includes('Kategorie_slug') || firstLine.includes('Kategorie_name')) {
+      console.warn('[loadScores] Detected structure sheet instead of scores data');
+      
+      // Try route-specific fallback first
+      if (opts?.fallbackUrl) {
+        console.log('[loadScores] Trying route-specific fallback:', opts.fallbackUrl);
+        text = await fetchText(opts.fallbackUrl);
+      } else {
+        console.warn('[loadScores] Using general fallback');
+        text = await fetchText('/data/scores_ggv.csv');
+      }
+    }
   }
   
   const lines = text.trim().split(/\r?\n/);
