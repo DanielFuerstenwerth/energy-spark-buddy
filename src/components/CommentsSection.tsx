@@ -182,13 +182,13 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
   };
 
   return (
-    <div className="space-y-6 mt-12">
-      <div className="flex items-center justify-between border-t pt-8">
-        <h3 className="text-2xl font-bold flex items-center gap-2">
-          <MessageCircle className="w-6 h-6" />
+    <div className="space-y-6 mt-8 md:mt-12">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between border-t pt-6 md:pt-8 gap-3">
+        <h3 className="text-xl md:text-2xl font-bold flex items-center gap-2">
+          <MessageCircle className="w-5 h-5 md:w-6 md:h-6" />
           Kommentare {vnbName && `zu ${vnbName}`}
         </h3>
-        <Button onClick={() => setShowForm(!showForm)} variant="outline">
+        <Button onClick={() => setShowForm(!showForm)} variant="outline" className="w-full sm:w-auto min-h-[44px]">
           {showForm ? 'Abbrechen' : 'Kommentieren'}
         </Button>
       </div>
@@ -202,16 +202,17 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="comment-text">Ihr Kommentar *</Label>
-                <Textarea
-                  id="comment-text"
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder="Teilen Sie Ihre Erfahrungen..."
-                  rows={4}
-                  required
-                />
+        <Textarea
+          id="comment-text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Teilen Sie Ihre Erfahrungen..."
+          rows={4}
+          required
+          className="min-h-[100px]"
+        />
               </div>
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="author-name">Name (optional)</Label>
                   <Input
@@ -232,7 +233,7 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
                   />
                 </div>
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
                 <div className="space-y-1">
                   <p className="text-sm text-muted-foreground">
                     * Kommentare werden nach Freigabe sichtbar
@@ -242,7 +243,7 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
                     Max. 5 Kommentare pro Stunde
                   </p>
                 </div>
-                <Button type="submit" disabled={submitting}>
+                <Button type="submit" disabled={submitting} className="w-full md:w-auto min-h-[44px]">
                   {submitting ? 'Wird gesendet...' : 'Absenden'}
                 </Button>
               </div>
