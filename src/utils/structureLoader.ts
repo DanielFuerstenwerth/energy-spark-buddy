@@ -26,6 +26,7 @@ interface NavigationKategorie {
   title: string;
   tabs: string[];
   unterkategorien: NavigationUnterkategorie[];
+  kriterien?: NavigationKriterium[];
 }
 
 export interface NavigationStructure {
@@ -129,7 +130,8 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
         slug: row.kategorie_slug,
         title: row.kategorie_name,
         tabs: [],
-        unterkategorien: []
+        unterkategorien: [],
+        kriterien: []
       });
     }
     
@@ -139,8 +141,21 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     let ukSlug = row.unterkategorie_slug || row.unterkategorie_name;
     let ukName = row.unterkategorie_name || row.unterkategorie_slug;
     
-    // Skip if no valid unterkategorie info
-    if (!ukSlug || ukSlug === '-') return;
+    // If no valid unterkategorie, check if this is a direct kriterium under category
+    if (!ukSlug || ukSlug === '-') {
+      // Try to add as direct kriterium to category
+      if (row.kriterium_slug && row.kriterium_name && row.kriterium_name !== '-') {
+        const existingKrit = kategorie.kriterien!.find(k => k.slug === row.kriterium_slug);
+        if (!existingKrit) {
+          console.log('[buildNavigationStructure] Adding direct kriterium to category:', row.kriterium_slug, '-', row.kriterium_name);
+          kategorie.kriterien!.push({
+            slug: row.kriterium_slug,
+            title: row.kriterium_name
+          });
+        }
+      }
+      return;
+    }
     
     // Find or create unterkategorie
     let unterkategorie = kategorie.unterkategorien.find(
