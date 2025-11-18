@@ -25,6 +25,8 @@ import AnliegenZvne from "./pages/anliegen/Zvne";
 import AnliegenDv from "./pages/anliegen/Dv";
 import AnliegenSmgw from "./pages/anliegen/Smgw";
 import AnliegenBidi from "./pages/anliegen/Bidi";
+import Admin from "./pages/Admin";
+import SandraChatWidget from "./components/SandraChatWidget";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <SandraChatWidget />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<NewHome />} />
@@ -67,6 +70,7 @@ const App = () => (
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/admin/comments" element={<AdminComments />} />
           <Route path="/admin/vnb-mapping" element={<AdminVnbMapping />} />
           <Route path="*" element={<NotFound />} />
