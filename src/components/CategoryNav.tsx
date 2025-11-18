@@ -167,7 +167,10 @@ const CategoryNav = () => {
                           <Link
                             to={`/${kategorie.slug}/${unterkategorie.slug}`}
                             className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                              if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                               setClickedCategory(null);
                               setHoveredCategory(null);
                               setHoveredSubcategory(null);
@@ -199,12 +202,15 @@ const CategoryNav = () => {
                                 }, 200);
                               }}
                             >
-                              {unterkategorie.kriterien.map((kriterium) => (
+                               {unterkategorie.kriterien.map((kriterium) => (
                                 <Link
                                   key={kriterium.slug}
                                   to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
                                   className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
+                                    if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                                     setClickedCategory(null);
                                     setHoveredCategory(null);
                                     setHoveredSubcategory(null);
@@ -226,7 +232,9 @@ const CategoryNav = () => {
                           key={kriterium.slug}
                           to={`/${kategorie.slug}/${kriterium.slug}`}
                           className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                             setClickedCategory(null);
                             setHoveredCategory(null);
                           }}
@@ -240,7 +248,9 @@ const CategoryNav = () => {
                       <Link
                         to={`/${kategorie.slug}`}
                         className="block text-sm text-foreground hover:text-primary transition-colors"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                           setClickedCategory(null);
                           setHoveredCategory(null);
                         }}
