@@ -1,7 +1,9 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import * as topojson from 'topojson-client';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
+import { getVnbNameFromId, ensureVnbMappingLoaded } from '@/utils/vnbMapping';
 
 interface MapA14Props {
   onRegionClick: (vnbId: string, vnbName: string) => void;
@@ -61,18 +63,22 @@ const MapA14 = forwardRef<MapA14Handle, MapA14Props>(({ onRegionClick }, ref) =>
       opacity: 1
     }).addTo(map.current);
 
-    // Load real GeoJSON and scores from Google Sheets
+    // Load TopoJSON polygons, VNB mapping, and scores
     Promise.all([
-      fetch('/data/vnb_regions.geojson').then(r => r.json()),
+      fetch('/data/Polygone_ID.json').then(r => r.json()),
+      ensureVnbMappingLoaded(),
       loadScoresFromGoogleSheets()
-    ]).then(([geoData, scoresMap]) => {
+    ]).then(([topoData, _, scoresMap]) => {
+      // Convert TopoJSON to GeoJSON
+      const geoData = topojson.feature(topoData, topoData.objects.data) as any;
+      
       if (!map.current) return;
 
       geoLayer.current = L.geoJSON(geoData, {
         style: (feature: any) => {
           const vnbId = feature?.id;
           const scoreData = vnbId ? scoresMap.get(vnbId) : null;
-          const vnbName = scoreData?.vnb_name?.toLowerCase() || '';
+          const vnbName = scoreData?.vnb_name?.toLowerCase() || getVnbNameFromId(vnbId).toLowerCase() || '';
           
           // All VNBs are red except Enercity Netz (green)
           let fillColor = '#DC2626'; // Red
@@ -91,7 +97,7 @@ const MapA14 = forwardRef<MapA14Handle, MapA14Props>(({ onRegionClick }, ref) =>
         onEachFeature: (feature: any, layer) => {
           const vnbId = feature?.id;
           const scoreData = scoresMap.get(vnbId);
-          const vnbName = scoreData?.vnb_name || vnbId;
+          const vnbName = scoreData?.vnb_name || getVnbNameFromId(vnbId);
 
           layer.bindTooltip(
             vnbName,
