@@ -13,7 +13,7 @@ const CategoryNav = () => {
   if (loading || !navData) return null;
 
   return (
-    <nav className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-[100]">
+    <nav className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-[3000]">
       <div className="container mx-auto px-6">
         <div className="flex items-center gap-8 py-3">
           {navData.kategorien.map((kategorie) => (
@@ -39,7 +39,7 @@ const CategoryNav = () => {
               </button>
 
               {hoveredCategory === kategorie.slug && (
-                <div className="absolute top-full left-0 mt-0 min-w-[300px] bg-background border border-border rounded-md shadow-lg z-[110] py-2">
+                <div className="absolute top-full left-0 mt-0 min-w-[300px] bg-background border border-border rounded-md shadow-lg z-[3010] py-2">
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
@@ -68,7 +68,7 @@ const CategoryNav = () => {
                           {hoveredSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
                            unterkategorie.kriterien.length > 0 && (
-                            <div className="absolute left-full top-0 ml-1 min-w-[250px] bg-background border border-border rounded-md shadow-lg z-[120] py-2">
+                            <div className="absolute left-full top-0 ml-1 min-w-[250px] bg-background border border-border rounded-md shadow-lg z-[3020] py-2">
                               {unterkategorie.kriterien.map((kriterium) => (
                                 <Link
                                   key={kriterium.slug}
