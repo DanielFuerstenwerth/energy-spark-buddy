@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useNavigation } from '@/hooks/useNavigation';
@@ -132,8 +132,7 @@ const CategoryNav = () => {
                 </div>
               )}
             </div>
-          );
-          })}
+          ))}
                     </div>
                   ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
                     <div>
@@ -160,7 +159,8 @@ const CategoryNav = () => {
                 </div>
               )}
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
     </nav>
