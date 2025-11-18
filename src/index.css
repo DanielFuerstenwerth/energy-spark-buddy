@@ -168,13 +168,23 @@ All colors MUST be HSL.
     font-feature-settings: "kern" 1, "liga" 1;
   }
   
-  /* Ensure Leaflet map stays below navigation */
-  .leaflet-container {
+  /* CRITICAL: Force Leaflet map and all its components to stay below navigation */
+  .leaflet-container,
+  .leaflet-pane,
+  .leaflet-tile-pane,
+  .leaflet-overlay-pane,
+  .leaflet-shadow-pane,
+  .leaflet-marker-pane,
+  .leaflet-tooltip-pane,
+  .leaflet-popup-pane,
+  .leaflet-map-pane,
+  .leaflet-control-container {
     z-index: 1 !important;
   }
   
-  .leaflet-pane {
-    z-index: auto !important;
+  .leaflet-top,
+  .leaflet-bottom {
+    z-index: 1 !important;
   }
   
   /* Professional typography scale */
