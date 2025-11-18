@@ -10,10 +10,12 @@ const CategoryNav = () => {
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null);
+  const [criteriaPosition, setCriteriaPosition] = useState<{ top: number; left: number } | null>(null);
   const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subcategoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+  const subcategoryRefs = useRef<{ [key: string]: HTMLElement | null }>({});
 
   // Update dropdown position when category changes
   useEffect(() => {
@@ -29,6 +31,20 @@ const CategoryNav = () => {
       setDropdownPosition(null);
     }
   }, [clickedCategory, hoveredCategory]);
+
+  // Update criteria position when subcategory is hovered
+  useEffect(() => {
+    if (hoveredSubcategory && subcategoryRefs.current[hoveredSubcategory]) {
+      const element = subcategoryRefs.current[hoveredSubcategory];
+      const rect = element!.getBoundingClientRect();
+      setCriteriaPosition({
+        top: rect.top,
+        left: rect.right + 4
+      });
+    } else {
+      setCriteriaPosition(null);
+    }
+  }, [hoveredSubcategory]);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -117,13 +133,25 @@ const CategoryNav = () => {
                     left: `${dropdownPosition.left}px`,
                     zIndex: 99999
                   }}
+                  onMouseEnter={() => {
+                    if (categoryTimeoutRef.current) {
+                      clearTimeout(categoryTimeoutRef.current);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    categoryTimeoutRef.current = setTimeout(() => {
+                      setHoveredCategory(null);
+                      setClickedCategory(null);
+                      setHoveredSubcategory(null);
+                    }, 300);
+                  }}
                 >
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
                         <div 
-                          key={unterkategorie.slug} 
-                          className="relative"
+                          key={unterkategorie.slug}
+                          ref={(el) => subcategoryRefs.current[unterkategorie.slug] = el}
                           onMouseEnter={() => {
                             if (subcategoryTimeoutRef.current) {
                               clearTimeout(subcategoryTimeoutRef.current);
@@ -133,33 +161,63 @@ const CategoryNav = () => {
                           onMouseLeave={() => {
                             subcategoryTimeoutRef.current = setTimeout(() => {
                               setHoveredSubcategory(null);
-                            }, 300);
+                            }, 200);
                           }}
                         >
                           <Link
                             to={`/${kategorie.slug}/${unterkategorie.slug}`}
                             className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                            onClick={() => {
+                              setClickedCategory(null);
+                              setHoveredCategory(null);
+                              setHoveredSubcategory(null);
+                            }}
                           >
                             {unterkategorie.title}
                           </Link>
                           
                           {hoveredSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
-                           unterkategorie.kriterien.length > 0 && (
-                            <div className="absolute left-full top-0 ml-1 min-w-[250px] bg-background border border-border rounded-md shadow-lg z-[10001] py-2">
+                           unterkategorie.kriterien.length > 0 && 
+                           criteriaPosition && createPortal(
+                            <div 
+                              className="min-w-[250px] bg-background border border-border rounded-md shadow-lg py-2"
+                              style={{
+                                position: 'fixed',
+                                top: `${criteriaPosition.top}px`,
+                                left: `${criteriaPosition.left}px`,
+                                zIndex: 100000
+                              }}
+                              onMouseEnter={() => {
+                                if (subcategoryTimeoutRef.current) {
+                                  clearTimeout(subcategoryTimeoutRef.current);
+                                }
+                              }}
+                              onMouseLeave={() => {
+                                subcategoryTimeoutRef.current = setTimeout(() => {
+                                  setHoveredSubcategory(null);
+                                }, 200);
+                              }}
+                            >
                               {unterkategorie.kriterien.map((kriterium) => (
                                 <Link
                                   key={kriterium.slug}
                                   to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
                                   className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                                  onClick={() => {
+                                    setClickedCategory(null);
+                                    setHoveredCategory(null);
+                                    setHoveredSubcategory(null);
+                                  }}
                                 >
                                   {kriterium.title}
                                 </Link>
                               ))}
-                </div>
-              )}
-            </div>
-          ))}
+                            </div>,
+                            document.body
+                          )}
+                        </div>
+                      ))}
                     </div>
                   ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
                     <div>
@@ -168,6 +226,10 @@ const CategoryNav = () => {
                           key={kriterium.slug}
                           to={`/${kategorie.slug}/${kriterium.slug}`}
                           className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                          onClick={() => {
+                            setClickedCategory(null);
+                            setHoveredCategory(null);
+                          }}
                         >
                           {kriterium.title}
                         </Link>
@@ -178,6 +240,10 @@ const CategoryNav = () => {
                       <Link
                         to={`/${kategorie.slug}`}
                         className="block text-sm text-foreground hover:text-primary transition-colors"
+                        onClick={() => {
+                          setClickedCategory(null);
+                          setHoveredCategory(null);
+                        }}
                       >
                         Zur Übersicht →
                       </Link>
