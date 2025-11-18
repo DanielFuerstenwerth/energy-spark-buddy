@@ -34,43 +34,69 @@ export const useNavigation = () => {
 
   useEffect(() => {
     const loadNavigation = async () => {
+      // Set a timeout to ensure loading state doesn't block the app indefinitely
+      const timeoutId = setTimeout(() => {
+        console.warn('[useNavigation] Loading timeout reached, using fallback');
+        setLoading(false);
+      }, 5000); // 5 second timeout
+
       try {
         // Invalidate old cache key to force reload after updates
         localStorage.removeItem('nav_structure_cache');
         // Check cache first (versioned)
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
-          const { data, timestamp } = JSON.parse(cached);
-          if (Date.now() - timestamp < CACHE_DURATION) {
-            setNavData(data);
-            setLoading(false);
-            return;
+          try {
+            const { data, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp < CACHE_DURATION) {
+              clearTimeout(timeoutId);
+              setNavData(data);
+              setLoading(false);
+              return;
+            }
+          } catch (cacheError) {
+            console.error('[useNavigation] Cache parse error:', cacheError);
+            localStorage.removeItem(CACHE_KEY);
           }
         }
 
-        // Load from Google Sheets
-        const structure = await loadStructureFromSheet();
+        // Load from Google Sheets with timeout
+        const structure = await Promise.race([
+          loadStructureFromSheet(),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Google Sheets load timeout')), 4000)
+          )
+        ]);
         
         // Cache the result
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          data: structure,
-          timestamp: Date.now()
-        }));
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({
+            data: structure,
+            timestamp: Date.now()
+          }));
+        } catch (storageError) {
+          console.warn('[useNavigation] Could not cache navigation:', storageError);
+        }
         
-        setNavData(structure);
+        clearTimeout(timeoutId);
+        setNavData(structure as any);
         setLoading(false);
       } catch (err) {
-        console.error('Error loading navigation data:', err);
+        console.error('[useNavigation] Error loading navigation data:', err);
         
         // Fallback to local nav.json
         try {
           const response = await fetch('/data/nav.json');
+          if (!response.ok) throw new Error(`Failed to load nav.json: ${response.status}`);
           const data = await response.json();
+          clearTimeout(timeoutId);
           setNavData(data);
+          setLoading(false);
         } catch (fallbackErr) {
-          console.error('Fallback failed:', fallbackErr);
+          console.error('[useNavigation] Fallback failed:', fallbackErr);
+          clearTimeout(timeoutId);
+          setLoading(false);
         }
-        setLoading(false);
       }
     };
 

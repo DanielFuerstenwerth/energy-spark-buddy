@@ -10,7 +10,12 @@ const CategoryNav = () => {
   const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const subcategoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  if (loading || !navData) return null;
+  // Show nothing while loading or if no data - but don't block the app
+  if (loading) return null;
+  if (!navData) {
+    console.warn('[CategoryNav] No navigation data available');
+    return null;
+  }
 
   return (
     <nav className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-[3000] touch-pan-y">
