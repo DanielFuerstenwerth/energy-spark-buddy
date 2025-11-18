@@ -18,13 +18,20 @@ All colors MUST be HSL.
 @layer base {
   :root {
     /* Modern professional design system with blue/purple accent */
-    /* Core score colors (5-level scale: critical → poor → moderate → good → excellent) */
+    /* Score colors for visualization (5-level scale from worst to best) */
+    --score-1: 0 84% 25%;             /* Dark red for score <= -50 */
+    --score-2: 0 72% 42%;             /* Red for score <= -25 */
+    --score-3: 14 85% 50%;            /* Orange for score <= 0 */
+    --score-4: 142 76% 45%;           /* Green for score <= 25 */
+    --score-5: 158 64% 32%;           /* Dark green for score > 25 */
+    --score-unknown: 220 13% 91%;     /* Light gray for no data */
+    
+    /* Core score colors (semantic names for backward compatibility) */
     --score-critical: 0 72% 42%;      /* Deep red #B91C1C */
     --score-poor: 14 85% 50%;         /* Vibrant orange #F97316 */
     --score-moderate: 45 93% 47%;     /* Warm yellow #EAB308 */
     --score-good: 142 76% 45%;        /* Fresh green #10B981 */
     --score-excellent: 158 64% 32%;   /* Deep green #047857 */
-    --score-unknown: 220 13% 91%;     /* Light gray #E5E7EB */
     
     /* Primary brand - modern blue */
     --primary: 217 91% 60%;

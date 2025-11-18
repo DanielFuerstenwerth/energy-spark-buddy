@@ -226,27 +226,27 @@ export async function loadScores(
 }
 
 export function getColor(score: number | null | undefined): string {
-  // Handle null, undefined, and 0 as same color
-  if (score === null || score === undefined || score === 0) return 'hsl(var(--neutral))';
+  if (score === null || score === undefined) return 'hsl(var(--score-unknown))';
   
-  if (score <= -50) return 'hsl(var(--neg-50))';
-  if (score < 0) return 'hsl(var(--neg-25))';
-  if (score < 50) return 'hsl(var(--pos-25))';
-  return 'hsl(var(--pos-50))';
+  if (score <= -50) return 'hsl(var(--score-1))';      // dark red
+  if (score <= -25) return 'hsl(var(--score-2))';      // red
+  if (score <= 0) return 'hsl(var(--score-3))';        // orange
+  if (score <= 25) return 'hsl(var(--score-4))';       // green
+  return 'hsl(var(--score-5))';                        // dark green
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['≤ -50', '< 0', '0 / No Data', '< 50', '≥ 50'];
+  const labels = ['≤ -50', '-50 bis -25', '-25 bis 0', '0 bis 25', '> 25'];
   return labels[index] || '';
 }
 
 export function getColorByIndex(index: number): string {
   const colors = [
-    'hsl(var(--neg-50))',
-    'hsl(var(--neg-25))',
-    'hsl(var(--neutral))',
-    'hsl(var(--pos-25))',
-    'hsl(var(--pos-50))'
+    'hsl(var(--score-1))',      // dark red: ≤ -50
+    'hsl(var(--score-2))',      // red: -50 to -25
+    'hsl(var(--score-3))',      // orange: -25 to 0
+    'hsl(var(--score-4))',      // green: 0 to 25
+    'hsl(var(--score-5))'       // dark green: > 25
   ];
-  return colors[index] || 'hsl(var(--neutral))';
+  return colors[index] || 'hsl(var(--score-unknown))';
 }

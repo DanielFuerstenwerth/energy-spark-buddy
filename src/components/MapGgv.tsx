@@ -81,13 +81,14 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const scoreData = vnbId ? scoresMap.get(vnbId) : null;
           const score = scoreData?.score;
           
-          let fillColor = '#E5E7EB';
+          // Use HSL colors from design system
+          let fillColor = 'hsl(220, 13%, 91%)'; // --score-unknown
           if (score !== null && score !== undefined) {
-            if (score <= -50) fillColor = '#7F1D1D';
-            else if (score <= -25) fillColor = '#DC2626';
-            else if (score < 25) fillColor = '#9CA3AF';
-            else if (score < 50) fillColor = '#16A34A';
-            else fillColor = '#065F46';
+            if (score <= -50) fillColor = 'hsl(0, 84%, 25%)';      // --score-1: dark red
+            else if (score <= -25) fillColor = 'hsl(0, 72%, 42%)';  // --score-2: red
+            else if (score <= 0) fillColor = 'hsl(14, 85%, 50%)';   // --score-3: orange
+            else if (score <= 25) fillColor = 'hsl(142, 76%, 45%)'; // --score-4: green
+            else fillColor = 'hsl(158, 64%, 32%)';                  // --score-5: dark green
           }
 
           return {
