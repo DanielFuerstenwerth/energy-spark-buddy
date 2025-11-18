@@ -84,7 +84,7 @@ const UniversalSubcategoryPage = () => {
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             <div className="space-y-4">
-              <div className="h-[400px] md:h-[500px]">
+              <div className="h-[400px] md:h-[500px]" style={{ zIndex: 1 }}>
                 <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
               </div>
               <MapLegend />
