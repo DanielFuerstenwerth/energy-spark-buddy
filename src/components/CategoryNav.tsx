@@ -147,11 +147,16 @@ const CategoryNav = () => {
                           <button
                             className="w-full text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors flex items-center justify-between"
                             onClick={() => {
+                              console.log('[Mobile] Unterkategorie clicked:', unterkategorie.slug);
+                              console.log('[Mobile] Has kriterien?', unterkategorie.kriterien?.length || 0);
+                              console.log('[Mobile] Current clickedSubcategory:', clickedSubcategory);
+                              
                               if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
-                                setClickedSubcategory(
-                                  clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug
-                                );
+                                const newValue = clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug;
+                                console.log('[Mobile] Setting clickedSubcategory to:', newValue);
+                                setClickedSubcategory(newValue);
                               } else {
+                                console.log('[Mobile] Navigating to:', `/${kategorie.slug}/${unterkategorie.slug}`);
                                 navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
                                 setClickedCategory(null);
                               }
@@ -172,6 +177,7 @@ const CategoryNav = () => {
                                   key={kriterium.slug}
                                   className="w-full text-left px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                   onClick={() => {
+                                    console.log('[Mobile] Kriterium clicked:', kriterium.slug);
                                     navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
                                     setClickedCategory(null);
                                     setClickedSubcategory(null);
