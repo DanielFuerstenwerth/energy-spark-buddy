@@ -261,6 +261,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
       }
       
       const subKey = `${row.kategorie_slug}/${row.unterkategorie_slug}`;
+      const subKeyLower = subKey.toLowerCase(); // Add lowercase version
       
       // Add unterkategorie-level map config
       // This is for pages like /EHH/zvNE
@@ -273,11 +274,13 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-          mapsConfig[subKey] = {
+          const config = {
             sheet: exportUrl,
             fallback: localFallbacks[subKey] // Add fallback if available
           };
-          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} -> gid=${gid}${localFallbacks[subKey] ? ', fallback=' + localFallbacks[subKey] : ''}`);
+          mapsConfig[subKey] = config;
+          mapsConfig[subKeyLower] = config; // Add lowercase version for case-insensitive lookup
+          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} (+ lowercase) -> gid=${gid}${localFallbacks[subKey] ? ', fallback=' + localFallbacks[subKey] : ''}`);
         } else {
           console.warn(`[buildMapsConfig] Could not extract sheetId or gid from URL in row ${index}:`, row.sheet_url);
         }
@@ -287,6 +290,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
       // This is for pages like /EHH/zvNE/modul3-ueber-mako
       if (row.kriterium_slug && row.kriterium_slug !== '-' && row.sheet_url && row.sheet_url.trim() !== '') {
         const critKey = `${row.kategorie_slug}/${row.unterkategorie_slug}/${row.kriterium_slug}`;
+        const critKeyLower = critKey.toLowerCase(); // Add lowercase version
         
         const sheetId = row.sheet_url.match(/\/d\/([^\/]+)/)?.[1];
         const gidMatch = row.sheet_url.match(/[?&#]gid=(\d+)/);
@@ -297,13 +301,15 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
           
           // For now, use the unterkategorie sheet with the aggregated score
           // Until criterion-specific columns are added to the sheet
-          mapsConfig[critKey] = {
+          const config = {
             sheet: exportUrl,
             fallback: localFallbacks[subKey], // Use same fallback as parent
             // Try to use criterion column if it exists, fallback to aggregated_score
             criterion_column: row.kriterium_slug
           };
-          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}, column=${row.kriterium_slug} (fallback to aggregated if not found)`);
+          mapsConfig[critKey] = config;
+          mapsConfig[critKeyLower] = config; // Add lowercase version for case-insensitive lookup
+          console.log(`[buildMapsConfig] Added criterion config: ${critKey} (+ lowercase) -> gid=${gid}, column=${row.kriterium_slug} (fallback to aggregated if not found)`);
         }
       }
     });
