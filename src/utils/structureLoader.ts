@@ -39,7 +39,15 @@ export async function loadStructureFromSheet(): Promise<NavigationStructure> {
   console.log('[loadStructureFromSheet] Starting to load structure...');
   try {
     console.log('[loadStructureFromSheet] Fetching from:', STRUCTURE_SHEET_URL);
-    const response = await fetch(STRUCTURE_SHEET_URL);
+    
+    // Add timeout for fetch
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    
+    const response = await fetch(STRUCTURE_SHEET_URL, { 
+      signal: controller.signal 
+    }).finally(() => clearTimeout(timeoutId));
+    
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -47,22 +55,45 @@ export async function loadStructureFromSheet(): Promise<NavigationStructure> {
     const text = await response.text();
     console.log('[loadStructureFromSheet] Received text length:', text.length);
     
+    // Validate that we got actual CSV data
+    if (!text || text.trim().length < 10 || !text.includes('\n')) {
+      throw new Error('Invalid or empty response from structure sheet');
+    }
+    
     const rows = parseCSV(text);
     console.log('[loadStructureFromSheet] Parsed rows:', rows.length);
     
+    if (rows.length === 0) {
+      throw new Error('No rows parsed from structure sheet');
+    }
+    
     const structure = buildNavigationStructure(rows);
     console.log('[loadStructureFromSheet] Built navigation structure with', structure.kategorien.length, 'categories');
+    
+    if (!structure.kategorien || structure.kategorien.length === 0) {
+      throw new Error('No categories found in structure');
+    }
     
     return structure;
   } catch (error) {
     console.error('[loadStructureFromSheet] Error loading structure from sheet:', error);
     // Fallback to local nav.json
     console.log('[loadStructureFromSheet] Falling back to local nav.json');
-    const response = await fetch('/data/nav.json');
-    if (!response.ok) {
-      throw new Error('Failed to load fallback nav.json');
+    try {
+      const response = await fetch('/data/nav.json');
+      if (!response.ok) {
+        throw new Error(`Failed to load fallback nav.json: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('[loadStructureFromSheet] Successfully loaded fallback nav.json');
+      return data;
+    } catch (fallbackError) {
+      console.error('[loadStructureFromSheet] Fallback also failed:', fallbackError);
+      // Return minimal structure to prevent app crash
+      return {
+        kategorien: []
+      };
     }
-    return await response.json();
   }
 }
 
