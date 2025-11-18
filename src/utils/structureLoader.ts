@@ -137,9 +137,14 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     
     const kategorie = kategorienMap.get(row.kategorie_slug)!;
     
-    // Determine unterkategorie slug - use name as slug if slug is empty
-    let ukSlug = row.unterkategorie_slug || row.unterkategorie_name;
-    let ukName = row.unterkategorie_name || row.unterkategorie_slug;
+    // Determine unterkategorie slug and name
+    // Trim whitespace and check if we have valid data
+    const ukSlugRaw = (row.unterkategorie_slug || '').trim();
+    const ukNameRaw = (row.unterkategorie_name || '').trim();
+    
+    // Use name as slug if slug is empty, but prioritize slug if both exist
+    let ukSlug = ukSlugRaw || ukNameRaw;
+    let ukName = ukNameRaw || ukSlugRaw;
     
     // If no valid unterkategorie, check if this is a direct kriterium under category
     if (!ukSlug || ukSlug === '-') {
