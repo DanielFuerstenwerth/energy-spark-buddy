@@ -178,19 +178,27 @@ const CategoryNav = () => {
                             className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation();
+                              console.log('[CategoryNav] Subcategory clicked:', unterkategorie.slug, 'isMobile:', isMobile);
+                              
                               if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                               if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                               
                               // On mobile: toggle criteria if they exist, otherwise navigate
                               if (isMobile) {
                                 if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
+                                  console.log('[CategoryNav] Toggling criteria for:', unterkategorie.slug);
                                   setClickedSubcategory(
                                     clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug
                                   );
                                 } else {
-                                  setClickedCategory(null);
-                                  setHoveredCategory(null);
-                                  setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}`), 0);
+                                  console.log('[CategoryNav] Navigating to:', `/${kategorie.slug}/${unterkategorie.slug}`);
+                                  const path = `/${kategorie.slug}/${unterkategorie.slug}`;
+                                  navigate(path);
+                                  // Clear states after navigation
+                                  setTimeout(() => {
+                                    setClickedCategory(null);
+                                    setHoveredCategory(null);
+                                  }, 100);
                                 }
                               } else {
                                 navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
@@ -271,10 +279,16 @@ const CategoryNav = () => {
                                   className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    setClickedCategory(null);
-                                    setHoveredCategory(null);
-                                    setClickedSubcategory(null);
-                                    setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`), 0);
+                                    console.log('[CategoryNav] Criterion clicked:', kriterium.slug);
+                                    const path = `/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`;
+                                    console.log('[CategoryNav] Navigating to:', path);
+                                    navigate(path);
+                                    // Clear states after navigation
+                                    setTimeout(() => {
+                                      setClickedCategory(null);
+                                      setHoveredCategory(null);
+                                      setClickedSubcategory(null);
+                                    }, 100);
                                   }}
                                 >
                                   {kriterium.title}
@@ -293,15 +307,20 @@ const CategoryNav = () => {
                           className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
                           onClick={(e) => {
                             e.stopPropagation();
+                            console.log('[CategoryNav] Direct criterion clicked:', kriterium.slug);
                             if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                             
-                            // Immediate navigation on mobile, no delays
+                            const path = `/${kategorie.slug}/${kriterium.slug}`;
+                            console.log('[CategoryNav] Navigating to:', path);
+                            
                             if (isMobile) {
-                              setClickedCategory(null);
-                              setHoveredCategory(null);
-                              setTimeout(() => navigate(`/${kategorie.slug}/${kriterium.slug}`), 0);
+                              navigate(path);
+                              setTimeout(() => {
+                                setClickedCategory(null);
+                                setHoveredCategory(null);
+                              }, 100);
                             } else {
-                              navigate(`/${kategorie.slug}/${kriterium.slug}`);
+                              navigate(path);
                               setClickedCategory(null);
                               setHoveredCategory(null);
                             }
