@@ -43,7 +43,7 @@ const SandraChatWidget = () => {
       // Welcome message
       setMessages([{
         role: 'assistant',
-        text: 'Hallo, ich bin Sandra. Welche Fragen hast du?'
+        text: 'Hallo, ich bin Sandra. Ich bin ganz neu hier und lerne gerade noch sehr viel. Welche Fragen hast du?'
       }]);
     }
   }, []);
