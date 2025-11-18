@@ -168,6 +168,15 @@ All colors MUST be HSL.
     font-feature-settings: "kern" 1, "liga" 1;
   }
   
+  /* Ensure Leaflet map stays below navigation */
+  .leaflet-container {
+    z-index: 1 !important;
+  }
+  
+  .leaflet-pane {
+    z-index: auto !important;
+  }
+  
   /* Professional typography scale */
   h1 {
     @apply text-4xl md:text-5xl font-bold tracking-tight;
