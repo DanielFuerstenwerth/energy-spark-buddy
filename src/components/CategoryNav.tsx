@@ -50,11 +50,14 @@ const CategoryNav = () => {
     }
   }, [hoveredSubcategory]);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside (mobile only)
   useEffect(() => {
+    if (!isMobile) return;
+    
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
         setClickedCategory(null);
+        setClickedSubcategory(null);
         setHoveredCategory(null);
         setHoveredSubcategory(null);
       }
@@ -62,7 +65,7 @@ const CategoryNav = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [isMobile]);
 
   // Show nothing while loading or if no data - but don't block the app
   if (loading) return null;
@@ -132,7 +135,11 @@ const CategoryNav = () => {
 
               {/* Mobile: Portal dropdown to escape stacking context */}
               {isMobile && isOpen && dropdownPosition && createPortal(
-                <div className="min-w-[280px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto" style={{ position: 'fixed', top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px`, zIndex: 999999 }}>
+                <div 
+                  className="min-w-[280px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto" 
+                  style={{ position: 'fixed', top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px`, zIndex: 999999 }}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
