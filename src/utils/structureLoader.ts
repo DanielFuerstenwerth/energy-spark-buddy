@@ -247,7 +247,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
       }
       
       // Add criterion-level map config
-      // This is for pages like /EHH/zvNE/Modul1&2
+      // This is for pages like /EHH/zvNE/modul3-ueber-mako
       if (row.kriterium_slug && row.kriterium_slug !== '-' && row.sheet_url && row.sheet_url.trim() !== '') {
         const critKey = `${row.kategorie_slug}/${row.unterkategorie_slug}/${row.kriterium_slug}`;
         
@@ -261,7 +261,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
             sheet: exportUrl,
             criterion_column: row.kriterium_slug
           };
-          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}`);
+          console.log(`[buildMapsConfig] Added criterion config: ${critKey} -> gid=${gid}, column=${row.kriterium_slug}`);
         }
       }
     });
