@@ -44,6 +44,33 @@ export type Database = {
         }
         Relationships: []
       }
+      classification_examples: {
+        Row: {
+          categories: string | null
+          comment: string | null
+          created_at: string | null
+          id: string
+          user_question: string
+          vnb: string | null
+        }
+        Insert: {
+          categories?: string | null
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          user_question: string
+          vnb?: string | null
+        }
+        Update: {
+          categories?: string | null
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          user_question?: string
+          vnb?: string | null
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           author_email: string | null
@@ -85,6 +112,68 @@ export type Database = {
           vnb_name?: string | null
         }
         Relationships: []
+      }
+      conversations: {
+        Row: {
+          created_at: string | null
+          id: string
+          session_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          session_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          session_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          conversation_id: string
+          created_at: string | null
+          detected_categories: string | null
+          detected_vnb: string | null
+          feedback: string | null
+          id: string
+          legal_refs: string | null
+          role: string
+          text: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string | null
+          detected_categories?: string | null
+          detected_vnb?: string | null
+          feedback?: string | null
+          id?: string
+          legal_refs?: string | null
+          role: string
+          text: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string | null
+          detected_categories?: string | null
+          detected_vnb?: string | null
+          feedback?: string | null
+          id?: string
+          legal_refs?: string | null
+          role?: string
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
