@@ -35,6 +35,24 @@ export async function loadRegions(url: string): Promise<GeoJSONData> {
   return data;
 }
 
+export async function loadAllVnbNames(): Promise<Map<string, string>> {
+  try {
+    const response = await fetch('/data/vnb_names.json');
+    const data = await response.json();
+    const vnbMap = new Map<string, string>();
+    
+    Object.entries(data).forEach(([id, value]: [string, any]) => {
+      vnbMap.set(id, value.name);
+    });
+    
+    console.log(`[loadAllVnbNames] Loaded ${vnbMap.size} VNB names`);
+    return vnbMap;
+  } catch (error) {
+    console.error('[loadAllVnbNames] Error loading VNB names:', error);
+    return new Map();
+  }
+}
+
 export async function loadScores(
   url: string,
   opts?: { aggregatedColumn?: string; requestedColumn?: string }
