@@ -12,6 +12,7 @@ const CategoryNav = () => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
+  const [clickedSubcategory, setClickedSubcategory] = useState<string | null>(null);
   const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null);
   const [criteriaPosition, setCriteriaPosition] = useState<{ top: number; left: number } | null>(null);
   const categoryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -180,13 +181,17 @@ const CategoryNav = () => {
                               if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                               if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                               
-                              // Immediate navigation on mobile, no delays
+                              // On mobile: toggle criteria if they exist, otherwise navigate
                               if (isMobile) {
-                                setClickedCategory(null);
-                                setHoveredCategory(null);
-                                setHoveredSubcategory(null);
-                                // Use setTimeout to ensure state updates before navigation
-                                setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}`), 0);
+                                if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
+                                  setClickedSubcategory(
+                                    clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug
+                                  );
+                                } else {
+                                  setClickedCategory(null);
+                                  setHoveredCategory(null);
+                                  setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}`), 0);
+                                }
                               } else {
                                 navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
                                 setClickedCategory(null);
@@ -198,7 +203,8 @@ const CategoryNav = () => {
                             {unterkategorie.title}
                           </div>
                           
-                          {hoveredSubcategory === unterkategorie.slug && 
+                          {/* Desktop: Hover-based portal dropdown */}
+                          {!isMobile && hoveredSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
                            unterkategorie.kriterien.length > 0 && 
                            criteriaPosition && createPortal(
@@ -252,6 +258,29 @@ const CategoryNav = () => {
                               ))}
                             </div>,
                             document.body
+                          )}
+                          
+                          {/* Mobile: Click-based inline criteria */}
+                          {isMobile && clickedSubcategory === unterkategorie.slug && 
+                           unterkategorie.kriterien && 
+                           unterkategorie.kriterien.length > 0 && (
+                            <div className="pl-4 bg-accent/30 border-l-2 border-primary/50">
+                              {unterkategorie.kriterien.map((kriterium) => (
+                                <div
+                                  key={kriterium.slug}
+                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setClickedCategory(null);
+                                    setHoveredCategory(null);
+                                    setClickedSubcategory(null);
+                                    setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`), 0);
+                                  }}
+                                >
+                                  {kriterium.title}
+                                </div>
+                              ))}
+                            </div>
                           )}
                         </div>
                       ))}
