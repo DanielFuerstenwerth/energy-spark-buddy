@@ -72,7 +72,7 @@ const CategoryNav = () => {
   }
 
   return (
-    <nav ref={navRef} className="border-b border-border bg-background backdrop-blur sticky top-0 z-[9999] touch-pan-y shadow-sm">
+    <nav ref={navRef} className="border-b border-border bg-background backdrop-blur sticky top-0 z-[99999] touch-pan-y shadow-sm">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center gap-4 md:gap-8 py-3 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 snap-x">
           <style>{`
@@ -132,7 +132,7 @@ const CategoryNav = () => {
 
               {/* Mobile: Simple inline dropdown - NO PORTAL */}
               {isMobile && isOpen && (
-                <div className="absolute left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto z-[99999]">
+                <div className="absolute left-0 right-0 top-full mt-1 bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto min-w-[280px]" style={{ zIndex: 999999 }}>
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
