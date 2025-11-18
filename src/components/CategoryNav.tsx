@@ -133,12 +133,26 @@ const CategoryNav = () => {
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Mobile: Portal dropdown to escape stacking context */}
-              {isMobile && isOpen && dropdownPosition && createPortal(
+              {/* Dropdown - Portal für alle Geräte damit es über der Karte ist */}
+              {isOpen && dropdownPosition && createPortal(
                 <div 
                   className="min-w-[280px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto" 
                   style={{ position: 'fixed', top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px`, zIndex: 999999 }}
                   onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => {
+                    if (isMobile) return;
+                    if (categoryTimeoutRef.current) {
+                      clearTimeout(categoryTimeoutRef.current);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (isMobile) return;
+                    categoryTimeoutRef.current = setTimeout(() => {
+                      setHoveredCategory(null);
+                      setClickedCategory(null);
+                      setHoveredSubcategory(null);
+                    }, 300);
+                  }}
                 >
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
