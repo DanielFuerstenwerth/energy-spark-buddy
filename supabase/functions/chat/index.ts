@@ -3,8 +3,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 const SANDRA_SYSTEM_PROMPT = `Du bist Sandra, 25, aus Sevilla.
@@ -26,7 +26,7 @@ STIL
 
 BEGRÜSSUNG
 - bei einer neuen Session sagst du GENAU diesen Satz, einmalig:
-  "Hallo, welche Fragen hast Du?"
+  "Hallo, ich bin neu hier und lerne gerade noch sehr viel. Welche Fragen hast Du?"
 - diesen Satz bitte nicht verändern
 - danach keine langen Selbstbeschreibungen mehr, direkt auf Inhalte eingehen
 - wenn der Nutzer fragt "wer bist du?", kannst du kurz sagen, dass du Sandra bist und bei Fragen zur Transparenz von Netzbetreibern hilfst
@@ -76,90 +76,86 @@ DEIN ZIEL
 - klare Orientierung geben, wo Rechte und Pflichten grob liegen, aber immer mit dem Hinweis, dass es keine Rechtsberatung ist.`;
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { sessionId, userMessage } = await req.json();
-    
+
     if (!sessionId || !userMessage) {
-      return new Response(
-        JSON.stringify({ error: 'sessionId und userMessage sind erforderlich' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "sessionId und userMessage sind erforderlich" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
-    const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY');
-    const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
-    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    
+
+    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
+    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+
     if (!OPENAI_API_KEY) {
-      console.error('OPENAI_API_KEY nicht konfiguriert');
-      return new Response(
-        JSON.stringify({ error: 'API-Konfigurationsfehler' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("OPENAI_API_KEY nicht konfiguriert");
+      return new Response(JSON.stringify({ error: "API-Konfigurationsfehler" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
     // Conversation abrufen oder erstellen
-    let { data: conversation } = await supabase
-      .from('conversations')
-      .select('id')
-      .eq('session_id', sessionId)
-      .single();
+    let { data: conversation } = await supabase.from("conversations").select("id").eq("session_id", sessionId).single();
 
     if (!conversation) {
       const { data: newConv, error: convError } = await supabase
-        .from('conversations')
+        .from("conversations")
         .insert({ session_id: sessionId })
         .select()
         .single();
-      
+
       if (convError || !newConv) {
-        console.error('Fehler beim Erstellen der Conversation:', convError);
-        return new Response(
-          JSON.stringify({ error: 'Datenbankfehler' }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        console.error("Fehler beim Erstellen der Conversation:", convError);
+        return new Response(JSON.stringify({ error: "Datenbankfehler" }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       conversation = newConv;
     }
 
     if (!conversation) {
-      return new Response(
-        JSON.stringify({ error: 'Conversation konnte nicht erstellt werden' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Conversation konnte nicht erstellt werden" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Message History laden (maximal letzte 20 Messages)
     const { data: messageHistory } = await supabase
-      .from('messages')
-      .select('role, text')
-      .eq('conversation_id', conversation.id)
-      .order('created_at', { ascending: true })
+      .from("messages")
+      .select("role, text")
+      .eq("conversation_id", conversation.id)
+      .order("created_at", { ascending: true })
       .limit(20);
 
     const messages = [
       { role: "system", content: SANDRA_SYSTEM_PROMPT },
-      ...(messageHistory || []).map(m => ({ role: m.role, content: m.text })),
-      { role: "user", content: userMessage }
+      ...(messageHistory || []).map((m) => ({ role: m.role, content: m.text })),
+      { role: "user", content: userMessage },
     ];
 
     console.log(`Chat request für Session ${sessionId}, ${messages.length} Messages in History`);
 
     // OpenAI API Call
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: "gpt-4o-mini",
         messages,
         temperature: 0.7,
         max_tokens: 800,
@@ -169,41 +165,41 @@ serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('OpenAI API error:', response.status, errorText);
-      
+      console.error("OpenAI API error:", response.status, errorText);
+
       if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: 'Rate limit erreicht, bitte später nochmal versuchen' }),
-          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        return new Response(JSON.stringify({ error: "Rate limit erreicht, bitte später nochmal versuchen" }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
-      
-      return new Response(
-        JSON.stringify({ error: 'KI-Service nicht verfügbar' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+
+      return new Response(JSON.stringify({ error: "KI-Service nicht verfügbar" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Stream verarbeiten
     const reader = response.body?.getReader();
     if (!reader) {
-      throw new Error('Kein Response-Stream verfügbar');
+      throw new Error("Kein Response-Stream verfügbar");
     }
-    
+
     const decoder = new TextDecoder();
-    let assistantMessage = '';
+    let assistantMessage = "";
 
     while (true) {
       const { done, value } = await reader.read();
       if (done) break;
 
       const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
+      const lines = chunk.split("\n");
 
       for (const line of lines) {
-        if (line.startsWith('data: ')) {
+        if (line.startsWith("data: ")) {
           const data = line.slice(6);
-          if (data === '[DONE]') continue;
+          if (data === "[DONE]") continue;
 
           try {
             const parsed = JSON.parse(data);
@@ -221,41 +217,40 @@ serve(async (req) => {
     console.log(`Assistant response generated: ${assistantMessage.substring(0, 100)}...`);
 
     // Messages speichern
-    await supabase.from('messages').insert([
-      { conversation_id: conversation.id, role: 'user', text: userMessage },
-    ]);
+    await supabase.from("messages").insert([{ conversation_id: conversation.id, role: "user", text: userMessage }]);
 
     const { data: savedAssistant, error: saveError } = await supabase
-      .from('messages')
-      .insert([{ 
-        conversation_id: conversation.id, 
-        role: 'assistant', 
-        text: assistantMessage,
-        feedback: 'NONE'
-      }])
+      .from("messages")
+      .insert([
+        {
+          conversation_id: conversation.id,
+          role: "assistant",
+          text: assistantMessage,
+          feedback: "NONE",
+        },
+      ])
       .select()
       .single();
 
     if (saveError) {
-      console.error('Fehler beim Speichern der Assistant-Message:', saveError);
+      console.error("Fehler beim Speichern der Assistant-Message:", saveError);
     }
 
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         message: assistantMessage,
-        messageId: savedAssistant?.id || null
+        messageId: savedAssistant?.id || null,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200
-      }
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 200,
+      },
     );
-
   } catch (error) {
-    console.error('Chat error:', error);
-    return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : 'Unbekannter Fehler' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    console.error("Chat error:", error);
+    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unbekannter Fehler" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
