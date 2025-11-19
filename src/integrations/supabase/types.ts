@@ -175,6 +175,36 @@ export type Database = {
           },
         ]
       }
+      sources: {
+        Row: {
+          created_at: string
+          id: string
+          pdf_urls: Json | null
+          priority: number | null
+          source_type: string | null
+          topic: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pdf_urls?: Json | null
+          priority?: number | null
+          source_type?: string | null
+          topic?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pdf_urls?: Json | null
+          priority?: number | null
+          source_type?: string | null
+          topic?: string | null
+          url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string
