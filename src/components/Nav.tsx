@@ -48,13 +48,21 @@ export default function Nav({ items }: { items: NavItem[] }) {
                 <NavigationMenuItem key={i}>
                   {it.sections?.length ? (
                     <>
-                      <NavigationMenuTrigger className="h-9 bg-transparent hover:bg-accent data-[state=open]:bg-accent">
-                        <Link to={it.href || "#"} className="text-sm font-medium">
-                          {it.label}
-                        </Link>
+                      <NavigationMenuTrigger className="h-9 bg-transparent hover:bg-accent data-[state=open]:bg-accent text-sm font-medium">
+                        {it.label}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
                         <div className="grid w-[600px] grid-cols-2 gap-3 p-4 bg-popover">
+                          <div className="col-span-2 border-b border-border pb-2 mb-1">
+                            <NavigationMenuLink asChild>
+                              <Link 
+                                to={it.href || "#"}
+                                className="block px-3 py-2 font-bold text-sm text-primary hover:bg-accent hover:text-accent-foreground rounded-md transition-colors"
+                              >
+                                {it.label} – Übersicht
+                              </Link>
+                            </NavigationMenuLink>
+                          </div>
                           {it.sections.map((sec: NavSection, k) => (
                             <div key={k} className="space-y-1">
                               <NavigationMenuLink asChild>
@@ -141,48 +149,49 @@ export default function Nav({ items }: { items: NavItem[] }) {
                     {hasSections ? (
                       <Accordion type="single" collapsible className="w-full">
                         <AccordionItem value={`item-${i}`} className="border-0">
-                          <AccordionTrigger className="py-2 hover:no-underline">
-                            <Link 
-                              to={it.href || "#"}
-                              className="flex-1 text-left font-semibold text-foreground hover:text-primary"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {it.label}
-                            </Link>
+                          <AccordionTrigger className="py-2 hover:no-underline font-semibold text-foreground">
+                            {it.label}
                           </AccordionTrigger>
                           <AccordionContent>
-                            <Accordion type="single" collapsible className="w-full pl-2">
-                              {(it.sections || []).map((sec, k) => (
-                                <AccordionItem key={k} value={`sec-${i}-${k}`} className="border-0">
-                                  <AccordionTrigger className="py-2 text-sm hover:no-underline">
-                                    <Link 
-                                      to={sec.href}
-                                      className="flex-1 text-left font-medium text-foreground hover:text-primary"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setMobileOpen(false);
-                                      }}
-                                    >
+                            <div className="space-y-2 pl-2">
+                              <Link 
+                                to={it.href || "#"}
+                                className="block py-2 px-3 font-medium text-primary hover:bg-accent rounded-md transition-colors"
+                                onClick={() => setMobileOpen(false)}
+                              >
+                                {it.label} – Übersicht
+                              </Link>
+                              <Accordion type="single" collapsible className="w-full">
+                                {(it.sections || []).map((sec, k) => (
+                                  <AccordionItem key={k} value={`sec-${i}-${k}`} className="border-0">
+                                    <AccordionTrigger className="py-2 text-sm hover:no-underline font-medium text-foreground">
                                       {sec.label}
-                                    </Link>
-                                  </AccordionTrigger>
-                                  <AccordionContent>
-                                    <div className="space-y-1 pl-3">
-                                      {(sec.items || []).map((c, kk) => (
+                                    </AccordionTrigger>
+                                    <AccordionContent>
+                                      <div className="space-y-1 pl-3">
                                         <Link 
-                                          key={kk}
-                                          to={c.href}
-                                          className="block py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md px-3 transition-colors"
+                                          to={sec.href}
+                                          className="block py-2 px-3 text-sm font-medium text-foreground hover:bg-accent rounded-md transition-colors"
                                           onClick={() => setMobileOpen(false)}
                                         >
-                                          {c.label}
+                                          {sec.label} – Übersicht
                                         </Link>
-                                      ))}
-                                    </div>
-                                  </AccordionContent>
-                                </AccordionItem>
-                              ))}
-                            </Accordion>
+                                        {(sec.items || []).map((c, kk) => (
+                                          <Link 
+                                            key={kk}
+                                            to={c.href}
+                                            className="block py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md px-3 transition-colors"
+                                            onClick={() => setMobileOpen(false)}
+                                          >
+                                            {c.label}
+                                          </Link>
+                                        ))}
+                                      </div>
+                                    </AccordionContent>
+                                  </AccordionItem>
+                                ))}
+                              </Accordion>
+                            </div>
                           </AccordionContent>
                         </AccordionItem>
                       </Accordion>

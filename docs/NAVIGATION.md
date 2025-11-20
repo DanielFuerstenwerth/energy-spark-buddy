@@ -8,6 +8,7 @@
 3. ❌ Eigene Collapse-Logik für Mobile → instabil, kein Standard-Pattern
 4. ❌ Keine standardisierten Shadcn-Komponenten
 5. ❌ Body-Scroll und ESC-Handling manuell implementiert
+6. ❌ Kategorie-Links im NavigationMenuTrigger (Link in Button = nicht barrierefrei)
 
 ### Lösung (nach Refactoring):
 ✅ **Desktop:** `NavigationMenu` (Shadcn/Radix)
@@ -15,16 +16,21 @@
   - ARIA-Attribute korrekt gesetzt
   - Hover + Fokus öffnen Dropdown
   - Alle 3 Ebenen (Kategorie → Unterkategorie → Kriterium) klickbar
+  - Kategorie-Übersicht als erster Eintrag im Dropdown (Best Practice)
+  - NavigationMenuTrigger ist reiner Button (barrierefrei)
 
 ✅ **Mobile:** `Sheet` + `Accordion` (Shadcn/Radix)
   - Body-Scroll-Lock automatisch
   - ESC schließt Drawer automatisch
   - Verschachtelte Accordions für Unterkategorien & Kriterien
-  - Alle Links klickbar
+  - Alle Links klickbar (inkl. Übersichts-Links für jede Ebene)
+  - AccordionTrigger ist reiner Button (barrierefrei)
 
 ✅ **Links:** react-router-dom `Link` überall (keine Full-Page-Reloads)
 
 ✅ **URLs:** `encodeURIComponent` für Kriterien-Slugs (z.B. "Modul1&2")
+
+✅ **Pattern:** Standard-Dropdown-Pattern – Trigger öffnet, erster Eintrag ist Übersichts-Link
 
 ## Architektur
 
