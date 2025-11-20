@@ -1,6 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.76.0';
+import { z } from 'https://deno.land/x/zod@v3.22.4/mod.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -17,10 +18,62 @@ serve(async (req) => {
   }
 
   try {
+    // Get the authorization token
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Authentication required', status: 'error' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Initialize Supabase client with the user's JWT
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: { Authorization: authHeader },
+      },
+    });
+
+    // Check if user is admin
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid authentication', status: 'error' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { data: roleData, error: roleError } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', user.id)
+      .eq('role', 'admin')
+      .single();
+
+    if (roleError || !roleData) {
+      return new Response(
+        JSON.stringify({ error: 'Admin access required', status: 'error' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
     console.log('[sync-sites-from-sheet] Starting sync process...');
 
-    // Fetch the Google Sheet as CSV
-    const sheetResponse = await fetch(SITES_SHEET_URL);
+    // Validate the Google Sheet URL domain for security
+    const sheetUrl = new URL(SITES_SHEET_URL);
+    if (!sheetUrl.hostname.includes('docs.google.com')) {
+      throw new Error('Invalid sheet URL domain');
+    }
+
+    // Fetch the Google Sheet as CSV with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    
+    const sheetResponse = await fetch(SITES_SHEET_URL, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    
     if (!sheetResponse.ok) {
       throw new Error(`Failed to fetch sheet: ${sheetResponse.status}`);
     }
@@ -46,10 +99,10 @@ serve(async (req) => {
       );
     }
 
-    // Initialize Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Use service role for invoking ingest-page function
+    const supabaseServiceUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabaseService = createClient(supabaseServiceUrl, supabaseServiceKey);
 
     let pageCountTotal = 0;
     const results = [];
@@ -62,13 +115,16 @@ serve(async (req) => {
         // Apply heuristics based on domain
         const { topic, priority, sourceType } = applyHeuristics(url);
 
-        // Call ingest-page function internally
-        const { data, error } = await supabase.functions.invoke('ingest-page', {
+        // Call ingest-page function internally with admin authorization
+        const { data, error } = await supabaseService.functions.invoke('ingest-page', {
           body: {
             url,
             topic,
             priority,
             sourceType
+          },
+          headers: {
+            Authorization: `Bearer ${supabaseServiceKey}`
           }
         });
 
@@ -101,13 +157,16 @@ serve(async (req) => {
     );
   } catch (error) {
     console.error('[sync-sites-from-sheet] Error:', error);
+    
+    // Return generic error to client, log details server-side
+    const status = (error instanceof Error && error.name === 'AbortError') ? 504 : 500;
     return new Response(
       JSON.stringify({
-        error: error instanceof Error ? error.message : 'Unknown error',
+        error: 'Failed to sync sites from sheet',
         status: 'error'
       }),
       {
-        status: 500,
+        status,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       }
     );
