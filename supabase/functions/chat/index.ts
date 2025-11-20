@@ -1,11 +1,21 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { z } from 'https://deno.land/x/zod@v3.22.4/mod.ts';
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
+
+// Input validation schema
+const ChatRequestSchema = z.object({
+  sessionId: z.string().uuid({ message: 'Invalid session ID format' }),
+  userMessage: z.string()
+    .min(1, { message: 'Message cannot be empty' })
+    .max(4000, { message: 'Message is too long (max 4000 characters)' })
+    .trim(),
+});
 
 const SANDRA_SYSTEM_PROMPT = `Du bist Sandra, 25, aus Sevilla.
 
@@ -81,111 +91,124 @@ serve(async (req) => {
   }
 
   try {
-    const { sessionId, userMessage } = await req.json();
-
-    if (!sessionId || !userMessage) {
-      return new Response(JSON.stringify({ error: "sessionId und userMessage sind erforderlich" }), {
-        status: 400,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    const requestBody = await req.json();
+    
+    // Validate input
+    const validationResult = ChatRequestSchema.safeParse(requestBody);
+    if (!validationResult.success) {
+      return new Response(
+        JSON.stringify({ 
+          error: 'Invalid input',
+          details: validationResult.error.issues 
+        }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
-    const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
-    const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-    const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const { sessionId, userMessage } = validationResult.data;
 
-    if (!OPENAI_API_KEY) {
-      console.error("OPENAI_API_KEY nicht konfiguriert");
-      return new Response(JSON.stringify({ error: "API-Konfigurationsfehler" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    console.log("[chat] Received request for session:", sessionId);
+
+    // Initialize Supabase
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Get or create conversation
+    let { data: conversation, error: convError } = await supabase
+      .from("conversations")
+      .select("*")
+      .eq("session_id", sessionId)
+      .maybeSingle();
+
+    if (convError) {
+      console.error("[chat] Error fetching conversation:", convError);
+      throw convError;
     }
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-
-    // Conversation abrufen oder erstellen
-    let { data: conversation } = await supabase.from("conversations").select("id").eq("session_id", sessionId).single();
 
     if (!conversation) {
-      const { data: newConv, error: convError } = await supabase
+      console.log("[chat] Creating new conversation for session:", sessionId);
+      const { data: newConv, error: createError } = await supabase
         .from("conversations")
         .insert({ session_id: sessionId })
         .select()
         .single();
 
-      if (convError || !newConv) {
-        console.error("Fehler beim Erstellen der Conversation:", convError);
-        return new Response(JSON.stringify({ error: "Datenbankfehler" }), {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+      if (createError) {
+        console.error("[chat] Error creating conversation:", createError);
+        throw createError;
       }
       conversation = newConv;
     }
 
-    if (!conversation) {
-      return new Response(JSON.stringify({ error: "Conversation konnte nicht erstellt werden" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+    const conversationId = conversation.id;
 
-    // Message History laden (maximal letzte 20 Messages)
-    const { data: messageHistory } = await supabase
+    // Load recent messages
+    const { data: history, error: histError } = await supabase
       .from("messages")
       .select("role, text")
-      .eq("conversation_id", conversation.id)
+      .eq("conversation_id", conversationId)
       .order("created_at", { ascending: true })
-      .limit(20);
+      .limit(10);
 
-    const messages = [
+    if (histError) {
+      console.error("[chat] Error loading history:", histError);
+      throw histError;
+    }
+
+    console.log("[chat] Loaded history:", history?.length || 0, "messages");
+
+    // Build messages for OpenAI
+    const messages: Array<{ role: string; content: string }> = [
       { role: "system", content: SANDRA_SYSTEM_PROMPT },
-      ...(messageHistory || []).map((m) => ({ role: m.role, content: m.text })),
-      { role: "user", content: userMessage },
     ];
 
-    console.log(`Chat request für Session ${sessionId}, ${messages.length} Messages in History`);
-
-    // OpenAI API Call
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-4o-mini",
-        messages,
-        temperature: 0.7,
-        max_tokens: 800,
-        stream: true,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("OpenAI API error:", response.status, errorText);
-
-      if (response.status === 429) {
-        return new Response(JSON.stringify({ error: "Rate limit erreicht, bitte später nochmal versuchen" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+    if (history && history.length > 0) {
+      for (const msg of history) {
+        messages.push({ role: msg.role, content: msg.text });
       }
-
-      return new Response(JSON.stringify({ error: "KI-Service nicht verfügbar" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
     }
 
-    // Stream verarbeiten
-    const reader = response.body?.getReader();
-    if (!reader) {
-      throw new Error("Kein Response-Stream verfügbar");
+    messages.push({ role: "user", content: userMessage });
+
+    // Call OpenAI
+    const openaiApiKey = Deno.env.get("OPENAI_API_KEY");
+    if (!openaiApiKey) {
+      throw new Error("OPENAI_API_KEY not configured");
     }
 
+    console.log("[chat] Calling OpenAI...");
+    const openaiResponse = await fetch(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${openaiApiKey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages,
+          temperature: 0.7,
+          stream: true,
+        }),
+      }
+    );
+
+    if (!openaiResponse.ok) {
+      const errorText = await openaiResponse.text();
+      console.error("[chat] OpenAI error:", openaiResponse.status, errorText);
+      
+      if (openaiResponse.status === 429) {
+        throw new Error("Rate limit exceeded. Please try again later.");
+      }
+      
+      throw new Error(`OpenAI API error: ${openaiResponse.status}`);
+    }
+
+    console.log("[chat] OpenAI streaming response started");
+
+    const reader = openaiResponse.body!.getReader();
     const decoder = new TextDecoder();
     let assistantMessage = "";
 
@@ -193,64 +216,79 @@ serve(async (req) => {
       const { done, value } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value);
+      const chunk = decoder.decode(value, { stream: true });
       const lines = chunk.split("\n");
 
       for (const line of lines) {
         if (line.startsWith("data: ")) {
-          const data = line.slice(6);
+          const data = line.slice(6).trim();
           if (data === "[DONE]") continue;
 
           try {
             const parsed = JSON.parse(data);
-            const content = parsed.choices[0]?.delta?.content;
+            const content = parsed.choices?.[0]?.delta?.content;
             if (content) {
               assistantMessage += content;
             }
-          } catch (e) {
-            // Ignore JSON parse errors from incomplete chunks
+          } catch {
+            // Ignore parse errors
           }
         }
       }
     }
 
-    console.log(`Assistant response generated: ${assistantMessage.substring(0, 100)}...`);
+    console.log("[chat] Received full response, length:", assistantMessage.length);
 
-    // Messages speichern
-    await supabase.from("messages").insert([{ conversation_id: conversation.id, role: "user", text: userMessage }]);
+    // Save user message
+    const { error: userMsgError } = await supabase.from("messages").insert({
+      conversation_id: conversationId,
+      role: "user",
+      text: userMessage,
+    });
 
-    const { data: savedAssistant, error: saveError } = await supabase
+    if (userMsgError) {
+      console.error("[chat] Error saving user message:", userMsgError);
+    }
+
+    // Save assistant message
+    const { data: assistantMsgData, error: assistantMsgError } = await supabase
       .from("messages")
-      .insert([
-        {
-          conversation_id: conversation.id,
-          role: "assistant",
-          text: assistantMessage,
-          feedback: "NONE",
-        },
-      ])
+      .insert({
+        conversation_id: conversationId,
+        role: "assistant",
+        text: assistantMessage,
+      })
       .select()
       .single();
 
-    if (saveError) {
-      console.error("Fehler beim Speichern der Assistant-Message:", saveError);
+    if (assistantMsgError) {
+      console.error("[chat] Error saving assistant message:", assistantMsgError);
+      throw assistantMsgError;
     }
+
+    console.log("[chat] Saved messages to database");
 
     return new Response(
       JSON.stringify({
         message: assistantMessage,
-        messageId: savedAssistant?.id || null,
+        messageId: assistantMsgData.id,
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 200,
-      },
+      }
     );
   } catch (error) {
-    console.error("Chat error:", error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unbekannter Fehler" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    console.error('Chat error:', error);
+    
+    // Return generic error to client, log details server-side
+    return new Response(
+      JSON.stringify({ 
+        error: 'Failed to process chat request'
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      }
+    );
   }
 });

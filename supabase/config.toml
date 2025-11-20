@@ -7,7 +7,7 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.ingest-page]
-verify_jwt = false
+verify_jwt = true
 
 [functions.sync-sites-from-sheet]
-verify_jwt = false
+verify_jwt = true
