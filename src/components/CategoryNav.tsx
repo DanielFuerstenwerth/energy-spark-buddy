@@ -133,72 +133,61 @@ const CategoryNav = () => {
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Dropdown - Portal für alle Geräte damit es über der Karte ist */}
-              {isOpen && dropdownPosition && createPortal(
+              {/* Mobile: Click-based dropdown with inline criteria */}
+              {isMobile && isOpen && dropdownPosition && createPortal(
                 <div 
                   className="min-w-[280px] bg-background border border-border rounded-md shadow-lg py-2 max-h-[70vh] overflow-y-auto" 
                   style={{ position: 'fixed', top: `${dropdownPosition.top}px`, left: `${dropdownPosition.left}px`, zIndex: 999999 }}
                   onClick={(e) => e.stopPropagation()}
-                  onMouseEnter={() => {
-                    if (isMobile) return;
-                    if (categoryTimeoutRef.current) {
-                      clearTimeout(categoryTimeoutRef.current);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    if (isMobile) return;
-                    categoryTimeoutRef.current = setTimeout(() => {
-                      setHoveredCategory(null);
-                      setClickedCategory(null);
-                      setHoveredSubcategory(null);
-                    }, 300);
-                  }}
                 >
                   {kategorie.unterkategorien && kategorie.unterkategorien.length > 0 ? (
                     <div>
                       {kategorie.unterkategorien.map((unterkategorie) => (
                         <div key={unterkategorie.slug}>
-                          <button
-                            className="w-full text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors flex items-center justify-between"
-                            onClick={() => {
-                              console.log('[Mobile] Unterkategorie clicked:', unterkategorie.slug);
-                              console.log('[Mobile] Has kriterien?', unterkategorie.kriterien?.length || 0);
-                              console.log('[Mobile] Current clickedSubcategory:', clickedSubcategory);
-                              
-                              if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
-                                const newValue = clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug;
-                                console.log('[Mobile] Setting clickedSubcategory to:', newValue);
-                                setClickedSubcategory(newValue);
-                              } else {
-                                console.log('[Mobile] Navigating to:', `/${kategorie.slug}/${unterkategorie.slug}`);
-                                navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
+                          <div className="flex items-center justify-between">
+                            <Link
+                              to={`/${kategorie.slug}/${unterkategorie.slug}`}
+                              className="flex-1 text-left px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                              onClick={() => {
+                                console.log('[Mobile] Unterkategorie link clicked:', unterkategorie.slug);
                                 setClickedCategory(null);
-                              }
-                            }}
-                          >
-                            <span>{unterkategorie.title}</span>
+                                setClickedSubcategory(null);
+                              }}
+                            >
+                              {unterkategorie.title}
+                            </Link>
                             {unterkategorie.kriterien && unterkategorie.kriterien.length > 0 && (
-                              <ChevronDown className={`w-3 h-3 transition-transform ${clickedSubcategory === unterkategorie.slug ? 'rotate-180' : ''}`} />
+                              <button
+                                className="px-4 py-2 text-foreground hover:text-primary"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const newValue = clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug;
+                                  console.log('[Mobile] Toggling kriterien for:', unterkategorie.slug, 'to:', newValue);
+                                  setClickedSubcategory(newValue);
+                                }}
+                              >
+                                <ChevronDown className={`w-4 h-4 transition-transform ${clickedSubcategory === unterkategorie.slug ? 'rotate-180' : ''}`} />
+                              </button>
                             )}
-                          </button>
+                          </div>
                           
                           {clickedSubcategory === unterkategorie.slug && 
                            unterkategorie.kriterien && 
                            unterkategorie.kriterien.length > 0 && (
                             <div className="bg-accent/20 border-l-2 border-primary/40 ml-2">
                               {unterkategorie.kriterien.map((kriterium) => (
-                                <button
+                                <Link
                                   key={kriterium.slug}
-                                  className="w-full text-left px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                                  to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
+                                  className="block px-4 py-2.5 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                   onClick={() => {
                                     console.log('[Mobile] Kriterium clicked:', kriterium.slug);
-                                    navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
                                     setClickedCategory(null);
                                     setClickedSubcategory(null);
                                   }}
                                 >
                                   {kriterium.title}
-                                </button>
+                                </Link>
                               ))}
                             </div>
                           )}
@@ -208,28 +197,28 @@ const CategoryNav = () => {
                   ) : kategorie.kriterien && kategorie.kriterien.length > 0 ? (
                     <div>
                       {kategorie.kriterien.map((kriterium) => (
-                        <button
+                        <Link
                           key={kriterium.slug}
-                          className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
+                          to={`/${kategorie.slug}/${kriterium.slug}`}
+                          className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                           onClick={() => {
-                            navigate(`/${kategorie.slug}/${kriterium.slug}`);
                             setClickedCategory(null);
                           }}
                         >
                           {kriterium.title}
-                        </button>
+                        </Link>
                       ))}
                     </div>
                   ) : (
-                    <button
-                      className="w-full text-left px-4 py-2 text-sm text-foreground hover:text-primary transition-colors"
+                    <Link
+                      to={`/${kategorie.slug}`}
+                      className="block px-4 py-2 text-sm text-foreground hover:text-primary transition-colors"
                       onClick={() => {
-                        navigate(`/${kategorie.slug}`);
                         setClickedCategory(null);
                       }}
                     >
                       Zur Übersicht →
-                    </button>
+                    </Link>
                   )}
                 </div>,
                 document.body
