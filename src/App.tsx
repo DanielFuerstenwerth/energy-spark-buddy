@@ -27,7 +27,6 @@ import AnliegenSmgw from "./pages/anliegen/Smgw";
 import AnliegenBidi from "./pages/anliegen/Bidi";
 import Admin from "./pages/Admin";
 import SandraChatWidget from "./components/SandraChatWidget";
-import NavWrapper from "./components/NavWrapper";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +37,6 @@ const App = () => (
       <Sonner />
       <SandraChatWidget />
       <BrowserRouter>
-        <NavWrapper />
         <Routes>
           <Route path="/" element={<NewHome />} />
           
