@@ -67,71 +67,14 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
     setComments(data || []);
   };
 
-  // Rate limiting: Check if user can submit (max 5 comments per hour)
-  const canSubmitComment = (): { allowed: boolean; waitTime?: number } => {
-    const storageKey = 'comment_submissions';
-    const now = Date.now();
-    const hourInMs = 60 * 60 * 1000;
-    const maxSubmissions = 5;
-
-    try {
-      const stored = localStorage.getItem(storageKey);
-      const submissions: number[] = stored ? JSON.parse(stored) : [];
-      
-      // Filter out submissions older than 1 hour
-      const recentSubmissions = submissions.filter(time => now - time < hourInMs);
-      
-      if (recentSubmissions.length >= maxSubmissions) {
-        const oldestSubmission = Math.min(...recentSubmissions);
-        const waitTime = Math.ceil((hourInMs - (now - oldestSubmission)) / 1000 / 60); // minutes
-        return { allowed: false, waitTime };
-      }
-      
-      return { allowed: true };
-    } catch (error) {
-      // If localStorage fails, allow submission
-      return { allowed: true };
-    }
-  };
-
-  const recordSubmission = () => {
-    const storageKey = 'comment_submissions';
-    const now = Date.now();
-    const hourInMs = 60 * 60 * 1000;
-
-    try {
-      const stored = localStorage.getItem(storageKey);
-      const submissions: number[] = stored ? JSON.parse(stored) : [];
-      
-      // Keep only submissions from last hour
-      const recentSubmissions = submissions.filter(time => now - time < hourInMs);
-      recentSubmissions.push(now);
-      
-      localStorage.setItem(storageKey, JSON.stringify(recentSubmissions));
-    } catch (error) {
-      console.error('Failed to record submission:', error);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Rate limiting check
-    const rateLimit = canSubmitComment();
-    if (!rateLimit.allowed) {
-      toast({
-        title: 'Zu viele Kommentare',
-        description: `Bitte warten Sie noch ${rateLimit.waitTime} Minuten, bevor Sie einen weiteren Kommentar absenden. (Max. 5 Kommentare pro Stunde)`,
-        variant: 'destructive',
-      });
-      return;
-    }
 
     // Validate input
     const validation = commentSchema.safeParse({
       text,
       author_name: authorName,
-      author_email: authorEmail
+      author_email: authorEmail,
     });
 
     if (!validation.success) {
@@ -146,29 +89,39 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
 
     setSubmitting(true);
 
-    const { error } = await supabase.from('comments').insert({
-      route,
-      vnb_name: vnbName || null,
-      kriterium: kriterium || null,
-      text: validation.data.text,
-      author_name: validation.data.author_name || null,
-      author_email: validation.data.author_email || null,
-      status: 'pending',
+    // Submit via edge function with server-side rate limiting
+    const { data, error } = await supabase.functions.invoke('submit-comment', {
+      body: {
+        route,
+        vnb_name: vnbName || null,
+        kriterium: kriterium || null,
+        text: validation.data.text,
+        author_name: validation.data.author_name || null,
+        author_email: validation.data.author_email || null,
+      },
     });
 
     setSubmitting(false);
 
-    if (error) {
-      toast({
-        title: 'Fehler',
-        description: 'Kommentar konnte nicht gespeichert werden.',
-        variant: 'destructive',
-      });
+    if (error || !data?.success) {
+      console.error('Error submitting comment:', error);
+      
+      // Check if it's a rate limit error
+      if (data?.error === 'Rate limit exceeded' && data?.waitMinutes) {
+        toast({
+          title: 'Zu viele Kommentare',
+          description: `Bitte warten Sie ${data.waitMinutes} Minuten, bevor Sie einen weiteren Kommentar abgeben.`,
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Fehler',
+          description: data?.message || 'Kommentar konnte nicht abgeschickt werden. Bitte versuchen Sie es später erneut.',
+          variant: 'destructive',
+        });
+      }
       return;
     }
-
-    // Record successful submission for rate limiting
-    recordSubmission();
 
     toast({
       title: 'Kommentar eingereicht',
