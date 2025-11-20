@@ -278,42 +278,22 @@ const CategoryNav = () => {
                             }, 200);
                           }}
                         >
-                          <div
-                            className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
+                          <Link
+                            to={`/${kategorie.slug}/${unterkategorie.slug}`}
+                            className="block px-4 py-2 text-sm font-semibold text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                             onClick={(e) => {
-                              e.stopPropagation();
                               console.log('[CategoryNav] Subcategory clicked:', unterkategorie.slug, 'isMobile:', isMobile);
                               
                               if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                               if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                               
-                              // On mobile: toggle criteria if they exist, otherwise navigate
-                              if (isMobile) {
-                                if (unterkategorie.kriterien && unterkategorie.kriterien.length > 0) {
-                                  console.log('[CategoryNav] Toggling criteria for:', unterkategorie.slug);
-                                  setClickedSubcategory(
-                                    clickedSubcategory === unterkategorie.slug ? null : unterkategorie.slug
-                                  );
-                                } else {
-                                  console.log('[CategoryNav] Navigating to:', `/${kategorie.slug}/${unterkategorie.slug}`);
-                                  const path = `/${kategorie.slug}/${unterkategorie.slug}`;
-                                  navigate(path);
-                                  // Clear states after navigation
-                                  setTimeout(() => {
-                                    setClickedCategory(null);
-                                    setHoveredCategory(null);
-                                  }, 100);
-                                }
-                              } else {
-                                navigate(`/${kategorie.slug}/${unterkategorie.slug}`);
-                                setClickedCategory(null);
-                                setHoveredCategory(null);
-                                setHoveredSubcategory(null);
-                              }
+                              setClickedCategory(null);
+                              setHoveredCategory(null);
+                              setHoveredSubcategory(null);
                             }}
                           >
                             {unterkategorie.title}
-                          </div>
+                          </Link>
                           
                           {/* Desktop: Hover-based portal dropdown */}
                           {!isMobile && hoveredSubcategory === unterkategorie.slug && 
@@ -342,31 +322,21 @@ const CategoryNav = () => {
                               }}
                             >
                                {unterkategorie.kriterien.map((kriterium) => (
-                               <div
+                               <Link
                                   key={kriterium.slug}
-                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
+                                  to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
+                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                   onClick={(e) => {
-                                    e.stopPropagation();
                                     if (categoryTimeoutRef.current) clearTimeout(categoryTimeoutRef.current);
                                     if (subcategoryTimeoutRef.current) clearTimeout(subcategoryTimeoutRef.current);
                                     
-                                    // Immediate navigation on mobile, no delays
-                                    if (isMobile) {
-                                      setClickedCategory(null);
-                                      setHoveredCategory(null);
-                                      setHoveredSubcategory(null);
-                                      // Use setTimeout to ensure state updates before navigation
-                                      setTimeout(() => navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`), 0);
-                                    } else {
-                                      navigate(`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`);
-                                      setClickedCategory(null);
-                                      setHoveredCategory(null);
-                                      setHoveredSubcategory(null);
-                                    }
+                                    setClickedCategory(null);
+                                    setHoveredCategory(null);
+                                    setHoveredSubcategory(null);
                                   }}
                                 >
                                   {kriterium.title}
-                                </div>
+                                </Link>
                               ))}
                             </div>,
                             document.body
@@ -378,25 +348,20 @@ const CategoryNav = () => {
                            unterkategorie.kriterien.length > 0 && (
                             <div className="pl-4 bg-accent/30 border-l-2 border-primary/50">
                               {unterkategorie.kriterien.map((kriterium) => (
-                                <div
+                                <Link
                                   key={kriterium.slug}
-                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors cursor-pointer"
+                                  to={`/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`}
+                                  className="block px-4 py-2 text-sm text-foreground hover:text-primary hover:bg-accent/50 transition-colors"
                                   onClick={(e) => {
-                                    e.stopPropagation();
                                     console.log('[CategoryNav] Criterion clicked:', kriterium.slug);
-                                    const path = `/${kategorie.slug}/${unterkategorie.slug}/${kriterium.slug}`;
-                                    console.log('[CategoryNav] Navigating to:', path);
-                                    navigate(path);
-                                    // Clear states after navigation
-                                    setTimeout(() => {
-                                      setClickedCategory(null);
-                                      setHoveredCategory(null);
-                                      setClickedSubcategory(null);
-                                    }, 100);
+                                    
+                                    setClickedCategory(null);
+                                    setHoveredCategory(null);
+                                    setClickedSubcategory(null);
                                   }}
                                 >
                                   {kriterium.title}
-                                </div>
+                                </Link>
                               ))}
                             </div>
                           )}
