@@ -48,10 +48,7 @@ const NewHome = () => {
             
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center px-4">
               <Button size="lg" asChild className="w-full sm:w-auto min-h-[44px]">
-                <Link to="/TaE/ggv">Zur Karte</Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="w-full sm:w-auto min-h-[44px]">
-                <Link to="/methodik">Methodik</Link>
+                <Link to="/TaE/GGV">Zur Karte</Link>
               </Button>
             </div>
           </div>
