@@ -249,27 +249,29 @@ export async function loadScores(
 }
 
 export function getColor(score: number | null | undefined): string {
-  if (score === null || score === undefined) return 'hsl(var(--score-unknown))';
+  // Fixed 5-category system
+  // Treat 0 and null as 0 (keine Daten)
+  const normalizedScore = (score === null || score === undefined || score === 0) ? 0 : score;
   
-  if (score <= -50) return 'hsl(var(--score-1))';      // dark red
-  if (score <= -25) return 'hsl(var(--score-2))';      // red
-  if (score <= 0) return 'hsl(var(--score-3))';        // orange
-  if (score <= 25) return 'hsl(var(--score-4))';       // green
-  return 'hsl(var(--score-5))';                        // dark green
+  if (normalizedScore === 0) return 'hsl(220, 13%, 91%)';  // 0 (keine Daten)
+  if (normalizedScore <= -50) return 'hsl(0, 84%, 25%)';   // -100 bis -50: dark red
+  if (normalizedScore < 0) return 'hsl(0, 72%, 42%)';      // -50 bis 0: red
+  if (normalizedScore <= 50) return 'hsl(142, 76%, 45%)';  // 0 bis 50: green
+  return 'hsl(158, 64%, 32%)';                             // 50 bis 100: dark green
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['≤ -50', '-50 bis -25', '-25 bis 0', '0 bis 25', '> 25'];
+  const labels = ['-100 bis -50', '-50 bis 0', '0 (keine Daten)', '0 bis 50', '50 bis 100'];
   return labels[index] || '';
 }
 
 export function getColorByIndex(index: number): string {
   const colors = [
-    'hsl(var(--score-1))',      // dark red: ≤ -50
-    'hsl(var(--score-2))',      // red: -50 to -25
-    'hsl(var(--score-3))',      // orange: -25 to 0
-    'hsl(var(--score-4))',      // green: 0 to 25
-    'hsl(var(--score-5))'       // dark green: > 25
+    'hsl(0, 84%, 25%)',      // -100 bis -50: dark red
+    'hsl(0, 72%, 42%)',      // -50 bis 0: red
+    'hsl(220, 13%, 91%)',    // 0 (keine Daten): gray
+    'hsl(142, 76%, 45%)',    // 0 bis 50: green
+    'hsl(158, 64%, 32%)'     // 50 bis 100: dark green
   ];
-  return colors[index] || 'hsl(var(--score-unknown))';
+  return colors[index] || 'hsl(220, 13%, 91%)';
 }

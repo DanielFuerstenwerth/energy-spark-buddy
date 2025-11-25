@@ -83,7 +83,7 @@ const MapA14 = forwardRef<MapA14Handle, MapA14Props>(({ onRegionClick }, ref) =>
 
           return {
             fillColor,
-            weight: 1,
+            weight: 0.5,
             opacity: 1,
             color: '#333333',
             fillOpacity: 0.35
@@ -101,10 +101,10 @@ const MapA14 = forwardRef<MapA14Handle, MapA14Props>(({ onRegionClick }, ref) =>
 
           layer.on('click', () => onRegionClick(vnbId, vnbName));
           layer.on('mouseover', function(this: any) {
-            this.setStyle({ weight: 2, fillOpacity: 0.55 });
+            this.setStyle({ weight: 1.5, fillOpacity: 0.55 });
           });
           layer.on('mouseout', function(this: any) {
-            this.setStyle({ weight: 1, fillOpacity: 0.35 });
+            this.setStyle({ weight: 0.5, fillOpacity: 0.35 });
           });
         }
       }).addTo(map.current);

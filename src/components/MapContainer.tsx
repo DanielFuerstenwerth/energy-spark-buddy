@@ -75,18 +75,21 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
               const data = vnbId ? scoreData.get(vnbId) : null;
               const score = data?.score;
 
-              let fillColor = 'hsl(var(--score-unknown))';
-              if (score !== null && score !== undefined) {
-                if (score <= -50) fillColor = 'hsl(var(--score-critical))';
-                else if (score <= -25) fillColor = 'hsl(var(--score-poor))';
-                else if (score < 25) fillColor = 'hsl(var(--score-moderate))';
-                else if (score < 50) fillColor = 'hsl(var(--score-good))';
-                else fillColor = 'hsl(var(--score-excellent))';
+              // Fixed 5-category system
+              // Treat 0 and null as 0 (keine Daten)
+              const normalizedScore = (score === null || score === undefined || score === 0) ? 0 : score;
+              
+              let fillColor = 'hsl(220, 13%, 91%)'; // 0 (keine Daten)
+              if (normalizedScore !== 0) {
+                if (normalizedScore <= -50) fillColor = 'hsl(0, 84%, 25%)';      // -100 bis -50: dark red
+                else if (normalizedScore < 0) fillColor = 'hsl(0, 72%, 42%)';    // -50 bis 0: red
+                else if (normalizedScore <= 50) fillColor = 'hsl(142, 76%, 45%)'; // 0 bis 50: green
+                else fillColor = 'hsl(158, 64%, 32%)';                           // 50 bis 100: dark green
               }
 
               return {
                 fillColor,
-                weight: 1,
+                weight: 0.5,
                 opacity: 1,
                 color: '#333333',
                 fillOpacity: 0.7,
@@ -110,10 +113,10 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
 
               layer.on('click', () => onRegionClick(vnbId, vnbName));
               layer.on('mouseover', function (this: any) {
-                this.setStyle({ weight: 2, fillOpacity: 0.9 });
+                this.setStyle({ weight: 1.5, fillOpacity: 0.9 });
               });
               layer.on('mouseout', function (this: any) {
-                this.setStyle({ weight: 1, fillOpacity: 0.7 });
+                this.setStyle({ weight: 0.5, fillOpacity: 0.7 });
               });
             },
           }).addTo(map.current);
