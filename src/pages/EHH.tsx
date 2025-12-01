@@ -33,45 +33,32 @@ const EHH = () => {
       <Banner />
       <Header />
       <CategoryNav />
+      <SubNav category="EHH" />
       
       <main id="main-content" className="flex-grow bg-background">
         <div className="container mx-auto px-6 py-8">
           <h1 className="text-3xl font-bold mb-6">{categoryData.title}</h1>
-
-          {/* Mobile: SubNav above content */}
-          <div className="lg:hidden">
-            <SubNav category="EHH" />
-          </div>
           
-          <div className="flex gap-6">
-            {/* Desktop: SubNav sidebar */}
-            <aside className="hidden lg:block w-64 flex-shrink-0">
-              <SubNav category="EHH" />
-            </aside>
-
-            <div className="flex-1">
-              <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {categoryData.unterkategorien?.map((subcat) => (
-                  <Card key={subcat.slug} className="hover:shadow-lg transition-shadow">
-                    <CardHeader>
-                      <CardTitle>{subcat.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {subcat.kriterien && subcat.kriterien.length > 0 
-                          ? `${subcat.kriterien.length} Kriterien` 
-                          : 'Übersicht'}
-                      </p>
-                      <Button variant="outline" asChild>
-                        <Link to={`/EHH/${encodeURIComponent(subcat.slug)}`}>
-                          Zur Übersicht →
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categoryData.unterkategorien?.map((subcat) => (
+              <Card key={subcat.slug} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <CardTitle>{subcat.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {subcat.kriterien && subcat.kriterien.length > 0 
+                      ? `${subcat.kriterien.length} Kriterien` 
+                      : 'Übersicht'}
+                  </p>
+                  <Button variant="outline" asChild>
+                    <Link to={`/EHH/${encodeURIComponent(subcat.slug)}`}>
+                      Zur Übersicht →
+                    </Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </main>
