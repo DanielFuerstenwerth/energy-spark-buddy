@@ -14,11 +14,13 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
 
   if (loading) {
     return (
-      <nav aria-label="Subnavigation" className="mb-6">
-        <div className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
-          {[1, 2, 3, 4].map((i) => (
-            <Skeleton key={i} className="h-9 w-32 lg:w-full" />
-          ))}
+      <nav aria-label="Subnavigation" className="bg-muted/50 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center gap-2 py-2 overflow-x-auto">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-8 w-24 flex-shrink-0" />
+            ))}
+          </div>
         </div>
       </nav>
     );
@@ -27,11 +29,7 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
   const categoryData = navData?.kategorien?.find(k => k.slug === category);
 
   if (!categoryData) {
-    return (
-      <nav aria-label="Subnavigation" className="mb-6">
-        <p className="text-sm text-muted-foreground">Keine Unterpunkte definiert</p>
-      </nav>
-    );
+    return null;
   }
 
   // On subcategory page: show criteria
@@ -39,31 +37,28 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
     const subcategoryData = categoryData.unterkategorien?.find(u => u.slug === subcategory);
     
     if (!subcategoryData?.kriterien || subcategoryData.kriterien.length === 0) {
-      return (
-        <nav aria-label="Subnavigation" className="mb-6">
-          <p className="text-sm text-muted-foreground">Keine Kriterien definiert</p>
-        </nav>
-      );
+      return null;
     }
 
     return (
-      <nav aria-label="Subnavigation" className="mb-6">
-        <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">
-          Kriterien
-        </h2>
-        <ul className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
-          {subcategoryData.kriterien.map((krit) => {
-            const href = `/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}/${encodeURIComponent(krit.slug)}`;
-            const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${subcategory}/${krit.slug}`;
+      <nav aria-label="Subnavigation" className="bg-muted/50 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-thin">
+            <span className="text-xs font-medium text-muted-foreground mr-2 flex-shrink-0">
+              Kriterien:
+            </span>
+            {subcategoryData.kriterien.map((krit) => {
+              const href = `/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}/${encodeURIComponent(krit.slug)}`;
+              const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${subcategory}/${krit.slug}`;
 
-            return (
-              <li key={krit.slug}>
+              return (
                 <Link
+                  key={krit.slug}
                   to={href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "block px-3 py-2 text-sm rounded-md transition-colors",
-                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                    "px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap flex-shrink-0",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                     isActive
                       ? "bg-primary text-primary-foreground font-medium"
                       : "hover:bg-muted text-foreground"
@@ -71,41 +66,38 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
                 >
                   {krit.title}
                 </Link>
-              </li>
-            );
-          })}
-        </ul>
+              );
+            })}
+          </div>
+        </div>
       </nav>
     );
   }
 
   // On category page: show subcategories
   if (!categoryData.unterkategorien || categoryData.unterkategorien.length === 0) {
-    return (
-      <nav aria-label="Subnavigation" className="mb-6">
-        <p className="text-sm text-muted-foreground">Keine Unterkategorien definiert</p>
-      </nav>
-    );
+    return null;
   }
 
   return (
-    <nav aria-label="Subnavigation" className="mb-6">
-      <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wide">
-        Unterkategorien
-      </h2>
-      <ul className="flex flex-wrap gap-2 lg:flex-col lg:gap-1">
-        {categoryData.unterkategorien.map((sub) => {
-          const href = `/${encodeURIComponent(category)}/${encodeURIComponent(sub.slug)}`;
-          const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${sub.slug}`;
+    <nav aria-label="Subnavigation" className="bg-muted/50 border-b border-border">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-thin">
+          <span className="text-xs font-medium text-muted-foreground mr-2 flex-shrink-0">
+            Unterkategorien:
+          </span>
+          {categoryData.unterkategorien.map((sub) => {
+            const href = `/${encodeURIComponent(category)}/${encodeURIComponent(sub.slug)}`;
+            const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${sub.slug}`;
 
-          return (
-            <li key={sub.slug}>
+            return (
               <Link
+                key={sub.slug}
                 to={href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "block px-3 py-2 text-sm rounded-md transition-colors",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                  "px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap flex-shrink-0",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                   isActive
                     ? "bg-primary text-primary-foreground font-medium"
                     : "hover:bg-muted text-foreground"
@@ -113,10 +105,10 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
               >
                 {sub.title}
               </Link>
-            </li>
-          );
-        })}
-      </ul>
+            );
+          })}
+        </div>
+      </div>
     </nav>
   );
 };
