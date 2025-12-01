@@ -43,14 +43,11 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
   }
 
   return (
-    <div className="bg-muted/50 border-b border-border">
-      {/* Subcategories row - always show when category has subcategories */}
-      <nav aria-label="Unterkategorien" className="border-b border-border/50">
+    <div className="border-b border-border">
+      {/* Subcategories row - slightly darker background */}
+      <nav aria-label="Unterkategorien" className="bg-muted/40 border-b border-border/50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-thin">
-            <span className="text-xs font-medium text-muted-foreground mr-2 flex-shrink-0">
-              Unterkategorien:
-            </span>
+          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin">
             {categoryData.unterkategorien!.map((sub) => {
               const href = `/${encodeURIComponent(category)}/${encodeURIComponent(sub.slug)}`;
               const isActive = subcategory === sub.slug;
@@ -61,11 +58,11 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
                   to={href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap flex-shrink-0",
+                    "px-3 py-1 text-sm transition-colors whitespace-nowrap flex-shrink-0 border-b-2",
                     "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                     isActive
-                      ? "bg-primary/15 text-primary font-medium border border-primary/30"
-                      : "hover:bg-muted text-foreground"
+                      ? "text-primary font-medium border-primary bg-primary/10 rounded-t-md"
+                      : "hover:bg-muted/60 text-foreground/80 border-transparent"
                   )}
                 >
                   {sub.title}
@@ -76,14 +73,11 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
         </div>
       </nav>
 
-      {/* Criteria row - show when on a subcategory page and criteria exist */}
+      {/* Criteria row - lightest background */}
       {subcategory && hasCriteria && (
-        <nav aria-label="Kriterien">
+        <nav aria-label="Kriterien" className="bg-muted/20">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex items-center gap-1 py-2 overflow-x-auto scrollbar-thin">
-              <span className="text-xs font-medium text-muted-foreground mr-2 flex-shrink-0">
-                Kriterien:
-              </span>
+            <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin">
               {subcategoryData!.kriterien!.map((krit) => {
                 const href = `/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}/${encodeURIComponent(krit.slug)}`;
                 const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${subcategory}/${krit.slug}`;
@@ -94,11 +88,11 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
                     to={href}
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
-                      "px-3 py-1.5 text-sm rounded-md transition-colors whitespace-nowrap flex-shrink-0",
+                      "px-3 py-1 text-sm rounded-full transition-colors whitespace-nowrap flex-shrink-0",
                       "focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
                       isActive
                         ? "bg-primary text-primary-foreground font-medium"
-                        : "hover:bg-muted text-foreground"
+                        : "hover:bg-muted/60 text-foreground/70"
                     )}
                   >
                     {krit.title}

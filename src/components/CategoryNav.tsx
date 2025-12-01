@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import { useNavigation } from '@/hooks/useNavigation';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -8,7 +8,11 @@ import { useIsMobile } from '@/hooks/use-mobile';
 const CategoryNav = () => {
   const { navData, loading } = useNavigation();
   const navigate = useNavigate();
+  const location = useLocation();
   const isMobile = useIsMobile();
+  
+  // Get current category from URL path
+  const currentCategory = location.pathname.split('/')[1] || '';
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredSubcategory, setHoveredSubcategory] = useState<string | null>(null);
   const [clickedCategory, setClickedCategory] = useState<string | null>(null);
@@ -101,6 +105,7 @@ const CategoryNav = () => {
           `}</style>
           {navData.kategorien.map((kategorie) => {
             const isOpen = hoveredCategory === kategorie.slug || clickedCategory === kategorie.slug;
+            const isActive = decodeURIComponent(currentCategory) === kategorie.slug;
             
             return (
             <div 
@@ -127,7 +132,11 @@ const CategoryNav = () => {
                   e.stopPropagation();
                   setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
                 }}
-                className="flex items-center gap-1 md:gap-2 text-sm font-medium text-foreground hover:text-primary transition-colors py-2 whitespace-nowrap"
+                className={`flex items-center gap-1 md:gap-2 text-sm font-medium transition-colors py-2 whitespace-nowrap border-b-2 ${
+                  isActive 
+                    ? 'text-primary border-primary bg-primary/10 px-2 rounded-t-md' 
+                    : 'text-foreground hover:text-primary border-transparent'
+                }`}
               >
                 {kategorie.title}
                 <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
