@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import CategoryNav from "@/components/CategoryNav";
+import SubNav from "@/components/SubNav";
 import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
 import MapLegend from "@/components/MapLegend";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
@@ -81,28 +82,42 @@ const UniversalSubcategoryPage = () => {
             <p className="text-sm text-muted-foreground mb-2">{categoryTitle}</p>
             <h1 className="text-2xl md:text-3xl font-bold">{pageTitle}</h1>
           </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
-            <div className="space-y-4">
-              <div className="h-[400px] md:h-[500px]" style={{ zIndex: 1 }}>
-                <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
-              </div>
-              <MapLegend />
-            </div>
 
-            <div>
-              <BenchmarkPanel 
-                scoreData={scoreData}
-                selectedVnb={selectedVnb}
-                onVnbSelect={handleVnbSelect}
+          {/* Mobile: SubNav above content */}
+          <div className="lg:hidden">
+            <SubNav category={category!} subcategory={subcategory} />
+          </div>
+          
+          <div className="flex gap-6">
+            {/* Desktop: SubNav sidebar */}
+            <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-4 self-start">
+              <SubNav category={category!} subcategory={subcategory} />
+            </aside>
+
+            <div className="flex-1 min-w-0">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6 md:mb-8">
+                <div className="space-y-4">
+                  <div className="h-[400px] md:h-[500px]" style={{ zIndex: 1 }}>
+                    <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
+                  </div>
+                  <MapLegend />
+                </div>
+
+                <div>
+                  <BenchmarkPanel 
+                    scoreData={scoreData}
+                    selectedVnb={selectedVnb}
+                    onVnbSelect={handleVnbSelect}
+                  />
+                </div>
+              </div>
+
+              <CommentsSection 
+                route={route} 
+                vnbName={selectedVnb?.name}
               />
             </div>
           </div>
-
-          <CommentsSection 
-            route={route} 
-            vnbName={selectedVnb?.name}
-          />
         </div>
       </main>
       

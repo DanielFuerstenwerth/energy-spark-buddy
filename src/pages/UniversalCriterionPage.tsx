@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import Header from '@/components/Header';
 import Banner from '@/components/Banner';
 import CategoryNav from '@/components/CategoryNav';
+import SubNav from '@/components/SubNav';
 import Footer from '@/components/Footer';
 import MapGgv, { MapGgvHandle } from '@/components/MapGgv';
 import MapLegend from '@/components/MapLegend';
@@ -85,31 +86,45 @@ const UniversalCriterionPage = () => {
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          <div className="lg:col-span-2 space-y-4">
-            <div className="relative h-[400px] md:h-[600px] bg-card rounded-lg overflow-hidden border border-border" style={{ zIndex: 1 }}>
-              <MapGgv
-                ref={mapRef}
-                onRegionClick={handleRegionClick}
-                scoreData={scoreData}
-              />
+        {/* Mobile: SubNav above content */}
+        <div className="lg:hidden">
+          <SubNav category={category!} subcategory={subcategory} />
+        </div>
+
+        <div className="flex gap-6">
+          {/* Desktop: SubNav sidebar */}
+          <aside className="hidden lg:block w-64 flex-shrink-0 sticky top-4 self-start">
+            <SubNav category={category!} subcategory={subcategory} />
+          </aside>
+
+          <div className="flex-1 min-w-0">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+              <div className="xl:col-span-2 space-y-4">
+                <div className="relative h-[400px] md:h-[600px] bg-card rounded-lg overflow-hidden border border-border" style={{ zIndex: 1 }}>
+                  <MapGgv
+                    ref={mapRef}
+                    onRegionClick={handleRegionClick}
+                    scoreData={scoreData}
+                  />
+                </div>
+                <MapLegend />
+              </div>
+              
+              <div className="xl:col-span-1">
+                <BenchmarkPanel 
+                  scoreData={scoreData}
+                  selectedVnb={selectedVnb}
+                  onVnbSelect={handleVnbSelect}
+                />
+              </div>
             </div>
-            <MapLegend />
-          </div>
-          
-          <div className="lg:col-span-1">
-            <BenchmarkPanel 
-              scoreData={scoreData}
-              selectedVnb={selectedVnb}
-              onVnbSelect={handleVnbSelect}
+
+            <CommentsSection 
+              route={route}
+              vnbName={selectedVnb?.name}
             />
           </div>
         </div>
-
-        <CommentsSection 
-          route={route}
-          vnbName={selectedVnb?.name}
-        />
       </main>
 
       <Footer />
