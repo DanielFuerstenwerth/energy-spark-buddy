@@ -26,6 +26,7 @@ import AnliegenDv from "./pages/anliegen/Dv";
 import AnliegenSmgw from "./pages/anliegen/Smgw";
 import AnliegenBidi from "./pages/anliegen/Bidi";
 import Admin from "./pages/Admin";
+import EmbedGgvMap from "./pages/EmbedGgvMap";
 import SandraChatWidget from "./components/SandraChatWidget";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,9 @@ const App = () => (
           
           {/* Criterion Routes - Dynamic */}
           <Route path="/:category/:subcategory/:criterion" element={<UniversalCriterionPage />} />
+          
+          {/* Embed Routes */}
+          <Route path="/embed/ggv" element={<EmbedGgvMap />} />
           
           {/* Anliegen Landing Pages */}
           <Route path="/anliegen/ggv" element={<AnliegenGgv />} />
