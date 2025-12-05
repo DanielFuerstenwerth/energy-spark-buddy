@@ -43,11 +43,11 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
   }
 
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-border relative z-40">
       {/* Subcategories row - slightly darker background */}
       <nav aria-label="Unterkategorien" className="bg-muted/40 border-b border-border/50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin">
+          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin" style={{ touchAction: 'pan-x', WebkitOverflowScrolling: 'touch' }}>
             {categoryData.unterkategorien!.map((sub) => {
               const href = `/${encodeURIComponent(category)}/${encodeURIComponent(sub.slug)}`;
               const isActive = subcategory === sub.slug;
@@ -77,8 +77,8 @@ const SubNav = ({ category, subcategory }: SubNavProps) => {
       {subcategory && hasCriteria && (
         <nav aria-label="Kriterien" className="bg-muted/20">
           <div className="container mx-auto px-4 md:px-6">
-            <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin">
-              {subcategoryData!.kriterien!.map((krit) => {
+          <div className="flex items-center gap-1 py-1.5 overflow-x-auto scrollbar-thin" style={{ touchAction: 'pan-x', WebkitOverflowScrolling: 'touch' }}>
+            {subcategoryData!.kriterien!.map((krit) => {
                 const href = `/${encodeURIComponent(category)}/${encodeURIComponent(subcategory)}/${encodeURIComponent(krit.slug)}`;
                 const isActive = location.pathname === href || decodeURIComponent(location.pathname) === `/${category}/${subcategory}/${krit.slug}`;
 
