@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
@@ -9,15 +10,34 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useNavigation } from "@/hooks/useNavigation";
+import { buildMapsConfig } from "@/utils/structureLoader";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const UniversalCategory = () => {
   const { category } = useParams<{ category: string }>();
   const { navData, loading } = useNavigation();
+  const [mapsConfig, setMapsConfig] = useState<Record<string, any>>({});
+  const [configLoaded, setConfigLoaded] = useState(false);
+
+  // Load maps config to check which criteria have data
+  useEffect(() => {
+    buildMapsConfig().then((config) => {
+      setMapsConfig(config);
+      setConfigLoaded(true);
+    });
+  }, []);
 
   const categoryData = navData?.kategorien.find(k => k.slug === category);
   
-  if (loading) {
+  // Helper function to check if a criterion has data in the maps config
+  const hasDataForCriterion = (subcatSlug: string, kritSlug: string): boolean => {
+    const route = `${category}/${subcatSlug}/${kritSlug}`;
+    const routeLower = route.toLowerCase();
+    // Check if there's a config entry with a sheet URL
+    return !!(mapsConfig[route]?.sheet || mapsConfig[routeLower]?.sheet);
+  };
+  
+  if (loading || !configLoaded) {
     return (
       <div className="min-h-screen flex flex-col">
         <Banner />
@@ -65,8 +85,10 @@ const UniversalCategory = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {categoryData.unterkategorien.map((subcat, index) => {
                 const totalKriterien = subcat.kriterien?.length || 0;
-                // Count only criteria that have data (hasData = true)
-                const ratedKriterien = subcat.kriterien?.filter(k => k.hasData).length || 0;
+                // Count criteria that have data in maps config
+                const ratedKriterien = subcat.kriterien?.filter(k => 
+                  hasDataForCriterion(subcat.slug, k.slug)
+                ).length || 0;
                 const progressPercent = totalKriterien > 0 ? (ratedKriterien / totalKriterien) * 100 : 0;
                 
                 return (
