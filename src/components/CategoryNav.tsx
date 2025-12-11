@@ -129,10 +129,10 @@ const CategoryNav = () => {
               <div className="flex items-center">
                 <Link
                   to={`/${kategorie.slug}`}
-                  className={`text-sm font-medium transition-colors py-2 whitespace-nowrap border-b-2 ${
+                  className={`text-sm font-medium transition-all duration-200 py-2 px-2 whitespace-nowrap border-b-2 rounded-t-md ${
                     isActive 
-                      ? 'text-primary border-primary bg-primary/10 px-2 rounded-t-md' 
-                      : 'text-foreground hover:text-primary border-transparent'
+                      ? 'text-primary border-primary bg-primary/10' 
+                      : 'text-foreground hover:text-primary hover:bg-primary/5 hover:border-primary/50 border-transparent'
                   }`}
                   onClick={() => {
                     setClickedCategory(null);
