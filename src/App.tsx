@@ -41,11 +41,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<NewHome />} />
           
-          {/* Category Overview Routes */}
-          <Route path="/EHH" element={<UniversalCategory />} />
-          <Route path="/TaE" element={<UniversalCategory />} />
-          <Route path="/EiG" element={<UniversalCategory />} />
-          <Route path="/NiH" element={<UniversalCategory />} />
+          {/* Category Overview Routes - Dynamic */}
+          <Route path="/:category" element={<UniversalCategory />} />
           
           {/* Subcategory Routes - Dynamic */}
           <Route path="/:category/:subcategory" element={<UniversalSubcategoryPage />} />
