@@ -4,10 +4,10 @@ import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import CategoryNav from "@/components/CategoryNav";
 import SubNav from "@/components/SubNav";
+import PageBreadcrumb from "@/components/PageBreadcrumb";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/hooks/useNavigation";
-
 const UniversalCategory = () => {
   const { category } = useParams<{ category: string }>();
   const { navData } = useNavigation();
@@ -39,6 +39,7 @@ const UniversalCategory = () => {
       
       <main id="main-content" className="flex-grow bg-background">
         <div className="container mx-auto px-6 py-8">
+          <PageBreadcrumb items={[{ label: categoryData.title }]} />
           <h1 className="text-3xl font-bold mb-6">{categoryData.title}</h1>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

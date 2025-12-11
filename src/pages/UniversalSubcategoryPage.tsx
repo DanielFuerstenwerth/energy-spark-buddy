@@ -5,6 +5,7 @@ import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import CategoryNav from "@/components/CategoryNav";
 import SubNav from "@/components/SubNav";
+import PageBreadcrumb from "@/components/PageBreadcrumb";
 import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
 import MapLegend from "@/components/MapLegend";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
@@ -81,10 +82,13 @@ const UniversalSubcategoryPage = () => {
       
       <main id="main-content" className="flex-grow bg-background" style={{ position: 'relative', zIndex: 1 }}>
         <div className="container mx-auto px-4 md:px-6 py-6 md:py-8">
-          <div className="mb-4 md:mb-6">
-            <p className="text-sm text-muted-foreground mb-2">{categoryTitle}</p>
-            <h1 className="text-2xl md:text-3xl font-bold">{pageTitle}</h1>
-          </div>
+          <PageBreadcrumb 
+            items={[
+              { label: categoryTitle, href: `/${category}` },
+              { label: pageTitle }
+            ]} 
+          />
+          <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">{pageTitle}</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             <div className="space-y-4">
