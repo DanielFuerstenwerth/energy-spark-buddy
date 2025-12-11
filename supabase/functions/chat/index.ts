@@ -91,6 +91,10 @@ Nutzer:innen sollen besser verstehen:
 - und wie die Inhalte des 1000 GW Instituts und von vnb-transparenz.de Orientierung geben.
 Du bleibst streng quellenbasiert und verlinkst, wo immer möglich.`;
 
+// Rate limiting constants
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const MAX_MESSAGES_PER_SESSION = 30; // Max messages per session per hour
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -120,17 +124,41 @@ serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    // Get or create conversation
-    let { data: conversation, error: convError } = await supabase
+    // Rate limiting: Check message count for this session in the last hour
+    const oneHourAgo = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
+    
+    // First get the conversation for this session
+    const { data: existingConv } = await supabase
       .from("conversations")
-      .select("*")
+      .select("id")
       .eq("session_id", sessionId)
       .maybeSingle();
 
-    if (convError) {
-      console.error("[chat] Error fetching conversation:", convError);
-      throw convError;
+    if (existingConv) {
+      const { count: recentMessageCount, error: countError } = await supabase
+        .from("messages")
+        .select("id", { count: "exact", head: true })
+        .eq("conversation_id", existingConv.id)
+        .eq("role", "user")
+        .gte("created_at", oneHourAgo);
+
+      if (countError) {
+        console.error("[chat] Rate limit check error:", countError);
+        // Continue anyway, don't block legitimate users on error
+      } else if (recentMessageCount !== null && recentMessageCount >= MAX_MESSAGES_PER_SESSION) {
+        console.warn("[chat] Rate limit exceeded for session:", sessionId);
+        return new Response(
+          JSON.stringify({ 
+            error: 'Rate limit exceeded. Please try again later.',
+            retryAfter: 3600
+          }),
+          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
     }
+
+    // Reuse existing conversation from rate limit check, or fetch it
+    let conversation = existingConv as { id: string; session_id: string } | null;
 
     if (!conversation) {
       console.log("[chat] Creating new conversation for session:", sessionId);
@@ -144,10 +172,10 @@ serve(async (req) => {
         console.error("[chat] Error creating conversation:", createError);
         throw createError;
       }
-      conversation = newConv;
+      conversation = newConv as { id: string; session_id: string };
     }
 
-    const conversationId = conversation.id;
+    const conversationId = conversation!.id;
 
     // Load recent messages
     const { data: history, error: histError } = await supabase
