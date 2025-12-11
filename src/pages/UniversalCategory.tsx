@@ -22,18 +22,36 @@ const UniversalCategory = () => {
   // Load maps config to check which criteria have data
   useEffect(() => {
     buildMapsConfig().then((config) => {
+      console.log('[UniversalCategory] Maps config loaded:', Object.keys(config).length, 'routes');
+      console.log('[UniversalCategory] All routes:', Object.keys(config));
+      // Log routes for current category
+      const categoryRoutes = Object.keys(config).filter(r => r.startsWith(category || ''));
+      console.log(`[UniversalCategory] Routes for ${category}:`, categoryRoutes);
       setMapsConfig(config);
       setConfigLoaded(true);
     });
-  }, []);
+  }, [category]);
 
   const categoryData = navData?.kategorien.find(k => k.slug === category);
   
+  // Helper function to check if a subcategory has data
+  const hasDataForSubcategory = (subcatSlug: string): boolean => {
+    const route = `${category}/${subcatSlug}`;
+    const routeLower = route.toLowerCase();
+    // Check if there's a config entry with a sheet URL for the subcategory
+    return !!(mapsConfig[route]?.sheet || mapsConfig[routeLower]?.sheet);
+  };
+  
   // Helper function to check if a criterion has data in the maps config
+  // If the subcategory has data, we consider all its criteria as having data
   const hasDataForCriterion = (subcatSlug: string, kritSlug: string): boolean => {
+    // First check if subcategory level has data (aggregated scores)
+    if (hasDataForSubcategory(subcatSlug)) {
+      return true;
+    }
+    // Then check criterion-specific route
     const route = `${category}/${subcatSlug}/${kritSlug}`;
     const routeLower = route.toLowerCase();
-    // Check if there's a config entry with a sheet URL
     return !!(mapsConfig[route]?.sheet || mapsConfig[routeLower]?.sheet);
   };
   
