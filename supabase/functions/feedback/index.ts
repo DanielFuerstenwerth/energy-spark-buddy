@@ -13,6 +13,7 @@ const FeedbackRequestSchema = z.object({
   feedback: z.enum(['UP', 'DOWN', 'NONE'], { 
     errorMap: () => ({ message: 'Feedback must be UP, DOWN, or NONE' })
   }),
+  sessionId: z.string().min(1, { message: 'Session ID is required' }),
 });
 
 serve(async (req) => {
@@ -35,12 +36,46 @@ serve(async (req) => {
       );
     }
 
-    const { messageId, feedback } = validationResult.data;
+    const { messageId, feedback, sessionId } = validationResult.data;
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     );
+
+    // Verify that the message belongs to a conversation owned by this session
+    const { data: message, error: msgError } = await supabase
+      .from('messages')
+      .select('id, conversation_id')
+      .eq('id', messageId)
+      .maybeSingle();
+
+    if (msgError) {
+      console.error('Error fetching message:', msgError);
+      throw msgError;
+    }
+
+    if (!message) {
+      return new Response(
+        JSON.stringify({ error: 'Message not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Verify session owns the conversation
+    const { data: conversation, error: convError } = await supabase
+      .from('conversations')
+      .select('session_id')
+      .eq('id', message.conversation_id)
+      .maybeSingle();
+
+    if (convError || !conversation || conversation.session_id !== sessionId) {
+      console.warn(`Unauthorized feedback attempt: session ${sessionId} tried to update message ${messageId}`);
+      return new Response(
+        JSON.stringify({ error: 'Unauthorized' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     console.log(`Feedback update für Message ${messageId}: ${feedback}`);
 

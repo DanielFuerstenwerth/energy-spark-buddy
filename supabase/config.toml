@@ -4,7 +4,7 @@ project_id = "ounfqheqtrfxccirkzbp"
 verify_jwt = false
 
 [functions.feedback]
-verify_jwt = false
+verify_jwt = true
 
 [functions.ingest-page]
 verify_jwt = true
