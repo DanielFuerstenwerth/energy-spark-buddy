@@ -106,7 +106,7 @@ const SandraChatWidget = () => {
   const sendFeedback = async (messageId: string, feedback: 'UP' | 'DOWN') => {
     try {
       const { error } = await supabase.functions.invoke('feedback', {
-        body: { messageId, feedback }
+        body: { messageId, feedback, sessionId }
       });
 
       if (error) throw error;
