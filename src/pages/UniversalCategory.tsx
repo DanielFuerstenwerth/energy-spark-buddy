@@ -1,21 +1,21 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import CategoryNav from "@/components/CategoryNav";
 import SubNav from "@/components/SubNav";
 import PageBreadcrumb from "@/components/PageBreadcrumb";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/hooks/useNavigation";
-import { Info } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const UniversalCategory = () => {
   const { category } = useParams<{ category: string }>();
   const { navData, loading } = useNavigation();
 
-  // Check if this is a valid category
   const categoryData = navData?.kategorien.find(k => k.slug === category);
   
-  // If loading, show loading state
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -32,7 +32,6 @@ const UniversalCategory = () => {
     );
   }
 
-  // If not a valid category, show not found
   if (!categoryData) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -61,12 +60,38 @@ const UniversalCategory = () => {
           <PageBreadcrumb items={[{ label: categoryData.title }]} />
           <h1 className="text-3xl font-bold mb-8">{categoryData.title}</h1>
           
-          <div className="flex items-center gap-3 p-6 bg-muted/50 rounded-lg border border-border">
-            <Info className="h-6 w-6 text-primary flex-shrink-0" />
-            <p className="text-muted-foreground">
-              Bitte wählen Sie eine Unterkategorie aus der Navigation oben aus.
-            </p>
-          </div>
+          {categoryData.unterkategorien && categoryData.unterkategorien.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {categoryData.unterkategorien.map((subcat, index) => (
+                <Card 
+                  key={subcat.slug} 
+                  className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <CardHeader>
+                    <CardTitle className="text-lg group-hover:text-primary transition-colors">
+                      {subcat.title}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      {subcat.kriterien && subcat.kriterien.length > 0 
+                        ? `${subcat.kriterien.length} Kriterien` 
+                        : 'Übersicht'}
+                    </p>
+                    <Button variant="outline" asChild className="group/btn">
+                      <Link to={`/${category}/${subcat.slug}`}>
+                        Zur Übersicht
+                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                      </Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground">Keine Unterkategorien verfügbar.</p>
+          )}
         </div>
       </main>
       
