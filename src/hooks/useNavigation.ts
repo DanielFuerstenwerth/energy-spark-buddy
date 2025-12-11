@@ -4,6 +4,7 @@ import { loadStructureFromSheet } from '@/utils/structureLoader';
 export interface NavigationKriterium {
   slug: string;
   title: string;
+  hasData?: boolean;
 }
 
 export interface NavigationUnterkategorie {

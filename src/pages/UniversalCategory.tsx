@@ -65,8 +65,8 @@ const UniversalCategory = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {categoryData.unterkategorien.map((subcat, index) => {
                 const totalKriterien = subcat.kriterien?.length || 0;
-                // For now, we assume all listed criteria have data available
-                const ratedKriterien = totalKriterien;
+                // Count only criteria that have data (hasData = true)
+                const ratedKriterien = subcat.kriterien?.filter(k => k.hasData).length || 0;
                 const progressPercent = totalKriterien > 0 ? (ratedKriterien / totalKriterien) * 100 : 0;
                 
                 return (

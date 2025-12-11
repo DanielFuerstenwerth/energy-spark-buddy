@@ -13,6 +13,7 @@ interface StructureRow {
 interface NavigationKriterium {
   slug: string;
   title: string;
+  hasData?: boolean;
 }
 
 interface NavigationUnterkategorie {
@@ -214,10 +215,14 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
         k => k.slug === row.kriterium_slug
       );
       
+      // Check if this criterion has data (sheet_url is not empty)
+      const hasData = !!(row.sheet_url && row.sheet_url.trim() !== '');
+      
       if (!existingKrit) {
         unterkategorie.kriterien.push({
           slug: row.kriterium_slug,
-          title: row.kriterium_name
+          title: row.kriterium_name,
+          hasData
         });
       }
     }
