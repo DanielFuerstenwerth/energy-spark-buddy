@@ -126,21 +126,38 @@ const CategoryNav = () => {
                 }, 300);
               }}
             >
-              <button
-                ref={(el) => buttonRefs.current[kategorie.slug] = el}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
-                }}
-                className={`flex items-center gap-1 md:gap-2 text-sm font-medium transition-colors py-2 whitespace-nowrap border-b-2 ${
-                  isActive 
-                    ? 'text-primary border-primary bg-primary/10 px-2 rounded-t-md' 
-                    : 'text-foreground hover:text-primary border-transparent'
-                }`}
-              >
-                {kategorie.title}
-                <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="flex items-center">
+                <Link
+                  to={`/${kategorie.slug}`}
+                  className={`text-sm font-medium transition-colors py-2 whitespace-nowrap border-b-2 ${
+                    isActive 
+                      ? 'text-primary border-primary bg-primary/10 px-2 rounded-t-md' 
+                      : 'text-foreground hover:text-primary border-transparent'
+                  }`}
+                  onClick={() => {
+                    setClickedCategory(null);
+                    setHoveredCategory(null);
+                    setHoveredSubcategory(null);
+                  }}
+                >
+                  {kategorie.title}
+                </Link>
+                <button
+                  ref={(el) => buttonRefs.current[kategorie.slug] = el}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
+                  }}
+                  className={`p-1 ml-1 transition-colors ${
+                    isActive 
+                      ? 'text-primary' 
+                      : 'text-foreground hover:text-primary'
+                  }`}
+                  aria-label={`${kategorie.title} Untermenü öffnen`}
+                >
+                  <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
 
               {/* Mobile: Click-based dropdown with inline criteria */}
               {isMobile && isOpen && dropdownPosition && createPortal(
