@@ -10,52 +10,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useNavigation } from "@/hooks/useNavigation";
-import { buildMapsConfig } from "@/utils/structureLoader";
+import { loadAllCriteriaDataStatus, checkCriterionHasData } from "@/utils/criteriaDataChecker";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+
+interface SubcategoryDataStatus {
+  [subcategoryRoute: string]: {
+    [criterionSlug: string]: boolean;
+  };
+}
 
 const UniversalCategory = () => {
   const { category } = useParams<{ category: string }>();
   const { navData, loading } = useNavigation();
-  const [mapsConfig, setMapsConfig] = useState<Record<string, any>>({});
-  const [configLoaded, setConfigLoaded] = useState(false);
+  const [dataStatus, setDataStatus] = useState<SubcategoryDataStatus>({});
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load maps config to check which criteria have data
+  // Load criteria data status to check which criteria have actual data
   useEffect(() => {
-    buildMapsConfig().then((config) => {
-      console.log('[UniversalCategory] Maps config loaded:', Object.keys(config).length, 'routes');
-      console.log('[UniversalCategory] All routes:', Object.keys(config));
-      // Log routes for current category
-      const categoryRoutes = Object.keys(config).filter(r => r.startsWith(category || ''));
-      console.log(`[UniversalCategory] Routes for ${category}:`, categoryRoutes);
-      setMapsConfig(config);
-      setConfigLoaded(true);
+    loadAllCriteriaDataStatus().then((status) => {
+      console.log('[UniversalCategory] Criteria data status loaded');
+      setDataStatus(status);
+      setDataLoaded(true);
     });
-  }, [category]);
+  }, []);
 
   const categoryData = navData?.kategorien.find(k => k.slug === category);
   
-  // Helper function to check if a subcategory has data
-  const hasDataForSubcategory = (subcatSlug: string): boolean => {
-    const route = `${category}/${subcatSlug}`;
-    const routeLower = route.toLowerCase();
-    // Check if there's a config entry with a sheet URL for the subcategory
-    return !!(mapsConfig[route]?.sheet || mapsConfig[routeLower]?.sheet);
-  };
-  
-  // Helper function to check if a criterion has data in the maps config
-  // If the subcategory has data, we consider all its criteria as having data
-  const hasDataForCriterion = (subcatSlug: string, kritSlug: string): boolean => {
-    // First check if subcategory level has data (aggregated scores)
-    if (hasDataForSubcategory(subcatSlug)) {
-      return true;
-    }
-    // Then check criterion-specific route
-    const route = `${category}/${subcatSlug}/${kritSlug}`;
-    const routeLower = route.toLowerCase();
-    return !!(mapsConfig[route]?.sheet || mapsConfig[routeLower]?.sheet);
-  };
-  
-  if (loading || !configLoaded) {
+  if (loading || !dataLoaded) {
     return (
       <div className="min-h-screen flex flex-col">
         <Banner />
@@ -103,9 +84,9 @@ const UniversalCategory = () => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {categoryData.unterkategorien.map((subcat, index) => {
                 const totalKriterien = subcat.kriterien?.length || 0;
-                // Count criteria that have data in maps config
+                // Count criteria that have actual non-null data in the sheet
                 const ratedKriterien = subcat.kriterien?.filter(k => 
-                  hasDataForCriterion(subcat.slug, k.slug)
+                  checkCriterionHasData(dataStatus, category || '', subcat.slug, k.slug)
                 ).length || 0;
                 const progressPercent = totalKriterien > 0 ? (ratedKriterien / totalKriterien) * 100 : 0;
                 
