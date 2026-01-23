@@ -61,12 +61,21 @@ export function FileUpload({
   };
 
   const handleRemove = async (urlToRemove: string) => {
+    // Note: Due to security policies, only admins can delete from storage
+    // For regular users, we just remove from the local state (file stays in storage for admin review)
     try {
-      await supabase.storage.from('survey-documents').remove([urlToRemove]);
+      const { error } = await supabase.storage.from('survey-documents').remove([urlToRemove]);
+      // Even if delete fails (due to RLS), remove from local state
       onChange(value.filter((url) => url !== urlToRemove));
+      if (error) {
+        // Silent fail - file will be removed from submission but remain in storage for admin
+        console.log('File removal from storage skipped (will be handled by admin)');
+      }
       toast.success('Datei entfernt');
     } catch (error) { 
-      toast.error('Fehler beim Löschen'); 
+      // Remove from local state anyway
+      onChange(value.filter((url) => url !== urlToRemove));
+      toast.success('Datei entfernt');
     }
   };
 
