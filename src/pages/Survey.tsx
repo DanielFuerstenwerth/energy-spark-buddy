@@ -162,8 +162,8 @@ export default function Survey() {
   const handleSubmit = async () => {
     const validation = validateSurveyData(data);
     if (!validation.success) {
-      toast.error("Bitte überprüfen Sie Ihre Eingaben");
-      return;
+      // Show warning but don't block submission
+      toast.warning("Einige Eingaben sind möglicherweise unvollständig - die Umfrage wird trotzdem abgeschickt");
     }
 
     setIsSubmitting(true);
