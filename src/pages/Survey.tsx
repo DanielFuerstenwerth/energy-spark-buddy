@@ -22,6 +22,9 @@ import { StepVnbPlanningGgv } from "@/components/survey/steps/StepVnbPlanningGgv
 import { StepVnbMsbDetails } from "@/components/survey/steps/StepVnbMsbDetails";
 import { StepGgvOperation } from "@/components/survey/steps/StepGgvOperation";
 import { StepServiceProvider } from "@/components/survey/steps/StepServiceProvider";
+import { StepMieterstromPlanning } from "@/components/survey/steps/StepMieterstromPlanning";
+import { StepMieterstromVnbOffer } from "@/components/survey/steps/StepMieterstromVnbOffer";
+import { StepMieterstromOperation } from "@/components/survey/steps/StepMieterstromOperation";
 import { StepEnergySharing } from "@/components/survey/steps/StepEnergySharing";
 import { StepFinal } from "@/components/survey/steps/StepFinal";
 
@@ -49,9 +52,12 @@ export default function Survey() {
 
   // Determine which steps to show based on project focus and status
   const isGgvInOperation = data.planningStatus.includes('pv_laeuft_ggv_laeuft');
-  const isGgvOrMieterstrom = data.projectFocus === 'ggv' || data.projectFocus === 'mieterstrom' || 
-    data.projectTypes.includes('ggv') || data.projectTypes.includes('mieterstrom') || data.projectTypes.includes('ggv_oder_mieterstrom');
-  const isEnergySharing = data.projectFocus === 'energysharing' || data.projectTypes.includes('energysharing');
+  const isMieterstromInOperation = data.mieterstromInOperation === true;
+  const isGgv = data.projectTypes.includes('ggv') || data.ggvOrMieterstromDecision === 'sicher_ggv';
+  const isMieterstrom = data.projectTypes.includes('mieterstrom') || data.ggvOrMieterstromDecision === 'sicher_mieterstrom';
+  const isGgvOrMieterstrom = data.projectTypes.includes('ggv') || data.projectTypes.includes('mieterstrom') || 
+    data.projectTypes.includes('ggv_oder_mieterstrom');
+  const isEnergySharing = data.projectTypes.includes('energysharing');
   const onlyEnergySharing = isEnergySharing && !isGgvOrMieterstrom;
 
   const steps = useMemo(() => {
@@ -66,8 +72,9 @@ export default function Survey() {
         { id: "challenges", title: "Herausforderungen", description: "Erlebte Schwierigkeiten" }
       );
 
-      if (data.projectFocus === 'ggv' || data.ggvOrMieterstromDecision === 'sicher_ggv') {
-        baseSteps.push({ id: "vnb-planning", title: "VNB Planung", description: "Details zur GGV-Planung" });
+      // GGV-specific steps
+      if (isGgv || data.ggvOrMieterstromDecision === 'sicher_ggv' || data.projectTypes.includes('ggv_oder_mieterstrom')) {
+        baseSteps.push({ id: "vnb-planning", title: "VNB Planung (GGV)", description: "Details zur GGV-Planung" });
         if (data.vnbMsbOffer) {
           baseSteps.push({ id: "vnb-msb", title: "MSB Details", description: "Messstellenbetreiber" });
         }
@@ -75,6 +82,17 @@ export default function Survey() {
           baseSteps.push({ id: "ggv-operation", title: "GGV Betrieb", description: "Erfahrungen im Betrieb" });
         }
         baseSteps.push({ id: "service-provider", title: "Dienstleister", description: "Feedback & Reaktionen" });
+      }
+
+      // Mieterstrom-specific steps
+      if (isMieterstrom || data.ggvOrMieterstromDecision === 'sicher_mieterstrom' || data.projectTypes.includes('ggv_oder_mieterstrom')) {
+        baseSteps.push({ id: "mieterstrom-planning", title: "Mieterstrom Planung", description: "Details zu Mieterstrom" });
+        if (!isMieterstromInOperation) {
+          baseSteps.push({ id: "mieterstrom-vnb-offer", title: "VNB Angebot", description: "MSB-Angebot für Mieterstrom" });
+        }
+        if (isMieterstromInOperation) {
+          baseSteps.push({ id: "mieterstrom-operation", title: "Mieterstrom Betrieb", description: "Erfahrungen im Betrieb" });
+        }
       }
     }
 
@@ -85,7 +103,7 @@ export default function Survey() {
     baseSteps.push({ id: "final", title: "Abschluss", description: "Letzte Informationen" });
 
     return baseSteps;
-  }, [data.projectFocus, data.ggvOrMieterstromDecision, data.vnbMsbOffer, isGgvInOperation, isEnergySharing, onlyEnergySharing]);
+  }, [data.projectTypes, data.ggvOrMieterstromDecision, data.vnbMsbOffer, isGgvInOperation, isMieterstromInOperation, isGgv, isMieterstrom, isEnergySharing, onlyEnergySharing]);
 
   const handleRestoreDraft = () => {
     const draft = getSavedDraft();
@@ -121,6 +139,13 @@ export default function Survey() {
         ggv_building_count: data.ggvBuildingCount,
         ggv_additional_info: data.ggvAdditionalInfo,
         ggv_in_operation: data.ggvInOperation,
+        mieterstrom_project_type: data.mieterstromProjectType,
+        mieterstrom_pv_size_kw: data.mieterstromPvSizeKw,
+        mieterstrom_party_count: data.mieterstromPartyCount,
+        mieterstrom_building_type: data.mieterstromBuildingType,
+        mieterstrom_building_count: data.mieterstromBuildingCount,
+        mieterstrom_additional_info: data.mieterstromAdditionalInfo,
+        mieterstrom_in_operation: data.mieterstromInOperation,
         planning_status: data.planningStatus,
         planning_status_other: data.planningStatusOther,
         ggv_or_mieterstrom_decision: data.ggvOrMieterstromDecision,
@@ -186,20 +211,84 @@ export default function Survey() {
         service_provider_name: data.serviceProviderName,
         service_provider_rating: data.serviceProviderRating,
         service_provider_comments: data.serviceProviderComments,
+        service_provider_2_name: data.serviceProvider2Name,
+        service_provider_2_rating: data.serviceProvider2Rating,
+        service_provider_2_comments: data.serviceProvider2Comments,
         vnb_rejection_response: data.vnbRejectionResponse,
+        vnb_rejection_response_other: data.vnbRejectionResponseOther,
+        // Mieterstrom fields
+        mieterstrom_summenzaehler: data.mieterstromSummenzaehler,
+        mieterstrom_existing_projects: data.mieterstromExistingProjects,
+        mieterstrom_existing_projects_virtuell: data.mieterstromExistingProjectsVirtuell,
+        mieterstrom_vnb_contact: data.mieterstromVnbContact,
+        mieterstrom_vnb_contact_other: data.mieterstromVnbContactOther,
+        mieterstrom_virtuell_allowed: data.mieterstromVirtuellAllowed,
+        mieterstrom_virtuell_wandlermessung: data.mieterstromVirtuellWandlermessung,
+        mieterstrom_virtuell_wandlermessung_comment: data.mieterstromVirtuellWandlermessungComment,
+        mieterstrom_vnb_response: data.mieterstromVnbResponse,
+        mieterstrom_vnb_response_reasons: data.mieterstromVnbResponseReasons,
+        mieterstrom_vnb_support: data.mieterstromVnbSupport,
+        mieterstrom_vnb_support_other: data.mieterstromVnbSupportOther,
+        mieterstrom_vnb_helpful: data.mieterstromVnbHelpful,
+        mieterstrom_vnb_helpful_other: data.mieterstromVnbHelpfulOther,
+        mieterstrom_personal_contacts: data.mieterstromPersonalContacts,
+        mieterstrom_personal_contacts_other: data.mieterstromPersonalContactsOther,
+        mieterstrom_support_rating: data.mieterstromSupportRating,
+        mieterstrom_full_service: data.mieterstromFullService,
+        mieterstrom_msb_costs: data.mieterstromMsbCosts,
+        mieterstrom_msb_costs_one_time: data.mieterstromMsbCostsOneTime,
+        mieterstrom_msb_costs_yearly: data.mieterstromMsbCostsYearly,
+        mieterstrom_msb_costs_other: data.mieterstromMsbCostsOther,
+        mieterstrom_model_choice: data.mieterstromModelChoice,
+        mieterstrom_data_provision: data.mieterstromDataProvision,
+        mieterstrom_vnb_role: data.mieterstromVnbRole,
+        mieterstrom_vnb_duration: data.mieterstromVnbDuration,
+        mieterstrom_vnb_duration_reasons: data.mieterstromVnbDurationReasons,
+        mieterstrom_wandlermessung: data.mieterstromWandlermessung,
+        mieterstrom_wandlermessung_comment: data.mieterstromWandlermessungComment,
+        mieterstrom_msb_provider: data.mieterstromMsbProvider,
+        mieterstrom_data_provider: data.mieterstromDataProvider,
+        mieterstrom_data_provider_other: data.mieterstromDataProviderOther,
+        mieterstrom_msb_install_duration: data.mieterstromMsbInstallDuration,
+        mieterstrom_operation_costs: data.mieterstromOperationCosts,
+        mieterstrom_operation_costs_one_time: data.mieterstromOperationCostsOneTime,
+        mieterstrom_operation_costs_yearly: data.mieterstromOperationCostsYearly,
+        mieterstrom_operation_satisfaction: data.mieterstromOperationSatisfaction,
+        mieterstrom_rejection_response: data.mieterstromRejectionResponse,
+        mieterstrom_rejection_response_other: data.mieterstromRejectionResponseOther,
+        mieterstrom_info_sources: data.mieterstromInfoSources,
+        mieterstrom_experiences: data.mieterstromExperiences,
+        mieterstrom_survey_improvements: data.mieterstromSurveyImprovements,
+        mieterstrom_challenges: data.mieterstromChallenges,
+        mieterstrom_challenges_opposition: data.mieterstromChallengesOpposition,
+        mieterstrom_challenges_pv: data.mieterstromChallengesPv,
+        mieterstrom_challenges_vnb: data.mieterstromChallengesVnb,
+        mieterstrom_challenges_costs: data.mieterstromChallengesCosts,
+        mieterstrom_challenges_other: data.mieterstromChallengesOther,
+        // Energy Sharing fields
         es_status: data.esStatus,
         es_status_other: data.esStatusOther,
         es_in_operation_details: data.esInOperationDetails,
         es_operator_details: data.esOperatorDetails,
         es_plant_type: data.esPlantType,
+        es_plant_type_details: data.esPlantTypeDetails,
+        es_project_scope: data.esProjectScope,
         es_pv_size_kw: data.esPvSizeKw,
         es_wind_size_kw: data.esWindSizeKw,
+        es_total_pv_size_kw: data.esTotalPvSizeKw,
+        es_total_wind_size_kw: data.esTotalWindSizeKw,
         es_party_count: data.esPartyCount,
         es_consumer_types: data.esConsumerTypes,
         es_consumer_details: data.esConsumerDetails,
+        es_consumer_scope: data.esConsumerScope,
+        es_consumer_scope_other: data.esConsumerScopeOther,
+        es_max_distance: data.esMaxDistance,
         es_vnb_contact: data.esVnbContact,
         es_vnb_response: data.esVnbResponse,
         es_vnb_response_other: data.esVnbResponseOther,
+        es_vnb_response_details: data.esVnbResponseDetails,
+        es_netzentgelte_discussion: data.esNetzentgelteDiscussion,
+        es_netzentgelte_details: data.esNetzentgelteDetails,
         es_info_sources: data.esInfoSources,
         helpful_info_sources: data.helpfulInfoSources,
         additional_experiences: data.additionalExperiences,
@@ -234,6 +323,9 @@ export default function Survey() {
       case "vnb-msb": return <StepVnbMsbDetails data={data} updateData={updateData} />;
       case "ggv-operation": return <StepGgvOperation data={data} updateData={updateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
       case "service-provider": return <StepServiceProvider data={data} updateData={updateData} />;
+      case "mieterstrom-planning": return <StepMieterstromPlanning data={data} updateData={updateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
+      case "mieterstrom-vnb-offer": return <StepMieterstromVnbOffer data={data} updateData={updateData} />;
+      case "mieterstrom-operation": return <StepMieterstromOperation data={data} updateData={updateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
       case "energy-sharing": return <StepEnergySharing data={data} updateData={updateData} />;
       case "final": return <StepFinal data={data} updateData={updateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
       default: return null;
