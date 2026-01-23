@@ -19,6 +19,7 @@ import AdminComments from "./pages/AdminComments";
 import AdminVnbMapping from "./pages/AdminVnbMapping";
 import Auth from "./pages/Auth";
 import Reply from "./pages/Reply";
+import Survey from "./pages/Survey";
 import NotFound from "./pages/NotFound";
 import AnliegenGgv from "./pages/anliegen/Ggv";
 import AnliegenZvne from "./pages/anliegen/Zvne";
@@ -68,6 +69,7 @@ const App = () => (
           <Route path="/methodik" element={<Methodik />} />
           <Route path="/mitmachen" element={<Mitmachen />} />
           <Route path="/reply" element={<Reply />} />
+          <Route path="/umfrage" element={<Survey />} />
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
