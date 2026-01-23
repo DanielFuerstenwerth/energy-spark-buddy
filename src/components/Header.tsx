@@ -15,6 +15,7 @@ const Header = () => {
   const navLinks = [
     { to: "/news", label: "News" },
     { to: "/methodik", label: "Methodik" },
+    { to: "/umfrage", label: "Umfrage" },
     { to: "/about", label: "Über uns" },
     { to: "/impressum", label: "Kontakt" },
   ];
