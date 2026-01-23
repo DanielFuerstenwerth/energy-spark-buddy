@@ -208,24 +208,39 @@ export type Database = {
       survey_responses: {
         Row: {
           actor_other: string | null
+          actor_text_fields: Json | null
           actor_types: string[] | null
           additional_experiences: string | null
           challenges: string[] | null
+          challenges_costs_high: string | null
           challenges_details: Json | null
+          challenges_other: string | null
+          challenges_pv_installation: string | null
+          challenges_vnb_blocking: string | null
           contact_email: string | null
           created_at: string
           es_consumer_details: string | null
+          es_consumer_scope: string | null
+          es_consumer_scope_other: string | null
           es_consumer_types: string[] | null
           es_in_operation_details: string | null
           es_info_sources: string | null
+          es_max_distance: string | null
+          es_netzentgelte_details: string | null
+          es_netzentgelte_discussion: string | null
           es_operator_details: string | null
           es_party_count: number | null
           es_plant_type: string[] | null
+          es_plant_type_details: string[] | null
+          es_project_scope: string | null
           es_pv_size_kw: number | null
           es_status: string[] | null
           es_status_other: string | null
+          es_total_pv_size_kw: number | null
+          es_total_wind_size_kw: number | null
           es_vnb_contact: boolean | null
           es_vnb_response: string | null
+          es_vnb_response_details: string | null
           es_vnb_response_other: string | null
           es_wind_size_kw: number | null
           ggv_additional_info: string | null
@@ -241,30 +256,85 @@ export type Database = {
           helpful_info_sources: string | null
           id: string
           implementation_approach: string[] | null
+          implementation_approach_other: string | null
           mieterstrom_additional_info: string | null
           mieterstrom_building_count: number | null
           mieterstrom_building_type: string | null
+          mieterstrom_challenges: string[] | null
+          mieterstrom_challenges_costs: string | null
+          mieterstrom_challenges_opposition: string | null
+          mieterstrom_challenges_other: string | null
+          mieterstrom_challenges_pv: string | null
+          mieterstrom_challenges_vnb: string | null
+          mieterstrom_data_provider: string | null
+          mieterstrom_data_provider_other: string | null
+          mieterstrom_data_provision: string | null
           mieterstrom_decision_reasons: string[] | null
           mieterstrom_decision_reasons_other: string | null
+          mieterstrom_existing_projects: string | null
+          mieterstrom_existing_projects_virtuell: string | null
+          mieterstrom_experiences: string | null
+          mieterstrom_full_service: string | null
           mieterstrom_in_operation: boolean | null
+          mieterstrom_info_sources: string | null
+          mieterstrom_model_choice: string | null
+          mieterstrom_msb_costs: string | null
+          mieterstrom_msb_costs_one_time: number | null
+          mieterstrom_msb_costs_other: string | null
+          mieterstrom_msb_costs_yearly: number | null
+          mieterstrom_msb_install_duration: string | null
+          mieterstrom_msb_provider: string | null
+          mieterstrom_operation_costs: string | null
+          mieterstrom_operation_costs_one_time: number | null
+          mieterstrom_operation_costs_yearly: number | null
+          mieterstrom_operation_satisfaction: number | null
           mieterstrom_party_count: number | null
+          mieterstrom_personal_contacts: string | null
+          mieterstrom_personal_contacts_other: string | null
           mieterstrom_project_type: string | null
           mieterstrom_pv_size_kw: number | null
+          mieterstrom_rejection_response: string[] | null
+          mieterstrom_rejection_response_other: string | null
           mieterstrom_summenzaehler: string | null
+          mieterstrom_support_rating: number | null
+          mieterstrom_survey_improvements: string | null
+          mieterstrom_virtuell_allowed: string | null
+          mieterstrom_virtuell_wandlermessung: string | null
+          mieterstrom_virtuell_wandlermessung_comment: string | null
+          mieterstrom_vnb_contact: string | null
+          mieterstrom_vnb_contact_other: string | null
+          mieterstrom_vnb_duration: string | null
+          mieterstrom_vnb_duration_reasons: string | null
+          mieterstrom_vnb_helpful: string | null
+          mieterstrom_vnb_helpful_other: string | null
+          mieterstrom_vnb_response: string[] | null
+          mieterstrom_vnb_response_reasons: string | null
+          mieterstrom_vnb_role: string | null
+          mieterstrom_vnb_support: string[] | null
+          mieterstrom_vnb_support_other: string | null
+          mieterstrom_wandlermessung: string | null
+          mieterstrom_wandlermessung_comment: string | null
           motivation: string[] | null
           motivation_other: string | null
           nps_score: number | null
           operation_allocation_provider: string | null
           operation_allocation_who: string | null
+          operation_allocation_who_details: string | null
           operation_allocation_who_other: string | null
           operation_data_cost: string | null
           operation_data_cost_amount: number | null
           operation_data_format: string | null
           operation_data_format_other: string | null
+          operation_data_method: string | null
+          operation_data_method_other: string | null
           operation_data_provider: string | null
           operation_data_provider_other: string | null
+          operation_direct_data_cost: string | null
+          operation_direct_data_cost_amount: number | null
           operation_esa_cost: string | null
           operation_esa_cost_amount: number | null
+          operation_esa_role_cost: string | null
+          operation_esa_role_cost_amount: number | null
           operation_msb_additional_costs: string | null
           operation_msb_additional_costs_one_time: number | null
           operation_msb_additional_costs_yearly: number | null
@@ -273,12 +343,16 @@ export type Database = {
           operation_satisfaction_rating: number | null
           operation_start_date: string | null
           operation_vnb_duration: string | null
+          operation_vnb_duration_reasons: string | null
           operation_wandlermessung: string | null
           operation_wandlermessung_comment: string | null
           planning_status: string[] | null
           planning_status_other: string | null
           project_focus: string | null
           project_types: string[] | null
+          service_provider_2_comments: string | null
+          service_provider_2_name: string | null
+          service_provider_2_rating: number | null
           service_provider_comments: string | null
           service_provider_name: string | null
           service_provider_rating: number | null
@@ -295,17 +369,38 @@ export type Database = {
           vnb_data_cost_amount: number | null
           vnb_data_format: string | null
           vnb_data_provision: string | null
+          vnb_data_provision_method: string | null
+          vnb_data_provision_other: string | null
+          vnb_direct_data_cost: string | null
+          vnb_direct_data_cost_amount: number | null
           vnb_esa_cost: string | null
           vnb_esa_cost_amount: number | null
+          vnb_esa_role_cost: string | null
+          vnb_esa_role_cost_amount: number | null
           vnb_existing_projects: string | null
           vnb_existing_projects_other: string | null
           vnb_full_service: string | null
+          vnb_full_service_condition: string | null
+          vnb_ggv_possible: string | null
+          vnb_ggv_possible_reasons: string | null
           vnb_info_available: string | null
           vnb_info_available_other: string | null
+          vnb_msb_additional_costs: string | null
+          vnb_msb_additional_costs_one_time: number | null
+          vnb_msb_additional_costs_yearly: number | null
+          vnb_msb_offer: string | null
+          vnb_msb_start_timeline: string | null
+          vnb_msb_start_timeline_other: string | null
           vnb_msb_timeline: string | null
           vnb_name: string | null
+          vnb_no_msb_future_timeline: string | null
           vnb_personal_contacts: string | null
           vnb_personal_contacts_other: string | null
+          vnb_planning_duration: string | null
+          vnb_planning_duration_reasons: string | null
+          vnb_rejection_future_timeline: string | null
+          vnb_rejection_response: string[] | null
+          vnb_rejection_response_other: string | null
           vnb_rejection_timeline: string | null
           vnb_response: string[] | null
           vnb_response_reasons: string | null
@@ -321,24 +416,39 @@ export type Database = {
         }
         Insert: {
           actor_other?: string | null
+          actor_text_fields?: Json | null
           actor_types?: string[] | null
           additional_experiences?: string | null
           challenges?: string[] | null
+          challenges_costs_high?: string | null
           challenges_details?: Json | null
+          challenges_other?: string | null
+          challenges_pv_installation?: string | null
+          challenges_vnb_blocking?: string | null
           contact_email?: string | null
           created_at?: string
           es_consumer_details?: string | null
+          es_consumer_scope?: string | null
+          es_consumer_scope_other?: string | null
           es_consumer_types?: string[] | null
           es_in_operation_details?: string | null
           es_info_sources?: string | null
+          es_max_distance?: string | null
+          es_netzentgelte_details?: string | null
+          es_netzentgelte_discussion?: string | null
           es_operator_details?: string | null
           es_party_count?: number | null
           es_plant_type?: string[] | null
+          es_plant_type_details?: string[] | null
+          es_project_scope?: string | null
           es_pv_size_kw?: number | null
           es_status?: string[] | null
           es_status_other?: string | null
+          es_total_pv_size_kw?: number | null
+          es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null
           es_vnb_response?: string | null
+          es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           es_wind_size_kw?: number | null
           ggv_additional_info?: string | null
@@ -354,30 +464,85 @@ export type Database = {
           helpful_info_sources?: string | null
           id?: string
           implementation_approach?: string[] | null
+          implementation_approach_other?: string | null
           mieterstrom_additional_info?: string | null
           mieterstrom_building_count?: number | null
           mieterstrom_building_type?: string | null
+          mieterstrom_challenges?: string[] | null
+          mieterstrom_challenges_costs?: string | null
+          mieterstrom_challenges_opposition?: string | null
+          mieterstrom_challenges_other?: string | null
+          mieterstrom_challenges_pv?: string | null
+          mieterstrom_challenges_vnb?: string | null
+          mieterstrom_data_provider?: string | null
+          mieterstrom_data_provider_other?: string | null
+          mieterstrom_data_provision?: string | null
           mieterstrom_decision_reasons?: string[] | null
           mieterstrom_decision_reasons_other?: string | null
+          mieterstrom_existing_projects?: string | null
+          mieterstrom_existing_projects_virtuell?: string | null
+          mieterstrom_experiences?: string | null
+          mieterstrom_full_service?: string | null
           mieterstrom_in_operation?: boolean | null
+          mieterstrom_info_sources?: string | null
+          mieterstrom_model_choice?: string | null
+          mieterstrom_msb_costs?: string | null
+          mieterstrom_msb_costs_one_time?: number | null
+          mieterstrom_msb_costs_other?: string | null
+          mieterstrom_msb_costs_yearly?: number | null
+          mieterstrom_msb_install_duration?: string | null
+          mieterstrom_msb_provider?: string | null
+          mieterstrom_operation_costs?: string | null
+          mieterstrom_operation_costs_one_time?: number | null
+          mieterstrom_operation_costs_yearly?: number | null
+          mieterstrom_operation_satisfaction?: number | null
           mieterstrom_party_count?: number | null
+          mieterstrom_personal_contacts?: string | null
+          mieterstrom_personal_contacts_other?: string | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
+          mieterstrom_rejection_response?: string[] | null
+          mieterstrom_rejection_response_other?: string | null
           mieterstrom_summenzaehler?: string | null
+          mieterstrom_support_rating?: number | null
+          mieterstrom_survey_improvements?: string | null
+          mieterstrom_virtuell_allowed?: string | null
+          mieterstrom_virtuell_wandlermessung?: string | null
+          mieterstrom_virtuell_wandlermessung_comment?: string | null
+          mieterstrom_vnb_contact?: string | null
+          mieterstrom_vnb_contact_other?: string | null
+          mieterstrom_vnb_duration?: string | null
+          mieterstrom_vnb_duration_reasons?: string | null
+          mieterstrom_vnb_helpful?: string | null
+          mieterstrom_vnb_helpful_other?: string | null
+          mieterstrom_vnb_response?: string[] | null
+          mieterstrom_vnb_response_reasons?: string | null
+          mieterstrom_vnb_role?: string | null
+          mieterstrom_vnb_support?: string[] | null
+          mieterstrom_vnb_support_other?: string | null
+          mieterstrom_wandlermessung?: string | null
+          mieterstrom_wandlermessung_comment?: string | null
           motivation?: string[] | null
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
           operation_allocation_who?: string | null
+          operation_allocation_who_details?: string | null
           operation_allocation_who_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
           operation_data_format_other?: string | null
+          operation_data_method?: string | null
+          operation_data_method_other?: string | null
           operation_data_provider?: string | null
           operation_data_provider_other?: string | null
+          operation_direct_data_cost?: string | null
+          operation_direct_data_cost_amount?: number | null
           operation_esa_cost?: string | null
           operation_esa_cost_amount?: number | null
+          operation_esa_role_cost?: string | null
+          operation_esa_role_cost_amount?: number | null
           operation_msb_additional_costs?: string | null
           operation_msb_additional_costs_one_time?: number | null
           operation_msb_additional_costs_yearly?: number | null
@@ -386,12 +551,16 @@ export type Database = {
           operation_satisfaction_rating?: number | null
           operation_start_date?: string | null
           operation_vnb_duration?: string | null
+          operation_vnb_duration_reasons?: string | null
           operation_wandlermessung?: string | null
           operation_wandlermessung_comment?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
           project_focus?: string | null
           project_types?: string[] | null
+          service_provider_2_comments?: string | null
+          service_provider_2_name?: string | null
+          service_provider_2_rating?: number | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_rating?: number | null
@@ -408,17 +577,38 @@ export type Database = {
           vnb_data_cost_amount?: number | null
           vnb_data_format?: string | null
           vnb_data_provision?: string | null
+          vnb_data_provision_method?: string | null
+          vnb_data_provision_other?: string | null
+          vnb_direct_data_cost?: string | null
+          vnb_direct_data_cost_amount?: number | null
           vnb_esa_cost?: string | null
           vnb_esa_cost_amount?: number | null
+          vnb_esa_role_cost?: string | null
+          vnb_esa_role_cost_amount?: number | null
           vnb_existing_projects?: string | null
           vnb_existing_projects_other?: string | null
           vnb_full_service?: string | null
+          vnb_full_service_condition?: string | null
+          vnb_ggv_possible?: string | null
+          vnb_ggv_possible_reasons?: string | null
           vnb_info_available?: string | null
           vnb_info_available_other?: string | null
+          vnb_msb_additional_costs?: string | null
+          vnb_msb_additional_costs_one_time?: number | null
+          vnb_msb_additional_costs_yearly?: number | null
+          vnb_msb_offer?: string | null
+          vnb_msb_start_timeline?: string | null
+          vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null
           vnb_name?: string | null
+          vnb_no_msb_future_timeline?: string | null
           vnb_personal_contacts?: string | null
           vnb_personal_contacts_other?: string | null
+          vnb_planning_duration?: string | null
+          vnb_planning_duration_reasons?: string | null
+          vnb_rejection_future_timeline?: string | null
+          vnb_rejection_response?: string[] | null
+          vnb_rejection_response_other?: string | null
           vnb_rejection_timeline?: string | null
           vnb_response?: string[] | null
           vnb_response_reasons?: string | null
@@ -434,24 +624,39 @@ export type Database = {
         }
         Update: {
           actor_other?: string | null
+          actor_text_fields?: Json | null
           actor_types?: string[] | null
           additional_experiences?: string | null
           challenges?: string[] | null
+          challenges_costs_high?: string | null
           challenges_details?: Json | null
+          challenges_other?: string | null
+          challenges_pv_installation?: string | null
+          challenges_vnb_blocking?: string | null
           contact_email?: string | null
           created_at?: string
           es_consumer_details?: string | null
+          es_consumer_scope?: string | null
+          es_consumer_scope_other?: string | null
           es_consumer_types?: string[] | null
           es_in_operation_details?: string | null
           es_info_sources?: string | null
+          es_max_distance?: string | null
+          es_netzentgelte_details?: string | null
+          es_netzentgelte_discussion?: string | null
           es_operator_details?: string | null
           es_party_count?: number | null
           es_plant_type?: string[] | null
+          es_plant_type_details?: string[] | null
+          es_project_scope?: string | null
           es_pv_size_kw?: number | null
           es_status?: string[] | null
           es_status_other?: string | null
+          es_total_pv_size_kw?: number | null
+          es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null
           es_vnb_response?: string | null
+          es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           es_wind_size_kw?: number | null
           ggv_additional_info?: string | null
@@ -467,30 +672,85 @@ export type Database = {
           helpful_info_sources?: string | null
           id?: string
           implementation_approach?: string[] | null
+          implementation_approach_other?: string | null
           mieterstrom_additional_info?: string | null
           mieterstrom_building_count?: number | null
           mieterstrom_building_type?: string | null
+          mieterstrom_challenges?: string[] | null
+          mieterstrom_challenges_costs?: string | null
+          mieterstrom_challenges_opposition?: string | null
+          mieterstrom_challenges_other?: string | null
+          mieterstrom_challenges_pv?: string | null
+          mieterstrom_challenges_vnb?: string | null
+          mieterstrom_data_provider?: string | null
+          mieterstrom_data_provider_other?: string | null
+          mieterstrom_data_provision?: string | null
           mieterstrom_decision_reasons?: string[] | null
           mieterstrom_decision_reasons_other?: string | null
+          mieterstrom_existing_projects?: string | null
+          mieterstrom_existing_projects_virtuell?: string | null
+          mieterstrom_experiences?: string | null
+          mieterstrom_full_service?: string | null
           mieterstrom_in_operation?: boolean | null
+          mieterstrom_info_sources?: string | null
+          mieterstrom_model_choice?: string | null
+          mieterstrom_msb_costs?: string | null
+          mieterstrom_msb_costs_one_time?: number | null
+          mieterstrom_msb_costs_other?: string | null
+          mieterstrom_msb_costs_yearly?: number | null
+          mieterstrom_msb_install_duration?: string | null
+          mieterstrom_msb_provider?: string | null
+          mieterstrom_operation_costs?: string | null
+          mieterstrom_operation_costs_one_time?: number | null
+          mieterstrom_operation_costs_yearly?: number | null
+          mieterstrom_operation_satisfaction?: number | null
           mieterstrom_party_count?: number | null
+          mieterstrom_personal_contacts?: string | null
+          mieterstrom_personal_contacts_other?: string | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
+          mieterstrom_rejection_response?: string[] | null
+          mieterstrom_rejection_response_other?: string | null
           mieterstrom_summenzaehler?: string | null
+          mieterstrom_support_rating?: number | null
+          mieterstrom_survey_improvements?: string | null
+          mieterstrom_virtuell_allowed?: string | null
+          mieterstrom_virtuell_wandlermessung?: string | null
+          mieterstrom_virtuell_wandlermessung_comment?: string | null
+          mieterstrom_vnb_contact?: string | null
+          mieterstrom_vnb_contact_other?: string | null
+          mieterstrom_vnb_duration?: string | null
+          mieterstrom_vnb_duration_reasons?: string | null
+          mieterstrom_vnb_helpful?: string | null
+          mieterstrom_vnb_helpful_other?: string | null
+          mieterstrom_vnb_response?: string[] | null
+          mieterstrom_vnb_response_reasons?: string | null
+          mieterstrom_vnb_role?: string | null
+          mieterstrom_vnb_support?: string[] | null
+          mieterstrom_vnb_support_other?: string | null
+          mieterstrom_wandlermessung?: string | null
+          mieterstrom_wandlermessung_comment?: string | null
           motivation?: string[] | null
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
           operation_allocation_who?: string | null
+          operation_allocation_who_details?: string | null
           operation_allocation_who_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
           operation_data_format_other?: string | null
+          operation_data_method?: string | null
+          operation_data_method_other?: string | null
           operation_data_provider?: string | null
           operation_data_provider_other?: string | null
+          operation_direct_data_cost?: string | null
+          operation_direct_data_cost_amount?: number | null
           operation_esa_cost?: string | null
           operation_esa_cost_amount?: number | null
+          operation_esa_role_cost?: string | null
+          operation_esa_role_cost_amount?: number | null
           operation_msb_additional_costs?: string | null
           operation_msb_additional_costs_one_time?: number | null
           operation_msb_additional_costs_yearly?: number | null
@@ -499,12 +759,16 @@ export type Database = {
           operation_satisfaction_rating?: number | null
           operation_start_date?: string | null
           operation_vnb_duration?: string | null
+          operation_vnb_duration_reasons?: string | null
           operation_wandlermessung?: string | null
           operation_wandlermessung_comment?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
           project_focus?: string | null
           project_types?: string[] | null
+          service_provider_2_comments?: string | null
+          service_provider_2_name?: string | null
+          service_provider_2_rating?: number | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_rating?: number | null
@@ -521,17 +785,38 @@ export type Database = {
           vnb_data_cost_amount?: number | null
           vnb_data_format?: string | null
           vnb_data_provision?: string | null
+          vnb_data_provision_method?: string | null
+          vnb_data_provision_other?: string | null
+          vnb_direct_data_cost?: string | null
+          vnb_direct_data_cost_amount?: number | null
           vnb_esa_cost?: string | null
           vnb_esa_cost_amount?: number | null
+          vnb_esa_role_cost?: string | null
+          vnb_esa_role_cost_amount?: number | null
           vnb_existing_projects?: string | null
           vnb_existing_projects_other?: string | null
           vnb_full_service?: string | null
+          vnb_full_service_condition?: string | null
+          vnb_ggv_possible?: string | null
+          vnb_ggv_possible_reasons?: string | null
           vnb_info_available?: string | null
           vnb_info_available_other?: string | null
+          vnb_msb_additional_costs?: string | null
+          vnb_msb_additional_costs_one_time?: number | null
+          vnb_msb_additional_costs_yearly?: number | null
+          vnb_msb_offer?: string | null
+          vnb_msb_start_timeline?: string | null
+          vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null
           vnb_name?: string | null
+          vnb_no_msb_future_timeline?: string | null
           vnb_personal_contacts?: string | null
           vnb_personal_contacts_other?: string | null
+          vnb_planning_duration?: string | null
+          vnb_planning_duration_reasons?: string | null
+          vnb_rejection_future_timeline?: string | null
+          vnb_rejection_response?: string[] | null
+          vnb_rejection_response_other?: string | null
           vnb_rejection_timeline?: string | null
           vnb_response?: string[] | null
           vnb_response_reasons?: string | null
