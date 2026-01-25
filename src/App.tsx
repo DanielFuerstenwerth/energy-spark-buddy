@@ -20,6 +20,7 @@ import AdminVnbMapping from "./pages/AdminVnbMapping";
 import Auth from "./pages/Auth";
 import Reply from "./pages/Reply";
 import Survey from "./pages/Survey";
+import SurveyAudit from "./pages/SurveyAudit";
 import NotFound from "./pages/NotFound";
 import AnliegenGgv from "./pages/anliegen/Ggv";
 import AnliegenZvne from "./pages/anliegen/Zvne";
