@@ -6,7 +6,8 @@ import { validateSurveyData } from "@/lib/surveyValidation";
 import { useSurveyAutosave } from "@/hooks/useSurveyAutosave";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, Loader2, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, Loader2, Zap, FileText, Download } from "lucide-react";
+import { Link } from "react-router-dom";
 
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
@@ -363,6 +364,29 @@ export default function Survey() {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <SurveyHeader />
+      
+      {/* Audit/Export Links */}
+      <div className="max-w-3xl mx-auto w-full px-4 pt-4">
+        <div className="flex flex-wrap gap-3 justify-end text-sm">
+          <Link 
+            to="/umfrage/audit" 
+            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <FileText className="w-4 h-4" />
+            Audit/Druckansicht
+          </Link>
+          <a 
+            href="/data/umfrage.json" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Download className="w-4 h-4" />
+            JSON Export
+          </a>
+        </div>
+      </div>
+      
       <main className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
           {showDraftBanner && savedDraftInfo && (

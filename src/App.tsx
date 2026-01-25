@@ -71,6 +71,8 @@ const App = () => (
           <Route path="/mitmachen" element={<Mitmachen />} />
           <Route path="/reply" element={<Reply />} />
           <Route path="/umfrage" element={<Survey />} />
+          <Route path="/umfrage/audit" element={<SurveyAudit />} />
+          <Route path="/umfrage/print" element={<SurveyAudit />} />
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
