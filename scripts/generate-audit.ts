@@ -782,6 +782,67 @@ function smokeTest(html: string, schema: SurveySchema): void {
   }
 }
 
+// ============ Schema Validation ============
+interface ValidationError {
+  type: 'duplicate_id' | 'missing_label' | 'non_exclusive_negative';
+  message: string;
+  questionId?: string;
+  sectionId?: string;
+}
+
+function validateSchema(schema: SurveySchema): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const seenIds = new Map<string, string>(); // id -> sectionId
+
+  for (const section of schema.sections) {
+    for (const question of section.questions) {
+      // Check for duplicate question IDs
+      if (seenIds.has(question.id)) {
+        errors.push({
+          type: 'duplicate_id',
+          message: `Duplicate question ID "${question.id}" found in sections "${seenIds.get(question.id)}" and "${section.id}"`,
+          questionId: question.id,
+          sectionId: section.id,
+        });
+      } else {
+        seenIds.set(question.id, section.id);
+      }
+
+      // Check hasTextField options have labels
+      if (question.options) {
+        for (const option of question.options) {
+          if (option.hasTextField && !option.label) {
+            errors.push({
+              type: 'missing_label',
+              message: `Option with hasTextField=true is missing label in question "${question.id}"`,
+              questionId: question.id,
+              sectionId: section.id,
+            });
+          }
+        }
+
+        // Check Multi-Select with "Keine/Nein" should have exclusive flag (warning only for now)
+        if (question.type === 'multi-select') {
+          const negativeOptions = question.options.filter(o => 
+            o.value.toLowerCase().includes('keine') || 
+            o.value.toLowerCase().includes('nein') ||
+            o.value.toLowerCase() === 'none' ||
+            o.value.toLowerCase() === 'no'
+          );
+          
+          for (const negOpt of negativeOptions) {
+            // We can't easily check for exclusive=true without parsing more TypeScript
+            // Log a warning for manual review
+            console.log(`  ⚠️ Multi-select "${question.id}" has negative option "${negOpt.value}" - verify exclusive flag in source`);
+          }
+        }
+      }
+    }
+  }
+
+  return errors;
+}
+
 // ============ Main ============
 async function main() {
   console.log('🔧 VNB Transparenz Umfrage Audit Generator\n');
@@ -790,6 +851,20 @@ async function main() {
   const schema = parseSurveySchema();
   const totalQuestions = schema.sections.reduce((acc, s) => acc + s.questions.length, 0);
   console.log(`   Found ${schema.sections.length} sections with ${totalQuestions} questions\n`);
+  
+  // Schema Validation
+  console.log('2️⃣ Validating schema...');
+  const validationErrors = validateSchema(schema);
+  
+  if (validationErrors.length > 0) {
+    console.error('\n❌ Schema validation failed:');
+    for (const error of validationErrors) {
+      console.error(`   • [${error.type}] ${error.message}`);
+    }
+    console.error(`\n   ${validationErrors.length} error(s) found. Aborting build.`);
+    process.exit(1);
+  }
+  console.log('   ✅ Schema validation passed\n');
   
   // Ensure directories exist
   const auditDir = path.resolve(__dirname, '../public/umfrage/audit');
@@ -806,30 +881,82 @@ async function main() {
   }
   
   // Generate HTML
-  console.log('2️⃣ Generating static HTML...');
+  console.log('3️⃣ Generating static HTML...');
   const html = generateHtml(schema);
   const htmlPath = path.join(auditDir, 'index.html');
   fs.writeFileSync(htmlPath, html, 'utf-8');
   console.log(`   ✅ Written: ${htmlPath} (${(html.length / 1024).toFixed(1)} KB)\n`);
   
   // Generate Full JSON
-  console.log('3️⃣ Generating full JSON...');
+  console.log('4️⃣ Generating full JSON...');
   const fullJson = generateFullJson(schema);
   const fullJsonPath = path.join(dataDir, 'umfrage.full.json');
   fs.writeFileSync(fullJsonPath, fullJson, 'utf-8');
   console.log(`   ✅ Written: ${fullJsonPath} (${(fullJson.length / 1024).toFixed(1)} KB)\n`);
   
   // Generate Compact JSON
-  console.log('4️⃣ Generating compact JSON...');
+  console.log('5️⃣ Generating compact JSON...');
   const compactJson = generateCompactJson(schema);
   const compactJsonPath = path.join(dataDir, 'umfrage.json');
   fs.writeFileSync(compactJsonPath, compactJson, 'utf-8');
   console.log(`   ✅ Written: ${compactJsonPath} (${(compactJson.length / 1024).toFixed(1)} KB)\n`);
   
   // Smoke test
-  smokeTest(html, schema);
+  console.log('6️⃣ Running smoke tests...');
+  const smokeTestFailed = runSmokeTest(html, schema);
   
-  console.log('\n🎉 Build complete!');
+  if (smokeTestFailed) {
+    console.error('\n❌ Smoke test failed. Aborting build.');
+    process.exit(1);
+  }
+  
+  console.log('\n🎉 Build complete! Static files ready for deployment.');
+  console.log('   📄 /umfrage/audit/index.html - Static HTML audit view');
+  console.log('   📊 /data/umfrage.full.json - Complete schema dump');
+  console.log('   📊 /data/umfrage.json - Compact schema\n');
+}
+
+function runSmokeTest(html: string, schema: SurveySchema): boolean {
+  const requiredPatterns = [
+    { pattern: 'actorTypes', description: 'Actor types question' },
+    { pattern: 'motivation', description: 'Motivation question' },
+    { pattern: 'projectTypes', description: 'Project types question' },
+    { pattern: 'vnbName', description: 'VNB name question' },
+    { pattern: 'planningStatus', description: 'Planning status question' },
+  ];
+  
+  let passed = 0;
+  let failed = 0;
+  
+  for (const { pattern, description } of requiredPatterns) {
+    if (html.includes(pattern)) {
+      console.log(`   ✅ Found: ${description}`);
+      passed++;
+    } else {
+      console.log(`   ❌ Missing: ${description}`);
+      failed++;
+    }
+  }
+  
+  // Check question count
+  const expectedQuestions = schema.sections.reduce((acc, s) => acc + s.questions.length, 0);
+  const questionMatches = (html.match(/class="question"/g) || []).length;
+  
+  if (questionMatches >= expectedQuestions * 0.9) { // Allow 10% variance
+    console.log(`   ✅ Question count: ${questionMatches}/${expectedQuestions}`);
+    passed++;
+  } else {
+    console.log(`   ❌ Question count mismatch: ${questionMatches}/${expectedQuestions}`);
+    failed++;
+  }
+  
+  if (failed > 0) {
+    console.log(`\n⚠️ Smoke test: ${passed} passed, ${failed} failed`);
+    return true; // Return true to indicate failure
+  } else {
+    console.log(`\n✅ All smoke tests passed (${passed}/${passed + failed})`);
+    return false;
+  }
 }
 
 main().catch((err) => {
