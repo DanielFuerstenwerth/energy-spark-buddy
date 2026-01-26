@@ -1,0 +1,61 @@
+{
+  "routes": [
+    {
+      "src": "/umfrage/audit/?",
+      "dest": "/umfrage/audit/index.html"
+    },
+    {
+      "src": "/data/(.*)",
+      "dest": "/data/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/((?!umfrage/audit|data/).*)",
+      "dest": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/umfrage/audit",
+      "destination": "/umfrage/audit/index.html"
+    },
+    {
+      "source": "/umfrage/audit/",
+      "destination": "/umfrage/audit/index.html"
+    },
+    {
+      "source": "/data/:path*",
+      "destination": "/data/:path*"
+    },
+    {
+      "source": "/((?!umfrage/audit|data/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/umfrage/audit/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/data/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    }
+  ]
+}
