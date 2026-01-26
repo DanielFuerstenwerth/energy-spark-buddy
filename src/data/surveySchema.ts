@@ -1,5 +1,5 @@
 // Zentrales Schema für die Umfrage - wird für interaktive Umfrage, Audit-Ansicht und JSON-Export verwendet
-// Letzte Aktualisierung: 2026-01-25
+// Letzte Aktualisierung: 2026-01-26
 
 export interface SurveyOption {
   value: string;
@@ -7,6 +7,7 @@ export interface SurveyOption {
   hasTextField?: boolean;
   textFieldLabel?: string;
   textFieldPlaceholder?: string;
+  exclusive?: boolean; // If true, selecting this option deselects all others
 }
 
 export interface SurveyQuestion {
@@ -25,6 +26,7 @@ export interface SurveyQuestion {
   placeholder?: string;
   visibilityLogic?: string;
   skipLogic?: string;
+  conditionalRequired?: string; // e.g., "vnbAdditionalCosts='ja'"
 }
 
 export interface SurveySection {
@@ -41,6 +43,11 @@ export interface SurveySchema {
   title: string;
   description: string;
   sections: SurveySection[];
+}
+
+// Helper function to clean Lxx: artifacts from labels
+export function cleanLabel(text: string): string {
+  return text.replace(/\n?L\d+:\s*/g, '').trim();
 }
 
 // === SECTION A: Über Sie ===
@@ -123,7 +130,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "mieterstrom", label: "Mieterstrom - Mieterstrom-Modelle" },
         { value: "energysharing", label: "Energy Sharing - Gemeinschaftliche Nutzung" },
       ],
-      visibilityLogic: "Sichtbar wenn projectTypes GGV oder Mieterstrom enthält",
+      visibilityLogic: "Sichtbar wenn projectTypes eines von [ggv, mieterstrom, ggv_oder_mieterstrom] enthält",
     },
     {
       id: "vnbName",
@@ -242,9 +249,8 @@ const SECTION_PLANNING: SurveySection = {
   questions: [
     {
       id: "planningStatus",
-      type: "multi-select",
+      type: "single-select", // Changed from multi-select to single-select per P0.6
       label: "B1. Wo stehen Sie aktuell?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "info_sammeln", label: "Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen" },
         { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
@@ -324,7 +330,7 @@ const SECTION_CHALLENGES: SurveySection = {
       label: "Gab oder gibt es wesentliche Herausforderungen?",
       description: "Mehrfachauswahl möglich",
       options: [
-        { value: "keine", label: "Nein, alles läuft gut" },
+        { value: "keine", label: "Nein, alles läuft gut", exclusive: true }, // P0.3: marked as exclusive
         { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true, textFieldLabel: "Was war das Problem?" },
         { value: "vnb_blockiert", label: "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", hasTextField: true, textFieldLabel: "Gründe des VNB" },
         { value: "kosten_zu_hoch", label: "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", hasTextField: true, textFieldLabel: "Details zu den Kosten" },
@@ -355,12 +361,12 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
     },
     {
       id: "vnbContact",
-      type: "multi-select",
+      type: "single-select", // Changed from multi-select to single-select per P0.6
       label: "C2. Waren Sie schon im Kontakt mit Ihrem VNB?",
-      description: "Mehrfachauswahl möglich",
       options: [
-        { value: "direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
-        { value: "installateur", label: "Nein, nur über den Installateur/Dienstleister" },
+        { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
+        { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
+        { value: "nein", label: "Nein, noch kein Kontakt" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       optional: true,
@@ -438,8 +444,8 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       label: "C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?",
       min: 1,
       max: 10,
-      minLabel: "Unser VNB will das eigentlich lieber verhindern",
-      maxLabel: "Unser VNB möchte das wirklich mit uns umsetzen",
+      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
+      maxLabel: "unterstützt aktiv",
     },
     {
       id: "vnbMsbOffer",
@@ -493,6 +499,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       placeholder: "z.B. 500",
       optional: true,
       visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
+      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
     },
     {
       id: "vnbAdditionalCostsYearly",
@@ -501,6 +508,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       placeholder: "z.B. 100",
       optional: true,
       visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
+      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
     },
     {
       id: "vnbFullService",
@@ -716,14 +724,14 @@ const SECTION_GGV_OPERATION: SurveySection = {
 // === SECTION: Dienstleister ===
 const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
-  title: "D8-D9. Dienstleister",
+  title: "Dienstleister",
   description: "Feedback zu Dienstleistern & Reaktionen",
   visibilityLogic: "Nur bei GGV-Fokus",
   questions: [
     {
       id: "serviceProviderName",
       type: "text",
-      label: "D8. Mit welchem Dienstleister arbeiten Sie zusammen?",
+      label: "Mit welchem Dienstleister arbeiten Sie zusammen?",
       placeholder: "Name des Dienstleisters",
       optional: true,
     },
@@ -768,7 +776,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
     {
       id: "vnbRejectionResponse",
       type: "multi-select",
-      label: "D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?",
+      label: "Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?",
       options: [
         { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
         { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
@@ -804,7 +812,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       type: "multi-select",
       label: "M2. Gab oder gibt es wesentliche Herausforderungen?",
       options: [
-        { value: "keine", label: "Nein, alles läuft gut" },
+        { value: "keine", label: "Nein, alles läuft gut", exclusive: true }, // P0.3: marked as exclusive
         { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt", hasTextField: true },
         { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true },
         { value: "vnb_blocking", label: "Der VNB lässt die Umsetzung von Mieterstrom nicht zu", hasTextField: true },
@@ -852,49 +860,55 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       type: "single-select",
       label: "M6. Lässt Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?",
       options: [
+        { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "ja", label: "Ja" },
-        { value: "nein", label: "Nein" },
+        { value: "nein", label: "Nein", hasTextField: true },
       ],
+      visibilityLogic: "Wenn mieterstromSummenzaehler = 'virtuell'",
     },
     {
       id: "mieterstromVirtuellWandlermessung",
       type: "single-select",
-      label: "M7. Wenn Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten >5.000 EUR)?",
+      label: "M7. Verlangt Ihr VNB/gMSB bei einem virtuellen Summenzähler eine Wandlermessung?",
       options: [
+        { value: "wissen_nicht", label: "Wissen wir nicht" },
+        { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
-        { value: "ja", label: "Ja", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn mieterstromVirtuellAllowed = 'ja'",
+      visibilityLogic: "Wenn mieterstromSummenzaehler = 'virtuell'",
     },
     {
       id: "mieterstromVnbResponse",
       type: "multi-select",
-      label: "M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?",
+      label: "M8. Welche Aussage zur Rückmeldung vom VNB zu Mieterstrom trifft zu?",
+      description: "Mehrfachauswahl möglich",
       options: [
-        { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB kann dies als Messstellenbetreiber machen" },
-        { value: "moeglich_wmsb", label: "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
+        { value: "moeglich", label: "Umsetzung von Mieterstrom ist möglich" },
         { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
         { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       optional: true,
     },
     {
       id: "mieterstromVnbSupport",
       type: "multi-select",
-      label: "M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom bereit?",
+      label: "M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom online bereit?",
       options: [
-        { value: "messkonzept", label: "Informationen zum Messkonzept und Prozessen", hasTextField: true, textFieldLabel: "Weblink" },
-        { value: "formulare", label: "Formulare für die Übermittlung der Teilnehmenden / Änderungen" },
-        { value: "portal", label: "Online-Portal für die Übermittlung der Teilnehmenden / Änderungen" },
-        { value: "sonstiges", label: "Weiteres", hasTextField: true },
+        { value: "messkonzept", label: "Informationen zum Messkonzept", hasTextField: true, textFieldLabel: "Weblink" },
+        { value: "formulare", label: "Formulare", hasTextField: true, textFieldLabel: "Weblink" },
+        { value: "portal", label: "Online-Portal" },
+        { value: "keine", label: "Keine Unterstützung bekannt" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
+      optional: true,
     },
     {
       id: "mieterstromVnbHelpful",
       type: "single-select",
-      label: "M10. Bietet Ihr VNB eine Kontaktmöglichkeit für Mieterstrom und ist das hilfreich?",
+      label: "M10. Bietet Ihr VNB eine Kontaktmöglichkeit zu Mieterstrom und ist das hilfreich?",
       options: [
-        { value: "ja_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit (Mailadresse/Telefonnummer) und da wurde uns geholfen" },
+        { value: "ja_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit und da wurde uns geholfen" },
         { value: "ja_nicht_hilfreich", label: "Ja, aber es gab wenig hilfreiche Information" },
         { value: "nein", label: "Nein, es gibt keine Kontaktmöglichkeit" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
@@ -917,8 +931,8 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Wie sehr fühlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterstützt?",
       min: 1,
       max: 10,
-      minLabel: "Unser VNB will das eigentlich lieber verhindern",
-      maxLabel: "Unser VNB möchte das wirklich mit uns umsetzen",
+      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
+      maxLabel: "unterstützt aktiv",
     },
   ],
 };
@@ -957,6 +971,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       placeholder: "z.B. 500",
       optional: true,
       visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
+      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
     },
     {
       id: "mieterstromMsbCostsYearly",
@@ -965,6 +980,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       placeholder: "z.B. 100",
       optional: true,
       visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
+      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
     },
     {
       id: "mieterstromModelChoice",
@@ -1075,8 +1091,8 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       label: "MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?",
       min: 1,
       max: 10,
-      minLabel: "Unser VNB will das eigentlich lieber verhindern",
-      maxLabel: "Unser VNB möchte das wirklich mit uns umsetzen",
+      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
+      maxLabel: "unterstützt aktiv",
     },
     {
       id: "mieterstromRejectionResponse",
@@ -1116,9 +1132,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   questions: [
     {
       id: "esStatus",
-      type: "multi-select",
+      type: "single-select", // Changed from multi-select to single-select per P0.6
       label: "E1. Wo stehen Sie aktuell mit dem Projekt?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "in_betrieb_vollversorgung", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell" },
         { value: "in_betrieb_42c", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
@@ -1263,14 +1278,14 @@ const SECTION_FINAL: SurveySection = {
     {
       id: "helpfulInfoSources",
       type: "textarea",
-      label: "D10. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?",
+      label: "Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?", // P1.8: removed D10 prefix
       placeholder: "z.B. Webseiten, Beratungsstellen, Netzwerke, Verbände...",
       optional: true,
     },
     {
       id: "additionalExperiences",
       type: "textarea",
-      label: "D11. Welche Erfahrungen möchten Sie noch teilen?",
+      label: "Welche Erfahrungen möchten Sie noch teilen?", // P1.8: removed D11 prefix
       placeholder: "Ihre Erfahrungen...",
       optional: true,
     },
@@ -1284,7 +1299,7 @@ const SECTION_FINAL: SurveySection = {
     {
       id: "surveyImprovements",
       type: "textarea",
-      label: "D12. Haben Sie Verbesserungsvorschläge für diese Umfrage?",
+      label: "Haben Sie Verbesserungsvorschläge für diese Umfrage?", // P1.8: removed D12 prefix
       placeholder: "Ihr Feedback zur Umfrage...",
       optional: true,
     },
@@ -1303,8 +1318,8 @@ const SECTION_FINAL: SurveySection = {
 
 // === HAUPTSCHEMA ===
 export const surveySchema: SurveySchema = {
-  version: "2.0.0",
-  lastUpdated: "2026-01-25",
+  version: "2.1.0",
+  lastUpdated: "2026-01-26",
   title: "Umfrage zu GGV, Mieterstrom & Energy Sharing",
   description: "Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.",
   sections: [
@@ -1333,25 +1348,27 @@ export function getSurveySchemaAsJson() {
     description: surveySchema.description,
     sections: surveySchema.sections.map(section => ({
       id: section.id,
-      title: section.title,
-      description: section.description,
+      title: cleanLabel(section.title),
+      description: section.description ? cleanLabel(section.description) : undefined,
       visibilityLogic: section.visibilityLogic,
       questions: section.questions.map(q => ({
         id: q.id,
         type: q.type,
-        text: q.label,
-        helpText: q.description || q.helpText,
+        text: cleanLabel(q.label),
+        helpText: q.description ? cleanLabel(q.description) : q.helpText ? cleanLabel(q.helpText) : undefined,
         options: q.options?.map(o => ({
           value: o.value,
-          label: o.label,
+          label: cleanLabel(o.label),
           hasTextField: o.hasTextField,
-          textFieldLabel: o.textFieldLabel,
+          textFieldLabel: o.textFieldLabel ? cleanLabel(o.textFieldLabel) : undefined,
+          exclusive: o.exclusive,
         })),
         scaleLabels: q.type === 'rating' ? { min: q.minLabel, max: q.maxLabel } : undefined,
         required: q.required,
         optional: q.optional,
         visibilityLogic: q.visibilityLogic,
         skipLogic: q.skipLogic,
+        conditionalRequired: q.conditionalRequired,
       })),
     })),
   };

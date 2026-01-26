@@ -2,7 +2,7 @@ import { SurveyData } from "@/types/survey";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 
 const CHALLENGE_OPTIONS = [
-  { value: "keine", label: "Nein, alles läuft gut" },
+  { value: "keine", label: "Nein, alles läuft gut", exclusive: true }, // P0.3: marked as exclusive
   { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true, textFieldLabel: "Was war das Problem?", textFieldPlaceholder: "Beschreiben Sie die Probleme..." },
   { value: "vnb_blockiert", label: "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", hasTextField: true, textFieldLabel: "Gründe des VNB", textFieldPlaceholder: "Welche Gründe wurden genannt?" },
   { value: "kosten_zu_hoch", label: "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", hasTextField: true, textFieldLabel: "Details zu den Kosten", textFieldPlaceholder: "Welche Kosten sind zu hoch?" },

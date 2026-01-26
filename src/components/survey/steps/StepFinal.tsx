@@ -20,9 +20,10 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         </p>
       </div>
 
+      {/* P1.8: Removed D10/D11/D12 prefixes - numbering comes from UI */}
       <TextQuestion
         id="helpful-info-sources"
-        label="D10. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?"
+        label="Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?"
         type="textarea"
         value={data.helpfulInfoSources}
         onChange={(val) => updateData("helpfulInfoSources", val)}
@@ -32,7 +33,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <TextQuestion
         id="additional-experiences"
-        label="D11. Welche Erfahrungen möchten Sie noch teilen?"
+        label="Welche Erfahrungen möchten Sie noch teilen?"
         type="textarea"
         value={data.additionalExperiences}
         onChange={(val) => updateData("additionalExperiences", val)}
@@ -50,7 +51,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <TextQuestion
         id="survey-improvements"
-        label="D12. Haben Sie Verbesserungsvorschläge für diese Umfrage?"
+        label="Haben Sie Verbesserungsvorschläge für diese Umfrage?"
         type="textarea"
         value={data.surveyImprovements}
         onChange={(val) => updateData("surveyImprovements", val)}
