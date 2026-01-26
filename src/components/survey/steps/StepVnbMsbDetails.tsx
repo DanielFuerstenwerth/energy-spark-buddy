@@ -1,6 +1,7 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
+import { ConditionalCostFields } from "../questions/ConditionalCostFields";
 
 const MSB_START_TIMELINE_OPTIONS = [
   { value: "sofort", label: "Sofort - wir sind in der Planung und das sieht gut aus" },
@@ -103,26 +104,13 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
           />
 
           {data.vnbAdditionalCosts === 'ja' && (
-            <div className="grid grid-cols-2 gap-4 pl-4 border-l-2 border-primary/20">
-              <TextQuestion
-                id="vnb-costs-one-time"
-                label="Einmalbetrag (EUR)"
-                type="number"
-                value={data.vnbAdditionalCostsOneTime}
-                onChange={(val) => updateData("vnbAdditionalCostsOneTime", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 500"
-                optional
-              />
-              <TextQuestion
-                id="vnb-costs-yearly"
-                label="Jährlicher Betrag (EUR)"
-                type="number"
-                value={data.vnbAdditionalCostsYearly}
-                onChange={(val) => updateData("vnbAdditionalCostsYearly", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 100"
-                optional
-              />
-            </div>
+            <ConditionalCostFields
+              oneTimeValue={data.vnbAdditionalCostsOneTime}
+              yearlyValue={data.vnbAdditionalCostsYearly}
+              onOneTimeChange={(val) => updateData("vnbAdditionalCostsOneTime", val)}
+              onYearlyChange={(val) => updateData("vnbAdditionalCostsYearly", val)}
+              idPrefix="vnb-costs"
+            />
           )}
 
           <SingleSelectQuestion
