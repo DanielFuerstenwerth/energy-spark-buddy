@@ -1,6 +1,7 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
+import { ConditionalCostFields } from "../questions/ConditionalCostFields";
 
 const FULL_SERVICE_OPTIONS = [
   { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
@@ -59,26 +60,13 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
       />
 
       {data.mieterstromMsbCosts === 'ja' && (
-        <div className="grid grid-cols-2 gap-4 pl-4 border-l-2 border-primary/20">
-          <TextQuestion
-            id="mieterstrom-msb-costs-one-time"
-            label="Einmalbetrag (EUR)"
-            type="number"
-            value={data.mieterstromMsbCostsOneTime}
-            onChange={(val) => updateData("mieterstromMsbCostsOneTime", val ? parseFloat(val) : undefined)}
-            placeholder="z.B. 500"
-            optional
-          />
-          <TextQuestion
-            id="mieterstrom-msb-costs-yearly"
-            label="Jährlicher Betrag (EUR)"
-            type="number"
-            value={data.mieterstromMsbCostsYearly}
-            onChange={(val) => updateData("mieterstromMsbCostsYearly", val ? parseFloat(val) : undefined)}
-            placeholder="z.B. 100"
-            optional
-          />
-        </div>
+        <ConditionalCostFields
+          oneTimeValue={data.mieterstromMsbCostsOneTime}
+          yearlyValue={data.mieterstromMsbCostsYearly}
+          onOneTimeChange={(val) => updateData("mieterstromMsbCostsOneTime", val)}
+          onYearlyChange={(val) => updateData("mieterstromMsbCostsYearly", val)}
+          idPrefix="mieterstrom-msb-costs"
+        />
       )}
 
       <SingleSelectQuestion

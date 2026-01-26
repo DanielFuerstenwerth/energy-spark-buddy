@@ -1,6 +1,6 @@
 import { SurveyData } from "@/types/survey";
-import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
+import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
 
 const ES_STATUS_OPTIONS = [
@@ -62,8 +62,10 @@ interface StepEnergySharingProps {
 }
 
 export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) {
-  const isInOperation = data.esStatus.some(s => s.includes('in_betrieb'));
-  const isPlanning = data.esStatus.some(s => s === 'planung_bereit' || s === 'info_sammeln');
+  // Changed to single-select: esStatus is now a string, not array
+  const esStatusValue = Array.isArray(data.esStatus) ? data.esStatus[0] : data.esStatus;
+  const isInOperation = esStatusValue?.includes('in_betrieb') || false;
+  const isPlanning = esStatusValue === 'planung_bereit' || esStatusValue === 'info_sammeln';
 
   return (
     <div className="space-y-8">
@@ -74,14 +76,13 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         </p>
       </div>
 
-      <MultiSelectQuestion
+      <SingleSelectQuestion
         id="es-status"
         label="E1. Wo stehen Sie aktuell mit dem Projekt?"
-        description="Mehrfachauswahl möglich"
         options={ES_STATUS_OPTIONS}
-        value={data.esStatus}
+        value={esStatusValue}
         otherValue={data.esStatusOther}
-        onChange={(val) => updateData("esStatus", val)}
+        onChange={(val) => updateData("esStatus", [val])}
         onOtherChange={(val) => updateData("esStatusOther", val)}
       />
 
