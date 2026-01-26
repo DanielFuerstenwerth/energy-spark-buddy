@@ -9,6 +9,7 @@ interface Option {
   hasTextField?: boolean;
   textFieldLabel?: string;
   textFieldPlaceholder?: string;
+  exclusive?: boolean; // If true, selecting this deselects all others
 }
 
 interface MultiSelectQuestionProps {
@@ -29,12 +30,30 @@ export function MultiSelectQuestion({
   id, label, description, options, value, otherValue, optionTextValues, onChange, onOtherChange, onOptionTextChange, optional,
 }: MultiSelectQuestionProps) {
   const handleToggle = (optionValue: string) => {
-    if (value.includes(optionValue)) {
-      onChange(value.filter((v) => v !== optionValue));
+    const option = options.find(o => o.value === optionValue);
+    
+    if (option?.exclusive) {
+      // If selecting an exclusive option, deselect all others
+      if (value.includes(optionValue)) {
+        onChange(value.filter((v) => v !== optionValue));
+      } else {
+        onChange([optionValue]);
+      }
     } else {
-      onChange([...value, optionValue]);
+      // If selecting a non-exclusive option, remove any exclusive options
+      const exclusiveOptions = options.filter(o => o.exclusive).map(o => o.value);
+      
+      if (value.includes(optionValue)) {
+        onChange(value.filter((v) => v !== optionValue));
+      } else {
+        const newValue = value.filter(v => !exclusiveOptions.includes(v));
+        onChange([...newValue, optionValue]);
+      }
     }
   };
+
+  // Check if an exclusive option is selected (to disable others)
+  const exclusiveSelected = options.some(o => o.exclusive && value.includes(o.value));
 
   return (
     <div className="space-y-4">
@@ -48,23 +67,52 @@ export function MultiSelectQuestion({
       <div className="space-y-3">
         {options.map((option) => {
           const isChecked = value.includes(option.value);
+          const isDisabled = exclusiveSelected && !option.exclusive && !isChecked;
+          const textValue = optionTextValues?.[option.value] || "";
+          const showTextFieldError = option.hasTextField && isChecked && !textValue.trim();
+          
           return (
             <div key={option.value} className="space-y-2">
               <div
                 className={cn(
-                  "flex items-start space-x-3 p-3 rounded-lg border transition-all cursor-pointer",
+                  "flex items-start space-x-3 p-3 rounded-lg border transition-all",
+                  isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                   isChecked ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-muted/50"
                 )}
-                onClick={() => handleToggle(option.value)}
+                onClick={() => !isDisabled && handleToggle(option.value)}
               >
-                <Checkbox id={`${id}-${option.value}`} checked={isChecked} onCheckedChange={() => handleToggle(option.value)} className="mt-0.5" />
-                <Label htmlFor={`${id}-${option.value}`} className="text-sm cursor-pointer flex-1">{option.label}</Label>
+                <Checkbox 
+                  id={`${id}-${option.value}`} 
+                  checked={isChecked} 
+                  onCheckedChange={() => !isDisabled && handleToggle(option.value)} 
+                  className="mt-0.5"
+                  disabled={isDisabled}
+                />
+                <Label 
+                  htmlFor={`${id}-${option.value}`} 
+                  className={cn("text-sm flex-1", isDisabled ? "cursor-not-allowed" : "cursor-pointer")}
+                >
+                  {option.label}
+                  {option.exclusive && <span className="text-muted-foreground ml-1">(exklusiv)</span>}
+                </Label>
               </div>
               {option.hasTextField && isChecked && (
                 onOptionTextChange ? (
                   <div className="ml-8 space-y-1">
-                    {option.textFieldLabel && <Label className="text-sm text-muted-foreground">{option.textFieldLabel}</Label>}
-                    <Input placeholder={option.textFieldPlaceholder || "Bitte angeben..."} value={optionTextValues?.[option.value] || ""} onChange={(e) => onOptionTextChange(option.value, e.target.value)} />
+                    {option.textFieldLabel && (
+                      <Label className={cn("text-sm", showTextFieldError ? "text-destructive" : "text-muted-foreground")}>
+                        {option.textFieldLabel} {showTextFieldError && <span className="text-destructive">*</span>}
+                      </Label>
+                    )}
+                    <Input 
+                      placeholder={option.textFieldPlaceholder || "Bitte angeben..."} 
+                      value={textValue} 
+                      onChange={(e) => onOptionTextChange(option.value, e.target.value)}
+                      className={cn(showTextFieldError && "border-destructive")}
+                    />
+                    {showTextFieldError && (
+                      <p className="text-xs text-destructive">Bitte füllen Sie dieses Feld aus</p>
+                    )}
                   </div>
                 ) : onOtherChange && (
                   <Input placeholder="Bitte angeben..." value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className="ml-8" />

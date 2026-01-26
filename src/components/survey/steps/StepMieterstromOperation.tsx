@@ -187,13 +187,14 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         </div>
       )}
 
+      {/* P1.7: Neutralized rating labels */}
       <RatingQuestion
         id="mieterstrom-operation-satisfaction"
         label="MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?"
         value={data.mieterstromOperationSatisfaction}
         onChange={(val) => updateData("mieterstromOperationSatisfaction", val)}
-        minLabel="Unser VNB will das eigentlich lieber verhindern"
-        maxLabel="Unser VNB möchte das wirklich mit uns umsetzen"
+        minLabel="bremst aktiv"
+        maxLabel="unterstützt aktiv"
         min={1}
         max={10}
       />

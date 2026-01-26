@@ -13,9 +13,11 @@ const VNB_EXISTING_PROJECTS_OPTIONS = [
   { value: "sonstiges", label: "Sonstiges", hasTextField: true },
 ];
 
+// Changed to single-select per P0.6
 const VNB_CONTACT_OPTIONS = [
-  { value: "direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
-  { value: "installateur", label: "Nein, nur über den Installateur/Dienstleister" },
+  { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
+  { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
+  { value: "nein", label: "Nein, noch kein Kontakt" },
   { value: "sonstiges", label: "Sonstiges", hasTextField: true },
 ];
 
@@ -73,14 +75,14 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         onOtherChange={(val) => updateData("vnbExistingProjectsOther", val)}
       />
 
-      <MultiSelectQuestion
+      {/* Changed to SingleSelectQuestion per P0.6 */}
+      <SingleSelectQuestion
         id="vnb-contact"
         label="C2. Waren Sie schon im Kontakt mit Ihrem VNB?"
-        description="Mehrfachauswahl möglich"
         options={VNB_CONTACT_OPTIONS}
-        value={data.vnbContact}
+        value={data.vnbContact[0] || undefined}
         otherValue={data.vnbContactOther}
-        onChange={(val) => updateData("vnbContact", val)}
+        onChange={(val) => updateData("vnbContact", [val])}
         onOtherChange={(val) => updateData("vnbContactOther", val)}
         optional
       />
@@ -170,13 +172,14 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         onOtherChange={(val) => updateData("vnbPersonalContactsOther", val)}
       />
 
+      {/* P1.7: Neutralized rating labels */}
       <RatingQuestion
         id="vnb-support-rating"
         label="C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?"
         value={data.vnbSupportRating}
         onChange={(val) => updateData("vnbSupportRating", val)}
-        minLabel="Unser VNB will das eigentlich lieber verhindern"
-        maxLabel="Unser VNB möchte das wirklich mit uns umsetzen"
+        minLabel="bremst aktiv"
+        maxLabel="unterstützt aktiv"
         min={1}
         max={10}
       />

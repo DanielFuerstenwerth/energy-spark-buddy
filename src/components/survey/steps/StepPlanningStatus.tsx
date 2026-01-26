@@ -51,16 +51,21 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
   const showGgvReasons = data.ggvOrMieterstromDecision === 'sicher_ggv';
   const showMieterstromReasons = data.ggvOrMieterstromDecision === 'sicher_mieterstrom';
 
+  // Handle single-select change for planningStatus (converted from multi-select)
+  const handlePlanningStatusChange = (val: string) => {
+    updateData("planningStatus", [val]);
+  };
+
   return (
     <div className="space-y-8">
-      <MultiSelectQuestion
+      {/* Changed to SingleSelectQuestion per P0.6 */}
+      <SingleSelectQuestion
         id="planning-status"
         label="B1. Wo stehen Sie aktuell mit dem Projekt?"
-        description="Mehrfachauswahl möglich"
         options={PLANNING_STATUS_OPTIONS}
-        value={data.planningStatus}
+        value={data.planningStatus[0] || undefined}
         otherValue={data.planningStatusOther}
-        onChange={(val) => updateData("planningStatus", val)}
+        onChange={handlePlanningStatusChange}
         onOtherChange={(val) => updateData("planningStatusOther", val)}
       />
 
