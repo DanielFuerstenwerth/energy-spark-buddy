@@ -1,0 +1,22 @@
+{
+  "$schema": "https://lovable.dev/schemas/lovable.json",
+  "rewrites": [
+    {
+      "source": "/umfrage/audit",
+      "destination": "/umfrage/audit/index.html"
+    },
+    {
+      "source": "/umfrage/audit/",
+      "destination": "/umfrage/audit/index.html"
+    },
+    {
+      "source": "/data/:path*",
+      "destination": "/data/:path*"
+    }
+  ],
+  "fallback": {
+    "source": "/(.*)",
+    "destination": "/index.html",
+    "exclude": ["/umfrage/audit*", "/data/*"]
+  }
+}

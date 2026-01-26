@@ -20,4 +20,8 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    // Ensure static files from public/ are copied to dist/
+    copyPublicDir: true,
+  },
 }));

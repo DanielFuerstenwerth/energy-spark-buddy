@@ -923,6 +923,8 @@ function runSmokeTest(html: string, schema: SurveySchema): boolean {
     { pattern: 'projectTypes', description: 'Project types question' },
     { pattern: 'vnbName', description: 'VNB name question' },
     { pattern: 'planningStatus', description: 'Planning status question' },
+    { pattern: 'Total questions:', description: 'Question count footer' },
+    { pattern: 'A1.', description: 'First section marker (A1)' },
   ];
   
   let passed = 0;
@@ -947,6 +949,16 @@ function runSmokeTest(html: string, schema: SurveySchema): boolean {
     passed++;
   } else {
     console.log(`   ❌ Question count mismatch: ${questionMatches}/${expectedQuestions}`);
+    failed++;
+  }
+
+  // Check file size (should be substantial)
+  const sizeKB = Math.round(html.length / 1024);
+  if (sizeKB >= 50) {
+    console.log(`   ✅ File size: ${sizeKB} KB`);
+    passed++;
+  } else {
+    console.log(`   ❌ File too small: ${sizeKB} KB (expected >= 50 KB)`);
     failed++;
   }
   
