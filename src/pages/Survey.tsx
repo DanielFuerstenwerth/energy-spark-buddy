@@ -375,6 +375,13 @@ export default function Survey() {
             Audit/Druckansicht
           </a>
           <a 
+            href="/audit.html" 
+            className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <FileText className="w-4 h-4" />
+            Audit (Direktlink)
+          </a>
+          <a 
             href="/data/umfrage.full.json" 
             target="_blank"
             rel="noopener noreferrer"
