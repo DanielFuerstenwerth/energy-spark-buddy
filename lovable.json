@@ -1,5 +1,14 @@
 {
   "$schema": "https://lovable.dev/schemas/lovable.json",
+  "static": {
+    "paths": [
+      "/umfrage/audit",
+      "/umfrage/audit/",
+      "/umfrage/audit/index.html",
+      "/data/*",
+      "/audit.html"
+    ]
+  },
   "rewrites": [
     {
       "source": "/umfrage/audit",
@@ -17,6 +26,6 @@
   "fallback": {
     "source": "/(.*)",
     "destination": "/index.html",
-    "exclude": ["/umfrage/audit*", "/data/*"]
+    "exclude": ["/umfrage/audit*", "/data/*", "/audit.html"]
   }
 }

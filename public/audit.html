@@ -1,0 +1,2284 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Umfrage zu GGV, Mieterstrom &amp; Energy Sharing – Audit-Ansicht</title>
+  <meta name="description" content="Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.">
+  <meta name="robots" content="index, follow">
+  <meta name="generator" content="generate-audit.ts">
+  <link rel="canonical" href="https://www.vnb-transparenz.de/audit.html">
+  <style>
+    :root {
+      --color-bg: #fff;
+      --color-text: #1a1a1a;
+      --color-muted: #666;
+      --color-border: #e5e7eb;
+      --color-accent: #22c55e;
+      --color-section-bg: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      --color-question-bg: #fafafa;
+      --color-required: #dc2626;
+      --color-optional: #2563eb;
+      --color-logic: #f59e0b;
+    }
+    
+    * { box-sizing: border-box; }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+    }
+    
+    a { color: var(--color-accent); }
+    
+    .audit-header {
+      border-bottom: 3px solid var(--color-accent);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .audit-header h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.75rem;
+    }
+    
+    .audit-meta {
+      color: var(--color-muted);
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #f9fafb;
+      border-radius: 8px;
+    }
+    
+    .audit-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+    
+    .audit-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    
+    .toc {
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    
+    .toc h3 { margin: 0 0 1rem; font-size: 1rem; }
+    .toc ol { margin: 0; padding-left: 1.5rem; }
+    .toc li { margin: 0.5rem 0; }
+    
+    .survey-section {
+      margin-bottom: 2.5rem;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .section-header {
+      background: var(--color-section-bg);
+      padding: 1.25rem 1.5rem;
+      border-left: 4px solid var(--color-accent);
+    }
+    
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    
+    .section-description {
+      margin: 0.5rem 0 0;
+      color: var(--color-muted);
+    }
+    
+    .section-visibility {
+      margin-top: 0.75rem;
+      background: #fef3c7;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    
+    .question-count {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--color-muted);
+    }
+    
+    .questions {
+      padding: 1rem 1.5rem;
+    }
+    
+    .question {
+      margin: 1rem 0;
+      padding: 1.25rem;
+      background: var(--color-question-bg);
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+    
+    .question-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .question-number {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      font-weight: 600;
+    }
+    
+    .question-label {
+      flex: 1;
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    .badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+    
+    .badge.type {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+    
+    .badge.required {
+      background: #fee2e2;
+      color: var(--color-required);
+    }
+    
+    .badge.optional {
+      background: #dbeafe;
+      color: var(--color-optional);
+    }
+    
+    .question-description {
+      color: var(--color-muted);
+      font-size: 0.9rem;
+      margin: 0.5rem 0;
+    }
+    
+    .question-help {
+      color: #0284c7;
+      font-size: 0.85rem;
+      margin: 0.5rem 0;
+      background: #f0f9ff;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+    
+    .question-placeholder {
+      color: var(--color-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+      margin: 0.5rem 0;
+    }
+    
+    .options {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+    }
+    
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 6px;
+      margin: 0.25rem 0;
+    }
+    
+    .option:hover {
+      background: #f3f4f6;
+    }
+    
+    .option-value {
+      font-family: monospace;
+      font-size: 0.75rem;
+      background: #e5e7eb;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    
+    .option-label {
+      flex: 1;
+    }
+    
+    .text-field-note {
+      color: #7c3aed;
+      font-size: 0.8rem;
+    }
+    
+    .scale-info {
+      background: #f3f4f6;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+    }
+    
+    .scale-range {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+    
+    .scale-label-min, .scale-label-max {
+      display: block;
+      color: var(--color-muted);
+      font-size: 0.85rem;
+    }
+    
+    .logic {
+      margin-top: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    
+    .logic.visibility {
+      background: #fef3c7;
+      color: #92400e;
+    }
+    
+    .logic.skip {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+      color: var(--color-muted);
+      font-size: 0.9rem;
+    }
+    
+    @media print {
+      body { padding: 1rem; }
+      .audit-links { display: none; }
+      .survey-section { break-inside: avoid; }
+      .question { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="audit-header">
+    <h1>📋 Umfrage zu GGV, Mieterstrom &amp; Energy Sharing</h1>
+    <p>Audit-Ansicht – Vollständige Fragenübersicht für Prüfung und Dokumentation</p>
+    
+    <div class="audit-meta">
+      <strong>Version:</strong> 2.0.0 |
+      <strong>Stand:</strong> 2026-01-25 |
+      <strong>Generiert:</strong> 2026-01-25 |
+      <strong>Sektionen:</strong> 13 |
+      <strong>Fragen gesamt:</strong> 107
+    </div>
+    
+    <div class="audit-links">
+      <a href="/umfrage">↗ Interaktive Umfrage</a>
+      <a href="/data/umfrage.full.json">⬇ JSON Export</a>
+    </div>
+  </header>
+  
+  <nav class="toc">
+    <h3>Inhaltsverzeichnis</h3>
+    <ol>
+      <li><a href="#s-about">A. Über Sie</a> (4 Fragen)</li>
+      <li><a href="#s-project">Projektdetails</a> (13 Fragen)</li>
+      <li><a href="#s-planning">B. Planungsstand</a> (5 Fragen)</li>
+      <li><a href="#s-challenges">B6. Herausforderungen</a> (1 Frage)</li>
+      <li><a href="#s-vnb-planning">C. VNB Planung (GGV)</a> (10 Fragen)</li>
+      <li><a href="#s-vnb-msb">C8. MSB Details</a> (14 Fragen)</li>
+      <li><a href="#s-ggv-operation">D. GGV Betrieb</a> (10 Fragen)</li>
+      <li><a href="#s-service-provider">D8-D9. Dienstleister</a> (6 Fragen)</li>
+      <li><a href="#s-mieterstrom-planning">M. Mieterstrom Planung</a> (15 Fragen)</li>
+      <li><a href="#s-mieterstrom-vnb-offer">MP. VNB Angebot (Mieterstrom)</a> (6 Fragen)</li>
+      <li><a href="#s-mieterstrom-operation">MB. Mieterstrom Betrieb</a> (13 Fragen)</li>
+      <li><a href="#s-energy-sharing">E. Energy Sharing</a> (15 Fragen)</li>
+      <li><a href="#s-final">Abschluss</a> (5 Fragen)</li>
+    </ol>
+  </nav>
+
+  <!-- ===================== SECTION 1: A. Über Sie ===================== -->
+  <section class="survey-section" id="s-about" data-id="about">
+    <header class="section-header">
+      <h2>A. Über Sie</h2>
+      <p class="section-description">Einordnung &amp; Motivation</p>
+      <span class="question-count">4 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q1: actorTypes -->
+      <article class="question" id="q-actorTypes" data-id="actorTypes" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#1</span>
+          <h4 class="question-label">A1. Zu welcher Akteursgruppe würden Sie sich zählen?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge required">Pflicht</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">buergerenergie</code><span class="option-label">Bürgerenergiegenossenschaft</span><em class="text-field-note">+ Textfeld: "Name der Genossenschaft (optional)"</em></li>
+          <li class="option"><code class="option-value">weg</code><span class="option-label">Wohnungseigentümergemeinschaft</span></li>
+          <li class="option"><code class="option-value">vermieter_privat</code><span class="option-label">Vermieter/in - Privatperson</span></li>
+          <li class="option"><code class="option-value">vermieter_prof_klein</code><span class="option-label">Vermieter/in - Professionell (&lt;100 Einheiten)</span></li>
+          <li class="option"><code class="option-value">vermieter_wohnungsunternehmen</code><span class="option-label">Vermieter/in - Wohnungsunternehmen (&gt;100 Einheiten)</span></li>
+          <li class="option"><code class="option-value">kommune</code><span class="option-label">Kommune / kommunales Unternehmen</span></li>
+          <li class="option"><code class="option-value">kmu</code><span class="option-label">Kleine und Mittelständische Unternehmen (KMU)</span></li>
+          <li class="option"><code class="option-value">dienstleister</code><span class="option-label">Dienstleister für GGV/Mieterstrom/Energy Sharing</span><em class="text-field-note">+ Textfeld: "Welche Dienstleistung?"</em></li>
+          <li class="option"><code class="option-value">installateur</code><span class="option-label">Installateur von PV-Anlagen</span></li>
+          <li class="option"><code class="option-value">msb</code><span class="option-label">Wettbewerblicher Messstellenbetreiber</span></li>
+          <li class="option"><code class="option-value">stadtwerk</code><span class="option-label">Stadtwerk/EVU</span></li>
+          <li class="option"><code class="option-value">andere</code><span class="option-label">Andere</span><em class="text-field-note">+ Textfeld: "Bitte beschreiben"</em></li>
+        </ul>
+      </article>
+
+      <!-- Q2: motivation -->
+      <article class="question" id="q-motivation" data-id="motivation" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#2</span>
+          <h4 class="question-label">A2. Was ist Ihre Motivation?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge required">Pflicht</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">pv_nutzung</code><span class="option-label">Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen</span></li>
+          <li class="option"><code class="option-value">energiewende</code><span class="option-label">Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage</span></li>
+          <li class="option"><code class="option-value">geschaeft</code><span class="option-label">Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q3: projectTypes -->
+      <article class="question" id="q-projectTypes" data-id="projectTypes" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#3</span>
+          <h4 class="question-label">A3. Welche Projektart interessiert Sie?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge required">Pflicht</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">ggv</code><span class="option-label">GGV (Gemeinschaftliche Gebäudeversorgung)</span></li>
+          <li class="option"><code class="option-value">mieterstrom</code><span class="option-label">Mieterstrom</span></li>
+          <li class="option"><code class="option-value">ggv_oder_mieterstrom</code><span class="option-label">Entweder GGV oder Mieterstrom</span></li>
+          <li class="option"><code class="option-value">energysharing</code><span class="option-label">Energy Sharing (in Zukunft möglich)</span></li>
+        </ul>
+      </article>
+
+      <!-- Q4: contactEmail -->
+      <article class="question" id="q-contactEmail" data-id="contactEmail" data-type="email">
+        <header class="question-header">
+          <span class="question-number">#4</span>
+          <h4 class="question-label">Kontakt E-Mail</h4>
+          <div class="badges">
+            <span class="badge type">email</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">Optional - falls wir Rückfragen haben</p>
+        <p class="question-placeholder">Platzhalter: "ihre@email.de"</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 2: Projektdetails ===================== -->
+  <section class="survey-section" id="s-project" data-id="project">
+    <header class="section-header">
+      <h2>Projektdetails</h2>
+      <p class="section-description">VNB und Projektdimensionen</p>
+      <span class="question-count">13 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q5: projectFocus -->
+      <article class="question" id="q-projectFocus" data-id="projectFocus" data-type="project-focus">
+        <header class="question-header">
+          <span class="question-number">#5</span>
+          <h4 class="question-label">Wählen Sie den Schwerpunkt, zu dem Sie Details teilen möchten</h4>
+          <div class="badges">
+            <span class="badge type">project-focus</span>
+          </div>
+        </header>
+        <p class="question-description">GGV, Mieterstrom oder Energy Sharing</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">ggv</code><span class="option-label">GGV - Gemeinschaftliche Gebäudeversorgung</span></li>
+          <li class="option"><code class="option-value">mieterstrom</code><span class="option-label">Mieterstrom - Mieterstrom-Modelle</span></li>
+          <li class="option"><code class="option-value">energysharing</code><span class="option-label">Energy Sharing - Gemeinschaftliche Nutzung</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Sichtbar wenn projectTypes GGV oder Mieterstrom enthält</div>
+      </article>
+
+      <!-- Q6: vnbName -->
+      <article class="question" id="q-vnbName" data-id="vnbName" data-type="vnb-select">
+        <header class="question-header">
+          <span class="question-number">#6</span>
+          <h4 class="question-label">Welcher Verteilnetzbetreiber ist für Ihr Projekt zuständig?</h4>
+          <div class="badges">
+            <span class="badge type">vnb-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">Suchen oder geben Sie den Namen Ihres VNB ein</p>
+      </article>
+
+      <!-- Q7: ggvProjectType -->
+      <article class="question" id="q-ggvProjectType" data-id="ggvProjectType" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#7</span>
+          <h4 class="question-label">Projektumfang (GGV)</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">single</code><span class="option-label">Ein einzelnes Projekt</span></li>
+          <li class="option"><code class="option-value">multiple</code><span class="option-label">Mehrere Projekte</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</div>
+      </article>
+
+      <!-- Q8: ggvPvSizeKw -->
+      <article class="question" id="q-ggvPvSizeKw" data-id="ggvPvSizeKw" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#8</span>
+          <h4 class="question-label">Größe der PV-Anlage in kW</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 30"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</div>
+      </article>
+
+      <!-- Q9: ggvPartyCount -->
+      <article class="question" id="q-ggvPartyCount" data-id="ggvPartyCount" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#9</span>
+          <h4 class="question-label">Anzahl der Parteien, die Strom abnehmen</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 12"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</div>
+      </article>
+
+      <!-- Q10: ggvBuildingType -->
+      <article class="question" id="q-ggvBuildingType" data-id="ggvBuildingType" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#10</span>
+          <h4 class="question-label">Art des Gebäudes</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wohngebaeude</code><span class="option-label">Wohngebäude</span></li>
+          <li class="option"><code class="option-value">gewerbe</code><span class="option-label">Gewerbegebäude</span></li>
+          <li class="option"><code class="option-value">gemischt</code><span class="option-label">Gemischt</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</div>
+      </article>
+
+      <!-- Q11: ggvBuildingCount -->
+      <article class="question" id="q-ggvBuildingCount" data-id="ggvBuildingCount" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#11</span>
+          <h4 class="question-label">Gesamtzahl der Projekte</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 5"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv' und ggvProjectType = 'multiple'</div>
+      </article>
+
+      <!-- Q12: ggvAdditionalInfo -->
+      <article class="question" id="q-ggvAdditionalInfo" data-id="ggvAdditionalInfo" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#12</span>
+          <h4 class="question-label">Zusätzliche Informationen (GGV)</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</div>
+      </article>
+
+      <!-- Q13: mieterstromProjectType -->
+      <article class="question" id="q-mieterstromProjectType" data-id="mieterstromProjectType" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#13</span>
+          <h4 class="question-label">Projektumfang (Mieterstrom)</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">single</code><span class="option-label">Ein einzelnes Projekt</span></li>
+          <li class="option"><code class="option-value">multiple</code><span class="option-label">Mehrere Projekte</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</div>
+      </article>
+
+      <!-- Q14: mieterstromPvSizeKw -->
+      <article class="question" id="q-mieterstromPvSizeKw" data-id="mieterstromPvSizeKw" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#14</span>
+          <h4 class="question-label">Größe der PV-Anlage(n) in kW</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 50"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</div>
+      </article>
+
+      <!-- Q15: mieterstromPartyCount -->
+      <article class="question" id="q-mieterstromPartyCount" data-id="mieterstromPartyCount" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#15</span>
+          <h4 class="question-label">Anzahl der Mietparteien</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 24"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</div>
+      </article>
+
+      <!-- Q16: mieterstromBuildingType -->
+      <article class="question" id="q-mieterstromBuildingType" data-id="mieterstromBuildingType" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#16</span>
+          <h4 class="question-label">Art des Gebäudes (Mieterstrom)</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wohngebaeude</code><span class="option-label">Wohngebäude</span></li>
+          <li class="option"><code class="option-value">gewerbe</code><span class="option-label">Gewerbegebäude</span></li>
+          <li class="option"><code class="option-value">gemischt</code><span class="option-label">Gemischt</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</div>
+      </article>
+
+      <!-- Q17: mieterstromAdditionalInfo -->
+      <article class="question" id="q-mieterstromAdditionalInfo" data-id="mieterstromAdditionalInfo" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#17</span>
+          <h4 class="question-label">Zusätzliche Informationen (Mieterstrom)</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 3: B. Planungsstand ===================== -->
+  <section class="survey-section" id="s-planning" data-id="planning">
+    <header class="section-header">
+      <h2>B. Planungsstand</h2>
+      <p class="section-description">Aktueller Status</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn GGV oder Mieterstrom ausgewählt (nicht nur Energy Sharing)</div>
+      <span class="question-count">5 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q18: planningStatus -->
+      <article class="question" id="q-planningStatus" data-id="planningStatus" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#18</span>
+          <h4 class="question-label">B1. Wo stehen Sie aktuell?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge required">Pflicht</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">info_sammeln</code><span class="option-label">Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen</span></li>
+          <li class="option"><code class="option-value">planung_stockt_ggv</code><span class="option-label">Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom</span></li>
+          <li class="option"><code class="option-value">planung_stockt_pv</code><span class="option-label">Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage</span></li>
+          <li class="option"><code class="option-value">planung_fast_fertig</code><span class="option-label">Wir sind fast fertig mit der Planung</span></li>
+          <li class="option"><code class="option-value">pv_laeuft_ggv_planung</code><span class="option-label">Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung</span></li>
+          <li class="option"><code class="option-value">pv_laeuft_ggv_laeuft</code><span class="option-label">Die PV-Anlage läuft bereits mit GGV/Mieterstrom</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q19: ggvOrMieterstromDecision -->
+      <article class="question" id="q-ggvOrMieterstromDecision" data-id="ggvOrMieterstromDecision" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#19</span>
+          <h4 class="question-label">B2. Wie sicher sind Sie, ob Sie GGV oder Mieterstrom umsetzen?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">sicher_ggv</code><span class="option-label">Wir sind sicher - es wird/ist GGV</span></li>
+          <li class="option"><code class="option-value">unsicher</code><span class="option-label">Wir sind unsicher - es fehlen noch Informationen für eine Entscheidung</span></li>
+          <li class="option"><code class="option-value">sicher_mieterstrom</code><span class="option-label">Wir sind sicher - es wird/ist Mieterstrom</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn 'ggv_oder_mieterstrom' ausgewählt</div>
+      </article>
+
+      <!-- Q20: ggvDecisionReasons -->
+      <article class="question" id="q-ggvDecisionReasons" data-id="ggvDecisionReasons" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#20</span>
+          <h4 class="question-label">B3. Warum haben Sie sich für GGV entschieden?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">buerokratie_mieterstrom</code><span class="option-label">Wegen der bürokratischen Herausforderungen bei Mieterstrom</span></li>
+          <li class="option"><code class="option-value">reststrom_pflicht</code><span class="option-label">Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom</span></li>
+          <li class="option"><code class="option-value">ladesaeulen_waermepumpen</code><span class="option-label">Weil die Einbindung von Ladesäulen/Wärmepumpen einfacher ist</span></li>
+          <li class="option"><code class="option-value">vnb_empfehlung</code><span class="option-label">Weil unser VNB das empfiehlt</span></li>
+          <li class="option"><code class="option-value">finanziell_attraktiver</code><span class="option-label">Weil das finanziell attraktiver ist</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_ggv'</div>
+      </article>
+
+      <!-- Q21: mieterstromDecisionReasons -->
+      <article class="question" id="q-mieterstromDecisionReasons" data-id="mieterstromDecisionReasons" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#21</span>
+          <h4 class="question-label">B4. Warum haben Sie sich für Mieterstrom entschieden?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">einfacher_umsetzung</code><span class="option-label">Weil das in der Umsetzung einfacher zu sein scheint</span></li>
+          <li class="option"><code class="option-value">kein_dienstleister_ggv</code><span class="option-label">Weil wir für die GGV nicht den richtigen Dienstleister finden</span></li>
+          <li class="option"><code class="option-value">vnb_empfehlung</code><span class="option-label">Weil unser VNB das empfiehlt</span></li>
+          <li class="option"><code class="option-value">vnb_kann_ggv_nicht</code><span class="option-label">Weil der VNB die GGV nicht umsetzen kann</span></li>
+          <li class="option"><code class="option-value">finanziell_attraktiver</code><span class="option-label">Weil das finanziell attraktiver ist</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_mieterstrom'</div>
+      </article>
+
+      <!-- Q22: implementationApproach -->
+      <article class="question" id="q-implementationApproach" data-id="implementationApproach" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#22</span>
+          <h4 class="question-label">B5. Wie möchten Sie die Umsetzung angehen?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">alleine</code><span class="option-label">Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden</span></li>
+          <li class="option"><code class="option-value">dienstleister_ok</code><span class="option-label">Dienstleister sind OK, solange das preislich attraktiv ist</span></li>
+          <li class="option"><code class="option-value">dienstleister_alles</code><span class="option-label">Ideal wäre es, wenn sich ein Dienstleister um alles kümmert</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 4: B6. Herausforderungen ===================== -->
+  <section class="survey-section" id="s-challenges" data-id="challenges">
+    <header class="section-header">
+      <h2>B6. Herausforderungen</h2>
+      <p class="section-description">Erlebte Schwierigkeiten</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn GGV oder Mieterstrom ausgewählt</div>
+      <span class="question-count">1 Frage</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q23: challenges -->
+      <article class="question" id="q-challenges" data-id="challenges" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#23</span>
+          <h4 class="question-label">Gab oder gibt es wesentliche Herausforderungen?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">keine</code><span class="option-label">Nein, alles läuft gut</span></li>
+          <li class="option"><code class="option-value">pv_installation</code><span class="option-label">Technische Probleme mit der Installation der PV-Anlage</span><em class="text-field-note">+ Textfeld: "Was war das Problem?"</em></li>
+          <li class="option"><code class="option-value">vnb_blockiert</code><span class="option-label">Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu</span><em class="text-field-note">+ Textfeld: "Gründe des VNB"</em></li>
+          <li class="option"><code class="option-value">kosten_zu_hoch</code><span class="option-label">Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch</span><em class="text-field-note">+ Textfeld: "Details zu den Kosten"</em></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld: "Andere Herausforderungen"</em></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 5: C. VNB Planung (GGV) ===================== -->
+  <section class="survey-section" id="s-vnb-planning" data-id="vnb-planning">
+    <header class="section-header">
+      <h2>C. VNB Planung (GGV)</h2>
+      <p class="section-description">Details zur GGV-Planung mit dem Verteilnetzbetreiber</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn GGV ausgewählt oder ggvOrMieterstromDecision = 'sicher_ggv'</div>
+      <span class="question-count">10 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q24: vnbExistingProjects -->
+      <article class="question" id="q-vnbExistingProjects" data-id="vnbExistingProjects" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#24</span>
+          <h4 class="question-label">C1. Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es gibt sicher noch keine</span></li>
+          <li class="option"><code class="option-value">ja_mindestens_eins</code><span class="option-label">Ja, es gibt mindestens eins</span></li>
+          <li class="option"><code class="option-value">ja_viele</code><span class="option-label">Ja, es gibt schon eine ganze Reihe</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q25: vnbContact -->
+      <article class="question" id="q-vnbContact" data-id="vnbContact" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#25</span>
+          <h4 class="question-label">C2. Waren Sie schon im Kontakt mit Ihrem VNB?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">direkt</code><span class="option-label">Ja, wir hatten direkten Kontakt mit dem VNB</span></li>
+          <li class="option"><code class="option-value">installateur</code><span class="option-label">Nein, nur über den Installateur/Dienstleister</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q26: vnbResponse -->
+      <article class="question" id="q-vnbResponse" data-id="vnbResponse" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#26</span>
+          <h4 class="question-label">C3. Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">moeglich_gmssb</code><span class="option-label">Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen</span></li>
+          <li class="option"><code class="option-value">moeglich_wmsb</code><span class="option-label">Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen</span></li>
+          <li class="option"><code class="option-value">keine_antwort</code><span class="option-label">Unser VNB hat die Anfrage bisher nicht beantwortet</span></li>
+          <li class="option"><code class="option-value">nicht_moeglich</code><span class="option-label">Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist</span><em class="text-field-note">+ Textfeld: "Gründe des VNB"</em></li>
+        </ul>
+      </article>
+
+      <!-- Q27: vnbSupportMesskonzept -->
+      <article class="question" id="q-vnbSupportMesskonzept" data-id="vnbSupportMesskonzept" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#27</span>
+          <h4 class="question-label">C4.1 Informationen zum Messkonzept (Weblink)</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-help">ℹ️ Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?</p>
+        <p class="question-placeholder">Platzhalter: "https://..."</p>
+      </article>
+
+      <!-- Q28: vnbSupportFormulare -->
+      <article class="question" id="q-vnbSupportFormulare" data-id="vnbSupportFormulare" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#28</span>
+          <h4 class="question-label">C4.2 Formulare für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel (Weblink)</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "https://..."</p>
+      </article>
+
+      <!-- Q29: vnbSupportPortal -->
+      <article class="question" id="q-vnbSupportPortal" data-id="vnbSupportPortal" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#29</span>
+          <h4 class="question-label">C4.3 Online-Portal für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, vorhanden</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, nicht vorhanden</span></li>
+        </ul>
+      </article>
+
+      <!-- Q30: vnbSupportOther -->
+      <article class="question" id="q-vnbSupportOther" data-id="vnbSupportOther" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#30</span>
+          <h4 class="question-label">C4.4 Weiteres</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Weitere Unterstützungsangebote..."</p>
+      </article>
+
+      <!-- Q31: vnbContactHelpful -->
+      <article class="question" id="q-vnbContactHelpful" data-id="vnbContactHelpful" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#31</span>
+          <h4 class="question-label">C5. Bietet Ihr VNB eine Kontaktmöglichkeit zur GGV und ist das hilfreich?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_hilfreich</code><span class="option-label">Ja, es gibt eine Kontaktmöglichkeit (Mailadresse/Telefonnummer) und da wurde uns geholfen</span></li>
+          <li class="option"><code class="option-value">ja_nicht_hilfreich</code><span class="option-label">Ja, aber es gab wenig hilfreiche Information</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es gibt keine Kontaktmöglichkeit</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q32: vnbPersonalContacts -->
+      <article class="question" id="q-vnbPersonalContacts" data-id="vnbPersonalContacts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#32</span>
+          <h4 class="question-label">C6. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_bestanden</code><span class="option-label">Ja, es bestanden schon persönliche Kontakte zum VNB</span></li>
+          <li class="option"><code class="option-value">ja_entstanden</code><span class="option-label">Ja, persönliche Kontakte sind bei der Umsetzung der GGV entstanden</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es bestehen keine persönlichen Kontakte</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q33: vnbSupportRating -->
+      <article class="question" id="q-vnbSupportRating" data-id="vnbSupportRating" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#33</span>
+          <h4 class="question-label">C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Unser VNB will das eigentlich lieber verhindern</span>
+          <span class="scale-label-max">10: Unser VNB möchte das wirklich mit uns umsetzen</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 6: C8. MSB Details ===================== -->
+  <section class="survey-section" id="s-vnb-msb" data-id="vnb-msb">
+    <header class="section-header">
+      <h2>C8. MSB Details</h2>
+      <p class="section-description">Details zum Messstellenbetreiber-Angebot</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn vnbMsbOffer beantwortet</div>
+      <span class="question-count">14 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q34: vnbMsbOffer -->
+      <article class="question" id="q-vnbMsbOffer" data-id="vnbMsbOffer" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#34</span>
+          <h4 class="question-label">C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen</span></li>
+          <li class="option"><code class="option-value">nein_wmsb</code><span class="option-label">Nein - ich brauche dafür einen wettbewerblichen Messstellenbetreiber</span></li>
+          <li class="option"><code class="option-value">nein_gar_nicht</code><span class="option-label">Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht</span></li>
+        </ul>
+        <div class="logic skip">➡️ Sprunglogik: Je nach Auswahl werden unterschiedliche Folgefragen angezeigt</div>
+      </article>
+
+      <!-- Q35: vnbStartTimeline -->
+      <article class="question" id="q-vnbStartTimeline" data-id="vnbStartTimeline" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#35</span>
+          <h4 class="question-label">C8.1a Ab wann kann das starten? (wenn VNB MSB anbietet)</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">sofort</code><span class="option-label">Sofort - wir sind in der Planung und das sieht gut aus</span></li>
+          <li class="option"><code class="option-value">zeitnah</code><span class="option-label">Zeitnah - wir warten auf den Start jederzeit</span></li>
+          <li class="option"><code class="option-value">12_monate</code><span class="option-label">In den nächsten 12 Monaten</span></li>
+          <li class="option"><code class="option-value">spaeter</code><span class="option-label">Später als in 12 Monaten</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q36: vnbAdditionalCosts -->
+      <article class="question" id="q-vnbAdditionalCosts" data-id="vnbAdditionalCosts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#36</span>
+          <h4 class="question-label">C8.1b Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q37: vnbAdditionalCostsOneTime -->
+      <article class="question" id="q-vnbAdditionalCostsOneTime" data-id="vnbAdditionalCostsOneTime" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#37</span>
+          <h4 class="question-label">Einmalbetrag (EUR)</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 500"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbAdditionalCosts = 'ja'</div>
+      </article>
+
+      <!-- Q38: vnbAdditionalCostsYearly -->
+      <article class="question" id="q-vnbAdditionalCostsYearly" data-id="vnbAdditionalCostsYearly" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#38</span>
+          <h4 class="question-label">Jährlicher Betrag (EUR)</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 100"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbAdditionalCosts = 'ja'</div>
+      </article>
+
+      <!-- Q39: vnbFullService -->
+      <article class="question" id="q-vnbFullService" data-id="vnbFullService" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#39</span>
+          <h4 class="question-label">C8.1c Einschränkende Bedingung Full-Service-Angebot</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">nur_full_service</code><span class="option-label">Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk</span></li>
+          <li class="option"><code class="option-value">auch_ohne</code><span class="option-label">Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q40: vnbDataProvision -->
+      <article class="question" id="q-vnbDataProvision" data-id="vnbDataProvision" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#40</span>
+          <h4 class="question-label">C8.1d Wie beabsichtigt Ihr VNB, Ihnen die für die Abrechnung benötigten Daten bereitzustellen?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">mail_excel</code><span class="option-label">Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung</span></li>
+          <li class="option"><code class="option-value">portal_verrechnete_werte</code><span class="option-label">Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können</span></li>
+          <li class="option"><code class="option-value">portal_alle_messwerte</code><span class="option-label">Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können, um diese selber zu verrechnen</span></li>
+          <li class="option"><code class="option-value">dienstleister_marktkommunikation</code><span class="option-label">Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q41: vnbDataCost -->
+      <article class="question" id="q-vnbDataCost" data-id="vnbDataCost" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#41</span>
+          <h4 class="question-label">C8.1e Falls Ihr VNB/gMSB die Daten direkt an Sie übermittelt, was wird es kosten?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">kostenlos</code><span class="option-label">Kostenlos</span></li>
+          <li class="option"><code class="option-value">weniger_3_eur</code><span class="option-label">Weniger als 3 EUR/Messstelle/Jahr</span></li>
+          <li class="option"><code class="option-value">mehr_3_eur</code><span class="option-label">Mehr als 3 EUR/Messstelle/Jahr</span></li>
+          <li class="option"><code class="option-value">keine_auskunft</code><span class="option-label">Dazu gibt es noch keine Auskunft</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q42: vnbEsaCost -->
+      <article class="question" id="q-vnbEsaCost" data-id="vnbEsaCost" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#42</span>
+          <h4 class="question-label">C8.1f Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der VNB/gMSB dafür Geld?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">kostenlos</code><span class="option-label">Das macht er umsonst</span></li>
+          <li class="option"><code class="option-value">weniger_3_eur</code><span class="option-label">Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr</span></li>
+          <li class="option"><code class="option-value">mehr_3_eur</code><span class="option-label">Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</div>
+      </article>
+
+      <!-- Q43: vnbMsbTimeline -->
+      <article class="question" id="q-vnbMsbTimeline" data-id="vnbMsbTimeline" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#43</span>
+          <h4 class="question-label">C8.2a Hat der VNB in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_12_monate</code><span class="option-label">Ja, innerhalb der nächsten 12 Monate</span></li>
+          <li class="option"><code class="option-value">ja_spaeter</code><span class="option-label">Ja, in über 12 Monaten</span></li>
+          <li class="option"><code class="option-value">nicht_gefragt</code><span class="option-label">Nein, das haben wir nicht gefragt</span></li>
+          <li class="option"><code class="option-value">keine_aussage</code><span class="option-label">Nein, dazu gab es keine Aussage</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'nein_wmsb'</div>
+      </article>
+
+      <!-- Q44: vnbRejectionTimeline -->
+      <article class="question" id="q-vnbRejectionTimeline" data-id="vnbRejectionTimeline" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#44</span>
+          <h4 class="question-label">C8.2b Gibt es schon eine Aussage, ab wann eine Umsetzung möglich sein wird?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_12_monate</code><span class="option-label">Ja, innerhalb der nächsten 12 Monate</span></li>
+          <li class="option"><code class="option-value">ja_spaeter</code><span class="option-label">Ja, in über 12 Monaten</span></li>
+          <li class="option"><code class="option-value">nicht_gefragt</code><span class="option-label">Nein, das haben wir nicht gefragt</span></li>
+          <li class="option"><code class="option-value">keine_aussage</code><span class="option-label">Nein, dazu gab es keine Aussage</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'nein_gar_nicht'</div>
+      </article>
+
+      <!-- Q45: vnbWandlermessung -->
+      <article class="question" id="q-vnbWandlermessung" data-id="vnbWandlermessung" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#45</span>
+          <h4 class="question-label">C9. Verlangt Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <p class="question-description">Erfordert die Installation einer 'Wandlermessung' für &gt; 5.000 EUR</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Das wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <!-- Q46: vnbWandlermessungComment -->
+      <article class="question" id="q-vnbWandlermessungComment" data-id="vnbWandlermessungComment" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#46</span>
+          <h4 class="question-label">Ergänzende Informationen zur Wandlermessung</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Weitere Details..."</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn vnbWandlermessung beantwortet</div>
+      </article>
+
+      <!-- Q47: vnbPlanningDuration -->
+      <article class="question" id="q-vnbPlanningDuration" data-id="vnbPlanningDuration" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#47</span>
+          <h4 class="question-label">C10. Wie lange sind Sie bereits in Diskussionen zur Umsetzung der GGV mit Ihrem VNB?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">unter_2_monate</code><span class="option-label">Unter 2 Monaten</span></li>
+          <li class="option"><code class="option-value">2_bis_12_monate</code><span class="option-label">Zwischen 2 und 12 Monaten</span></li>
+          <li class="option"><code class="option-value">ueber_12_monate</code><span class="option-label">Über 12 Monate</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 7: D. GGV Betrieb ===================== -->
+  <section class="survey-section" id="s-ggv-operation" data-id="ggv-operation">
+    <header class="section-header">
+      <h2>D. GGV Betrieb</h2>
+      <p class="section-description">Erfahrungen im laufenden Betrieb</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enthält</div>
+      <span class="question-count">10 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q48: operationStartDate -->
+      <article class="question" id="q-operationStartDate" data-id="operationStartDate" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#48</span>
+          <h4 class="question-label">D0. Seit wann ist die GGV in Betrieb?</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. Januar 2025"</p>
+      </article>
+
+      <!-- Q49: operationVnbDuration -->
+      <article class="question" id="q-operationVnbDuration" data-id="operationVnbDuration" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#49</span>
+          <h4 class="question-label">D1. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">unter_2_monate</code><span class="option-label">Unter 2 Monaten</span></li>
+          <li class="option"><code class="option-value">2_bis_12_monate</code><span class="option-label">Zwischen 2 und 12 Monaten</span></li>
+          <li class="option"><code class="option-value">ueber_12_monate</code><span class="option-label">Über 12 Monate</span></li>
+        </ul>
+      </article>
+
+      <!-- Q50: operationWandlermessung -->
+      <article class="question" id="q-operationWandlermessung" data-id="operationWandlermessung" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#50</span>
+          <h4 class="question-label">D2. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung &gt;5.000 EUR)?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Das wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <!-- Q51: operationMsbProvider -->
+      <article class="question" id="q-operationMsbProvider" data-id="operationMsbProvider" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#51</span>
+          <h4 class="question-label">D3. Wer ist der Messstellenbetreiber?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">gmsb</code><span class="option-label">Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)</span></li>
+          <li class="option"><code class="option-value">wmsb</code><span class="option-label">Ein wMSB</span></li>
+        </ul>
+      </article>
+
+      <!-- Q52: operationAllocationProvider -->
+      <article class="question" id="q-operationAllocationProvider" data-id="operationAllocationProvider" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#52</span>
+          <h4 class="question-label">D4. Wer übernimmt die Aufteilung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">gmsb</code><span class="option-label">Unser lokaler gMSB</span></li>
+          <li class="option"><code class="option-value">wmsb</code><span class="option-label">Ein wMSB</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q53: operationMsbDuration -->
+      <article class="question" id="q-operationMsbDuration" data-id="operationMsbDuration" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#53</span>
+          <h4 class="question-label">D5. Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Weiß ich nicht</span></li>
+          <li class="option"><code class="option-value">schnell</code><span class="option-label">Das ging problemlos und schnell</span></li>
+          <li class="option"><code class="option-value">4_monate</code><span class="option-label">Ca. 4 Monate (gesetzlich vorgegebene Frist)</span></li>
+          <li class="option"><code class="option-value">laenger</code><span class="option-label">Deutlich länger als 4 Monate</span></li>
+        </ul>
+      </article>
+
+      <!-- Q54: operationMsbAdditionalCosts -->
+      <article class="question" id="q-operationMsbAdditionalCosts" data-id="operationMsbAdditionalCosts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#54</span>
+          <h4 class="question-label">D6. Stellt der VNB/gMSB zusätzliche Kosten in Rechnung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <!-- Q55: operationDataFormat -->
+      <article class="question" id="q-operationDataFormat" data-id="operationDataFormat" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#55</span>
+          <h4 class="question-label">D7. Wie übermittelt Ihr VNB/MSB die Daten für die Abrechnung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">mail_excel</code><span class="option-label">Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung</span></li>
+          <li class="option"><code class="option-value">portal_verrechnete_werte</code><span class="option-label">Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können</span></li>
+          <li class="option"><code class="option-value">portal_alle_messwerte</code><span class="option-label">Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können</span></li>
+          <li class="option"><code class="option-value">dienstleister_marktkommunikation</code><span class="option-label">Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q56: operationSatisfactionRating -->
+      <article class="question" id="q-operationSatisfactionRating" data-id="operationSatisfactionRating" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#56</span>
+          <h4 class="question-label">D8. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung der GGV?</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Sehr unzufrieden</span>
+          <span class="scale-label-max">10: Sehr zufrieden</span>
+        </div>
+      </article>
+
+      <!-- Q57: vnbPlanningDurationReasons -->
+      <article class="question" id="q-vnbPlanningDurationReasons" data-id="vnbPlanningDurationReasons" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#57</span>
+          <h4 class="question-label">Woran scheitert die Umsetzung bislang?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Beschreiben Sie die Gründe..."</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 8: D8-D9. Dienstleister ===================== -->
+  <section class="survey-section" id="s-service-provider" data-id="service-provider">
+    <header class="section-header">
+      <h2>D8-D9. Dienstleister</h2>
+      <p class="section-description">Feedback zu Dienstleistern &amp; Reaktionen</p>
+      <div class="section-visibility">⚡ Branching: Nur bei GGV-Fokus</div>
+      <span class="question-count">6 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q58: serviceProviderName -->
+      <article class="question" id="q-serviceProviderName" data-id="serviceProviderName" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#58</span>
+          <h4 class="question-label">D8. Mit welchem Dienstleister arbeiten Sie zusammen?</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Name des Dienstleisters"</p>
+      </article>
+
+      <!-- Q59: serviceProviderRating -->
+      <article class="question" id="q-serviceProviderRating" data-id="serviceProviderRating" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#59</span>
+          <h4 class="question-label">Zufriedenheit mit Dienstleister 1</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Sehr unzufrieden</span>
+          <span class="scale-label-max">10: Sehr zufrieden</span>
+        </div>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</div>
+      </article>
+
+      <!-- Q60: serviceProviderComments -->
+      <article class="question" id="q-serviceProviderComments" data-id="serviceProviderComments" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#60</span>
+          <h4 class="question-label">Kommentare zu Dienstleister 1</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Was lief gut? Was könnte besser sein?"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</div>
+      </article>
+
+      <!-- Q61: serviceProvider2Name -->
+      <article class="question" id="q-serviceProvider2Name" data-id="serviceProvider2Name" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#61</span>
+          <h4 class="question-label">Dienstleister 2 (optional)</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Name des zweiten Dienstleisters"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</div>
+      </article>
+
+      <!-- Q62: serviceProvider2Rating -->
+      <article class="question" id="q-serviceProvider2Rating" data-id="serviceProvider2Rating" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#62</span>
+          <h4 class="question-label">Zufriedenheit mit Dienstleister 2</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Sehr unzufrieden</span>
+          <span class="scale-label-max">10: Sehr zufrieden</span>
+        </div>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn serviceProvider2Name ausgefüllt</div>
+      </article>
+
+      <!-- Q63: vnbRejectionResponse -->
+      <article class="question" id="q-vnbRejectionResponse" data-id="vnbRejectionResponse" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#63</span>
+          <h4 class="question-label">D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">bnetza</code><span class="option-label">Wir haben uns bereits an die BNetzA gewendet</span></li>
+          <li class="option"><code class="option-value">rechtliche_schritte</code><span class="option-label">Wir überlegen rechtliche Schritte zu gehen</span></li>
+          <li class="option"><code class="option-value">keine_schritte</code><span class="option-label">Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 9: M. Mieterstrom Planung ===================== -->
+  <section class="survey-section" id="s-mieterstrom-planning" data-id="mieterstrom-planning">
+    <header class="section-header">
+      <h2>M. Mieterstrom Planung</h2>
+      <p class="section-description">Details zu Mieterstrom-Projekten</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn Mieterstrom ausgewählt oder ggvOrMieterstromDecision = 'sicher_mieterstrom'</div>
+      <span class="question-count">15 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q64: mieterstromSummenzaehler -->
+      <article class="question" id="q-mieterstromSummenzaehler" data-id="mieterstromSummenzaehler" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#64</span>
+          <h4 class="question-label">M1. Möchten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenzähler umsetzen?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">virtuell</code><span class="option-label">Mit virtuellem Summenzähler</span></li>
+          <li class="option"><code class="option-value">physikalisch</code><span class="option-label">Mit physikalischem Summenzähler</span></li>
+          <li class="option"><code class="option-value">kein_unterschied</code><span class="option-label">Wir kennen den Unterschied nicht</span></li>
+          <li class="option"><code class="option-value">keine_praeferenz</code><span class="option-label">Wir haben keine Präferenz</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q65: mieterstromChallenges -->
+      <article class="question" id="q-mieterstromChallenges" data-id="mieterstromChallenges" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#65</span>
+          <h4 class="question-label">M2. Gab oder gibt es wesentliche Herausforderungen?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">keine</code><span class="option-label">Nein, alles läuft gut</span></li>
+          <li class="option"><code class="option-value">opposition</code><span class="option-label">Manche Parteien im Haus sind gegen das Projekt</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">pv_installation</code><span class="option-label">Technische Probleme mit der Installation der PV-Anlage</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">vnb_blocking</code><span class="option-label">Der VNB lässt die Umsetzung von Mieterstrom nicht zu</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">kosten</code><span class="option-label">Die Kosten für die Umsetzung des Mieterstrom sind zu hoch</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q66: mieterstromExistingProjects -->
+      <article class="question" id="q-mieterstromExistingProjects" data-id="mieterstromExistingProjects" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#66</span>
+          <h4 class="question-label">M3. Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es gibt sicher noch keine</span></li>
+          <li class="option"><code class="option-value">ja_mindestens_eins</code><span class="option-label">Ja, es gibt mindestens eins</span></li>
+          <li class="option"><code class="option-value">ja_viele</code><span class="option-label">Ja, es gibt schon eine ganze Reihe</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q67: mieterstromExistingProjectsVirtuell -->
+      <article class="question" id="q-mieterstromExistingProjectsVirtuell" data-id="mieterstromExistingProjectsVirtuell" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#67</span>
+          <h4 class="question-label">M4. Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte mit virtuellem Summenzähler?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es gibt sicher noch keine</span></li>
+          <li class="option"><code class="option-value">ja_mindestens_eins</code><span class="option-label">Ja, es gibt mindestens eins</span></li>
+          <li class="option"><code class="option-value">ja_viele</code><span class="option-label">Ja, es gibt schon eine ganze Reihe</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q68: mieterstromVnbContact -->
+      <article class="question" id="q-mieterstromVnbContact" data-id="mieterstromVnbContact" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#68</span>
+          <h4 class="question-label">M5. Waren Sie schon im Kontakt mit Ihrem VNB?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">direkt</code><span class="option-label">Ja, wir hatten direkten Kontakt mit dem VNB</span></li>
+          <li class="option"><code class="option-value">installateur</code><span class="option-label">Nein, nur über den Installateur/Dienstleister</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q69: mieterstromVirtuellAllowed -->
+      <article class="question" id="q-mieterstromVirtuellAllowed" data-id="mieterstromVirtuellAllowed" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#69</span>
+          <h4 class="question-label">M6. Lässt Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <!-- Q70: mieterstromVirtuellWandlermessung -->
+      <article class="question" id="q-mieterstromVirtuellWandlermessung" data-id="mieterstromVirtuellWandlermessung" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#70</span>
+          <h4 class="question-label">M7. Verlangt der VNB auch bei einem 'virtuellen Summenzähler' eine teure Wandlermessung am Hausanschluss?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <!-- Q71: mieterstromVnbResponse -->
+      <article class="question" id="q-mieterstromVnbResponse" data-id="mieterstromVnbResponse" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#71</span>
+          <h4 class="question-label">M8. Welche Aussage zur Rückmeldung vom VNB zu Mieterstrom trifft zu?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">moeglich_gmssb</code><span class="option-label">Umsetzung von Mieterstrom ist möglich, der VNB/gMSB macht den Messstellenbetrieb</span></li>
+          <li class="option"><code class="option-value">moeglich_wmsb</code><span class="option-label">Umsetzung ist möglich mit wettbewerblichem MSB</span></li>
+          <li class="option"><code class="option-value">keine_antwort</code><span class="option-label">VNB hat bisher nicht geantwortet</span></li>
+          <li class="option"><code class="option-value">nicht_moeglich</code><span class="option-label">VNB sagt Umsetzung ist nicht möglich</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q72: mieterstromVnbSupport -->
+      <article class="question" id="q-mieterstromVnbSupport" data-id="mieterstromVnbSupport" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#72</span>
+          <h4 class="question-label">M9. Stellt Ihr VNB Unterstützung für Mieterstrom bereit?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">messkonzept</code><span class="option-label">Informationen zum Messkonzept</span></li>
+          <li class="option"><code class="option-value">formulare</code><span class="option-label">Formulare für die Anmeldung</span></li>
+          <li class="option"><code class="option-value">portal</code><span class="option-label">Online-Portal</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q73: mieterstromVnbHelpful -->
+      <article class="question" id="q-mieterstromVnbHelpful" data-id="mieterstromVnbHelpful" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#73</span>
+          <h4 class="question-label">M10. Bietet Ihr VNB eine hilfreiche Kontaktmöglichkeit zu Mieterstrom?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_hilfreich</code><span class="option-label">Ja, es gibt Kontakt und da wurde uns geholfen</span></li>
+          <li class="option"><code class="option-value">ja_nicht_hilfreich</code><span class="option-label">Ja, aber wenig hilfreiche Information</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, keine Kontaktmöglichkeit</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q74: mieterstromPersonalContacts -->
+      <article class="question" id="q-mieterstromPersonalContacts" data-id="mieterstromPersonalContacts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#74</span>
+          <h4 class="question-label">M11. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_bestanden</code><span class="option-label">Ja, es bestanden schon persönliche Kontakte zum VNB</span></li>
+          <li class="option"><code class="option-value">ja_entstanden</code><span class="option-label">Ja, persönliche Kontakte sind bei der Umsetzung von Mieterstrom entstanden</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, es bestehen keine persönlichen Kontakte</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q75: mieterstromSupportRating -->
+      <article class="question" id="q-mieterstromSupportRating" data-id="mieterstromSupportRating" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#75</span>
+          <h4 class="question-label">Wie sehr fühlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterstützt?</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Unser VNB will das eigentlich lieber verhindern</span>
+          <span class="scale-label-max">10: Unser VNB möchte das wirklich mit uns umsetzen</span>
+        </div>
+      </article>
+
+      <!-- Q76-78 are in next sections or covered above -->
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 10: MP. VNB Angebot (Mieterstrom) ===================== -->
+  <section class="survey-section" id="s-mieterstrom-vnb-offer" data-id="mieterstrom-vnb-offer">
+    <header class="section-header">
+      <h2>MP. VNB Angebot (Mieterstrom)</h2>
+      <p class="section-description">Details zum MSB-Angebot des VNB für Mieterstrom</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn Mieterstrom ausgewählt und nicht in Betrieb</div>
+      <span class="question-count">6 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q76: mieterstromFullService -->
+      <article class="question" id="q-mieterstromFullService" data-id="mieterstromFullService" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#76</span>
+          <h4 class="question-label">MP1a. Full-Service-Angebot</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">nur_full_service</code><span class="option-label">Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk</span></li>
+          <li class="option"><code class="option-value">auch_ohne</code><span class="option-label">Unser Stadtwerk/VNB bietet dies auch ohne Stromlieferverträge an</span></li>
+        </ul>
+      </article>
+
+      <!-- Q77: mieterstromMsbCosts -->
+      <article class="question" id="q-mieterstromMsbCosts" data-id="mieterstromMsbCosts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#77</span>
+          <h4 class="question-label">MP1b. Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <!-- Q78-79: mieterstromMsbCostsOneTime/Yearly -->
+      <article class="question" id="q-mieterstromMsbCostsOneTime" data-id="mieterstromMsbCostsOneTime" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#78</span>
+          <h4 class="question-label">Einmalbetrag (EUR)</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 500"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn mieterstromMsbCosts = 'ja'</div>
+      </article>
+
+      <article class="question" id="q-mieterstromMsbCostsYearly" data-id="mieterstromMsbCostsYearly" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#79</span>
+          <h4 class="question-label">Jährlicher Betrag (EUR)</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 100"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn mieterstromMsbCosts = 'ja'</div>
+      </article>
+
+      <!-- Q80: mieterstromModelChoice -->
+      <article class="question" id="q-mieterstromModelChoice" data-id="mieterstromModelChoice" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#80</span>
+          <h4 class="question-label">MP1c. Auswahl an Umsetzungsmodellen</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">virtuell</code><span class="option-label">Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für &gt;5.000 EUR) bleibt uns damit erspart</span></li>
+          <li class="option"><code class="option-value">physikalisch</code><span class="option-label">Ein sogenanntes 'physikalisches Summenzählermodell' (erfordert einen 'physikalischen Summenzähler')</span></li>
+        </ul>
+      </article>
+
+      <!-- Q81: mieterstromDataProvision -->
+      <article class="question" id="q-mieterstromDataProvision" data-id="mieterstromDataProvision" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#81</span>
+          <h4 class="question-label">MP1d. Bereitstellung der Daten</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">direkt_guenstig</code><span class="option-label">Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - für weniger (oder gleich) 3 EUR/Messstelle/Jahr</span></li>
+          <li class="option"><code class="option-value">direkt_teuer</code><span class="option-label">Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr</span></li>
+          <li class="option"><code class="option-value">marktkommunikation</code><span class="option-label">Der VNB/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 11: MB. Mieterstrom Betrieb ===================== -->
+  <section class="survey-section" id="s-mieterstrom-operation" data-id="mieterstrom-operation">
+    <header class="section-header">
+      <h2>MB. Mieterstrom Betrieb</h2>
+      <p class="section-description">Erfahrungen im laufenden Mieterstrom-Betrieb</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn Mieterstrom in Betrieb</div>
+      <span class="question-count">13 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <!-- Q82-94: Mieterstrom operation questions -->
+      <article class="question" id="q-mieterstromVnbRole" data-id="mieterstromVnbRole" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#82</span>
+          <h4 class="question-label">MB1. Welche Rolle übernimmt der VNB in Ihrem Mieterstrom-Projekt?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">keine</code><span class="option-label">Gar keine - wir machen das mit einem wettbewerblichen Messstellenbetreiber</span></li>
+          <li class="option"><code class="option-value">msb_dienstleister</code><span class="option-label">Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung</span></li>
+          <li class="option"><code class="option-value">msb_direkt</code><span class="option-label">Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung</span></li>
+          <li class="option"><code class="option-value">full_service</code><span class="option-label">Das Stadtwerk übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden</span></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromVnbDuration" data-id="mieterstromVnbDuration" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#83</span>
+          <h4 class="question-label">MB2. Wie lange hat die Abstimmung mit dem VNB zum Mieterstrom gedauert?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">unter_2_monate</code><span class="option-label">Unter 2 Monaten</span></li>
+          <li class="option"><code class="option-value">2_bis_12_monate</code><span class="option-label">Zwischen 2 und 12 Monaten</span></li>
+          <li class="option"><code class="option-value">ueber_12_monate</code><span class="option-label">Über 12 Monate</span></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromWandlermessung" data-id="mieterstromWandlermessung" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#84</span>
+          <h4 class="question-label">MB3. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung &gt;5.000 EUR)?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Das wissen wir nicht</span></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromMsbProvider" data-id="mieterstromMsbProvider" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#85</span>
+          <h4 class="question-label">MB4.1 Messstellenbetrieb: Wer stellt die Zähler oder die Smart Meter bereit?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">gmsb</code><span class="option-label">Unser lokaler gMSB (gleiches Unternehmen wie der VNB)</span></li>
+          <li class="option"><code class="option-value">wmsb</code><span class="option-label">Ein wMSB</span></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromDataProvider" data-id="mieterstromDataProvider" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#86</span>
+          <h4 class="question-label">MB4.2 Übermittlung der verbrauchten Strommengen je Teilnehmer</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">gmsb</code><span class="option-label">Unser lokaler gMSB</span></li>
+          <li class="option"><code class="option-value">dienstleister</code><span class="option-label">Ein Dienstleister</span></li>
+          <li class="option"><code class="option-value">wmsb</code><span class="option-label">Ein wMSB</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromMsbInstallDuration" data-id="mieterstromMsbInstallDuration" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#87</span>
+          <h4 class="question-label">MB5.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Weiß ich nicht</span></li>
+          <li class="option"><code class="option-value">schnell</code><span class="option-label">Das ging problemlos und schnell</span></li>
+          <li class="option"><code class="option-value">4_monate</code><span class="option-label">Die 4 Monate gesetzliche Frist wurden gerade so eingehalten</span></li>
+          <li class="option"><code class="option-value">laenger</code><span class="option-label">Die Frist von 4 Monaten wurde deutlich überschritten</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn mieterstromMsbProvider = 'gmsb'</div>
+      </article>
+
+      <article class="question" id="q-mieterstromOperationCosts" data-id="mieterstromOperationCosts" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#88</span>
+          <h4 class="question-label">MB5.2 Stellt der VNB/gMSB Ihnen für den Betrieb der Smart Meter zusätzliche Kosten in Rechnung?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">wissen_nicht</code><span class="option-label">Wissen wir nicht</span></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</span></li>
+          <li class="option"><code class="option-value">ja</code><span class="option-label">Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn mieterstromMsbProvider = 'gmsb'</div>
+      </article>
+
+      <article class="question" id="q-mieterstromOperationSatisfaction" data-id="mieterstromOperationSatisfaction" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#89</span>
+          <h4 class="question-label">MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 1 – 10</span>
+          <span class="scale-label-min">1: Unser VNB will das eigentlich lieber verhindern</span>
+          <span class="scale-label-max">10: Unser VNB möchte das wirklich mit uns umsetzen</span>
+        </div>
+      </article>
+
+      <article class="question" id="q-mieterstromRejectionResponse" data-id="mieterstromRejectionResponse" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#90</span>
+          <h4 class="question-label">MD1. Falls Ihr VNB die Umsetzung von Mieterstrom nicht oder nur unzureichend anbietet/durchführt, wie haben Sie bislang reagiert?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">bnetza</code><span class="option-label">Wir haben uns bereits an die BNetzA gewendet</span></li>
+          <li class="option"><code class="option-value">rechtliche_schritte</code><span class="option-label">Wir überlegen rechtliche Schritte zu gehen</span></li>
+          <li class="option"><code class="option-value">keine_schritte</code><span class="option-label">Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-mieterstromInfoSources" data-id="mieterstromInfoSources" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#91</span>
+          <h4 class="question-label">MD2. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Mieterstrom?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. Webseiten, Beratungsstellen, Netzwerke..."</p>
+      </article>
+
+      <article class="question" id="q-mieterstromExperiences" data-id="mieterstromExperiences" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#92</span>
+          <h4 class="question-label">MD3. Welche Erfahrungen möchten Sie noch teilen?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Ihre Erfahrungen..."</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 12: E. Energy Sharing ===================== -->
+  <section class="survey-section" id="s-energy-sharing" data-id="energy-sharing">
+    <header class="section-header">
+      <h2>E. Energy Sharing</h2>
+      <p class="section-description">Details zu Energy Sharing</p>
+      <div class="section-visibility">⚡ Branching: Nur wenn Energy Sharing ausgewählt</div>
+      <span class="question-count">15 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <article class="question" id="q-esStatus" data-id="esStatus" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#93</span>
+          <h4 class="question-label">E1. Wo stehen Sie aktuell mit dem Projekt?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+            <span class="badge required">Pflicht</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">in_betrieb_vollversorgung</code><span class="option-label">Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell</span></li>
+          <li class="option"><code class="option-value">in_betrieb_42c</code><span class="option-label">Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG</span></li>
+          <li class="option"><code class="option-value">planung_bereit</code><span class="option-label">Wir sind in der Planung und wollen loslegen sobald es geht</span></li>
+          <li class="option"><code class="option-value">info_sammeln</code><span class="option-label">Wir haben grundsätzliches Interesse, sammeln derzeit Infos</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-esPlantType" data-id="esPlantType" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#94</span>
+          <h4 class="question-label">E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <p class="question-description">Mehrfachauswahl möglich</p>
+        <ul class="options">
+          <li class="option"><code class="option-value">wind</code><span class="option-label">Windenergieanlage</span></li>
+          <li class="option"><code class="option-value">buergerwind</code><span class="option-label">Windenergieanlage - Bürgerwindanlage</span></li>
+          <li class="option"><code class="option-value">pv_freiflaeche</code><span class="option-label">PV-Freiflächenanlage</span></li>
+          <li class="option"><code class="option-value">buergersolar</code><span class="option-label">Bürgersolaranlage</span></li>
+          <li class="option"><code class="option-value">pv_efh</code><span class="option-label">PV-Dachanlage auf Einfamilienhaus</span></li>
+          <li class="option"><code class="option-value">pv_mfh</code><span class="option-label">PV-Dachanlage auf Mehrfamilienhaus</span></li>
+          <li class="option"><code class="option-value">pv_nichtwohn</code><span class="option-label">PV-Dachanlage auf einem Nicht-Wohngebäude</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</div>
+      </article>
+
+      <article class="question" id="q-esProjectScope" data-id="esProjectScope" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#95</span>
+          <h4 class="question-label">E4. Projektumfang</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">single</code><span class="option-label">Ein einzelnes Projekt</span></li>
+          <li class="option"><code class="option-value">multiple</code><span class="option-label">Mehrere Projekte</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</div>
+      </article>
+
+      <article class="question" id="q-esPvSizeKw" data-id="esPvSizeKw" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#96</span>
+          <h4 class="question-label">Größe der PV-Anlage in kW</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 100"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn esProjectScope = 'single'</div>
+      </article>
+
+      <article class="question" id="q-esWindSizeKw" data-id="esWindSizeKw" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#97</span>
+          <h4 class="question-label">Größe der Windenergieanlage in kW</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 2000"</p>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn esProjectScope = 'single'</div>
+      </article>
+
+      <article class="question" id="q-esPartyCount" data-id="esPartyCount" data-type="number">
+        <header class="question-header">
+          <span class="question-number">#98</span>
+          <h4 class="question-label">Anzahl der belieferten Parteien</h4>
+          <div class="badges">
+            <span class="badge type">number</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. 50"</p>
+      </article>
+
+      <article class="question" id="q-esConsumerTypes" data-id="esConsumerTypes" data-type="multi-select">
+        <header class="question-header">
+          <span class="question-number">#99</span>
+          <h4 class="question-label">E5. Welche Stromverbraucher sollen eingebunden werden?</h4>
+          <div class="badges">
+            <span class="badge type">multi-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">privat</code><span class="option-label">Private Haushalte</span></li>
+          <li class="option"><code class="option-value">kommune</code><span class="option-label">Kommune</span></li>
+          <li class="option"><code class="option-value">kommunal_unternehmen</code><span class="option-label">Kommunale Unternehmen</span></li>
+          <li class="option"><code class="option-value">kmu</code><span class="option-label">KMU</span></li>
+          <li class="option"><code class="option-value">vereine</code><span class="option-label">Vereine</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</div>
+      </article>
+
+      <article class="question" id="q-esConsumerScope" data-id="esConsumerScope" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#100</span>
+          <h4 class="question-label">E6. An wen soll der Strom geliefert werden?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">alle</code><span class="option-label">An jeden der Interesse hat</span></li>
+          <li class="option"><code class="option-value">primaer_bestimmte</code><span class="option-label">Primär an bestimmte Stromverbraucher, aber gerne auch andere</span></li>
+          <li class="option"><code class="option-value">nur_bestimmte</code><span class="option-label">Nur an bestimmte Abnehmer</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</div>
+      </article>
+
+      <article class="question" id="q-esMaxDistance" data-id="esMaxDistance" data-type="text">
+        <header class="question-header">
+          <span class="question-number">#101</span>
+          <h4 class="question-label">Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern?</h4>
+          <div class="badges">
+            <span class="badge type">text</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">Eine ungefähre Schätzung reicht</p>
+        <p class="question-placeholder">Platzhalter: "z.B. 5 km"</p>
+      </article>
+
+      <article class="question" id="q-esVnbContact" data-id="esVnbContact" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#102</span>
+          <h4 class="question-label">E6. Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">yes</code><span class="option-label">Ja</span></li>
+          <li class="option"><code class="option-value">no</code><span class="option-label">Nein</span></li>
+        </ul>
+      </article>
+
+      <article class="question" id="q-esVnbResponse" data-id="esVnbResponse" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#103</span>
+          <h4 class="question-label">E7. Was war die Rückmeldung des VNB?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">bereit_06_2026</code><span class="option-label">Der VNB bereitet sich schon darauf vor - ab dem 01.06.2026 können wir starten!</span></li>
+          <li class="option"><code class="option-value">bereit_12_monate</code><span class="option-label">Der VNB bereitet sich schon darauf vor - in den nächsten 12 Monaten soll die Umsetzung möglich sein</span></li>
+          <li class="option"><code class="option-value">moeglich_keine_zeit</code><span class="option-label">Der VNB hat angekündigt, dass das möglich sein wird - aber noch keine genaue Zeit genannt</span></li>
+          <li class="option"><code class="option-value">vertroestet</code><span class="option-label">Der VNB hat uns auf später vertröstet</span></li>
+          <li class="option"><code class="option-value">weiss_nicht</code><span class="option-label">Der VNB weiß nicht, was Energy Sharing ist</span></li>
+          <li class="option"><code class="option-value">sonstiges</code><span class="option-label">Sonstiges</span><em class="text-field-note">+ Textfeld</em></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn esVnbContact = 'yes'</div>
+      </article>
+
+      <article class="question" id="q-esNetzentgelteDiscussion" data-id="esNetzentgelteDiscussion" data-type="single-select">
+        <header class="question-header">
+          <span class="question-number">#104</span>
+          <h4 class="question-label">E8. Haben Sie mit Ihrem VNB bereits über die Abrechnung der Netzentgelte gesprochen?</h4>
+          <div class="badges">
+            <span class="badge type">single-select</span>
+          </div>
+        </header>
+        <ul class="options">
+          <li class="option"><code class="option-value">ja_vorschlag</code><span class="option-label">Ja - und der VNB hatte schon einen Vorschlag wie das geht</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">ja_unklar</code><span class="option-label">Ja - aber der VNB weiß auch nicht wie das gehen soll</span><em class="text-field-note">+ Textfeld</em></li>
+          <li class="option"><code class="option-value">nein</code><span class="option-label">Nein</span></li>
+        </ul>
+        <div class="logic visibility">⚡ Sichtbarkeit: Wenn esVnbContact = 'yes'</div>
+      </article>
+
+      <article class="question" id="q-esInfoSources" data-id="esInfoSources" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#105</span>
+          <h4 class="question-label">Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Energy Sharing?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. Webseiten, Verbände, Beratungsstellen..."</p>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== SECTION 13: Abschluss ===================== -->
+  <section class="survey-section" id="s-final" data-id="final">
+    <header class="section-header">
+      <h2>Abschluss</h2>
+      <p class="section-description">Letzte Informationen</p>
+      <span class="question-count">5 Fragen</span>
+    </header>
+    <div class="questions">
+      
+      <article class="question" id="q-helpfulInfoSources" data-id="helpfulInfoSources" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#106</span>
+          <h4 class="question-label">D10. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "z.B. Webseiten, Beratungsstellen, Netzwerke, Verbände..."</p>
+      </article>
+
+      <article class="question" id="q-additionalExperiences" data-id="additionalExperiences" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#107</span>
+          <h4 class="question-label">D11. Welche Erfahrungen möchten Sie noch teilen?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Ihre Erfahrungen..."</p>
+      </article>
+
+      <article class="question" id="q-documentUpload" data-id="documentUpload" data-type="file">
+        <header class="question-header">
+          <span class="question-number">#108</span>
+          <h4 class="question-label">Möglichkeit zum Hochladen von Dokumenten</h4>
+          <div class="badges">
+            <span class="badge type">file</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-description">z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)</p>
+      </article>
+
+      <article class="question" id="q-surveyImprovements" data-id="surveyImprovements" data-type="textarea">
+        <header class="question-header">
+          <span class="question-number">#109</span>
+          <h4 class="question-label">D12. Haben Sie Verbesserungsvorschläge für diese Umfrage?</h4>
+          <div class="badges">
+            <span class="badge type">textarea</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <p class="question-placeholder">Platzhalter: "Ihr Feedback zur Umfrage..."</p>
+      </article>
+
+      <article class="question" id="q-npsScore" data-id="npsScore" data-type="rating">
+        <header class="question-header">
+          <span class="question-number">#110</span>
+          <h4 class="question-label">Wie wahrscheinlich ist es, dass Sie Anderen die Umsetzung von GGV/Mieterstrom empfehlen würden?</h4>
+          <div class="badges">
+            <span class="badge type">rating</span>
+            <span class="badge optional">Optional</span>
+          </div>
+        </header>
+        <div class="scale-info">
+          <span class="scale-range">Skala: 0 – 10</span>
+          <span class="scale-label-min">0: Sehr unwahrscheinlich</span>
+          <span class="scale-label-max">10: Sehr wahrscheinlich</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p><strong>Total questions: 110</strong></p>
+    <p>Generiert aus surveySchema.ts | Version 2.0.0 | Stand: 2026-01-25</p>
+    <p><a href="/umfrage">Zurück zur interaktiven Umfrage</a> | <a href="/data/umfrage.full.json">JSON-Export</a></p>
+  </footer>
+
+</body>
+</html>

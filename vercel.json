@@ -1,7 +1,17 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "routes": [
     {
-      "src": "/umfrage/audit/?",
+      "src": "/audit\\.html",
+      "dest": "/audit.html"
+    },
+    {
+      "src": "/umfrage/audit/?$",
+      "dest": "/umfrage/audit/index.html"
+    },
+    {
+      "src": "/umfrage/audit/index\\.html",
       "dest": "/umfrage/audit/index.html"
     },
     {
@@ -12,7 +22,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/((?!umfrage/audit|data/).*)",
+      "src": "/((?!umfrage/audit|audit\\.html|data/).*)",
       "dest": "/index.html"
     }
   ],
@@ -30,13 +40,22 @@
       "destination": "/data/:path*"
     },
     {
-      "source": "/((?!umfrage/audit|data/).*)",
+      "source": "/((?!umfrage/audit|audit\\.html|data/).*)",
       "destination": "/index.html"
     }
   ],
   "headers": [
     {
       "source": "/umfrage/audit/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    },
+    {
+      "source": "/audit.html",
       "headers": [
         {
           "key": "Cache-Control",
