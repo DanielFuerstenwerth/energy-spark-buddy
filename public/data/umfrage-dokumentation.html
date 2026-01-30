@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Umfrage-Dokumentation - Fragebogen GGV</title>
+  <style>
+    body {
+      font-family: Calibri, Arial, sans-serif;
+      font-size: 11pt;
+      line-height: 1.5;
+      max-width: 210mm;
+      margin: 20mm auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24pt;
+      color: #1a365d;
+      border-bottom: 3px solid #1a365d;
+      padding-bottom: 10px;
+      page-break-before: always;
+    }
+    h1:first-of-type {
+      page-break-before: avoid;
+    }
+    h2 {
+      font-size: 16pt;
+      color: #2c5282;
+      margin-top: 30px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 5px;
+    }
+    h3 {
+      font-size: 13pt;
+      color: #2d3748;
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+    .question-box {
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #3182ce;
+      padding: 15px;
+      margin: 15px 0;
+      background-color: #f7fafc;
+    }
+    .question-id {
+      font-weight: bold;
+      color: #3182ce;
+      font-size: 10pt;
+    }
+    .question-type {
+      font-style: italic;
+      color: #718096;
+      font-size: 10pt;
+      margin-left: 10px;
+    }
+    .question-text {
+      font-size: 12pt;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #1a202c;
+    }
+    .required {
+      color: #e53e3e;
+      font-weight: bold;
+    }
+    .optional {
+      color: #38a169;
+    }
+    .visibility {
+      font-size: 10pt;
+      color: #805ad5;
+      background-color: #faf5ff;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin: 10px 0;
+    }
+    .options-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 10pt;
+    }
+    .options-table th {
+      background-color: #edf2f7;
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #cbd5e0;
+    }
+    .options-table td {
+      padding: 8px;
+      border: 1px solid #cbd5e0;
+    }
+    .options-table tr:nth-child(even) {
+      background-color: #f7fafc;
+    }
+    .note {
+      font-size: 10pt;
+      color: #d69e2e;
+      background-color: #fffff0;
+      padding: 8px;
+      border-left: 3px solid #d69e2e;
+      margin: 10px 0;
+    }
+    .exclusive {
+      color: #e53e3e;
+    }
+    .has-textfield {
+      color: #3182ce;
+    }
+    .toc {
+      background-color: #f7fafc;
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      margin: 20px 0;
+    }
+    .toc ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+    .toc a {
+      color: #3182ce;
+      text-decoration: none;
+    }
+    .header-info {
+      font-size: 10pt;
+      color: #718096;
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<h1 style="page-break-before: avoid;">Fragebogen GGV - Vollständige Dokumentation</h1>
+
+<div class="header-info">
+  <p><strong>Stand:</strong> Januar 2025</p>
+  <p><strong>Zweck:</strong> Formulierungs- und Rechtschreibprüfung</p>
+  <p><strong>Hinweis:</strong> Dieses Dokument enthält alle Fragen mit exaktem Wortlaut, Antwortoptionen und Logiken.</p>
+</div>
+
+<div class="toc">
+  <h2 style="margin-top: 0;">Inhaltsverzeichnis</h2>
+  <ul>
+    <li><a href="#sektion-a">Sektion A: Über Sie</a></li>
+    <li><a href="#sektion-b">Sektion B: Planungsstatus</a></li>
+    <li><a href="#sektion-c1">Sektion C1: GGV-Projektdetails</a></li>
+    <li><a href="#sektion-c2">Sektion C2: Mieterstrom-Projektdetails</a></li>
+    <li><a href="#sektion-d1">Sektion D1: VNB-Kontakt (Planung GGV)</a></li>
+    <li><a href="#sektion-d2">Sektion D2: Mieterstrom VNB-Angebot</a></li>
+    <li><a href="#sektion-d3">Sektion D3: VNB & MSB Details</a></li>
+    <li><a href="#sektion-e1">Sektion E1: GGV im Betrieb</a></li>
+    <li><a href="#sektion-e2">Sektion E2: Mieterstrom im Betrieb</a></li>
+    <li><a href="#sektion-f">Sektion F: Energy Sharing</a></li>
+    <li><a href="#sektion-g">Sektion G: Herausforderungen</a></li>
+    <li><a href="#sektion-h">Sektion H: Dienstleister-Bewertung</a></li>
+    <li><a href="#sektion-i">Sektion I: Abschluss</a></li>
+  </ul>
+</div>
+
+<!-- ==================== SEKTION A ==================== -->
+<h1 id="sektion-a">Sektion A: Über Sie</h1>
+
+<div class="question-box">
+  <p><span class="question-id">A1</span> <span class="question-type">Multi-Select mit Textfeldern</span> <span class="required">Pflichtfeld</span></p>
+  <p class="question-text">Welche Art von Akteur sind Sie?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+      <th>Textfeld</th>
+    </tr>
+    <tr><td>privatperson</td><td>Privatperson</td><td>—</td></tr>
+    <tr><td>eigentuemer</td><td>Eigentümer:in / Vermieter:in</td><td>—</td></tr>
+    <tr><td>weg</td><td>WEG (Wohnungseigentümergemeinschaft)</td><td>—</td></tr>
+    <tr><td>hausverwaltung</td><td>Hausverwaltung</td><td>—</td></tr>
+    <tr><td>wohnungsbaugesellschaft</td><td>Wohnungsbaugesellschaft / Wohnungsunternehmen</td><td>—</td></tr>
+    <tr><td>genossenschaft</td><td>Genossenschaft</td><td>—</td></tr>
+    <tr><td>energieversorger</td><td>Energieversorger</td><td>Welcher Energieversorger?</td></tr>
+    <tr><td>stadtwerk</td><td>Stadtwerk</td><td>Welches Stadtwerk?</td></tr>
+    <tr><td>contractor</td><td>Contractor / Dienstleister</td><td>Welcher Contractor/Dienstleister?</td></tr>
+    <tr><td>projektentwickler</td><td>Projektentwickler</td><td>Welcher Projektentwickler?</td></tr>
+    <tr><td>energieberater</td><td>Energieberater:in</td><td>—</td></tr>
+    <tr><td>installateur</td><td>Installateur / Handwerker</td><td>—</td></tr>
+    <tr><td>planer</td><td>Planer / Ingenieurbüro</td><td>—</td></tr>
+    <tr><td>other</td><td>Sonstiges</td><td>Bitte beschreiben Sie Ihre Rolle</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">A2</span> <span class="question-type">Multi-Select</span> <span class="required">Pflichtfeld</span></p>
+  <p class="question-text">Was ist Ihre Motivation für die Teilnahme an dieser Umfrage?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>eigene_erfahrung</td><td>Eigene Erfahrungen teilen</td></tr>
+    <tr><td>verbesserung</td><td>Zur Verbesserung der Situation beitragen</td></tr>
+    <tr><td>informieren</td><td>Mich über GGV/Mieterstrom informieren</td></tr>
+    <tr><td>vernetzen</td><td>Mich mit anderen vernetzen</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+  <p class="note">Bei Auswahl "Sonstiges" erscheint ein Textfeld für weitere Details.</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">A3</span> <span class="question-type">Single-Select (Radio)</span> <span class="required">Pflichtfeld</span></p>
+  <p class="question-text">Welches Thema steht bei Ihnen aktuell im Fokus?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ggv</td><td>Gemeinschaftliche Gebäudeversorgung (GGV)</td></tr>
+    <tr><td>mieterstrom</td><td>Mieterstrom</td></tr>
+    <tr><td>ggv_oder_mieterstrom</td><td>Ich bin noch unsicher / Beides relevant</td></tr>
+  </table>
+  <p class="note">Diese Auswahl steuert, welche weiteren Fragen angezeigt werden.</p>
+</div>
+
+<!-- ==================== SEKTION B ==================== -->
+<h1 id="sektion-b">Sektion B: Planungsstatus</h1>
+
+<div class="question-box">
+  <p><span class="question-id">B1</span> <span class="question-type">Single-Select (Radio)</span> <span class="required">Pflichtfeld</span></p>
+  <p class="question-text">In welcher Phase befinden Sie sich aktuell?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>interessiert</td><td>Ich informiere mich gerade / bin interessiert</td></tr>
+    <tr><td>planung</td><td>In konkreter Planung</td></tr>
+    <tr><td>umsetzung</td><td>In der Umsetzung</td></tr>
+    <tr><td>betrieb</td><td>Bereits in Betrieb</td></tr>
+    <tr><td>abgebrochen</td><td>Projekt wurde abgebrochen</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+  <p class="note">Bei Auswahl "Sonstiges" erscheint ein Textfeld. Die Auswahl steuert, welche weiteren Sektionen angezeigt werden.</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">B2</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie planen Sie bei der Umsetzung vorzugehen?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>selbst</td><td>Selbst umsetzen (Eigenregie)</td></tr>
+    <tr><td>dienstleister</td><td>Mit Unterstützung eines Dienstleisters</td></tr>
+    <tr><td>contractor</td><td>Vollständig durch Contractor / Full-Service-Anbieter</td></tr>
+    <tr><td>noch_unklar</td><td>Noch unklar</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<!-- ==================== SEKTION C1 ==================== -->
+<h1 id="sektion-c1">Sektion C1: GGV-Projektdetails</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "ggv" ODER "ggv_oder_mieterstrom"</p>
+
+<div class="question-box">
+  <p><span class="question-id">C1.1</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Um welche Gebäudeart handelt es sich?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>mfh</td><td>Mehrfamilienhaus</td></tr>
+    <tr><td>efh</td><td>Einfamilienhaus / Zweifamilienhaus</td></tr>
+    <tr><td>gewerbe</td><td>Gewerbegebäude</td></tr>
+    <tr><td>gemischt</td><td>Gemischt (Wohnen + Gewerbe)</td></tr>
+    <tr><td>quartier</td><td>Quartier / mehrere Gebäude</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.2</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Handelt es sich um einen Neubau oder Bestand?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>neubau</td><td>Neubau</td></tr>
+    <tr><td>bestand</td><td>Bestandsgebäude</td></tr>
+    <tr><td>sanierung</td><td>Bestand mit Sanierung</td></tr>
+    <tr><td>gemischt</td><td>Gemischt</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.3</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie viele Gebäude umfasst das Projekt?</p>
+  <p class="note">Eingabefeld für ganze Zahl (Minimum: 1)</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.4</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie viele Wohn-/Nutzungseinheiten sind beteiligt?</p>
+  <p class="note">Eingabefeld für ganze Zahl (Minimum: 1)</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.5</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie groß ist die geplante/installierte PV-Anlage (in kWp)?</p>
+  <p class="note">Eingabefeld für Dezimalzahl (Minimum: 0, bis 2 Nachkommastellen)</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.6</span> <span class="question-type">Checkbox (Ja/Nein)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Ist das Projekt bereits in Betrieb?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.7</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was waren die Hauptgründe für die Entscheidung für GGV?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>wirtschaftlichkeit</td><td>Wirtschaftlichkeit / Kostenersparnis</td></tr>
+    <tr><td>umwelt</td><td>Umwelt- und Klimaschutz</td></tr>
+    <tr><td>unabhaengigkeit</td><td>Unabhängigkeit von Energieversorgern</td></tr>
+    <tr><td>wertsteigerung</td><td>Wertsteigerung der Immobilie</td></tr>
+    <tr><td>mieterbindung</td><td>Attraktivität für Mieter</td></tr>
+    <tr><td>foerderung</td><td>Verfügbare Förderungen</td></tr>
+    <tr><td>einfachheit</td><td>Einfacheres Modell als Mieterstrom</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.8</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie sich bewusst für GGV und gegen Mieterstrom entschieden?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja_ggv</td><td>Ja, bewusst für GGV entschieden</td></tr>
+    <tr><td>ja_mieterstrom_nicht_moeglich</td><td>Mieterstrom war nicht möglich</td></tr>
+    <tr><td>noch_offen</td><td>Entscheidung noch offen</td></tr>
+    <tr><td>beides</td><td>Wir nutzen beides parallel</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C1.9</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie weitere Informationen zu Ihrem GGV-Projekt, die Sie teilen möchten?</p>
+</div>
+
+<!-- ==================== SEKTION C2 ==================== -->
+<h1 id="sektion-c2">Sektion C2: Mieterstrom-Projektdetails</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "mieterstrom" ODER "ggv_oder_mieterstrom"</p>
+
+<div class="question-box">
+  <p><span class="question-id">C2.1</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Um welche Gebäudeart handelt es sich?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>mfh</td><td>Mehrfamilienhaus</td></tr>
+    <tr><td>efh</td><td>Einfamilienhaus / Zweifamilienhaus</td></tr>
+    <tr><td>gewerbe</td><td>Gewerbegebäude</td></tr>
+    <tr><td>gemischt</td><td>Gemischt (Wohnen + Gewerbe)</td></tr>
+    <tr><td>quartier</td><td>Quartier / mehrere Gebäude</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.2</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Handelt es sich um einen Neubau oder Bestand?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>neubau</td><td>Neubau</td></tr>
+    <tr><td>bestand</td><td>Bestandsgebäude</td></tr>
+    <tr><td>sanierung</td><td>Bestand mit Sanierung</td></tr>
+    <tr><td>gemischt</td><td>Gemischt</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.3</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie viele Gebäude umfasst das Projekt?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.4</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie viele Wohn-/Nutzungseinheiten sind beteiligt?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.5</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie groß ist die geplante/installierte PV-Anlage (in kWp)?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.6</span> <span class="question-type">Checkbox (Ja/Nein)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Ist das Projekt bereits in Betrieb?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.7</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was waren die Hauptgründe für die Entscheidung für Mieterstrom?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>wirtschaftlichkeit</td><td>Wirtschaftlichkeit / Kostenersparnis</td></tr>
+    <tr><td>umwelt</td><td>Umwelt- und Klimaschutz</td></tr>
+    <tr><td>unabhaengigkeit</td><td>Unabhängigkeit von Energieversorgern</td></tr>
+    <tr><td>wertsteigerung</td><td>Wertsteigerung der Immobilie</td></tr>
+    <tr><td>mieterbindung</td><td>Attraktivität für Mieter</td></tr>
+    <tr><td>foerderung</td><td>Mieterstromzuschlag / Förderung</td></tr>
+    <tr><td>vollversorgung</td><td>Vollversorgung der Mieter möglich</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.8</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welches Mieterstrom-Modell setzen Sie um?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>klassisch</td><td>Klassisches Mieterstrom (Lieferung an Mieter)</td></tr>
+    <tr><td>virtuell</td><td>Virtuelles Mieterstrom (Summenzählermodell)</td></tr>
+    <tr><td>contractor</td><td>Contractor-Modell (Dritter betreibt Anlage)</td></tr>
+    <tr><td>noch_offen</td><td>Noch nicht entschieden</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">C2.9</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie weitere Informationen zu Ihrem Mieterstrom-Projekt, die Sie teilen möchten?</p>
+</div>
+
+<!-- ==================== SEKTION D1 ==================== -->
+<h1 id="sektion-d1">Sektion D1: VNB-Kontakt (Planung GGV)</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "ggv" ODER "ggv_oder_mieterstrom" UND planningStatus IN ["planung", "umsetzung", "betrieb"]</p>
+
+<div class="question-box">
+  <p><span class="question-id">D1.1</span> <span class="question-type">Auswahl-Combobox</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Bei welchem Verteilnetzbetreiber (VNB) sind Sie angeschlossen?</p>
+  <p class="note">Durchsuchbare Auswahlliste aller deutschen VNBs</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.2</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie haben Sie den VNB kontaktiert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>telefon</td><td>Telefonisch</td></tr>
+    <tr><td>email</td><td>Per E-Mail</td></tr>
+    <tr><td>portal</td><td>Über Online-Portal</td></tr>
+    <tr><td>persoenlich</td><td>Persönlich vor Ort</td></tr>
+    <tr><td>dienstleister</td><td>Über Dienstleister / Installateur</td></tr>
+    <tr><td>kein_kontakt</td><td>Noch kein Kontakt</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.3</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie hat der VNB auf Ihre Anfrage zur GGV reagiert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>positiv</td><td>Positiv / Unterstützend</td></tr>
+    <tr><td>neutral</td><td>Neutral / Sachlich</td></tr>
+    <tr><td>zoegerlich</td><td>Zögerlich / Zurückhaltend</td></tr>
+    <tr><td>ablehnend</td><td>Ablehnend</td></tr>
+    <tr><td>keine_antwort</td><td>Keine Antwort erhalten</td></tr>
+    <tr><td>unbekannt</td><td>Weiß nicht / Noch kein Kontakt</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Können Sie die Reaktion des VNB näher beschreiben?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.5</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Hat der VNB GGV als grundsätzlich möglich bestätigt?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja</td><td>Ja, wurde bestätigt</td></tr>
+    <tr><td>nein</td><td>Nein, wurde abgelehnt</td></tr>
+    <tr><td>unklar</td><td>Unklar / Keine klare Aussage</td></tr>
+    <tr><td>noch_nicht_angefragt</td><td>Noch nicht angefragt</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.6</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Falls der VNB GGV abgelehnt oder Bedenken geäußert hat: Was waren die Gründe?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.7</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie lange hat es gedauert, bis der VNB auf Ihre Anfrage geantwortet hat?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>unter_1_woche</td><td>Unter 1 Woche</td></tr>
+    <tr><td>1_2_wochen</td><td>1-2 Wochen</td></tr>
+    <tr><td>2_4_wochen</td><td>2-4 Wochen</td></tr>
+    <tr><td>1_3_monate</td><td>1-3 Monate</td></tr>
+    <tr><td>ueber_3_monate</td><td>Über 3 Monate</td></tr>
+    <tr><td>keine_antwort</td><td>Noch keine Antwort erhalten</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.8</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Warum hat die Bearbeitung Ihrer Meinung nach so lange gedauert?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D1.9</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie bewerten Sie die Unterstützung durch den VNB insgesamt?</p>
+  <p class="note">Skala: 1 = "bremst aktiv" bis 5 = "unterstützt aktiv"</p>
+</div>
+
+<!-- ==================== SEKTION D2 ==================== -->
+<h1 id="sektion-d2">Sektion D2: Mieterstrom VNB-Angebot</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "mieterstrom" ODER "ggv_oder_mieterstrom" UND planningStatus IN ["planung", "umsetzung"]</p>
+
+<div class="question-box">
+  <p><span class="question-id">D2.1</span> <span class="question-type">Auswahl-Combobox</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Bei welchem Verteilnetzbetreiber (VNB) sind Sie angeschlossen?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.2</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie haben Sie den VNB bezüglich Mieterstrom kontaktiert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>telefon</td><td>Telefonisch</td></tr>
+    <tr><td>email</td><td>Per E-Mail</td></tr>
+    <tr><td>portal</td><td>Über Online-Portal</td></tr>
+    <tr><td>persoenlich</td><td>Persönlich vor Ort</td></tr>
+    <tr><td>dienstleister</td><td>Über Dienstleister</td></tr>
+    <tr><td>kein_kontakt</td><td>Noch kein Kontakt</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.3</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie hat der VNB auf Ihre Mieterstrom-Anfrage reagiert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>positiv</td><td>Positiv / Unterstützend</td></tr>
+    <tr><td>neutral</td><td>Neutral / Sachlich</td></tr>
+    <tr><td>zoegerlich</td><td>Zögerlich / Zurückhaltend</td></tr>
+    <tr><td>ablehnend</td><td>Ablehnend</td></tr>
+    <tr><td>keine_antwort</td><td>Keine Antwort erhalten</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Können Sie die Reaktion näher beschreiben?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.5</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Hat der VNB bereits Erfahrung mit Mieterstrom-Projekten?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja_mehrere</td><td>Ja, mehrere Projekte</td></tr>
+    <tr><td>ja_wenige</td><td>Ja, wenige Projekte</td></tr>
+    <tr><td>nein</td><td>Nein, keine Erfahrung</td></tr>
+    <tr><td>unbekannt</td><td>Weiß ich nicht</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.6</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Erlaubt der VNB virtuelles Mieterstrom (Summenzählermodell)?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja</td><td>Ja</td></tr>
+    <tr><td>nein</td><td>Nein</td></tr>
+    <tr><td>eingeschraenkt</td><td>Eingeschränkt / Mit Auflagen</td></tr>
+    <tr><td>unbekannt</td><td>Weiß ich nicht</td></tr>
+    <tr><td>nicht_angefragt</td><td>Nicht angefragt</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.7</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Bietet der VNB eine Rolle als Messstellenbetreiber (MSB) an?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja</td><td>Ja</td></tr>
+    <tr><td>nein</td><td>Nein</td></tr>
+    <tr><td>nur_grundzustaendig</td><td>Nur als grundzuständiger MSB</td></tr>
+    <tr><td>unbekannt</td><td>Weiß ich nicht</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.8</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Bietet der VNB einen Full-Service für Mieterstrom an?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja</td><td>Ja</td></tr>
+    <tr><td>nein</td><td>Nein</td></tr>
+    <tr><td>teilweise</td><td>Teilweise / Einzelne Leistungen</td></tr>
+    <tr><td>unbekannt</td><td>Weiß ich nicht</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.9</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Unter welchen Bedingungen bietet der VNB Full-Service an?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.10</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie lange hat es gedauert, bis der VNB auf Ihre Anfrage geantwortet hat?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>unter_1_woche</td><td>Unter 1 Woche</td></tr>
+    <tr><td>1_2_wochen</td><td>1-2 Wochen</td></tr>
+    <tr><td>2_4_wochen</td><td>2-4 Wochen</td></tr>
+    <tr><td>1_3_monate</td><td>1-3 Monate</td></tr>
+    <tr><td>ueber_3_monate</td><td>Über 3 Monate</td></tr>
+    <tr><td>keine_antwort</td><td>Noch keine Antwort</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.11</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Warum hat die Bearbeitung so lange gedauert?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D2.12</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie bewerten Sie die Unterstützung durch den VNB insgesamt?</p>
+  <p class="note">Skala: 1 = "bremst aktiv" bis 5 = "unterstützt aktiv"</p>
+</div>
+
+<!-- ==================== SEKTION D3 ==================== -->
+<h1 id="sektion-d3">Sektion D3: VNB & MSB Details</h1>
+<p class="visibility">⚡ Sichtbar wenn: planningStatus IN ["planung", "umsetzung", "betrieb"]</p>
+
+<h2>Informationsangebot des VNB</h2>
+
+<div class="question-box">
+  <p><span class="question-id">D3.1</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Informationen stellt der VNB bereit?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>website</td><td>Informationen auf der Website</td></tr>
+    <tr><td>formulare</td><td>Antragsformulare</td></tr>
+    <tr><td>leitfaden</td><td>Leitfaden / Handbuch</td></tr>
+    <tr><td>messkonzepte</td><td>Beispiel-Messkonzepte</td></tr>
+    <tr><td>ansprechpartner</td><td>Dedizierter Ansprechpartner</td></tr>
+    <tr><td>portal</td><td>Online-Portal für Anmeldung</td></tr>
+    <tr><td>nichts</td><td>Keine Informationen verfügbar</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D3.2</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was war bei der Interaktion mit dem VNB am hilfreichsten?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>persoenlich</td><td>Persönlicher Kontakt / Beratung</td></tr>
+    <tr><td>unterlagen</td><td>Gute Unterlagen / Dokumentation</td></tr>
+    <tr><td>portal</td><td>Einfaches Online-Portal</td></tr>
+    <tr><td>schnelligkeit</td><td>Schnelle Bearbeitung</td></tr>
+    <tr><td>nichts</td><td>Nichts war hilfreich</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D3.3</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Gab es persönliche Kontakte beim VNB, die besonders hilfreich waren?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja_sehr</td><td>Ja, sehr hilfreich</td></tr>
+    <tr><td>ja_etwas</td><td>Ja, etwas hilfreich</td></tr>
+    <tr><td>nein</td><td>Nein</td></tr>
+    <tr><td>kein_kontakt</td><td>Kein persönlicher Kontakt</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<h2>Messstellenbetrieb (MSB)</h2>
+
+<div class="question-box">
+  <p><span class="question-id">D3.4</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wer ist Ihr Messstellenbetreiber?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>vnb</td><td>Der VNB (grundzuständig)</td></tr>
+    <tr><td>wettbewerb</td><td>Wettbewerblicher MSB</td></tr>
+    <tr><td>dienstleister</td><td>Über Dienstleister / Contractor</td></tr>
+    <tr><td>noch_offen</td><td>Noch nicht entschieden</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D3.5</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie lange hat die Installation der Messtechnik gedauert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>unter_1_monat</td><td>Unter 1 Monat</td></tr>
+    <tr><td>1_3_monate</td><td>1-3 Monate</td></tr>
+    <tr><td>3_6_monate</td><td>3-6 Monate</td></tr>
+    <tr><td>ueber_6_monate</td><td>Über 6 Monate</td></tr>
+    <tr><td>noch_nicht</td><td>Noch nicht installiert</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D3.6</span> <span class="question-type">Kostenangabe</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche zusätzlichen Kosten für den MSB sind entstanden?</p>
+  <p class="note">Auswahl: "Ja" / "Nein" / "Weiß nicht". Bei "Ja" erscheinen Eingabefelder für einmalige und jährliche Kosten in Euro.</p>
+</div>
+
+<h2>Wandlermessung</h2>
+
+<div class="question-box">
+  <p><span class="question-id">D3.7</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Ist Wandlermessung bei Ihrem Projekt relevant?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>ja_eingesetzt</td><td>Ja, wird eingesetzt</td></tr>
+    <tr><td>ja_geplant</td><td>Ja, ist geplant</td></tr>
+    <tr><td>nein</td><td>Nein, nicht relevant</td></tr>
+    <tr><td>unbekannt</td><td>Weiß ich nicht</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">D3.8</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie Anmerkungen zur Wandlermessung?</p>
+</div>
+
+<!-- ==================== SEKTION E1 ==================== -->
+<h1 id="sektion-e1">Sektion E1: GGV im Betrieb</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "ggv" ODER "ggv_oder_mieterstrom" UND planningStatus = "betrieb"</p>
+
+<div class="question-box">
+  <p><span class="question-id">E1.1</span> <span class="question-type">Datum</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Seit wann ist das Projekt in Betrieb?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.2</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie zufrieden sind Sie mit dem Betrieb insgesamt?</p>
+  <p class="note">Skala: 1 = "Sehr unzufrieden" bis 5 = "Sehr zufrieden"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.3</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie lange hat die Umsetzung von der ersten VNB-Anfrage bis zum Betriebsstart gedauert?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>unter_3_monate</td><td>Unter 3 Monate</td></tr>
+    <tr><td>3_6_monate</td><td>3-6 Monate</td></tr>
+    <tr><td>6_12_monate</td><td>6-12 Monate</td></tr>
+    <tr><td>ueber_12_monate</td><td>Über 12 Monate</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was waren die Hauptgründe für die Dauer?</p>
+</div>
+
+<h2>Strommengenaufteilung</h2>
+
+<div class="question-box">
+  <p><span class="question-id">E1.5</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wer übernimmt die Strommengenaufteilung?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>selbst</td><td>Wir selbst</td></tr>
+    <tr><td>vnb</td><td>Der VNB</td></tr>
+    <tr><td>msb</td><td>Der MSB</td></tr>
+    <tr><td>dienstleister</td><td>Ein Dienstleister</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.6</span> <span class="question-type">Textfeld</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welcher Dienstleister übernimmt die Aufteilung?</p>
+  <p class="visibility">⚡ Sichtbar wenn: E1.5 = "dienstleister"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.7</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Können Sie den Prozess der Strommengenaufteilung näher beschreiben?</p>
+</div>
+
+<h2>Datenbereitstellung</h2>
+
+<div class="question-box">
+  <p><span class="question-id">E1.8</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wer stellt die Messdaten bereit?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>vnb</td><td>VNB</td></tr>
+    <tr><td>msb</td><td>MSB</td></tr>
+    <tr><td>dienstleister</td><td>Dienstleister</td></tr>
+    <tr><td>selbst</td><td>Wir selbst (eigene Messtechnik)</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.9</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie werden die Messdaten übermittelt?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>api</td><td>Automatisch per API/Schnittstelle</td></tr>
+    <tr><td>portal</td><td>Manueller Download aus Portal</td></tr>
+    <tr><td>email</td><td>Per E-Mail</td></tr>
+    <tr><td>andere</td><td>Andere Methode</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.10</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">In welchem Format erhalten Sie die Messdaten?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>csv</td><td>CSV</td></tr>
+    <tr><td>xml</td><td>XML / MSCONS</td></tr>
+    <tr><td>json</td><td>JSON</td></tr>
+    <tr><td>excel</td><td>Excel</td></tr>
+    <tr><td>pdf</td><td>PDF</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.11</span> <span class="question-type">Kostenangabe</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Entstehen Kosten für die Datenbereitstellung?</p>
+</div>
+
+<h2>Kosten für Rolle als ESA (Energiesharingaggregator)</h2>
+
+<div class="question-box">
+  <p><span class="question-id">E1.12</span> <span class="question-type">Kostenangabe</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Entstehen Kosten für die ESA-Rolle beim VNB?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E1.13</span> <span class="question-type">Kostenangabe</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Entstehen Kosten für die Direktübermittlung von Daten?</p>
+</div>
+
+<!-- ==================== SEKTION E2 ==================== -->
+<h1 id="sektion-e2">Sektion E2: Mieterstrom im Betrieb</h1>
+<p class="visibility">⚡ Sichtbar wenn: projectFocus = "mieterstrom" ODER "ggv_oder_mieterstrom" UND planningStatus = "betrieb"</p>
+
+<div class="question-box">
+  <p><span class="question-id">E2.1</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie zufrieden sind Sie mit dem Betrieb des Mieterstrom-Projekts insgesamt?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E2.2</span> <span class="question-type">Kostenangabe</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche laufenden Kosten entstehen für den Mieterstrom-Betrieb?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E2.3</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie werden die Verbrauchsdaten für die Abrechnung bereitgestellt?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>automatisch</td><td>Automatisch (Smart Meter Gateway)</td></tr>
+    <tr><td>manuell</td><td>Manuelle Ablesung</td></tr>
+    <tr><td>portal</td><td>Über Portal des MSB/VNB</td></tr>
+    <tr><td>dienstleister</td><td>Über Dienstleister</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E2.4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Erfahrungen haben Sie im laufenden Betrieb gemacht?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">E2.5</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was würden Sie bei dieser Umfrage verbessern?</p>
+</div>
+
+<!-- ==================== SEKTION F ==================== -->
+<h1 id="sektion-f">Sektion F: Energy Sharing</h1>
+<p class="visibility">⚡ Immer sichtbar (separate Thematik)</p>
+
+<div class="question-box">
+  <p><span class="question-id">F1</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">In welchem Zusammenhang beschäftigen Sie sich mit Energy Sharing?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>informieren</td><td>Ich informiere mich gerade</td></tr>
+    <tr><td>planung</td><td>Ich plane ein Projekt</td></tr>
+    <tr><td>betrieb</td><td>Ich betreibe bereits ein Projekt</td></tr>
+    <tr><td>erzeuger</td><td>Als potenzieller Erzeuger</td></tr>
+    <tr><td>verbraucher</td><td>Als potenzieller Verbraucher</td></tr>
+    <tr><td>beides</td><td>Als Erzeuger und Verbraucher (Prosumer)</td></tr>
+    <tr><td>nicht_relevant</td><td>Energy Sharing ist für mich nicht relevant</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+  <p class="note"><span class="exclusive">❌ Exklusiv:</span> "nicht_relevant" deaktiviert alle anderen Optionen.</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F2</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Art von Erzeugungsanlage ist/wäre beteiligt?</p>
+  <p class="visibility">⚡ Sichtbar wenn: F1 enthält NICHT "nicht_relevant"</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>pv</td><td>Photovoltaik</td></tr>
+    <tr><td>wind</td><td>Windkraft</td></tr>
+    <tr><td>bhkw</td><td>BHKW / KWK</td></tr>
+    <tr><td>wasserkraft</td><td>Wasserkraft</td></tr>
+    <tr><td>biogas</td><td>Biogas</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F3</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie groß ist/wäre die PV-Anlage (in kWp)?</p>
+  <p class="visibility">⚡ Sichtbar wenn: F2 enthält "pv"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F4</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie groß ist/wäre die Windkraftanlage (in kW)?</p>
+  <p class="visibility">⚡ Sichtbar wenn: F2 enthält "wind"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F5</span> <span class="question-type">Zahl</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie viele Parteien sind/wären am Energy Sharing beteiligt?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F6</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was ist der geplante räumliche Umfang?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>gebaeude</td><td>Innerhalb eines Gebäudes</td></tr>
+    <tr><td>nachbarschaft</td><td>Nachbarschaft / Nahbereich</td></tr>
+    <tr><td>gemeinde</td><td>Gemeinde / Kommune</td></tr>
+    <tr><td>region</td><td>Region / Landkreis</td></tr>
+    <tr><td>unbekannt</td><td>Noch unklar</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F7</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche maximale Entfernung zwischen Erzeugung und Verbrauch ist geplant?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>unter_500m</td><td>Unter 500m</td></tr>
+    <tr><td>500m_2km</td><td>500m - 2km</td></tr>
+    <tr><td>2km_10km</td><td>2km - 10km</td></tr>
+    <tr><td>ueber_10km</td><td>Über 10km</td></tr>
+    <tr><td>unbekannt</td><td>Noch unklar</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F8</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Verbrauchertypen sind/wären beteiligt?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>privat</td><td>Private Haushalte</td></tr>
+    <tr><td>gewerbe</td><td>Gewerbe / Unternehmen</td></tr>
+    <tr><td>oeffentlich</td><td>Öffentliche Einrichtungen</td></tr>
+    <tr><td>landwirtschaft</td><td>Landwirtschaft</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F9</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welchen Umfang soll die Versorgung haben?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>vollversorgung</td><td>Vollversorgung angestrebt</td></tr>
+    <tr><td>teilversorgung</td><td>Teilversorgung / Ergänzung</td></tr>
+    <tr><td>noch_unklar</td><td>Noch unklar</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F10</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Weitere Details zum Verbraucherkreis:</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F11</span> <span class="question-type">Checkbox (Ja/Nein)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Hatten Sie bereits Kontakt mit dem VNB bezüglich Energy Sharing?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F12</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie hat der VNB auf Ihre Anfrage zu Energy Sharing reagiert?</p>
+  <p class="visibility">⚡ Sichtbar wenn: F11 = ja</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>positiv</td><td>Positiv / Unterstützend</td></tr>
+    <tr><td>neutral</td><td>Neutral / Abwartend</td></tr>
+    <tr><td>skeptisch</td><td>Skeptisch / Zurückhaltend</td></tr>
+    <tr><td>ablehnend</td><td>Ablehnend</td></tr>
+    <tr><td>keine_info</td><td>Keine Information erhalten</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F13</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Können Sie die Reaktion des VNB näher beschreiben?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F14</span> <span class="question-type">Single-Select (Radio)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie wird die Diskussion um Netzentgelte bei Energy Sharing geführt?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+    </tr>
+    <tr><td>kein_thema</td><td>Ist (noch) kein Thema</td></tr>
+    <tr><td>vnb_fordert</td><td>VNB fordert volle Netzentgelte</td></tr>
+    <tr><td>reduziert</td><td>Reduzierte Netzentgelte möglich</td></tr>
+    <tr><td>unklar</td><td>Noch unklar / In Diskussion</td></tr>
+    <tr><td>other</td><td>Sonstiges</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F15</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Weitere Details zur Netzentgelte-Diskussion:</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F16</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie informieren Sie sich über Energy Sharing?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F17</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Falls Sie bereits ein Projekt betreiben: Welche Erfahrungen haben Sie gemacht?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">F18</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wer betreibt das Energy Sharing Projekt? (z.B. Bürgergenossenschaft, Kommune, etc.)</p>
+</div>
+
+<!-- ==================== SEKTION G ==================== -->
+<h1 id="sektion-g">Sektion G: Herausforderungen</h1>
+
+<div class="question-box">
+  <p><span class="question-id">G1</span> <span class="question-type">Multi-Select</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Herausforderungen sind Ihnen bei der Umsetzung begegnet?</p>
+  
+  <table class="options-table">
+    <tr>
+      <th>Wert</th>
+      <th>Anzeige</th>
+      <th>Besonderheit</th>
+    </tr>
+    <tr><td>vnb_blocking</td><td>VNB blockiert / verzögert</td><td>→ Folgefrage G2</td></tr>
+    <tr><td>costs_high</td><td>Hohe Kosten / Unwirtschaftlichkeit</td><td>→ Folgefrage G3</td></tr>
+    <tr><td>pv_installation</td><td>PV-Installation problematisch</td><td>→ Folgefrage G4</td></tr>
+    <tr><td>metering_complex</td><td>Messtechnik / Zähler kompliziert</td><td>—</td></tr>
+    <tr><td>legal_unclear</td><td>Rechtliche Unsicherheit</td><td>—</td></tr>
+    <tr><td>tenant_resistance</td><td>Widerstand von Mietern / Eigentümern</td><td>—</td></tr>
+    <tr><td>contractor_issues</td><td>Probleme mit Dienstleistern</td><td>—</td></tr>
+    <tr><td>keine</td><td>Keine besonderen Herausforderungen</td><td><span class="exclusive">❌ Exklusiv</span></td></tr>
+    <tr><td>other</td><td>Sonstiges</td><td>→ Textfeld</td></tr>
+  </table>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">G2</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Bitte beschreiben Sie, wie der VNB blockiert oder verzögert:</p>
+  <p class="visibility">⚡ Sichtbar wenn: G1 enthält "vnb_blocking"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">G3</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Kosten sind besonders hoch?</p>
+  <p class="visibility">⚡ Sichtbar wenn: G1 enthält "costs_high"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">G4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was war bei der PV-Installation problematisch?</p>
+  <p class="visibility">⚡ Sichtbar wenn: G1 enthält "pv_installation"</p>
+</div>
+
+<!-- ==================== SEKTION H ==================== -->
+<h1 id="sektion-h">Sektion H: Dienstleister-Bewertung</h1>
+
+<div class="question-box">
+  <p><span class="question-id">H1</span> <span class="question-type">Textfeld</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Mit welchem Dienstleister / Contractor haben Sie zusammengearbeitet? (Name)</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">H2</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie bewerten Sie die Zusammenarbeit mit diesem Dienstleister?</p>
+  <p class="note">Skala: 1 = "Sehr schlecht" bis 5 = "Sehr gut"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">H3</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie Anmerkungen zur Zusammenarbeit?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">H4</span> <span class="question-type">Textfeld</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie mit einem weiteren Dienstleister zusammengearbeitet? (Name)</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">H5</span> <span class="question-type">Rating (1-5)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie bewerten Sie die Zusammenarbeit mit dem zweiten Dienstleister?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">H6</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Anmerkungen zum zweiten Dienstleister:</p>
+</div>
+
+<!-- ==================== SEKTION I ==================== -->
+<h1 id="sektion-i">Sektion I: Abschluss</h1>
+
+<div class="question-box">
+  <p><span class="question-id">I1</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Welche Informationsquellen haben Ihnen bei Ihrem Projekt am meisten geholfen?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">I2</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Haben Sie weitere Erfahrungen oder Anmerkungen, die Sie teilen möchten?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">I3</span> <span class="question-type">NPS-Score (0-10)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Wie wahrscheinlich ist es, dass Sie diese Umfrage weiterempfehlen würden?</p>
+  <p class="note">Skala: 0 = "Sehr unwahrscheinlich" bis 10 = "Sehr wahrscheinlich"</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">I4</span> <span class="question-type">Textfeld (lang)</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Was würden Sie an dieser Umfrage verbessern?</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">I5</span> <span class="question-type">E-Mail</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Falls wir Sie für Rückfragen kontaktieren dürfen, geben Sie bitte Ihre E-Mail-Adresse an:</p>
+</div>
+
+<div class="question-box">
+  <p><span class="question-id">I6</span> <span class="question-type">Datei-Upload</span> <span class="optional">Optional</span></p>
+  <p class="question-text">Möchten Sie Dokumente hochladen? (z.B. Messkonzepte, Korrespondenz mit VNB)</p>
+  <p class="note">Erlaubte Formate: PDF, Word, Excel, Bilder. Max. 10 MB pro Datei.</p>
+</div>
+
+<hr style="margin-top: 50px;">
+<p style="font-size: 10pt; color: #718096; text-align: center;">
+  Generiert aus surveySchema.ts | Stand: Januar 2025<br>
+  Dieses Dokument dient der Formulierungs- und Rechtschreibprüfung.
+</p>
+
+</body>
+</html>
