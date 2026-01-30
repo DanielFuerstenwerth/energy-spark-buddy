@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Download Umfrage-Dokumentation</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: #f5f5f5;
+    }
+    .container {
+      text-align: center;
+      background: white;
+      padding: 40px 60px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    h1 { color: #1a365d; margin-bottom: 20px; font-size: 28px; }
+    p { color: #666; margin-bottom: 20px; line-height: 1.6; }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    a.btn {
+      display: inline-block;
+      background: #3182ce;
+      color: white;
+      padding: 18px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+    a.btn:hover { background: #2c5282; }
+    a.btn.secondary {
+      background: #48bb78;
+    }
+    a.btn.secondary:hover { background: #38a169; }
+    .hint {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #888;
+      background: #f7fafc;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #3182ce;
+      text-align: left;
+    }
+    .hint strong { color: #2d3748; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📄 Fragebogen GGV - Dokumentation</h1>
+    <p>Vollständige Dokumentation aller 13 Sektionen (A-I) mit 117 Fragen,<br>
+    Antwortoptionen und Sichtbarkeitslogik.</p>
+    
+    <div class="buttons">
+      <a href="umfrage-komplett.html" download="Fragebogen-GGV-Dokumentation.html" class="btn">
+        ⬇️ Download als HTML
+      </a>
+    </div>
+    
+    <div class="hint">
+      <strong>So öffnest du die Datei in Word:</strong><br><br>
+      1. Klicke auf "Download als HTML"<br>
+      2. Öffne die heruntergeladene Datei mit Word<br>
+      3. In Word: "Datei" → "Speichern unter" → Format ".docx" wählen<br><br>
+      <strong>Tipp:</strong> Die Datei ist bereits Word-optimiert und behält alle Tabellen und Formatierungen.
+    </div>
+  </div>
+</body>
+</html>
