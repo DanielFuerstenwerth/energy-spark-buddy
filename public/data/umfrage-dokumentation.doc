@@ -1,305 +1,1193 @@
 {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1031
 {\fonttbl{\f0\fswiss\fcharset0 Calibri;}{\f1\fnil\fcharset0 Calibri;}}
 {\colortbl ;\red26\green54\blue93;\red49\green130\blue206;\red102\green102\blue102;\red204\green0\blue0;\red34\green139\blue34;\red107\green33\blue168;}
-{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
-\pard\sa200\sl276\slmult1\qc\b\f0\fs44\cf1 Fragebogen GGV \endash  Vollst\'e4ndige Dokumentation\par
+{\*\generator Lovable 2026}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs44\cf1 Fragebogen GGV/Mieterstrom/Energy Sharing\par
+Vollst\'e4ndige Dokumentation\par
 \pard\sa200\sl276\slmult1\b0\fs22\cf0\par
-\b Stand:\b0  Januar 2025\par
+\b Stand:\b0  Januar 2026\par
 \b Zweck:\b0  Formulierungs- und Rechtschreibpr\'fcfung\par
 \b Hinweis:\b0  Dieses Dokument enth\'e4lt alle Fragen mit exaktem Wortlaut, Antwortoptionen und Logiken.\par
+\par
+\b Legende:\b0\par
+\bullet  \cf4\'b7 Pflichtfeld\cf0  = Diese Frage muss beantwortet werden\par
+\bullet  \cf5 o Optional\cf0  = Diese Frage ist freiwillig\par
+\bullet  \cf6\u10132?\cf0  = Sichtbarkeitslogik (Frage wird nur unter bestimmten Bedingungen angezeigt)\par
+\bullet  \cf3 hasTextField\cf0  = Bei Auswahl dieser Option erscheint ein Textfeld\par
+\bullet  \cf4 exclusive\cf0  = Exklusive Option (deselektiert alle anderen bei Auswahl)\par
 \par
 \pard\sa200\sl276\slmult1\qc\b\fs28\cf1 INHALTSVERZEICHNIS\par
 \pard\sa200\sl276\slmult1\b0\fs22\cf0\par
 \bullet  Sektion A: \'dcber Sie\par
-\bullet  Sektion B: Planungsstatus\par
-\bullet  Sektion C1: GGV-Projektdetails\par
-\bullet  Sektion C2: Mieterstrom-Projektdetails\par
-\bullet  Sektion D1: VNB-Kontakt (Planung GGV)\par
-\bullet  Sektion D2: Mieterstrom VNB-Angebot\par
-\bullet  Sektion D3: VNB & MSB Details\par
-\bullet  Sektion E1: GGV im Betrieb\par
-\bullet  Sektion E2: Mieterstrom im Betrieb\par
-\bullet  Sektion F: Energy Sharing\par
-\bullet  Sektion G: Herausforderungen\par
-\bullet  Sektion H: Dienstleister-Bewertung\par
-\bullet  Sektion I: Abschluss\par
+\bullet  Sektion B: Planungsstand & Herausforderungen\par
+\bullet  Sektion C: VNB Planung (GGV)\par
+\bullet  Sektion D: GGV Betrieb & Dienstleister\par
+\bullet  Sektion M: Mieterstrom Planung\par
+\bullet  Sektion MP: Mieterstrom VNB-Angebot\par
+\bullet  Sektion MB: Mieterstrom Betrieb\par
+\bullet  Sektion E: Energy Sharing\par
+\bullet  Sektion Abschluss\par
 \par
 \page
 \pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION A: \'dcBER SIE\par
 \pard\sa200\sl276\slmult1\b0\fs22\cf0\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A1\b0\cf0  | \i Multi-Select mit Textfeldern\i0  | \cf4\'b7 Pflichtfeld\cf0\par
-\b\fs24 Welche Art von Akteur sind Sie?\par
-\b0\fs22\par
+\cf3\i Einordnung & Motivation\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A1\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Zu welcher Akteursgruppe w\'fcrden Sie sich z\'e4hlen?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx7000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx8000
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell Textfeld\cell\b0\row
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx7000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx8000
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl privatperson\cell Privatperson\cell \emdash\cell\row
-\pard\intbl eigentuemer\cell Eigent\'fcmer:in / Vermieter:in\cell \emdash\cell\row
-\pard\intbl weg\cell WEG (Wohnungseigent\'fcmergemeinschaft)\cell \emdash\cell\row
-\pard\intbl hausverwaltung\cell Hausverwaltung\cell \emdash\cell\row
-\pard\intbl wohnungsbaugesellschaft\cell Wohnungsbaugesellschaft / Wohnungsunternehmen\cell \emdash\cell\row
-\pard\intbl genossenschaft\cell Genossenschaft\cell \emdash\cell\row
-\pard\intbl energieversorger\cell Energieversorger\cell + Welcher Energieversorger?\cell\row
-\pard\intbl stadtwerk\cell Stadtwerk\cell + Welches Stadtwerk?\cell\row
-\pard\intbl contractor\cell Contractor / Dienstleister\cell + Welcher Contractor/Dienstleister?\cell\row
-\pard\intbl projektentwickler\cell Projektentwickler\cell + Welcher Projektentwickler?\cell\row
-\pard\intbl energieberater\cell Energieberater:in\cell \emdash\cell\row
-\pard\intbl installateur\cell Installateur / Handwerker\cell \emdash\cell\row
-\pard\intbl planer\cell Planer / Ingenieurb\'fcro\cell \emdash\cell\row
-\pard\intbl other\cell Sonstiges\cell + Bitte beschreiben Sie Ihre Rolle\cell\row
+\pard\intbl buergerenergie\cell B\'fcrgerenergiegenossenschaft\cell + Name der Genossenschaft (optional)\cell\row
+\pard\intbl weg\cell Wohnungseigent\'fcmergemeinschaft\cell \emdash\cell\row
+\pard\intbl vermieter_privat\cell Vermieter/in - Privatperson\cell \emdash\cell\row
+\pard\intbl vermieter_prof_klein\cell Vermieter/in - Professionell (<100 Einheiten)\cell \emdash\cell\row
+\pard\intbl vermieter_wohnungsunternehmen\cell Vermieter/in - Wohnungsunternehmen (>100 Einheiten)\cell \emdash\cell\row
+\pard\intbl kommune\cell Kommune / kommunales Unternehmen\cell \emdash\cell\row
+\pard\intbl kmu\cell Kleine und Mittelst\'e4ndische Unternehmen (KMU)\cell \emdash\cell\row
+\pard\intbl dienstleister\cell Dienstleister f\'fcr GGV/Mieterstrom/Energy Sharing\cell + Welche Dienstleistung?\cell\row
+\pard\intbl installateur\cell Installateur von PV-Anlagen\cell \emdash\cell\row
+\pard\intbl msb\cell Wettbewerblicher Messstellenbetreiber\cell \emdash\cell\row
+\pard\intbl stadtwerk\cell Stadtwerk/EVU\cell \emdash\cell\row
+\pard\intbl andere\cell Andere\cell + Bitte beschreiben\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A2\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
-\b\fs24 Was ist Ihre Motivation f\'fcr die Teilnahme an dieser Umfrage?\par
-\b0\fs22\par
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl eigene_erfahrung\cell Eigene Erfahrungen teilen\cell\row
-\pard\intbl verbesserung\cell Zur Verbesserung der Situation beitragen\cell\row
-\pard\intbl informieren\cell Mich \'fcber GGV/Mieterstrom informieren\cell\row
-\pard\intbl vernetzen\cell Mich mit anderen vernetzen\cell\row
-\pard\intbl other\cell Sonstiges\cell\row
-\pard\sa200\sl276\slmult1\par
-\cf3\i Hinweis: Bei Auswahl "Sonstiges" erscheint ein Textfeld f\'fcr weitere Details.\cf0\i0\par
+\b\fs24 Was ist Ihre Motivation?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
 \par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A3\b0\cf0  | \i Single-Select (Radio)\i0  | \cf4\'b7 Pflichtfeld\cf0\par
-\b\fs24 Welches Thema steht bei Ihnen aktuell im Fokus?\par
-\b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl ggv\cell Gemeinschaftliche Geb\'e4udeversorgung (GGV)\cell\row
+\pard\intbl pv_nutzung\cell Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und m\'f6chten den Strom vor Ort nutzen\cell\row
+\pard\intbl energiewende\cell Wir m\'f6chten gerne Energiewende vor Ort umsetzen - sobald die Nutzung gekl\'e4rt ist, kommt die PV-Anlage\cell\row
+\pard\intbl geschaeft\cell Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A3\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Welche Projektart interessiert Sie?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl ggv\cell GGV (Gemeinschaftliche Geb\'e4udeversorgung)\cell\row
 \pard\intbl mieterstrom\cell Mieterstrom\cell\row
-\pard\intbl ggv_oder_mieterstrom\cell Ich bin noch unsicher / Beides relevant\cell\row
-\pard\sa200\sl276\slmult1\par
-\cf6\i\u10132? Diese Auswahl steuert, welche weiteren Fragen angezeigt werden.\cf0\i0\par
-\par
-\page
-\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION B: PLANUNGSSTATUS\par
-\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf4\'b7 Pflichtfeld\cf0\par
-\b\fs24 In welcher Phase befinden Sie sich aktuell?\par
-\b0\fs22\par
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl interessiert\cell Ich informiere mich gerade / bin interessiert\cell\row
-\pard\intbl planung\cell In konkreter Planung\cell\row
-\pard\intbl umsetzung\cell In der Umsetzung\cell\row
-\pard\intbl betrieb\cell Bereits in Betrieb\cell\row
-\pard\intbl abgebrochen\cell Projekt wurde abgebrochen\cell\row
-\pard\intbl other\cell Sonstiges\cell\row
+\pard\intbl ggv_oder_mieterstrom\cell Entweder GGV oder Mieterstrom\cell\row
+\pard\intbl energysharing\cell Energy Sharing (in Zukunft m\'f6glich)\cell\row
 \pard\sa200\sl276\slmult1\par
 \cf6\i\u10132? Diese Auswahl steuert, welche weiteren Sektionen angezeigt werden.\cf0\i0\par
 \par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B2\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie planen Sie bei der Umsetzung vorzugehen?\par
-\b0\fs22\par
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl selbst\cell Selbst umsetzen (Eigenregie)\cell\row
-\pard\intbl dienstleister\cell Mit Unterst\'fctzung eines Dienstleisters\cell\row
-\pard\intbl contractor\cell Vollst\'e4ndig durch Contractor / Full-Service-Anbieter\cell\row
-\pard\intbl noch_unklar\cell Noch unklar\cell\row
-\pard\intbl other\cell Sonstiges\cell\row
-\pard\sa200\sl276\slmult1\par
-\page
-\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C1: GGV-PROJEKTDETAILS\par
-\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
-\cf6\i\u10132? Sichtbar wenn: projectFocus = "ggv" ODER "ggv_oder_mieterstrom"\cf0\i0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A4\b0\cf0  | \i E-Mail\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Kontakt E-Mail\par
+\b0\fs22\cf3\i Optional - falls wir R\'fcckfragen haben\cf0\i0\par
+Platzhalter: ihre@email.de\par
 \par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Um welche Geb\'e4udeart handelt es sich?\par
-\b0\fs22\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 PROJEKTDETAILS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i VNB und Projektdimensionen\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 projectFocus\b0\cf0  | \i Project-Focus\i0  | \cf5 o Optional\cf0\par
+\b\fs24 W\'e4hlen Sie den Schwerpunkt, zu dem Sie Details teilen m\'f6chten\par
+\b0\fs22\cf3\i GGV, Mieterstrom oder Energy Sharing\cf0\i0\par
+\cf6\u10132? Sichtbar wenn projectTypes eines von [ggv, mieterstrom, ggv_oder_mieterstrom] enth\'e4lt\cf0\par
+\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl mfh\cell Mehrfamilienhaus\cell\row
-\pard\intbl efh\cell Einfamilienhaus / Zweifamilienhaus\cell\row
-\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
-\pard\intbl gemischt\cell Gemischt (Wohnen + Gewerbe)\cell\row
-\pard\intbl quartier\cell Quartier / mehrere Geb\'e4ude\cell\row
+\pard\intbl ggv\cell GGV - Gemeinschaftliche Geb\'e4udeversorgung\cell\row
+\pard\intbl mieterstrom\cell Mieterstrom - Mieterstrom-Modelle\cell\row
+\pard\intbl energysharing\cell Energy Sharing - Gemeinschaftliche Nutzung\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.2\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Handelt es sich um einen Neubau oder Bestand?\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbName\b0\cf0  | \i VNB-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welcher Verteilnetzbetreiber ist f\'fcr Ihr Projekt zust\'e4ndig?\par
+\b0\fs22\cf3\i Suchen oder geben Sie den Namen Ihres VNB ein\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvProjectType\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv'\cf0\par
+\b\fs24 Projektumfang (GGV)\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl single\cell Ein einzelnes Projekt\cell\row
+\pard\intbl multiple\cell Mehrere Projekte\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvPvSizeKw\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv'\cf0\par
+\b\fs24 Gr\'f6\'dfe der PV-Anlage in kW\par
+\b0\fs22 Platzhalter: z.B. 30\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvPartyCount\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv'\cf0\par
+\b\fs24 Anzahl der Parteien, die Strom abnehmen\par
+\b0\fs22 Platzhalter: z.B. 12\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvBuildingType\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv'\cf0\par
+\b\fs24 Art des Geb\'e4udes\par
+\b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl neubau\cell Neubau\cell\row
-\pard\intbl bestand\cell Bestandsgeb\'e4ude\cell\row
-\pard\intbl sanierung\cell Bestand mit Sanierung\cell\row
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wohngebaeude\cell Wohngeb\'e4ude\cell\row
+\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
 \pard\intbl gemischt\cell Gemischt\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.3\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie viele Geb\'e4ude umfasst das Projekt?\par
-\b0\fs22\cf3\i Eingabefeld f\'fcr ganze Zahl (Minimum: 1)\cf0\i0\par
-\pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.4\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie viele Wohn-/Nutzungseinheiten sind beteiligt?\par
-\b0\fs22\cf3\i Eingabefeld f\'fcr ganze Zahl (Minimum: 1)\cf0\i0\par
-\pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.5\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie gro\'df ist die geplante/installierte PV-Anlage (in kWp)?\par
-\b0\fs22\cf3\i Eingabefeld f\'fcr Dezimalzahl (Minimum: 0, bis 2 Nachkommastellen)\cf0\i0\par
-\pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.6\b0\cf0  | \i Checkbox (Ja/Nein)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Ist das Projekt bereits in Betrieb?\par
-\b0\fs22\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.7\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Was waren die Hauptgr\'fcnde f\'fcr die Entscheidung f\'fcr GGV?\par
-\b0\fs22\par
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl wirtschaftlichkeit\cell Wirtschaftlichkeit / Kostenersparnis\cell\row
-\pard\intbl umwelt\cell Umwelt- und Klimaschutz\cell\row
-\pard\intbl unabhaengigkeit\cell Unabh\'e4ngigkeit von Energieversorgern\cell\row
-\pard\intbl wertsteigerung\cell Wertsteigerung der Immobilie\cell\row
-\pard\intbl mieterbindung\cell Attraktivit\'e4t f\'fcr Mieter\cell\row
-\pard\intbl foerderung\cell Verf\'fcgbare F\'f6rderungen\cell\row
-\pard\intbl einfachheit\cell Einfacheres Modell als Mieterstrom\cell\row
-\pard\intbl other\cell Sonstiges\cell\row
-\pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.8\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Haben Sie sich bewusst f\'fcr GGV und gegen Mieterstrom entschieden?\par
-\b0\fs22\par
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl ja_ggv\cell Ja, bewusst f\'fcr GGV entschieden\cell\row
-\pard\intbl ja_mieterstrom_nicht_moeglich\cell Mieterstrom war nicht m\'f6glich\cell\row
-\pard\intbl noch_offen\cell Entscheidung noch offen\cell\row
-\pard\intbl beides\cell Wir nutzen beides parallel\cell\row
-\pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.9\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Haben Sie weitere Informationen zu Ihrem GGV-Projekt, die Sie teilen m\'f6chten?\par
-\b0\fs22\par
-\page
-\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C2: MIETERSTROM-PROJEKTDETAILS\par
-\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
-\cf6\i\u10132? Sichtbar wenn: projectFocus = "mieterstrom" ODER "ggv_oder_mieterstrom"\cf0\i0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvBuildingCount\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv' und ggvProjectType = 'multiple'\cf0\par
+\b\fs24 Gesamtzahl der Projekte\par
+\b0\fs22 Platzhalter: z.B. 5\par
 \par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Um welche Geb\'e4udeart handelt es sich?\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 ggvAdditionalInfo\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'ggv'\cf0\par
+\b\fs24 Zus\'e4tzliche Informationen (GGV)\par
+\b0\fs22 Platzhalter: Weitere Details zu Ihrem Projekt...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromProjectType\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'mieterstrom'\cf0\par
+\b\fs24 Projektumfang (Mieterstrom)\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl mfh\cell Mehrfamilienhaus\cell\row
-\pard\intbl efh\cell Einfamilienhaus / Zweifamilienhaus\cell\row
-\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
-\pard\intbl gemischt\cell Gemischt (Wohnen + Gewerbe)\cell\row
-\pard\intbl quartier\cell Quartier / mehrere Geb\'e4ude\cell\row
+\pard\intbl single\cell Ein einzelnes Projekt\cell\row
+\pard\intbl multiple\cell Mehrere Projekte\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.2\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Handelt es sich um einen Neubau oder Bestand?\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromPvSizeKw\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'mieterstrom'\cf0\par
+\b\fs24 Gr\'f6\'dfe der PV-Anlage(n) in kW\par
+\b0\fs22 Platzhalter: z.B. 50\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromPartyCount\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'mieterstrom'\cf0\par
+\b\fs24 Anzahl der Mietparteien\par
+\b0\fs22 Platzhalter: z.B. 24\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromBuildingType\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'mieterstrom'\cf0\par
+\b\fs24 Art des Geb\'e4udes (Mieterstrom)\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl neubau\cell Neubau\cell\row
-\pard\intbl bestand\cell Bestandsgeb\'e4ude\cell\row
-\pard\intbl sanierung\cell Bestand mit Sanierung\cell\row
+\pard\intbl wohngebaeude\cell Wohngeb\'e4ude\cell\row
+\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
 \pard\intbl gemischt\cell Gemischt\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.3\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie viele Geb\'e4ude umfasst das Projekt?\par
-\b0\fs22\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.4\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie viele Wohn-/Nutzungseinheiten sind beteiligt?\par
-\b0\fs22\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.5\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Wie gro\'df ist die geplante/installierte PV-Anlage (in kWp)?\par
-\b0\fs22\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.6\b0\cf0  | \i Checkbox (Ja/Nein)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Ist das Projekt bereits in Betrieb?\par
-\b0\fs22\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.7\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Was waren die Hauptgr\'fcnde f\'fcr die Entscheidung f\'fcr Mieterstrom?\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromAdditionalInfo\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn projectFocus = 'mieterstrom'\cf0\par
+\b\fs24 Zus\'e4tzliche Informationen (Mieterstrom)\par
+\b0\fs22 Platzhalter: Weitere Details zu Ihrem Projekt...\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION B: PLANUNGSSTAND\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Aktueller Status\cf0\i0\par
+\cf6\u10132? Nur wenn GGV oder Mieterstrom ausgew\'e4hlt (nicht nur Energy Sharing)\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B1\b0\cf0  | \i Single-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Wo stehen Sie aktuell?\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl wirtschaftlichkeit\cell Wirtschaftlichkeit / Kostenersparnis\cell\row
-\pard\intbl umwelt\cell Umwelt- und Klimaschutz\cell\row
-\pard\intbl unabhaengigkeit\cell Unabh\'e4ngigkeit von Energieversorgern\cell\row
-\pard\intbl wertsteigerung\cell Wertsteigerung der Immobilie\cell\row
-\pard\intbl mieterbindung\cell Attraktivit\'e4t f\'fcr Mieter\cell\row
-\pard\intbl foerderung\cell Mieterstromzuschlag / F\'f6rderung\cell\row
-\pard\intbl vollversorgung\cell Vollversorgung der Mieter m\'f6glich\cell\row
-\pard\intbl other\cell Sonstiges\cell\row
+\pard\intbl info_sammeln\cell Wir habe(n) grunds\'e4tzliches Interesse, sammeln derzeit Informationen\cell\row
+\pard\intbl planung_stockt_ggv\cell Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom\cell\row
+\pard\intbl planung_stockt_pv\cell Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage\cell\row
+\pard\intbl planung_fast_fertig\cell Wir sind fast fertig mit der Planung\cell\row
+\pard\intbl pv_laeuft_ggv_planung\cell Die PV-Anlage l\'e4uft schon, aber die GGV/Mieterstrom ist noch in Planung\cell\row
+\pard\intbl pv_laeuft_ggv_laeuft\cell Die PV-Anlage l\'e4uft bereits mit GGV/Mieterstrom\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.8\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Welches Mieterstrom-Modell setzen Sie um?\par
+\cf6\i\u10132? Diese Auswahl steuert, welche weiteren Sektionen angezeigt werden.\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn 'ggv_oder_mieterstrom' ausgew\'e4hlt\cf0\par
+\b\fs24 Wie sicher sind Sie, ob Sie GGV oder Mieterstrom umsetzen?\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\trowd\trgaph108\trleft-108
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
-\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
-\pard\intbl klassisch\cell Klassisches Mieterstrom (Lieferung an Mieter)\cell\row
-\pard\intbl virtuell\cell Virtuelles Mieterstrom (Summenz\'e4hlermodell)\cell\row
-\pard\intbl contractor\cell Contractor-Modell (Dritter betreibt Anlage)\cell\row
-\pard\intbl noch_offen\cell Noch nicht entschieden\cell\row
+\pard\intbl sicher_ggv\cell Wir sind sicher - es wird/ist GGV\cell\row
+\pard\intbl unsicher\cell Wir sind unsicher - es fehlen noch Informationen f\'fcr eine Entscheidung\cell\row
+\pard\intbl sicher_mieterstrom\cell Wir sind sicher - es wird/ist Mieterstrom\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.9\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Haben Sie weitere Informationen zu Ihrem Mieterstrom-Projekt, die Sie teilen m\'f6chten?\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B3\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn ggvOrMieterstromDecision = 'sicher_ggv'\cf0\par
+\b\fs24 Warum haben Sie sich f\'fcr GGV entschieden?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl buerokratie_mieterstrom\cell Wegen der b\'fcrokratischen Herausforderungen bei Mieterstrom\cell\row
+\pard\intbl reststrom_pflicht\cell Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom\cell\row
+\pard\intbl ladesaeulen_waermepumpen\cell Weil die Einbindung von Lades\'e4ulen/W\'e4rmepumpen einfacher ist\cell\row
+\pard\intbl vnb_empfehlung\cell Weil unser VNB das empfiehlt\cell\row
+\pard\intbl finanziell_attraktiver\cell Weil das finanziell attraktiver ist\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B4\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn ggvOrMieterstromDecision = 'sicher_mieterstrom'\cf0\par
+\b\fs24 Warum haben Sie sich f\'fcr Mieterstrom entschieden?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl einfacher_umsetzung\cell Weil das in der Umsetzung einfacher zu sein scheint\cell\row
+\pard\intbl kein_dienstleister_ggv\cell Weil wir f\'fcr die GGV nicht den richtigen Dienstleister finden\cell\row
+\pard\intbl vnb_empfehlung\cell Weil unser VNB das empfiehlt\cell\row
+\pard\intbl vnb_kann_ggv_nicht\cell Weil der VNB die GGV nicht umsetzen kann\cell\row
+\pard\intbl finanziell_attraktiver\cell Weil das finanziell attraktiver ist\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B5\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie m\'f6chten Sie die Umsetzung angehen?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl alleine\cell Wir m\'f6chten m\'f6glichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden\cell\row
+\pard\intbl dienstleister_ok\cell Dienstleister sind OK, solange das preislich attraktiv ist\cell\row
+\pard\intbl dienstleister_alles\cell Ideal w\'e4re es, wenn sich ein Dienstleister um alles k\'fcmmert\cell\row
+\pard\sa200\sl276\slmult1\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION B6: HERAUSFORDERUNGEN\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Erlebte Schwierigkeiten\cf0\i0\par
+\cf6\u10132? Nur wenn GGV oder Mieterstrom ausgew\'e4hlt\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 challenges\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Gab oder gibt es wesentliche Herausforderungen?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx8000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell Hinweis\cell\b0\row
+\pard\intbl keine\cell Nein, alles l\'e4uft gut\cell \cf4 EXKLUSIV\cf0\cell\row
+\pard\intbl pv_installation\cell Technische Probleme mit der Installation der PV-Anlage\cell + Textfeld\cell\row
+\pard\intbl vnb_blockiert\cell Der VNB l\'e4sst die Umsetzung von GGV / Mieterstrom nicht zu\cell + Textfeld\cell\row
+\pard\intbl kosten_zu_hoch\cell Die Kosten f\'fcr die Umsetzung der GGV / Mieterstrom sind zu hoch\cell + Textfeld\cell\row
+\pard\intbl sonstiges\cell Sonstiges\cell + Textfeld\cell\row
+\pard\sa200\sl276\slmult1\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C: VNB PLANUNG (GGV)\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Details zur GGV-Planung mit dem Verteilnetzbetreiber\cf0\i0\par
+\cf6\u10132? Nur wenn GGV ausgew\'e4hlt oder ggvOrMieterstromDecision = 'sicher_ggv'\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?\par
 \b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, es gibt sicher noch keine\cell\row
+\pard\intbl ja_mindestens_eins\cell Ja, es gibt mindestens eins\cell\row
+\pard\intbl ja_viele\cell Ja, es gibt schon eine ganze Reihe\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Waren Sie schon im Kontakt mit Ihrem VNB?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_direkt\cell Ja, wir hatten direkten Kontakt mit dem VNB\cell\row
+\pard\intbl ja_installateur\cell Ja, \'fcber den Installateur/Dienstleister\cell\row
+\pard\intbl nein\cell Nein, noch kein Kontakt\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C3\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Aussage zur R\'fcckmeldung vom VNB zur GGV trifft zu?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
 \par
-\fs18\cf3 [Dokument gek\'fcrzt - vollst\'e4ndige Version mit Sektionen D1-I verf\'fcgbar]\cf0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl moeglich_gmssb\cell Umsetzung der GGV ist heute schon m\'f6glich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen\cell\row
+\pard\intbl moeglich_wmsb\cell Umsetzung der GGV ist heute schon m\'f6glich, wir m\'fcssen aber einen wettbewerblichen Messstellenbetreiber beauftragen\cell\row
+\pard\intbl keine_antwort\cell Unser VNB hat die Anfrage bisher nicht beantwortet\cell\row
+\pard\intbl nicht_moeglich\cell Unser VNB sagt, dass eine Umsetzung bislang nicht m\'f6glich ist \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C4.1\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Informationen zum Messkonzept (Weblink)\par
+\b0\fs22\cf3\i Stellt Ihr VNB konkrete Unterst\'fctzung f\'fcr die massentaugliche Umsetzung der GGV online bereit?\cf0\i0\par
+Platzhalter: https://...\par
 \par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C4.2\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Formulare f\'fcr die \'dcbermittlung der Teilnehmenden & Aufteilungsschl\'fcssel (Weblink)\par
+\b0\fs22 Platzhalter: https://...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C4.3\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Online-Portal f\'fcr die \'dcbermittlung der Teilnehmenden & Aufteilungsschl\'fcssel\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja, vorhanden\cell\row
+\pard\intbl nein\cell Nein, nicht vorhanden\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C4.4\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Weiteres\par
+\b0\fs22 Platzhalter: Weitere Unterst\'fctzungsangebote...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C5\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Bietet Ihr VNB eine Kontaktm\'f6glichkeit zur GGV und ist das hilfreich?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_hilfreich\cell Ja, es gibt eine Kontaktm\'f6glichkeit (Mailadresse/Telefonnummer) und da wurde uns geholfen\cell\row
+\pard\intbl ja_nicht_hilfreich\cell Ja, aber es gab wenig hilfreiche Information\cell\row
+\pard\intbl nein\cell Nein, es gibt keine Kontaktm\'f6glichkeit\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie pers\'f6nliche Kontakte bei Ihrem Verteilnetzbetreiber?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_bestanden\cell Ja, es bestanden schon pers\'f6nliche Kontakte zum VNB\cell\row
+\pard\intbl ja_entstanden\cell Ja, pers\'f6nliche Kontakte sind bei der Umsetzung der GGV entstanden\cell\row
+\pard\intbl nein\cell Nein, es bestehen keine pers\'f6nlichen Kontakte\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C7\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie sehr f\'fchlen Sie sich von Ihrem VNB in der Planung der GGV unterst\'fctzt?\par
+\b0\fs22 Skala: 1 (bremst aktiv) bis 10 (unterst\'fctzt aktiv)\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu \'fcbernehmen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu \'fcbernehmen\cell\row
+\pard\intbl nein_wmsb\cell Nein - ich brauche daf\'fcr einen wettbewerblichen Messstellenbetreiber\cell\row
+\pard\intbl nein_gar_nicht\cell Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\cf6\i\u10132? Je nach Auswahl werden unterschiedliche Folgefragen angezeigt.\cf0\i0\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C8: MSB DETAILS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Details zum Messstellenbetreiber-Angebot\cf0\i0\par
+\cf6\u10132? Nur wenn vnbMsbOffer beantwortet\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1a\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Ab wann kann das starten? (wenn VNB MSB anbietet)\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl sofort\cell Sofort - wir sind in der Planung und das sieht gut aus\cell\row
+\pard\intbl zeitnah\cell Zeitnah - wir warten auf den Start jederzeit\cell\row
+\pard\intbl 12_monate\cell In den n\'e4chsten 12 Monaten\cell\row
+\pard\intbl spaeter\cell Sp\'e4ter als in 12 Monaten\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1b\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Stellt Ihr VNB/gMSB zus\'e4tzliche Kosten f\'fcr einen 'Einbau auf Kundenwunsch' in Rechnung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten\cell\row
+\pard\intbl ja\cell Ja, unser VNB/gMSB verlangt daf\'fcr Zusatzkosten\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbAdditionalCostsOneTime\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbAdditionalCosts = 'ja'\cf0\par
+\b\fs24 Einmalbetrag (EUR)\par
+\b0\fs22 Platzhalter: z.B. 500\par
+\cf4\i Bedingt erforderlich: mindestens Einmalbetrag oder J\'e4hrlicher Betrag erforderlich\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbAdditionalCostsYearly\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbAdditionalCosts = 'ja'\cf0\par
+\b\fs24 J\'e4hrlicher Betrag (EUR)\par
+\b0\fs22 Platzhalter: z.B. 100\par
+\cf4\i Bedingt erforderlich: mindestens Einmalbetrag oder J\'e4hrlicher Betrag erforderlich\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1c\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Einschr\'e4nkende Bedingung Full-Service-Angebot\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl nur_full_service\cell Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk\cell\row
+\pard\intbl auch_ohne\cell Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1d\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Wie beabsichtigt Ihr VNB, Ihnen die f\'fcr die Abrechnung ben\'f6tigten Daten bereitzustellen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl mail_excel\cell Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verf\'fcgung\cell\row
+\pard\intbl portal_verrechnete_werte\cell Der VNB/gMSB stellt uns die Daten \'fcber ein Online-Portal zur Verf\'fcgung, in dem wir die verrechneten Werte runterladen k\'f6nnen\cell\row
+\pard\intbl portal_alle_messwerte\cell Der VNB/gMSB stellt uns die Daten \'fcber ein Online-Portal zur Verf\'fcgung, in dem wir auf alle Messwerte der Teilnehmer zugreifen k\'f6nnen, um diese selber zu verrechnen\cell\row
+\pard\intbl dienstleister_marktkommunikation\cell F\'fcr das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten \'fcber die Marktkommunikation vom VNB/gMSB abruft\cell\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1e\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Falls Ihr VNB/gMSB die Daten direkt an Sie \'fcbermittelt, was wird es kosten?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl kostenlos\cell Kostenlos\cell\row
+\pard\intbl weniger_3_eur\cell Weniger als 3 EUR/Messstelle/Jahr\cell\row
+\pard\intbl mehr_3_eur\cell Mehr als 3 EUR/Messstelle/Jahr\cell\row
+\pard\intbl keine_auskunft\cell Dazu gibt es noch keine Auskunft\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.1f\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'ja'\cf0\par
+\b\fs24 Falls die Daten von einem Dienstleister \'fcber die 'ESA-Marktrolle' abgeholt werden m\'fcssen: Verlangt der VNB/gMSB daf\'fcr Geld?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl kostenlos\cell Das macht er umsonst\cell\row
+\pard\intbl weniger_3_eur\cell Daf\'fcr verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr\cell\row
+\pard\intbl mehr_3_eur\cell Daf\'fcr verlangt er mehr als 3 EUR/Messstelle/Jahr\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.2a\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'nein_wmsb'\cf0\par
+\b\fs24 Hat der VNB in Aussicht gestellt, ab wann der grundzust\'e4ndige Messstellenbetreiber die Verrechnung durchf\'fchren kann?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_12_monate\cell Ja, innerhalb der n\'e4chsten 12 Monate\cell\row
+\pard\intbl ja_spaeter\cell Ja, in \'fcber 12 Monaten\cell\row
+\pard\intbl nicht_gefragt\cell Nein, das haben wir nicht gefragt\cell\row
+\pard\intbl keine_aussage\cell Nein, dazu gab es keine Aussage\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C8.2b\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Nur wenn vnbMsbOffer = 'nein_gar_nicht'\cf0\par
+\b\fs24 Gibt es schon eine Aussage, ab wann eine Umsetzung m\'f6glich sein wird?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_12_monate\cell Ja, innerhalb der n\'e4chsten 12 Monate\cell\row
+\pard\intbl ja_spaeter\cell Ja, in \'fcber 12 Monaten\cell\row
+\pard\intbl nicht_gefragt\cell Nein, das haben wir nicht gefragt\cell\row
+\pard\intbl keine_aussage\cell Nein, dazu gab es keine Aussage\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C9\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Verlangt Ihr VNB einen neuen zus\'e4tzlichen Z\'e4hler direkt hinter dem Netzanschluss des Geb\'e4udes?\par
+\b0\fs22\cf3\i Erfordert die Installation einer 'Wandlermessung' f\'fcr > 5.000 EUR\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja\cell\row
+\pard\intbl nein\cell Nein\cell\row
+\pard\intbl wissen_nicht\cell Das wissen wir nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbWandlermessungComment\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn vnbWandlermessung beantwortet\cf0\par
+\b\fs24 Erg\'e4nzende Informationen zur Wandlermessung\par
+\b0\fs22 Platzhalter: Weitere Details...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C10\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie lange sind Sie bereits in Diskussionen zur Umsetzung der GGV mit Ihrem VNB?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl unter_2_monate\cell Unter 2 Monaten\cell\row
+\pard\intbl 2_bis_12_monate\cell Zwischen 2 und 12 Monaten\cell\row
+\pard\intbl ueber_12_monate\cell \'dcber 12 Monate\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbPlanningDurationReasons\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Woran scheitert die Umsetzung bislang?\par
+\b0\fs22 Platzhalter: Beschreiben Sie die Gr\'fcnde...\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION D: GGV BETRIEB\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Erfahrungen im laufenden Betrieb\cf0\i0\par
+\cf6\u10132? Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enth\'e4lt\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D0\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Seit wann ist die GGV in Betrieb?\par
+\b0\fs22 Platzhalter: z.B. Januar 2025\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl unter_2_monate\cell Unter 2 Monaten\cell\row
+\pard\intbl 2_bis_12_monate\cell Zwischen 2 und 12 Monaten\cell\row
+\pard\intbl ueber_12_monate\cell \'dcber 12 Monate\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Hat Ihr VNB einen neuen zus\'e4tzlichen Z\'e4hler direkt hinter dem Netzanschluss des Geb\'e4udes verlangt (Wandlermessung >5.000 EUR)?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja\cell\row
+\pard\intbl nein\cell Nein\cell\row
+\pard\intbl wissen_nicht\cell Das wissen wir nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D3\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wer ist der Messstellenbetreiber?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl gmsb\cell Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)\cell\row
+\pard\intbl wmsb\cell Ein wMSB\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D4\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wer \'fcbernimmt die Aufteilung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl gmsb\cell Unser lokaler gMSB\cell\row
+\pard\intbl wmsb\cell Ein wMSB\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D5\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wei\'df ich nicht\cell\row
+\pard\intbl schnell\cell Das ging problemlos und schnell\cell\row
+\pard\intbl 4_monate\cell Ca. 4 Monate (gesetzlich vorgegebene Frist)\cell\row
+\pard\intbl laenger\cell Deutlich l\'e4nger als 4 Monate\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Stellt der VNB/gMSB zus\'e4tzliche Kosten in Rechnung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl nein\cell Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten\cell\row
+\pard\intbl ja\cell Ja, unser VNB/gMSB verlangt daf\'fcr Zusatzkosten\cell\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D7\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie \'fcbermittelt Ihr VNB/MSB die Daten f\'fcr die Abrechnung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl mail_excel\cell Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verf\'fcgung\cell\row
+\pard\intbl portal_verrechnete_werte\cell Der VNB/gMSB stellt uns die Daten \'fcber ein Online-Portal zur Verf\'fcgung, in dem wir die verrechneten Werte runterladen k\'f6nnen\cell\row
+\pard\intbl portal_alle_messwerte\cell Der VNB/gMSB stellt uns die Daten \'fcber ein Online-Portal zur Verf\'fcgung, in dem wir auf alle Messwerte der Teilnehmer zugreifen k\'f6nnen\cell\row
+\pard\intbl dienstleister_marktkommunikation\cell F\'fcr das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten \'fcber die Marktkommunikation vom VNB/gMSB abruft\cell\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 D8\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung der GGV?\par
+\b0\fs22 Skala: 1 (Sehr unzufrieden) bis 10 (Sehr zufrieden)\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 DIENSTLEISTER\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Feedback zu Dienstleistern & Reaktionen\cf0\i0\par
+\cf6\u10132? Nur bei GGV-Fokus\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 serviceProviderName\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Mit welchem Dienstleister arbeiten Sie zusammen?\par
+\b0\fs22 Platzhalter: Name des Dienstleisters\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 serviceProviderRating\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn serviceProviderName ausgef\'fcllt\cf0\par
+\b\fs24 Zufriedenheit mit Dienstleister 1\par
+\b0\fs22 Skala: 1 (Sehr unzufrieden) bis 10 (Sehr zufrieden)\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 serviceProviderComments\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn serviceProviderName ausgef\'fcllt\cf0\par
+\b\fs24 Kommentare zu Dienstleister 1\par
+\b0\fs22 Platzhalter: Was lief gut? Was k\'f6nnte besser sein?\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 serviceProvider2Name\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn serviceProviderName ausgef\'fcllt\cf0\par
+\b\fs24 Dienstleister 2 (optional)\par
+\b0\fs22 Platzhalter: Name des zweiten Dienstleisters\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 serviceProvider2Rating\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn serviceProvider2Name ausgef\'fcllt\cf0\par
+\b\fs24 Zufriedenheit mit Dienstleister 2\par
+\b0\fs22 Skala: 1 (Sehr unzufrieden) bis 10 (Sehr zufrieden)\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 vnbRejectionResponse\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl bnetza\cell Wir haben uns bereits an die BNetzA gewendet\cell\row
+\pard\intbl rechtliche_schritte\cell Wir \'fcberlegen rechtliche Schritte zu gehen\cell\row
+\pard\intbl keine_schritte\cell Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegen\'fcber dem VNB ab\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION M: MIETERSTROM PLANUNG\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Details zu Mieterstrom-Projekten\cf0\i0\par
+\cf6\u10132? Nur wenn Mieterstrom ausgew\'e4hlt oder ggvOrMieterstromDecision = 'sicher_mieterstrom'\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 M\'f6chten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenz\'e4hler umsetzen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl virtuell\cell Mit virtuellem Summenz\'e4hler\cell\row
+\pard\intbl physikalisch\cell Mit physikalischem Summenz\'e4hler\cell\row
+\pard\intbl kein_unterschied\cell Wir kennen den Unterschied nicht\cell\row
+\pard\intbl keine_praeferenz\cell Wir haben keine Pr\'e4ferenz\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M2\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Gab oder gibt es wesentliche Herausforderungen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx8000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell Hinweis\cell\b0\row
+\pard\intbl keine\cell Nein, alles l\'e4uft gut\cell \cf4 EXKLUSIV\cf0\cell\row
+\pard\intbl opposition\cell Manche Parteien im Haus sind gegen das Projekt\cell + Textfeld\cell\row
+\pard\intbl pv_installation\cell Technische Probleme mit der Installation der PV-Anlage\cell + Textfeld\cell\row
+\pard\intbl vnb_blocking\cell Der VNB l\'e4sst die Umsetzung von Mieterstrom nicht zu\cell + Textfeld\cell\row
+\pard\intbl kosten\cell Die Kosten f\'fcr die Umsetzung des Mieterstrom sind zu hoch\cell + Textfeld\cell\row
+\pard\intbl sonstiges\cell Sonstiges\cell + Textfeld\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M3\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, es gibt sicher noch keine\cell\row
+\pard\intbl ja_mindestens_eins\cell Ja, es gibt mindestens eins\cell\row
+\pard\intbl ja_viele\cell Ja, es gibt schon eine ganze Reihe\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M4\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte mit virtuellem Summenz\'e4hler?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, es gibt sicher noch keine\cell\row
+\pard\intbl ja_mindestens_eins\cell Ja, es gibt mindestens eins\cell\row
+\pard\intbl ja_viele\cell Ja, es gibt schon eine ganze Reihe\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M5\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Bietet Ihr VNB den Betrieb des virtuellen Summenz\'e4hlers an?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja\cell\row
+\pard\intbl nein_wmsb\cell Nein - wir brauchen einen wMSB\cell\row
+\pard\intbl nein_nicht_moeglich\cell Nein - und das ist auch mit einem wMSB nicht m\'f6glich\cell\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromVirtuellAllowed = 'ja'\cf0\par
+\b\fs24 Verlangt Ihr VNB einen neuen zus\'e4tzlichen Z\'e4hler direkt hinter dem Netzanschluss des Geb\'e4udes (Wandlermessung >5.000 EUR)?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja\cell Ja\cell\row
+\pard\intbl nein\cell Nein\cell\row
+\pard\intbl wissen_nicht\cell Das wissen wir nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M7\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Waren Sie bereits in Kontakt mit Ihrem VNB bzgl. Mieterstrom?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_direkt\cell Ja, wir hatten direkten Kontakt mit dem VNB\cell\row
+\pard\intbl ja_installateur\cell Ja, \'fcber den Installateur/Dienstleister\cell\row
+\pard\intbl nein\cell Nein, noch kein Kontakt\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M8\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromVnbContact ausgef\'fcllt\cf0\par
+\b\fs24 Welche Aussage zur R\'fcckmeldung vom VNB zu Mieterstrom trifft zu?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl moeglich_gmssb\cell Umsetzung ist heute schon m\'f6glich, der VNB/gMSB kann dies als MSB machen\cell\row
+\pard\intbl moeglich_wmsb\cell Umsetzung ist heute schon m\'f6glich, wir m\'fcssen aber einen wMSB beauftragen\cell\row
+\pard\intbl keine_antwort\cell Unser VNB hat die Anfrage bisher nicht beantwortet\cell\row
+\pard\intbl nicht_moeglich\cell Unser VNB sagt, dass eine Umsetzung bislang nicht m\'f6glich ist \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M9\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Stellt Ihr VNB konkrete Unterst\'fctzung f\'fcr die massentaugliche Umsetzung von Mieterstrom online bereit?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl messkonzept\cell Informationen zum Messkonzept\cell\row
+\pard\intbl formulare\cell Formulare f\'fcr die \'dcbermittlung\cell\row
+\pard\intbl portal\cell Online-Portal\cell\row
+\pard\intbl keine\cell Keine Unterst\'fctzung bekannt\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M10\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Bietet Ihr VNB eine Kontaktm\'f6glichkeit zu Mieterstrom und ist das hilfreich?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_hilfreich\cell Ja, es gibt eine Kontaktm\'f6glichkeit und da wurde uns geholfen\cell\row
+\pard\intbl ja_nicht_hilfreich\cell Ja, aber es gab wenig hilfreiche Information\cell\row
+\pard\intbl nein\cell Nein, es gibt keine Kontaktm\'f6glichkeit\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M11\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie pers\'f6nliche Kontakte bei Ihrem Verteilnetzbetreiber?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_bestanden\cell Ja, es bestanden schon pers\'f6nliche Kontakte zum VNB\cell\row
+\pard\intbl ja_entstanden\cell Ja, pers\'f6nliche Kontakte sind bei der Umsetzung von Mieterstrom entstanden\cell\row
+\pard\intbl nein\cell Nein, es bestehen keine pers\'f6nlichen Kontakte\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromSupportRating\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie sehr f\'fchlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterst\'fctzt?\par
+\b0\fs22 Skala: 1 (bremst aktiv) bis 10 (unterst\'fctzt aktiv)\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION MP: VNB ANGEBOT (MIETERSTROM)\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Details zum MSB-Angebot des VNB f\'fcr Mieterstrom\cf0\i0\par
+\cf6\u10132? Nur wenn Mieterstrom ausgew\'e4hlt und nicht in Betrieb\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MP1a\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Full-Service-Angebot\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl nur_full_service\cell Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk\cell\row
+\pard\intbl auch_ohne\cell Unser Stadtwerk/VNB bietet dies auch ohne Stromliefervertr\'e4ge an\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MP1b\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Stellt Ihr VNB/gMSB zus\'e4tzliche Kosten f\'fcr einen 'Einbau auf Kundenwunsch' in Rechnung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten\cell\row
+\pard\intbl ja\cell Ja, unser VNB/gMSB verlangt daf\'fcr Zusatzkosten\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromMsbCostsOneTime\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromMsbCosts = 'ja'\cf0\par
+\b\fs24 Einmalbetrag (EUR)\par
+\b0\fs22 Platzhalter: z.B. 500\par
+\cf4\i Bedingt erforderlich: mindestens Einmalbetrag oder J\'e4hrlicher Betrag erforderlich\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 mieterstromMsbCostsYearly\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromMsbCosts = 'ja'\cf0\par
+\b\fs24 J\'e4hrlicher Betrag (EUR)\par
+\b0\fs22 Platzhalter: z.B. 100\par
+\cf4\i Bedingt erforderlich: mindestens Einmalbetrag oder J\'e4hrlicher Betrag erforderlich\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MP1c\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Auswahl an Umsetzungsmodellen\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl virtuell\cell Einen 'virtuellen Summenz\'e4hler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenz\'e4hler' f\'fcr >5.000 EUR) bleibt uns damit erspart\cell\row
+\pard\intbl physikalisch\cell Ein sogenanntes 'physikalisches Summenz\'e4hlermodell' (erfordert einen 'physikalischen Summenz\'e4hler')\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MP1d\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Bereitstellung der Daten\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl direkt_guenstig\cell Der VNB/gMSB stellt uns die Daten direkt zur Verf\'fcgung (Excel-Listen, Online-Portal o.\'e4.) - f\'fcr weniger (oder gleich) 3 EUR/Messstelle/Jahr\cell\row
+\pard\intbl direkt_teuer\cell Der VNB/gMSB stellt uns die Daten direkt zur Verf\'fcgung (Excel-Listen, Online-Portal o.\'e4.) - verlangt daf\'fcr mehr als 3 EUR/Messstelle/Jahr\cell\row
+\pard\intbl marktkommunikation\cell Der VNB/gMSB stellt die Daten lediglich \'fcber die Marktkommunikation zur Verf\'fcgung, wir brauchen einen Dienstleister f\'fcr das Abrufen der Daten\cell\row
+\pard\sa200\sl276\slmult1\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION MB: MIETERSTROM BETRIEB\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Erfahrungen im laufenden Mieterstrom-Betrieb\cf0\i0\par
+\cf6\u10132? Nur wenn Mieterstrom in Betrieb\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Rolle \'fcbernimmt der VNB in Ihrem Mieterstrom-Projekt?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl keine\cell Gar keine - wir machen das mit einem wettbewerblichen Messstellenbetreiber\cell\row
+\pard\intbl msb_dienstleister\cell Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten f\'fcr die Abrechnung zur Verf\'fcgung\cell\row
+\pard\intbl msb_direkt\cell Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten f\'fcr die Abrechnung direkt zur Verf\'fcgung\cell\row
+\pard\intbl full_service\cell Das Stadtwerk \'fcbernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie lange hat die Abstimmung mit dem VNB zum Mieterstrom gedauert?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl unter_2_monate\cell Unter 2 Monaten\cell\row
+\pard\intbl 2_bis_12_monate\cell Zwischen 2 und 12 Monaten\cell\row
+\pard\intbl ueber_12_monate\cell \'dcber 12 Monate\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB3\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Hat Ihr VNB einen neuen zus\'e4tzlichen Z\'e4hler direkt hinter dem Netzanschluss des Geb\'e4udes verlangt (Wandlermessung >5.000 EUR)?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl nein\cell Nein\cell\row
+\pard\intbl ja\cell Ja \cf3 + Textfeld\cf0\cell\row
+\pard\intbl wissen_nicht\cell Das wissen wir nicht\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB4.1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Messstellenbetrieb: Wer stellt die Z\'e4hler oder die Smart Meter bereit?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl gmsb\cell Unser lokaler gMSB (gleiches Unternehmen wie der VNB)\cell\row
+\pard\intbl wmsb\cell Ein wMSB\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB4.2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 \'dcbermittlung der verbrauchten Strommengen je Teilnehmer\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl gmsb\cell Unser lokaler gMSB\cell\row
+\pard\intbl dienstleister\cell Ein Dienstleister\cell\row
+\pard\intbl wmsb\cell Ein wMSB\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB5.1\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromMsbProvider = 'gmsb'\cf0\par
+\b\fs24 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wei\'df ich nicht\cell\row
+\pard\intbl schnell\cell Das ging problemlos und schnell\cell\row
+\pard\intbl 4_monate\cell Die 4 Monate gesetzliche Frist wurden gerade so eingehalten\cell\row
+\pard\intbl laenger\cell Die Frist von 4 Monaten wurde deutlich \'fcberschritten\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB5.2\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn mieterstromMsbProvider = 'gmsb'\cf0\par
+\b\fs24 Stellt der VNB/gMSB Ihnen f\'fcr den Betrieb der Smart Meter zus\'e4tzliche Kosten in Rechnung?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten\cell\row
+\pard\intbl ja\cell Ja, unser VNB/gMSB verlangt daf\'fcr Zusatzkosten\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MB6\b0\cf0  | \i Rating 1-10\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?\par
+\b0\fs22 Skala: 1 (bremst aktiv) bis 10 (unterst\'fctzt aktiv)\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MD1\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Falls Ihr VNB die Umsetzung von Mieterstrom nicht oder nur unzureichend anbietet/durchf\'fchrt, wie haben Sie bislang reagiert?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl bnetza\cell Wir haben uns bereits an die BNetzA gewendet\cell\row
+\pard\intbl rechtliche_schritte\cell Wir \'fcberlegen rechtliche Schritte zu gehen\cell\row
+\pard\intbl keine_schritte\cell Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegen\'fcber dem VNB ab\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MD2\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Mieterstrom?\par
+\b0\fs22 Platzhalter: z.B. Webseiten, Beratungsstellen, Netzwerke...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 MD3\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Erfahrungen m\'f6chten Sie noch teilen?\par
+\b0\fs22 Platzhalter: Ihre Erfahrungen...\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION E: ENERGY SHARING\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Details zu Energy Sharing\cf0\i0\par
+\cf6\u10132? Nur wenn Energy Sharing ausgew\'e4hlt\cf0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E1\b0\cf0  | \i Single-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Wo stehen Sie aktuell mit dem Projekt?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl in_betrieb_vollversorgung\cell Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell\cell\row
+\pard\intbl in_betrieb_42c\cell Unser Energy-Sharing Projekt ist schon in Betrieb - nach \'a742c EnWG\cell\row
+\pard\intbl planung_bereit\cell Wir sind in der Planung und wollen loslegen sobald es geht\cell\row
+\pard\intbl info_sammeln\cell Wir haben grunds\'e4tzliches Interesse, sammeln derzeit Infos\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E3\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn in Planung oder Information sammeln\cf0\par
+\b\fs24 Welche Art von Anlage m\'f6chten Sie f\'fcr das Energy Sharing Projekt nutzen?\par
+\b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
+\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wind\cell Windenergieanlage\cell\row
+\pard\intbl buergerwind\cell Windenergieanlage - B\'fcrgerwindanlage\cell\row
+\pard\intbl pv_freiflaeche\cell PV-Freifl\'e4chenanlage\cell\row
+\pard\intbl buergersolar\cell B\'fcrgersolaranlage\cell\row
+\pard\intbl pv_efh\cell PV-Dachanlage auf Einfamilienhaus\cell\row
+\pard\intbl pv_mfh\cell PV-Dachanlage auf Mehrfamilienhaus\cell\row
+\pard\intbl pv_nichtwohn\cell PV-Dachanlage auf einem Nicht-Wohngeb\'e4ude\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E4\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn in Planung oder Information sammeln\cf0\par
+\b\fs24 Projektumfang\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl single\cell Ein einzelnes Projekt\cell\row
+\pard\intbl multiple\cell Mehrere Projekte\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 esPvSizeKw\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn esProjectScope = 'single'\cf0\par
+\b\fs24 Gr\'f6\'dfe der PV-Anlage in kW\par
+\b0\fs22 Platzhalter: z.B. 100\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 esWindSizeKw\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn esProjectScope = 'single'\cf0\par
+\b\fs24 Gr\'f6\'dfe der Windenergieanlage in kW\par
+\b0\fs22 Platzhalter: z.B. 2000\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 esPartyCount\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Anzahl der belieferten Parteien\par
+\b0\fs22 Platzhalter: z.B. 50\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E5\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn in Planung oder Information sammeln\cf0\par
+\b\fs24 Welche Stromverbraucher sollen eingebunden werden?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl privat\cell Private Haushalte\cell\row
+\pard\intbl kommune\cell Kommune\cell\row
+\pard\intbl kommunal_unternehmen\cell Kommunale Unternehmen\cell\row
+\pard\intbl kmu\cell KMU\cell\row
+\pard\intbl vereine\cell Vereine\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn in Planung oder Information sammeln\cf0\par
+\b\fs24 An wen soll der Strom geliefert werden?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl alle\cell An jeden der Interesse hat\cell\row
+\pard\intbl primaer_bestimmte\cell Prim\'e4r an bestimmte Stromverbraucher, aber gerne auch andere\cell\row
+\pard\intbl nur_bestimmte\cell Nur an bestimmte Abnehmer \cf3 + Textfeld\cf0\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 esMaxDistance\b0\cf0  | \i Text\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie gro\'df ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern?\par
+\b0\fs22\cf3\i Eine ungef\'e4hre Sch\'e4tzung reicht\cf0\i0\par
+Platzhalter: z.B. 5 km\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl yes\cell Ja\cell\row
+\pard\intbl no\cell Nein\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E7\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn esVnbContact = 'yes'\cf0\par
+\b\fs24 Was war die R\'fcckmeldung des VNB?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl bereit_06_2026\cell Der VNB bereitet sich schon darauf vor - ab dem 01.06.2026 k\'f6nnen wir starten!\cell\row
+\pard\intbl bereit_12_monate\cell Der VNB bereitet sich schon darauf vor - in den n\'e4chsten 12 Monaten soll die Umsetzung m\'f6glich sein\cell\row
+\pard\intbl moeglich_keine_zeit\cell Der VNB hat angek\'fcndigt, dass das m\'f6glich sein wird - aber noch keine genaue Zeit genannt\cell\row
+\pard\intbl vertroestet\cell Der VNB hat uns auf sp\'e4ter vertr\'f6stet\cell\row
+\pard\intbl weiss_nicht\cell Der VNB wei\'df nicht, was Energy Sharing ist\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 E8\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
+\cf6\u10132? Wenn esVnbContact = 'yes'\cf0\par
+\b\fs24 Haben Sie mit Ihrem VNB bereits \'fcber die Abrechnung der Netzentgelte gesprochen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl ja_vorschlag\cell Ja - und der VNB hatte schon einen Vorschlag wie das geht \cf3 + Textfeld\cf0\cell\row
+\pard\intbl ja_unklar\cell Ja - aber der VNB wei\'df auch nicht wie das gehen soll \cf3 + Textfeld\cf0\cell\row
+\pard\intbl nein\cell Nein\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 esInfoSources\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Energy Sharing?\par
+\b0\fs22 Platzhalter: z.B. Webseiten, Verb\'e4nde, Beratungsstellen...\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 ABSCHLUSS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Letzte Informationen\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 helpfulInfoSources\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?\par
+\b0\fs22 Platzhalter: z.B. Webseiten, Beratungsstellen, Netzwerke, Verb\'e4nde...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 additionalExperiences\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welche Erfahrungen m\'f6chten Sie noch teilen?\par
+\b0\fs22 Platzhalter: Ihre Erfahrungen...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 documentUpload\b0\cf0  | \i Datei-Upload\i0  | \cf5 o Optional\cf0\par
+\b\fs24 M\'f6glichkeit zum Hochladen von Dokumenten\par
+\b0\fs22\cf3\i z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 surveyImprovements\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie Verbesserungsvorschl\'e4ge f\'fcr diese Umfrage?\par
+\b0\fs22 Platzhalter: Ihr Feedback zur Umfrage...\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 npsScore\b0\cf0  | \i Rating 0-10\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie wahrscheinlich ist es, dass Sie Anderen die Umsetzung von GGV/Mieterstrom empfehlen w\'fcrden?\par
+\b0\fs22 Skala: 0 (Sehr unwahrscheinlich) bis 10 (Sehr wahrscheinlich)\par
+\par
+\par
+\pard\sa200\sl276\slmult1\qc\b\fs28\cf1 --- ENDE DES DOKUMENTS ---\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf3\i Generiert aus surveySchema.ts | Stand: Januar 2026\cf0\i0\par
 }
