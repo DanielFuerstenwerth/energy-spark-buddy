@@ -1,0 +1,305 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1031
+{\fonttbl{\f0\fswiss\fcharset0 Calibri;}{\f1\fnil\fcharset0 Calibri;}}
+{\colortbl ;\red26\green54\blue93;\red49\green130\blue206;\red102\green102\blue102;\red204\green0\blue0;\red34\green139\blue34;\red107\green33\blue168;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\qc\b\f0\fs44\cf1 Fragebogen GGV \endash  Vollst\'e4ndige Dokumentation\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\b Stand:\b0  Januar 2025\par
+\b Zweck:\b0  Formulierungs- und Rechtschreibpr\'fcfung\par
+\b Hinweis:\b0  Dieses Dokument enth\'e4lt alle Fragen mit exaktem Wortlaut, Antwortoptionen und Logiken.\par
+\par
+\pard\sa200\sl276\slmult1\qc\b\fs28\cf1 INHALTSVERZEICHNIS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\bullet  Sektion A: \'dcber Sie\par
+\bullet  Sektion B: Planungsstatus\par
+\bullet  Sektion C1: GGV-Projektdetails\par
+\bullet  Sektion C2: Mieterstrom-Projektdetails\par
+\bullet  Sektion D1: VNB-Kontakt (Planung GGV)\par
+\bullet  Sektion D2: Mieterstrom VNB-Angebot\par
+\bullet  Sektion D3: VNB & MSB Details\par
+\bullet  Sektion E1: GGV im Betrieb\par
+\bullet  Sektion E2: Mieterstrom im Betrieb\par
+\bullet  Sektion F: Energy Sharing\par
+\bullet  Sektion G: Herausforderungen\par
+\bullet  Sektion H: Dienstleister-Bewertung\par
+\bullet  Sektion I: Abschluss\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION A: \'dcBER SIE\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A1\b0\cf0  | \i Multi-Select mit Textfeldern\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Welche Art von Akteur sind Sie?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx7000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell Textfeld\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx7000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl privatperson\cell Privatperson\cell \emdash\cell\row
+\pard\intbl eigentuemer\cell Eigent\'fcmer:in / Vermieter:in\cell \emdash\cell\row
+\pard\intbl weg\cell WEG (Wohnungseigent\'fcmergemeinschaft)\cell \emdash\cell\row
+\pard\intbl hausverwaltung\cell Hausverwaltung\cell \emdash\cell\row
+\pard\intbl wohnungsbaugesellschaft\cell Wohnungsbaugesellschaft / Wohnungsunternehmen\cell \emdash\cell\row
+\pard\intbl genossenschaft\cell Genossenschaft\cell \emdash\cell\row
+\pard\intbl energieversorger\cell Energieversorger\cell + Welcher Energieversorger?\cell\row
+\pard\intbl stadtwerk\cell Stadtwerk\cell + Welches Stadtwerk?\cell\row
+\pard\intbl contractor\cell Contractor / Dienstleister\cell + Welcher Contractor/Dienstleister?\cell\row
+\pard\intbl projektentwickler\cell Projektentwickler\cell + Welcher Projektentwickler?\cell\row
+\pard\intbl energieberater\cell Energieberater:in\cell \emdash\cell\row
+\pard\intbl installateur\cell Installateur / Handwerker\cell \emdash\cell\row
+\pard\intbl planer\cell Planer / Ingenieurb\'fcro\cell \emdash\cell\row
+\pard\intbl other\cell Sonstiges\cell + Bitte beschreiben Sie Ihre Rolle\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A2\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Was ist Ihre Motivation f\'fcr die Teilnahme an dieser Umfrage?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl eigene_erfahrung\cell Eigene Erfahrungen teilen\cell\row
+\pard\intbl verbesserung\cell Zur Verbesserung der Situation beitragen\cell\row
+\pard\intbl informieren\cell Mich \'fcber GGV/Mieterstrom informieren\cell\row
+\pard\intbl vernetzen\cell Mich mit anderen vernetzen\cell\row
+\pard\intbl other\cell Sonstiges\cell\row
+\pard\sa200\sl276\slmult1\par
+\cf3\i Hinweis: Bei Auswahl "Sonstiges" erscheint ein Textfeld f\'fcr weitere Details.\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A3\b0\cf0  | \i Single-Select (Radio)\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 Welches Thema steht bei Ihnen aktuell im Fokus?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl ggv\cell Gemeinschaftliche Geb\'e4udeversorgung (GGV)\cell\row
+\pard\intbl mieterstrom\cell Mieterstrom\cell\row
+\pard\intbl ggv_oder_mieterstrom\cell Ich bin noch unsicher / Beides relevant\cell\row
+\pard\sa200\sl276\slmult1\par
+\cf6\i\u10132? Diese Auswahl steuert, welche weiteren Fragen angezeigt werden.\cf0\i0\par
+\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION B: PLANUNGSSTATUS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\b\fs24 In welcher Phase befinden Sie sich aktuell?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl interessiert\cell Ich informiere mich gerade / bin interessiert\cell\row
+\pard\intbl planung\cell In konkreter Planung\cell\row
+\pard\intbl umsetzung\cell In der Umsetzung\cell\row
+\pard\intbl betrieb\cell Bereits in Betrieb\cell\row
+\pard\intbl abgebrochen\cell Projekt wurde abgebrochen\cell\row
+\pard\intbl other\cell Sonstiges\cell\row
+\pard\sa200\sl276\slmult1\par
+\cf6\i\u10132? Diese Auswahl steuert, welche weiteren Sektionen angezeigt werden.\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 B2\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie planen Sie bei der Umsetzung vorzugehen?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl selbst\cell Selbst umsetzen (Eigenregie)\cell\row
+\pard\intbl dienstleister\cell Mit Unterst\'fctzung eines Dienstleisters\cell\row
+\pard\intbl contractor\cell Vollst\'e4ndig durch Contractor / Full-Service-Anbieter\cell\row
+\pard\intbl noch_unklar\cell Noch unklar\cell\row
+\pard\intbl other\cell Sonstiges\cell\row
+\pard\sa200\sl276\slmult1\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C1: GGV-PROJEKTDETAILS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf6\i\u10132? Sichtbar wenn: projectFocus = "ggv" ODER "ggv_oder_mieterstrom"\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Um welche Geb\'e4udeart handelt es sich?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl mfh\cell Mehrfamilienhaus\cell\row
+\pard\intbl efh\cell Einfamilienhaus / Zweifamilienhaus\cell\row
+\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
+\pard\intbl gemischt\cell Gemischt (Wohnen + Gewerbe)\cell\row
+\pard\intbl quartier\cell Quartier / mehrere Geb\'e4ude\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.2\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Handelt es sich um einen Neubau oder Bestand?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl neubau\cell Neubau\cell\row
+\pard\intbl bestand\cell Bestandsgeb\'e4ude\cell\row
+\pard\intbl sanierung\cell Bestand mit Sanierung\cell\row
+\pard\intbl gemischt\cell Gemischt\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.3\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie viele Geb\'e4ude umfasst das Projekt?\par
+\b0\fs22\cf3\i Eingabefeld f\'fcr ganze Zahl (Minimum: 1)\cf0\i0\par
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.4\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie viele Wohn-/Nutzungseinheiten sind beteiligt?\par
+\b0\fs22\cf3\i Eingabefeld f\'fcr ganze Zahl (Minimum: 1)\cf0\i0\par
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.5\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie gro\'df ist die geplante/installierte PV-Anlage (in kWp)?\par
+\b0\fs22\cf3\i Eingabefeld f\'fcr Dezimalzahl (Minimum: 0, bis 2 Nachkommastellen)\cf0\i0\par
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.6\b0\cf0  | \i Checkbox (Ja/Nein)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Ist das Projekt bereits in Betrieb?\par
+\b0\fs22\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.7\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Was waren die Hauptgr\'fcnde f\'fcr die Entscheidung f\'fcr GGV?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl wirtschaftlichkeit\cell Wirtschaftlichkeit / Kostenersparnis\cell\row
+\pard\intbl umwelt\cell Umwelt- und Klimaschutz\cell\row
+\pard\intbl unabhaengigkeit\cell Unabh\'e4ngigkeit von Energieversorgern\cell\row
+\pard\intbl wertsteigerung\cell Wertsteigerung der Immobilie\cell\row
+\pard\intbl mieterbindung\cell Attraktivit\'e4t f\'fcr Mieter\cell\row
+\pard\intbl foerderung\cell Verf\'fcgbare F\'f6rderungen\cell\row
+\pard\intbl einfachheit\cell Einfacheres Modell als Mieterstrom\cell\row
+\pard\intbl other\cell Sonstiges\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.8\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie sich bewusst f\'fcr GGV und gegen Mieterstrom entschieden?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl ja_ggv\cell Ja, bewusst f\'fcr GGV entschieden\cell\row
+\pard\intbl ja_mieterstrom_nicht_moeglich\cell Mieterstrom war nicht m\'f6glich\cell\row
+\pard\intbl noch_offen\cell Entscheidung noch offen\cell\row
+\pard\intbl beides\cell Wir nutzen beides parallel\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C1.9\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie weitere Informationen zu Ihrem GGV-Projekt, die Sie teilen m\'f6chten?\par
+\b0\fs22\par
+\page
+\pard\sa200\sl276\slmult1\b\fs36\cf1 SEKTION C2: MIETERSTROM-PROJEKTDETAILS\par
+\pard\sa200\sl276\slmult1\b0\fs22\cf0\par
+\cf6\i\u10132? Sichtbar wenn: projectFocus = "mieterstrom" ODER "ggv_oder_mieterstrom"\cf0\i0\par
+\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.1\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Um welche Geb\'e4udeart handelt es sich?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl mfh\cell Mehrfamilienhaus\cell\row
+\pard\intbl efh\cell Einfamilienhaus / Zweifamilienhaus\cell\row
+\pard\intbl gewerbe\cell Gewerbegeb\'e4ude\cell\row
+\pard\intbl gemischt\cell Gemischt (Wohnen + Gewerbe)\cell\row
+\pard\intbl quartier\cell Quartier / mehrere Geb\'e4ude\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.2\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Handelt es sich um einen Neubau oder Bestand?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl neubau\cell Neubau\cell\row
+\pard\intbl bestand\cell Bestandsgeb\'e4ude\cell\row
+\pard\intbl sanierung\cell Bestand mit Sanierung\cell\row
+\pard\intbl gemischt\cell Gemischt\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.3\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie viele Geb\'e4ude umfasst das Projekt?\par
+\b0\fs22\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.4\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie viele Wohn-/Nutzungseinheiten sind beteiligt?\par
+\b0\fs22\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.5\b0\cf0  | \i Zahl\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Wie gro\'df ist die geplante/installierte PV-Anlage (in kWp)?\par
+\b0\fs22\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.6\b0\cf0  | \i Checkbox (Ja/Nein)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Ist das Projekt bereits in Betrieb?\par
+\b0\fs22\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.7\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Was waren die Hauptgr\'fcnde f\'fcr die Entscheidung f\'fcr Mieterstrom?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl wirtschaftlichkeit\cell Wirtschaftlichkeit / Kostenersparnis\cell\row
+\pard\intbl umwelt\cell Umwelt- und Klimaschutz\cell\row
+\pard\intbl unabhaengigkeit\cell Unabh\'e4ngigkeit von Energieversorgern\cell\row
+\pard\intbl wertsteigerung\cell Wertsteigerung der Immobilie\cell\row
+\pard\intbl mieterbindung\cell Attraktivit\'e4t f\'fcr Mieter\cell\row
+\pard\intbl foerderung\cell Mieterstromzuschlag / F\'f6rderung\cell\row
+\pard\intbl vollversorgung\cell Vollversorgung der Mieter m\'f6glich\cell\row
+\pard\intbl other\cell Sonstiges\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.8\b0\cf0  | \i Single-Select (Radio)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Welches Mieterstrom-Modell setzen Sie um?\par
+\b0\fs22\par
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\trowd\trgaph108\trleft-108
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3000
+\clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
+\pard\intbl klassisch\cell Klassisches Mieterstrom (Lieferung an Mieter)\cell\row
+\pard\intbl virtuell\cell Virtuelles Mieterstrom (Summenz\'e4hlermodell)\cell\row
+\pard\intbl contractor\cell Contractor-Modell (Dritter betreibt Anlage)\cell\row
+\pard\intbl noch_offen\cell Noch nicht entschieden\cell\row
+\pard\sa200\sl276\slmult1\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 C2.9\b0\cf0  | \i Textfeld (lang)\i0  | \cf5 o Optional\cf0\par
+\b\fs24 Haben Sie weitere Informationen zu Ihrem Mieterstrom-Projekt, die Sie teilen m\'f6chten?\par
+\b0\fs22\par
+\par
+\fs18\cf3 [Dokument gek\'fcrzt - vollst\'e4ndige Version mit Sektionen D1-I verf\'fcgbar]\cf0\fs22\par
+\par
+}
