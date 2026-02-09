@@ -1,4 +1,10 @@
+// Survey Validation - DERIVED from surveySchema.ts (SSOT)
+// Zod schema is built programmatically from the survey schema definition.
+// DO NOT manually add fields here - add them to surveySchema.ts instead.
+
 import { z } from "zod";
+import { surveyDefinition, QUESTION_REGISTRY } from "@/data/surveySchema";
+import type { SurveyQuestion, SurveySection } from "@/data/surveySchema";
 
 const MAX_SHORT_TEXT = 200;
 const MAX_MEDIUM_TEXT = 500;
@@ -10,216 +16,154 @@ export const sanitizeText = (text: string | undefined): string | undefined => {
   return text.trim().replace(/[\x00-\x1F\x7F]/g, "");
 };
 
-export const surveySchema = z.object({
-  // A1: Akteursgruppe
-  actorTypes: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  actorTextFields: z.record(z.string().max(MAX_MEDIUM_TEXT)).default({}),
-  actorOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  
-  // A2: Motivation
-  motivation: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  motivationOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  
-  // A3: Projektart
-  projectTypes: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  
-  // Kontakt
-  contactEmail: z.string().email("Ungültige E-Mail-Adresse").max(255).optional().or(z.literal("")),
-  vnbName: z.string().max(MAX_SHORT_TEXT).optional(),
-  projectFocus: z.enum(["ggv", "mieterstrom", "energysharing"]).optional(),
-  
-  // GGV Projektdimensionen
-  ggvProjectType: z.enum(["single", "multiple"]).optional(),
-  ggvPvSizeKw: z.number().min(0).max(100000).optional(),
-  ggvPartyCount: z.number().int().min(0).max(10000).optional(),
-  ggvBuildingType: z.string().max(MAX_SHORT_TEXT).optional(),
-  ggvBuildingCount: z.number().int().min(0).max(1000).optional(),
-  ggvAdditionalInfo: z.string().max(MAX_LONG_TEXT).optional(),
-  ggvInOperation: z.boolean().optional(),
-  
-  // Mieterstrom Projektdimensionen
-  mieterstromProjectType: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromPvSizeKw: z.number().min(0).max(100000).optional(),
-  mieterstromPartyCount: z.number().int().min(0).max(10000).optional(),
-  mieterstromBuildingType: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromBuildingCount: z.number().int().min(0).max(1000).optional(),
-  mieterstromAdditionalInfo: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromInOperation: z.boolean().optional(),
-  
-  // B1-B6
-  planningStatus: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  planningStatusOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  ggvOrMieterstromDecision: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  ggvDecisionReasons: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  ggvDecisionReasonsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromDecisionReasons: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  mieterstromDecisionReasonsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  implementationApproach: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  implementationApproachOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  challenges: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  challengesDetails: z.record(z.string().max(MAX_LONG_TEXT)).default({}),
-  challengesPvInstallation: z.string().max(MAX_LONG_TEXT).optional(),
-  challengesVnbBlocking: z.string().max(MAX_LONG_TEXT).optional(),
-  challengesCostsHigh: z.string().max(MAX_LONG_TEXT).optional(),
-  challengesOther: z.string().max(MAX_LONG_TEXT).optional(),
-  
-  // C1-C10: VNB Planung
-  vnbExistingProjects: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbExistingProjectsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbContact: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  vnbContactOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbResponse: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  vnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
-  vnbSupportMesskonzept: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbSupportFormulare: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbSupportPortal: z.boolean().optional(),
-  vnbSupportOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbInfoAvailable: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbInfoAvailableOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbContactHelpful: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbContactHelpfulOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbPersonalContacts: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbPersonalContactsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbSupportRating: z.number().int().min(1).max(10).optional(),
-  vnbMsbOffer: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbStartTimeline: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbStartTimelineOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbAdditionalCosts: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbAdditionalCostsOneTime: z.number().min(0).max(10000000).optional(),
-  vnbAdditionalCostsYearly: z.number().min(0).max(10000000).optional(),
-  vnbFullService: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbDataProvision: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbDataProvisionOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbDataFormat: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbDataCost: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbDataCostAmount: z.number().min(0).max(10000000).optional(),
-  vnbEsaCost: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbEsaCostAmount: z.number().min(0).max(10000000).optional(),
-  vnbMsbTimeline: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbRejectionTimeline: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbWandlermessung: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  vnbWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
-  vnbPlanningDuration: z.string().max(MAX_SHORT_TEXT).optional(),
-  vnbPlanningDurationReasons: z.string().max(MAX_LONG_TEXT).optional(),
-  
-  // D: GGV in Betrieb
-  operationStartDate: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationVnbDuration: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationVnbDurationReasons: z.string().max(MAX_LONG_TEXT).optional(),
-  operationWandlermessung: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  operationWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
-  operationMsbProvider: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationAllocationProvider: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationDataProvider: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationDataProviderOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  operationMsbDuration: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationMsbAdditionalCosts: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationMsbAdditionalCostsOneTime: z.number().min(0).max(10000000).optional(),
-  operationMsbAdditionalCostsYearly: z.number().min(0).max(10000000).optional(),
-  operationAllocationWho: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationAllocationWhoOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  operationDataFormat: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationDataFormatOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  operationDataCost: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationDataCostAmount: z.number().min(0).max(10000000).optional(),
-  operationEsaCost: z.string().max(MAX_SHORT_TEXT).optional(),
-  operationEsaCostAmount: z.number().min(0).max(10000000).optional(),
-  operationSatisfactionRating: z.number().int().min(1).max(10).optional(),
-  
-  // Dienstleister
-  serviceProviderName: z.string().max(MAX_SHORT_TEXT).optional(),
-  serviceProviderRating: z.number().int().min(1).max(10).optional(),
-  serviceProviderComments: z.string().max(MAX_LONG_TEXT).optional(),
-  serviceProvider2Name: z.string().max(MAX_SHORT_TEXT).optional(),
-  serviceProvider2Rating: z.number().int().min(1).max(10).optional(),
-  serviceProvider2Comments: z.string().max(MAX_LONG_TEXT).optional(),
-  
-  // D9: VNB Reaktion
-  vnbRejectionResponse: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  vnbRejectionResponseOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  
-  // Mieterstrom spezifisch
-  mieterstromSummenzaehler: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromExistingProjects: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromExistingProjectsVirtuell: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbContact: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbContactOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVirtuellAllowed: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVirtuellWandlermessung: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVirtuellWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromVnbResponse: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  mieterstromVnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromVnbSupport: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  mieterstromVnbSupportOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbHelpful: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbHelpfulOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromPersonalContacts: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromPersonalContactsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromSupportRating: z.number().int().min(1).max(10).optional(),
-  mieterstromFullService: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromMsbCosts: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromMsbCostsOneTime: z.number().min(0).max(10000000).optional(),
-  mieterstromMsbCostsYearly: z.number().min(0).max(10000000).optional(),
-  mieterstromMsbCostsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromModelChoice: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromDataProvision: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbRole: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromVnbDuration: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromVnbDurationReasons: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromWandlermessung: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromMsbProvider: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromDataProvider: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromDataProviderOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromMsbInstallDuration: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromOperationCosts: z.string().max(MAX_SHORT_TEXT).optional(),
-  mieterstromOperationCostsOneTime: z.number().min(0).max(10000000).optional(),
-  mieterstromOperationCostsYearly: z.number().min(0).max(10000000).optional(),
-  mieterstromOperationSatisfaction: z.number().int().min(1).max(10).optional(),
-  mieterstromRejectionResponse: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  mieterstromRejectionResponseOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  mieterstromInfoSources: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromExperiences: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromSurveyImprovements: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromChallenges: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  mieterstromChallengesOpposition: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromChallengesPv: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromChallengesVnb: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromChallengesCosts: z.string().max(MAX_LONG_TEXT).optional(),
-  mieterstromChallengesOther: z.string().max(MAX_LONG_TEXT).optional(),
-  
-  // Energy Sharing
-  esStatus: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  esStatusOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esInOperationDetails: z.string().max(MAX_LONG_TEXT).optional(),
-  esOperatorDetails: z.string().max(MAX_LONG_TEXT).optional(),
-  esPlantType: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  esPlantTypeDetails: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-  esPvSizeKw: z.number().min(0).max(100000).optional(),
-  esWindSizeKw: z.number().min(0).max(100000).optional(),
-  esProjectScope: z.string().max(MAX_SHORT_TEXT).optional(),
-  esTotalPvSizeKw: z.number().min(0).max(100000).optional(),
-  esTotalWindSizeKw: z.number().min(0).max(100000).optional(),
-  esPartyCount: z.number().int().min(0).max(10000).optional(),
-  esConsumerTypes: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([]),
-  esConsumerDetails: z.string().max(MAX_LONG_TEXT).optional(),
-  esConsumerScope: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esConsumerScopeOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esMaxDistance: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esVnbContact: z.boolean().optional(),
-  esVnbResponse: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esVnbResponseOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esVnbResponseDetails: z.string().max(MAX_LONG_TEXT).optional(),
-  esNetzentgelteDiscussion: z.string().max(MAX_MEDIUM_TEXT).optional(),
-  esNetzentgelteDetails: z.string().max(MAX_LONG_TEXT).optional(),
-  esInfoSources: z.string().max(MAX_LONG_TEXT).optional(),
-  
-  // Abschluss
-  helpfulInfoSources: z.string().max(MAX_LONG_TEXT).optional(),
-  additionalExperiences: z.string().max(MAX_LONG_TEXT).optional(),
-  surveyImprovements: z.string().max(MAX_LONG_TEXT).optional(),
-  npsScore: z.number().int().min(0).max(10).optional(),
-});
+// Build a Zod field from a SurveyQuestion definition
+function zodFieldForQuestion(q: SurveyQuestion): z.ZodTypeAny {
+  switch (q.type) {
+    case 'multi-select':
+      return q.required
+        ? z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).default([])
+        : z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional().default([]);
+
+    case 'single-select':
+      return q.required
+        ? z.string().max(MAX_MEDIUM_TEXT)
+        : z.string().max(MAX_MEDIUM_TEXT).optional();
+
+    case 'text':
+      return z.string().max(MAX_MEDIUM_TEXT).optional();
+
+    case 'textarea':
+      return z.string().max(MAX_LONG_TEXT).optional();
+
+    case 'email':
+      return z.string().email("Ungültige E-Mail-Adresse").max(255).optional().or(z.literal(""));
+
+    case 'number':
+      return z.number().min(0).max(10000000).optional();
+
+    case 'rating':
+      return z.number().int().min(q.min ?? 0).max(q.max ?? 10).optional();
+
+    case 'file':
+      return z.any().optional(); // File uploads handled separately
+
+    case 'vnb-select':
+      return z.string().max(MAX_SHORT_TEXT).optional();
+
+    case 'project-focus':
+      return z.enum(["ggv", "mieterstrom", "energysharing"]).optional();
+
+    default:
+      return z.string().max(MAX_MEDIUM_TEXT).optional();
+  }
+}
+
+// Programmatically build the Zod schema shape from all survey sections
+function buildZodShape(): Record<string, z.ZodTypeAny> {
+  const shape: Record<string, z.ZodTypeAny> = {};
+
+  for (const section of surveyDefinition.sections) {
+    for (const q of section.questions) {
+      // Main field
+      shape[q.id] = zodFieldForQuestion(q);
+
+      // Auto-generate "Other" text fields for multi-select/single-select with hasTextField options
+      const hasTextFieldOptions = q.options?.some(o => o.hasTextField || o.value === 'sonstiges');
+      if (hasTextFieldOptions && q.type === 'multi-select') {
+        // For multi-select with text fields, add a details record
+        if (!shape[`${q.id}Details`]) {
+          shape[`${q.id}Details`] = z.record(z.string().max(MAX_LONG_TEXT)).default({});
+        }
+        // Also add individual "Other" field
+        if (!shape[`${q.id}Other`]) {
+          shape[`${q.id}Other`] = z.string().max(MAX_MEDIUM_TEXT).optional();
+        }
+      }
+      if (hasTextFieldOptions && q.type === 'single-select') {
+        if (!shape[`${q.id}Other`]) {
+          shape[`${q.id}Other`] = z.string().max(MAX_MEDIUM_TEXT).optional();
+        }
+      }
+    }
+  }
+
+  // Add fields that exist in SurveyData but are derived/computed, not direct questions
+  // These are "companion" fields not directly in the schema questions
+  const additionalFields: Record<string, z.ZodTypeAny> = {
+    // Actor text fields (companion to actorTypes multi-select with hasTextField)
+    actorTextFields: z.record(z.string().max(MAX_MEDIUM_TEXT)).default({}),
+    actorOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    // Project focus (derived)
+    projectFocus: z.enum(["ggv", "mieterstrom", "energysharing"]).optional(),
+    // GGV in operation flag (derived from planningStatus)
+    ggvInOperation: z.boolean().optional(),
+    // Mieterstrom extras
+    mieterstromProjectType: z.string().max(MAX_SHORT_TEXT).optional(),
+    mieterstromBuildingCount: z.number().int().min(0).max(1000).optional(),
+    mieterstromInOperation: z.boolean().optional(),
+    // Project locations (JSONB array)
+    projectLocations: z.array(z.object({
+      plz: z.string().max(10).optional(),
+      address: z.string().max(MAX_MEDIUM_TEXT).optional(),
+      pvSizeKw: z.number().min(0).max(100000).optional(),
+    })).optional(),
+    projectAddress: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    projectPlz: z.string().max(10).optional(),
+    // Operation start date
+    operationStartDate: z.string().max(MAX_SHORT_TEXT).optional(),
+    // Service provider 2 comments
+    serviceProvider2Comments: z.string().max(MAX_LONG_TEXT).optional(),
+    // Challenges companion fields
+    challengesDetails: z.record(z.string().max(MAX_LONG_TEXT)).default({}),
+    challengesPvInstallation: z.string().max(MAX_LONG_TEXT).optional(),
+    challengesVnbBlocking: z.string().max(MAX_LONG_TEXT).optional(),
+    challengesCostsHigh: z.string().max(MAX_LONG_TEXT).optional(),
+    challengesOther: z.string().max(MAX_LONG_TEXT).optional(),
+    // VNB companion fields
+    vnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
+    vnbInfoAvailable: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    vnbInfoAvailableOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    // Mieterstrom companion fields
+    mieterstromVirtuellWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromVnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromMsbCostsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    mieterstromVnbDurationReasons: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromDataProviderOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    mieterstromOperationCostsOneTime: z.number().min(0).max(10000000).optional(),
+    mieterstromOperationCostsYearly: z.number().min(0).max(10000000).optional(),
+    mieterstromRejectionResponseOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    mieterstromChallengesOpposition: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromChallengesPv: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromChallengesVnb: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromChallengesCosts: z.string().max(MAX_LONG_TEXT).optional(),
+    mieterstromChallengesOther: z.string().max(MAX_LONG_TEXT).optional(),
+    // ES companion fields
+    esPlantTypeDetails: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
+    esTotalPvSizeKw: z.number().min(0).max(100000).optional(),
+    esTotalWindSizeKw: z.number().min(0).max(100000).optional(),
+    esConsumerDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    esVnbResponseDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    esNetzentgelteDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    esInOperationDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    esOperatorDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    // Multi-evaluation metadata
+    evaluationLabel: z.string().max(MAX_SHORT_TEXT).optional(),
+    sessionGroupId: z.string().uuid().optional(),
+    // NPS
+    npsScore: z.number().int().min(0).max(10).optional(),
+  };
+
+  for (const [key, val] of Object.entries(additionalFields)) {
+    if (!shape[key]) {
+      shape[key] = val;
+    }
+  }
+
+  return shape;
+}
+
+export const surveySchema = z.object(buildZodShape());
 
 export type ValidatedSurveyData = z.infer<typeof surveySchema>;
 

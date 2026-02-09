@@ -1392,7 +1392,7 @@ const SECTION_FINAL: SurveySection = {
 };
 
 // === HAUPTSCHEMA ===
-export const surveySchema: SurveySchema = {
+export const surveyDefinition: SurveySchema = {
   version: "3.0.0",
   lastUpdated: "2026-02-09",
   title: "Umfrage zu GGV, Mieterstrom & Energy Sharing",
@@ -1416,7 +1416,7 @@ export const surveySchema: SurveySchema = {
 
 // Helper to get question options by ID from any section
 export function getQuestionById(questionId: string): SurveyQuestion | undefined {
-  for (const section of surveySchema.sections) {
+  for (const section of surveyDefinition.sections) {
     const q = section.questions.find(q => q.id === questionId);
     if (q) return q;
   }
@@ -1606,11 +1606,11 @@ export function getDbColumn(questionId: string): string {
 // Export für JSON-Generierung
 export function getSurveySchemaAsJson() {
   return {
-    version: surveySchema.version,
-    lastUpdated: surveySchema.lastUpdated,
-    title: surveySchema.title,
-    description: surveySchema.description,
-    sections: surveySchema.sections.map(section => ({
+    version: surveyDefinition.version,
+    lastUpdated: surveyDefinition.lastUpdated,
+    title: surveyDefinition.title,
+    description: surveyDefinition.description,
+    sections: surveyDefinition.sections.map(section => ({
       id: section.id,
       title: cleanLabel(section.title),
       description: section.description ? cleanLabel(section.description) : undefined,
