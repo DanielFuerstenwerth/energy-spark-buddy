@@ -1,10 +1,8 @@
 /**
  * Build-Script: Generiert statische HTML- und JSON-Dateien für die Umfrage-Audit-Ansicht
  * 
- * Ausgabe:
- * - public/umfrage/audit/index.html (vollständiges statisches HTML)
- * - public/data/umfrage.full.json (vollständiger Schema-Dump)
- * - public/data/umfrage.json (komprimierte Version)
+  * Ausgabe:
+  * - public/umfrage/audit/index.html (vollständiges statisches HTML)
  * 
  * Verwendung: npx tsx scripts/generate-audit.ts
  */
@@ -640,8 +638,7 @@ function generateHtml(schema: SurveySchema): string {
       <p><strong>Statistik:</strong> ${schema.sections.length} Abschnitte, ${totalQuestions} Fragen</p>
     </div>
     <nav class="audit-links">
-      <a href="/data/umfrage.full.json">📥 Full JSON Export</a>
-      <a href="/data/umfrage.json">📦 Kompakt JSON</a>
+      <a href="/data/download-umfrage.html">📥 Word-Dokumentation</a>
       <a href="/umfrage">🖊️ Interaktive Umfrage</a>
       <a href="/">🏠 Startseite</a>
     </nav>
@@ -667,75 +664,7 @@ function generateHtml(schema: SurveySchema): string {
 </html>`;
 }
 
-// ============ JSON Generators ============
-function generateFullJson(schema: SurveySchema): string {
-  const exportData = {
-    $schema: 'https://vnb-transparenz.de/data/umfrage-schema.json',
-    version: schema.version,
-    lastUpdated: schema.lastUpdated,
-    generatedAt: new Date().toISOString(),
-    title: schema.title,
-    description: schema.description,
-    statistics: {
-      totalSections: schema.sections.length,
-      totalQuestions: schema.sections.reduce((acc, s) => acc + s.questions.length, 0),
-    },
-    sections: schema.sections.map(section => ({
-      id: section.id,
-      title: section.title,
-      description: section.description || null,
-      visibilityLogic: section.visibilityLogic || null,
-      questionCount: section.questions.length,
-      questions: section.questions.map(q => ({
-        id: q.id,
-        type: q.type,
-        label: q.label,
-        description: q.description || null,
-        helpText: q.helpText || null,
-        placeholder: q.placeholder || null,
-        required: q.required || false,
-        optional: q.optional || false,
-        visibilityLogic: q.visibilityLogic || null,
-        skipLogic: q.skipLogic || null,
-        options: q.options ? q.options.map(o => ({
-          value: o.value,
-          label: o.label,
-          hasTextField: o.hasTextField || false,
-          textFieldLabel: o.textFieldLabel || null,
-          textFieldPlaceholder: o.textFieldPlaceholder || null,
-        })) : null,
-        scaleLabels: q.type === 'rating' ? {
-          min: q.min,
-          max: q.max,
-          minLabel: q.minLabel || null,
-          maxLabel: q.maxLabel || null,
-        } : null,
-      })),
-    })),
-  };
-  
-  return JSON.stringify(exportData, null, 2);
-}
 
-function generateCompactJson(schema: SurveySchema): string {
-  const exportData = {
-    version: schema.version,
-    lastUpdated: schema.lastUpdated,
-    generatedAt: new Date().toISOString(),
-    title: schema.title,
-    statistics: {
-      sections: schema.sections.length,
-      questions: schema.sections.reduce((acc, s) => acc + s.questions.length, 0),
-    },
-    sections: schema.sections.map(section => ({
-      id: section.id,
-      title: section.title,
-      questions: section.questions.map(q => q.id),
-    })),
-  };
-  
-  return JSON.stringify(exportData);
-}
 
 // ============ Smoke Test ============
 function smokeTest(html: string, schema: SurveySchema): void {
@@ -887,22 +816,8 @@ async function main() {
   fs.writeFileSync(htmlPath, html, 'utf-8');
   console.log(`   ✅ Written: ${htmlPath} (${(html.length / 1024).toFixed(1)} KB)\n`);
   
-  // Generate Full JSON
-  console.log('4️⃣ Generating full JSON...');
-  const fullJson = generateFullJson(schema);
-  const fullJsonPath = path.join(dataDir, 'umfrage.full.json');
-  fs.writeFileSync(fullJsonPath, fullJson, 'utf-8');
-  console.log(`   ✅ Written: ${fullJsonPath} (${(fullJson.length / 1024).toFixed(1)} KB)\n`);
-  
-  // Generate Compact JSON
-  console.log('5️⃣ Generating compact JSON...');
-  const compactJson = generateCompactJson(schema);
-  const compactJsonPath = path.join(dataDir, 'umfrage.json');
-  fs.writeFileSync(compactJsonPath, compactJson, 'utf-8');
-  console.log(`   ✅ Written: ${compactJsonPath} (${(compactJson.length / 1024).toFixed(1)} KB)\n`);
-  
   // Smoke test
-  console.log('6️⃣ Running smoke tests...');
+  console.log('4️⃣ Running smoke tests...');
   const smokeTestFailed = runSmokeTest(html, schema);
   
   if (smokeTestFailed) {
@@ -911,9 +826,7 @@ async function main() {
   }
   
   console.log('\n🎉 Build complete! Static files ready for deployment.');
-  console.log('   📄 /umfrage/audit/index.html - Static HTML audit view');
-  console.log('   📊 /data/umfrage.full.json - Complete schema dump');
-  console.log('   📊 /data/umfrage.json - Compact schema\n');
+  console.log('   📄 /umfrage/audit/index.html - Static HTML audit view\n');
 }
 
 function runSmokeTest(html: string, schema: SurveySchema): boolean {
