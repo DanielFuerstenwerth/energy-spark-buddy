@@ -82,15 +82,17 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         optional
       />
 
-      <SingleSelectQuestion
-        id="mieterstrom-virtuell-allowed"
-        label={getLabelForQuestion("mieterstromVirtuellAllowed")}
-        options={getOptionsForQuestion("mieterstromVirtuellAllowed")}
-        value={data.mieterstromVirtuellAllowed}
-        onChange={(val) => updateData("mieterstromVirtuellAllowed", val)}
-      />
+      {data.mieterstromSummenzaehler === 'virtuell' && (
+        <SingleSelectQuestion
+          id="mieterstrom-virtuell-allowed"
+          label={getLabelForQuestion("mieterstromVirtuellAllowed")}
+          options={getOptionsForQuestion("mieterstromVirtuellAllowed")}
+          value={data.mieterstromVirtuellAllowed}
+          onChange={(val) => updateData("mieterstromVirtuellAllowed", val)}
+        />
+      )}
 
-      {data.mieterstromVirtuellAllowed === 'ja' && (
+      {data.mieterstromSummenzaehler === 'virtuell' && data.mieterstromVirtuellAllowed === 'ja' && (
         <SingleSelectQuestion
           id="mieterstrom-virtuell-wandlermessung"
           label={getLabelForQuestion("mieterstromVirtuellWandlermessung")}
