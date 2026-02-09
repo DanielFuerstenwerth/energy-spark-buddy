@@ -243,6 +243,7 @@ export type Database = {
           es_vnb_response_details: string | null
           es_vnb_response_other: string | null
           es_wind_size_kw: number | null
+          evaluation_label: string | null
           ggv_additional_info: string | null
           ggv_building_count: number | null
           ggv_building_type: string | null
@@ -348,7 +349,9 @@ export type Database = {
           operation_wandlermessung_comment: string | null
           planning_status: string[] | null
           planning_status_other: string | null
+          project_address: string | null
           project_focus: string | null
+          project_plz: string | null
           project_types: string[] | null
           service_provider_2_comments: string | null
           service_provider_2_name: string | null
@@ -356,6 +359,7 @@ export type Database = {
           service_provider_comments: string | null
           service_provider_name: string | null
           service_provider_rating: number | null
+          session_group_id: string | null
           survey_improvements: string | null
           uploaded_documents: string[] | null
           vnb_additional_costs: string | null
@@ -451,6 +455,7 @@ export type Database = {
           es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           es_wind_size_kw?: number | null
+          evaluation_label?: string | null
           ggv_additional_info?: string | null
           ggv_building_count?: number | null
           ggv_building_type?: string | null
@@ -556,7 +561,9 @@ export type Database = {
           operation_wandlermessung_comment?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
+          project_address?: string | null
           project_focus?: string | null
+          project_plz?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
@@ -564,6 +571,7 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_rating?: number | null
+          session_group_id?: string | null
           survey_improvements?: string | null
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
@@ -659,6 +667,7 @@ export type Database = {
           es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           es_wind_size_kw?: number | null
+          evaluation_label?: string | null
           ggv_additional_info?: string | null
           ggv_building_count?: number | null
           ggv_building_type?: string | null
@@ -764,7 +773,9 @@ export type Database = {
           operation_wandlermessung_comment?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
+          project_address?: string | null
           project_focus?: string | null
+          project_plz?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
@@ -772,6 +783,7 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_rating?: number | null
+          session_group_id?: string | null
           survey_improvements?: string | null
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
