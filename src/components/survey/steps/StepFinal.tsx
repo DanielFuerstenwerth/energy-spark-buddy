@@ -2,6 +2,7 @@ import { SurveyData } from "@/types/survey";
 import { TextQuestion } from "../questions/TextQuestion";
 import { NpsQuestion } from "../questions/NpsQuestion";
 import { FileUpload } from "../questions/FileUpload";
+import { getLabelForQuestion } from "@/data/surveySchema";
 
 interface StepFinalProps {
   data: SurveyData;
@@ -20,10 +21,9 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         </p>
       </div>
 
-      {/* P1.8: Removed D10/D11/D12 prefixes - numbering comes from UI */}
       <TextQuestion
         id="helpful-info-sources"
-        label="Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?"
+        label={getLabelForQuestion("helpfulInfoSources")}
         type="textarea"
         value={data.helpfulInfoSources}
         onChange={(val) => updateData("helpfulInfoSources", val)}
@@ -33,7 +33,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <TextQuestion
         id="additional-experiences"
-        label="Welche Erfahrungen möchten Sie noch teilen?"
+        label={getLabelForQuestion("additionalExperiences")}
         type="textarea"
         value={data.additionalExperiences}
         onChange={(val) => updateData("additionalExperiences", val)}
@@ -43,7 +43,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <FileUpload
         id="documents"
-        label="Möglichkeit zum Hochladen von Dokumenten"
+        label={getLabelForQuestion("uploadedDocuments")}
         description="z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)"
         value={uploadedDocuments}
         onChange={setUploadedDocuments}
@@ -51,7 +51,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <TextQuestion
         id="survey-improvements"
-        label="Haben Sie Verbesserungsvorschläge für diese Umfrage?"
+        label={getLabelForQuestion("surveyImprovements")}
         type="textarea"
         value={data.surveyImprovements}
         onChange={(val) => updateData("surveyImprovements", val)}
@@ -61,7 +61,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <NpsQuestion
         id="nps"
-        label="Wie wahrscheinlich ist es, dass Sie Anderen die Umsetzung von GGV/Mieterstrom empfehlen würden?"
+        label={getLabelForQuestion("npsScore")}
         value={data.npsScore}
         onChange={(val) => updateData("npsScore", val)}
         optional

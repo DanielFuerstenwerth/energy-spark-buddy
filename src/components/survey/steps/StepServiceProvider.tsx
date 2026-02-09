@@ -2,13 +2,7 @@ import { SurveyData } from "@/types/survey";
 import { TextQuestion } from "../questions/TextQuestion";
 import { RatingQuestion } from "../questions/RatingQuestion";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
-
-const VNB_REJECTION_RESPONSE_OPTIONS = [
-  { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
-  { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
-  { value: "keine_schritte", label: "Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
+import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
 interface StepServiceProviderProps {
   data: SurveyData;
@@ -16,6 +10,9 @@ interface StepServiceProviderProps {
 }
 
 export function StepServiceProvider({ data, updateData }: StepServiceProviderProps) {
+  const sp1Q = getQuestionById("serviceProviderRating");
+  const sp2Q = getQuestionById("serviceProvider2Rating");
+
   return (
     <div className="space-y-8">
       <div className="bg-muted/50 p-4 rounded-lg">
@@ -26,7 +23,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
       </div>
 
       <div className="space-y-6">
-        <h4 className="font-medium">D8. Mit welchem Dienstleister arbeiten Sie zusammen?</h4>
+        <h4 className="font-medium">{getLabelForQuestion("serviceProviderName")}</h4>
         
         <div className="p-4 border rounded-lg space-y-4">
           <TextQuestion
@@ -42,19 +39,19 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
             <>
               <RatingQuestion
                 id="service-provider-rating"
-                label="Zufriedenheit mit Dienstleister 1"
+                label={getLabelForQuestion("serviceProviderRating")}
                 value={data.serviceProviderRating}
                 onChange={(val) => updateData("serviceProviderRating", val)}
-                minLabel="Sehr unzufrieden"
-                maxLabel="Sehr zufrieden"
-                min={1}
-                max={10}
+                minLabel={sp1Q?.minLabel || "Sehr unzufrieden"}
+                maxLabel={sp1Q?.maxLabel || "Sehr zufrieden"}
+                min={sp1Q?.min || 1}
+                max={sp1Q?.max || 10}
                 optional
               />
 
               <TextQuestion
                 id="service-provider-comments"
-                label="Kommentare zu Dienstleister 1"
+                label={getLabelForQuestion("serviceProviderComments")}
                 type="textarea"
                 value={data.serviceProviderComments}
                 onChange={(val) => updateData("serviceProviderComments", val)}
@@ -69,7 +66,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
           <div className="p-4 border rounded-lg space-y-4">
             <TextQuestion
               id="service-provider-2-name"
-              label="Dienstleister 2 (optional)"
+              label={getLabelForQuestion("serviceProvider2Name")}
               value={data.serviceProvider2Name}
               onChange={(val) => updateData("serviceProvider2Name", val)}
               placeholder="Name des zweiten Dienstleisters"
@@ -80,13 +77,13 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
               <>
                 <RatingQuestion
                   id="service-provider-2-rating"
-                  label="Zufriedenheit mit Dienstleister 2"
+                  label={getLabelForQuestion("serviceProvider2Rating")}
                   value={data.serviceProvider2Rating}
                   onChange={(val) => updateData("serviceProvider2Rating", val)}
-                  minLabel="Sehr unzufrieden"
-                  maxLabel="Sehr zufrieden"
-                  min={1}
-                  max={10}
+                  minLabel={sp2Q?.minLabel || "Sehr unzufrieden"}
+                  maxLabel={sp2Q?.maxLabel || "Sehr zufrieden"}
+                  min={sp2Q?.min || 1}
+                  max={sp2Q?.max || 10}
                   optional
                 />
 
@@ -107,8 +104,8 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
 
       <MultiSelectQuestion
         id="vnb-rejection-response"
-        label="D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?"
-        options={VNB_REJECTION_RESPONSE_OPTIONS}
+        label={getLabelForQuestion("vnbRejectionResponse")}
+        options={getOptionsForQuestion("vnbRejectionResponse")}
         value={data.vnbRejectionResponse || []}
         otherValue={data.vnbRejectionResponseOther}
         onChange={(val) => updateData("vnbRejectionResponse", val)}
