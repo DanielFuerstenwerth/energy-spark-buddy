@@ -212,7 +212,7 @@ function MieterstromDetails({ data, updateData }: { data: SurveyData; updateData
 
       <TextQuestion
         id="mieterstrom-party-count"
-        label="Anzahl der Mietparteien"
+        label={data.mieterstromProjectType === 'multiple' ? "Gesamtanzahl der Parteien" : "Anzahl der Parteien, die Strom abnehmen"}
         type="number"
         value={data.mieterstromPartyCount}
         onChange={(val) => updateData("mieterstromPartyCount", val ? parseInt(val) : undefined)}
