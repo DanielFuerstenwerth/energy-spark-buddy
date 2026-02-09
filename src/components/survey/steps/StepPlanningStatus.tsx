@@ -9,12 +9,14 @@ interface StepPlanningStatusProps {
 }
 
 export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps) {
-  const showGgvReasons = data.ggvOrMieterstromDecision === 'sicher_ggv';
-  const showMieterstromReasons = data.ggvOrMieterstromDecision === 'sicher_mieterstrom';
-
   const handlePlanningStatusChange = (val: string) => {
     updateData("planningStatus", [val]);
   };
+
+  // Determine visibility of #19/#20 based on #5 (projectTypes) only, not #18
+  const projectTypes = data.projectTypes || [];
+  const showGgvReasons = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
+  const showMieterstromReasons = projectTypes.includes('mieterstrom') || projectTypes.includes('ggv_oder_mieterstrom');
 
   return (
     <div className="space-y-8">
