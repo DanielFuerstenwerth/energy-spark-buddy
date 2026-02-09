@@ -1,5 +1,7 @@
-// Zentrales Schema für die Umfrage - wird für interaktive Umfrage, Audit-Ansicht und JSON-Export verwendet
-// Letzte Aktualisierung: 2026-01-26
+// Zentrales Schema für die Umfrage - Single Source of Truth (SSOT)
+// Letzte Aktualisierung: 2026-02-09
+
+import type { SurveyData } from '@/types/survey';
 
 export interface SurveyOption {
   value: string;
