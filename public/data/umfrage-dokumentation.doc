@@ -52,7 +52,7 @@ th { background: #e5e7eb; text-align: left; font-weight: bold; }
 <li>Projektdetails (13 Fragen)</li>
 <li>B. Planungsstand (5 Fragen)</li>
 <li>B6. Herausforderungen (1 Frage)</li>
-<li>C. VNB Planung GGV (14 Fragen)</li>
+<li>C. VNB Planung GGV (11 Fragen)</li>
 <li>C8. MSB Details (14 Fragen)</li>
 <li>D. GGV Betrieb (18 Fragen)</li>
 <li>Dienstleister (6 Fragen)</li>
@@ -62,7 +62,7 @@ th { background: #e5e7eb; text-align: left; font-weight: bold; }
 <li>E. Energy Sharing (13 Fragen)</li>
 <li>Abschluss (5 Fragen)</li>
 </ol>
-<p style="font-size:10pt;"><strong>Gesamt: 13 Abschnitte, 122 Fragen</strong></p>
+<p style="font-size:10pt;"><strong>Gesamt: 13 Abschnitte, 119 Fragen</strong></p>
 <hr style="border:1pt solid #22c55e;margin:12pt 0;">
 
 <!-- ============================== SECTION A ============================== -->
@@ -969,7 +969,7 @@ th { background: #e5e7eb; text-align: left; font-weight: bold; }
 
 <hr style="border:1pt solid #e5e7eb;margin:24pt 0 12pt;">
 <p style="text-align:center;color:#999;font-size:9pt;">
-Generiert aus src/data/surveySchema.ts | Version 2.1.0 | Total questions: 122 | 2026-02-09
+Generiert aus src/data/surveySchema.ts | Version 2.1.0 | Total questions: 119 | 2026-02-09
 </p>
 </body>
 </html>
