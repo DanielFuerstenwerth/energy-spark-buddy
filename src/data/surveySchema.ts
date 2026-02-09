@@ -14,6 +14,7 @@ export interface SurveyOption {
 
 export interface SurveyQuestion {
   id: string;
+  dbColumn?: string;
   type: 'single-select' | 'multi-select' | 'text' | 'textarea' | 'number' | 'email' | 'rating' | 'file' | 'vnb-select' | 'project-focus';
   label: string;
   description?: string;
@@ -1455,6 +1456,151 @@ export function buildDbData(
   }
 
   return dbData;
+}
+
+// === QUESTION REGISTRY: Display-IDs (Abschnitt-Modell-Name) + DB-Spalten ===
+export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: string }> = {
+  // Section A: Über Sie
+  "actorTypes": { displayId: "1-ActorTypes", dbColumn: "actor_types" },
+  "motivation": { displayId: "1-Motivation", dbColumn: "motivation" },
+  "contactEmail": { displayId: "1-ContactEmail", dbColumn: "contact_email" },
+  // Section 2: Projekt
+  "vnbName": { displayId: "2-VnbName", dbColumn: "vnb_name" },
+  "projectTypes": { displayId: "2-ProjectTypes", dbColumn: "project_types" },
+  "ggvProjectType": { displayId: "2-GGV-ProjectType", dbColumn: "ggv_project_type" },
+  "ggvPvSizeKw": { displayId: "2-GGV-PvSizeKw", dbColumn: "ggv_pv_size_kw" },
+  "ggvPartyCount": { displayId: "2-GGV-PartyCount", dbColumn: "ggv_party_count" },
+  "ggvBuildingType": { displayId: "2-GGV-BuildingType", dbColumn: "ggv_building_type" },
+  "ggvBuildingCount": { displayId: "2-GGV-BuildingCount", dbColumn: "ggv_building_count" },
+  "ggvAdditionalInfo": { displayId: "2-GGV-AdditionalInfo", dbColumn: "ggv_additional_info" },
+  "mieterstromPvSizeKw": { displayId: "2-MS-PvSizeKw", dbColumn: "mieterstrom_pv_size_kw" },
+  "mieterstromPartyCount": { displayId: "2-MS-PartyCount", dbColumn: "mieterstrom_party_count" },
+  "mieterstromBuildingType": { displayId: "2-MS-BuildingType", dbColumn: "mieterstrom_building_type" },
+  "mieterstromAdditionalInfo": { displayId: "2-MS-AdditionalInfo", dbColumn: "mieterstrom_additional_info" },
+  "projectLocations": { displayId: "2-ProjectLocations", dbColumn: "project_locations" },
+  // Section 3: Planung Allgemein
+  "planningStatus": { displayId: "3-PlanningStatus", dbColumn: "planning_status" },
+  "ggvOrMieterstromDecision": { displayId: "3-GgvOrMsDecision", dbColumn: "ggv_or_mieterstrom_decision" },
+  "ggvDecisionReasons": { displayId: "3-GGV-DecisionReasons", dbColumn: "ggv_decision_reasons" },
+  "mieterstromDecisionReasons": { displayId: "3-MS-DecisionReasons", dbColumn: "mieterstrom_decision_reasons" },
+  "implementationApproach": { displayId: "3-ImplApproach", dbColumn: "implementation_approach" },
+  "challenges": { displayId: "3-Challenges", dbColumn: "challenges" },
+  // Section 4-GGV: Planung GGV
+  "vnbExistingProjects": { displayId: "4-GGV-ExistingProjects", dbColumn: "vnb_existing_projects" },
+  "vnbContact": { displayId: "4-GGV-VnbContact", dbColumn: "vnb_contact" },
+  "vnbResponse": { displayId: "4-GGV-VnbResponse", dbColumn: "vnb_response" },
+  "vnbSupportMesskonzept": { displayId: "4-GGV-SupportMesskonzept", dbColumn: "vnb_support_messkonzept" },
+  "vnbSupportFormulare": { displayId: "4-GGV-SupportFormulare", dbColumn: "vnb_support_formulare" },
+  "vnbSupportPortal": { displayId: "4-GGV-SupportPortal", dbColumn: "vnb_support_portal" },
+  "vnbSupportOther": { displayId: "4-GGV-SupportOther", dbColumn: "vnb_support_other" },
+  "vnbContactHelpful": { displayId: "4-GGV-ContactHelpful", dbColumn: "vnb_contact_helpful" },
+  "vnbPersonalContacts": { displayId: "4-GGV-PersonalContacts", dbColumn: "vnb_personal_contacts" },
+  "vnbSupportRating": { displayId: "4-GGV-SupportRating", dbColumn: "vnb_support_rating" },
+  "vnbMsbOffer": { displayId: "4-GGV-MsbOffer", dbColumn: "vnb_msb_offer" },
+  // Section 4-GGV: MSB Details
+  "vnbStartTimeline": { displayId: "4-GGV-StartTimeline", dbColumn: "vnb_start_timeline" },
+  "vnbAdditionalCosts": { displayId: "4-GGV-AdditionalCosts", dbColumn: "vnb_additional_costs" },
+  "vnbAdditionalCostsOneTime": { displayId: "4-GGV-CostsOneTime", dbColumn: "vnb_additional_costs_one_time" },
+  "vnbAdditionalCostsYearly": { displayId: "4-GGV-CostsYearly", dbColumn: "vnb_additional_costs_yearly" },
+  "vnbFullService": { displayId: "4-GGV-FullService", dbColumn: "vnb_full_service" },
+  "vnbDataProvision": { displayId: "4-GGV-DataProvision", dbColumn: "vnb_data_provision" },
+  "vnbDataCost": { displayId: "4-GGV-DataCost", dbColumn: "vnb_data_cost" },
+  "vnbEsaCost": { displayId: "4-GGV-EsaCost", dbColumn: "vnb_esa_cost" },
+  "vnbMsbTimeline": { displayId: "4-GGV-MsbTimeline", dbColumn: "vnb_msb_timeline" },
+  "vnbRejectionTimeline": { displayId: "4-GGV-RejectionTimeline", dbColumn: "vnb_rejection_timeline" },
+  "vnbWandlermessung": { displayId: "4-GGV-Wandlermessung", dbColumn: "vnb_wandlermessung" },
+  "vnbWandlermessungComment": { displayId: "4-GGV-WandlermessungComment", dbColumn: "vnb_wandlermessung_comment" },
+  "vnbPlanningDuration": { displayId: "4-GGV-PlanningDuration", dbColumn: "vnb_planning_duration" },
+  "vnbPlanningDurationReasons": { displayId: "4-GGV-PlanningDurationReasons", dbColumn: "vnb_planning_duration_reasons" },
+  // Section 5-GGV: Betrieb GGV
+  "operationVnbDuration": { displayId: "5-GGV-VnbDuration", dbColumn: "operation_vnb_duration" },
+  "operationVnbDurationReasons": { displayId: "5-GGV-VnbDurationReasons", dbColumn: "operation_vnb_duration_reasons" },
+  "operationWandlermessung": { displayId: "5-GGV-Wandlermessung", dbColumn: "operation_wandlermessung" },
+  "operationWandlermessungComment": { displayId: "5-GGV-WandlermessungComment", dbColumn: "operation_wandlermessung_comment" },
+  "operationMsbProvider": { displayId: "5-GGV-MsbProvider", dbColumn: "operation_msb_provider" },
+  "operationAllocationProvider": { displayId: "5-GGV-AllocationProvider", dbColumn: "operation_allocation_provider" },
+  "operationDataProvider": { displayId: "5-GGV-DataProvider", dbColumn: "operation_data_provider" },
+  "operationMsbDuration": { displayId: "5-GGV-MsbDuration", dbColumn: "operation_msb_duration" },
+  "operationMsbAdditionalCosts": { displayId: "5-GGV-MsbAdditionalCosts", dbColumn: "operation_msb_additional_costs" },
+  "operationMsbAdditionalCostsOneTime": { displayId: "5-GGV-MsbCostsOneTime", dbColumn: "operation_msb_additional_costs_one_time" },
+  "operationMsbAdditionalCostsYearly": { displayId: "5-GGV-MsbCostsYearly", dbColumn: "operation_msb_additional_costs_yearly" },
+  "operationAllocationWho": { displayId: "5-GGV-AllocationWho", dbColumn: "operation_allocation_who" },
+  "operationDataFormat": { displayId: "5-GGV-DataFormat", dbColumn: "operation_data_format" },
+  "operationDataCost": { displayId: "5-GGV-DataCost", dbColumn: "operation_data_cost" },
+  "operationDataCostAmount": { displayId: "5-GGV-DataCostAmount", dbColumn: "operation_data_cost_amount" },
+  "operationEsaCost": { displayId: "5-GGV-EsaCost", dbColumn: "operation_esa_cost" },
+  "operationEsaCostAmount": { displayId: "5-GGV-EsaCostAmount", dbColumn: "operation_esa_cost_amount" },
+  "operationSatisfactionRating": { displayId: "5-GGV-SatisfactionRating", dbColumn: "operation_satisfaction_rating" },
+  // Section 5-GGV: Dienstleister
+  "serviceProviderName": { displayId: "5-GGV-SP-Name", dbColumn: "service_provider_name" },
+  "serviceProviderRating": { displayId: "5-GGV-SP-Rating", dbColumn: "service_provider_rating" },
+  "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments" },
+  "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name" },
+  "serviceProvider2Rating": { displayId: "5-GGV-SP2-Rating", dbColumn: "service_provider_2_rating" },
+  "vnbRejectionResponse": { displayId: "5-GGV-RejectionResponse", dbColumn: "vnb_rejection_response" },
+  // Section 4-MS: Planung Mieterstrom
+  "mieterstromSummenzaehler": { displayId: "4-MS-Summenzaehler", dbColumn: "mieterstrom_summenzaehler" },
+  "mieterstromChallenges": { displayId: "4-MS-Challenges", dbColumn: "mieterstrom_challenges" },
+  "mieterstromExistingProjects": { displayId: "4-MS-ExistingProjects", dbColumn: "mieterstrom_existing_projects" },
+  "mieterstromExistingProjectsVirtuell": { displayId: "4-MS-ExistingProjectsVirtuell", dbColumn: "mieterstrom_existing_projects_virtuell" },
+  "mieterstromVnbContact": { displayId: "4-MS-VnbContact", dbColumn: "mieterstrom_vnb_contact" },
+  "mieterstromVirtuellAllowed": { displayId: "4-MS-VirtuellAllowed", dbColumn: "mieterstrom_virtuell_allowed" },
+  "mieterstromVirtuellWandlermessung": { displayId: "4-MS-VirtuellWandlermessung", dbColumn: "mieterstrom_virtuell_wandlermessung" },
+  "mieterstromVnbResponse": { displayId: "4-MS-VnbResponse", dbColumn: "mieterstrom_vnb_response" },
+  "mieterstromVnbSupport": { displayId: "4-MS-VnbSupport", dbColumn: "mieterstrom_vnb_support" },
+  "mieterstromVnbHelpful": { displayId: "4-MS-VnbHelpful", dbColumn: "mieterstrom_vnb_helpful" },
+  "mieterstromPersonalContacts": { displayId: "4-MS-PersonalContacts", dbColumn: "mieterstrom_personal_contacts" },
+  "mieterstromSupportRating": { displayId: "4-MS-SupportRating", dbColumn: "mieterstrom_support_rating" },
+  // Section 4-MS: VNB Angebot
+  "mieterstromFullService": { displayId: "4-MS-FullService", dbColumn: "mieterstrom_full_service" },
+  "mieterstromMsbCosts": { displayId: "4-MS-MsbCosts", dbColumn: "mieterstrom_msb_costs" },
+  "mieterstromMsbCostsOneTime": { displayId: "4-MS-MsbCostsOneTime", dbColumn: "mieterstrom_msb_costs_one_time" },
+  "mieterstromMsbCostsYearly": { displayId: "4-MS-MsbCostsYearly", dbColumn: "mieterstrom_msb_costs_yearly" },
+  "mieterstromModelChoice": { displayId: "4-MS-ModelChoice", dbColumn: "mieterstrom_model_choice" },
+  "mieterstromDataProvision": { displayId: "4-MS-DataProvision", dbColumn: "mieterstrom_data_provision" },
+  // Section 5-MS: Betrieb Mieterstrom
+  "mieterstromVnbRole": { displayId: "5-MS-VnbRole", dbColumn: "mieterstrom_vnb_role" },
+  "mieterstromVnbDuration": { displayId: "5-MS-VnbDuration", dbColumn: "mieterstrom_vnb_duration" },
+  "mieterstromWandlermessung": { displayId: "5-MS-Wandlermessung", dbColumn: "mieterstrom_wandlermessung" },
+  "mieterstromMsbProvider": { displayId: "5-MS-MsbProvider", dbColumn: "mieterstrom_msb_provider" },
+  "mieterstromDataProvider": { displayId: "5-MS-DataProvider", dbColumn: "mieterstrom_data_provider" },
+  "mieterstromMsbInstallDuration": { displayId: "5-MS-MsbInstallDuration", dbColumn: "mieterstrom_msb_install_duration" },
+  "mieterstromOperationCosts": { displayId: "5-MS-OperationCosts", dbColumn: "mieterstrom_operation_costs" },
+  "mieterstromOperationSatisfaction": { displayId: "5-MS-Satisfaction", dbColumn: "mieterstrom_operation_satisfaction" },
+  "mieterstromRejectionResponse": { displayId: "5-MS-RejectionResponse", dbColumn: "mieterstrom_rejection_response" },
+  "mieterstromInfoSources": { displayId: "5-MS-InfoSources", dbColumn: "mieterstrom_info_sources" },
+  "mieterstromExperiences": { displayId: "5-MS-Experiences", dbColumn: "mieterstrom_experiences" },
+  "mieterstromSurveyImprovements": { displayId: "5-MS-SurveyImprovements", dbColumn: "mieterstrom_survey_improvements" },
+  // Section 4-ES: Energy Sharing
+  "esStatus": { displayId: "4-ES-Status", dbColumn: "es_status" },
+  "esPlantType": { displayId: "4-ES-PlantType", dbColumn: "es_plant_type" },
+  "esProjectScope": { displayId: "4-ES-ProjectScope", dbColumn: "es_project_scope" },
+  "esPvSizeKw": { displayId: "4-ES-PvSizeKw", dbColumn: "es_pv_size_kw" },
+  "esWindSizeKw": { displayId: "4-ES-WindSizeKw", dbColumn: "es_wind_size_kw" },
+  "esPartyCount": { displayId: "4-ES-PartyCount", dbColumn: "es_party_count" },
+  "esConsumerTypes": { displayId: "4-ES-ConsumerTypes", dbColumn: "es_consumer_types" },
+  "esConsumerScope": { displayId: "4-ES-ConsumerScope", dbColumn: "es_consumer_scope" },
+  "esMaxDistance": { displayId: "4-ES-MaxDistance", dbColumn: "es_max_distance" },
+  "esVnbContact": { displayId: "4-ES-VnbContact", dbColumn: "es_vnb_contact" },
+  "esVnbResponse": { displayId: "4-ES-VnbResponse", dbColumn: "es_vnb_response" },
+  "esNetzentgelteDiscussion": { displayId: "4-ES-Netzentgelte", dbColumn: "es_netzentgelte_discussion" },
+  "esInfoSources": { displayId: "4-ES-InfoSources", dbColumn: "es_info_sources" },
+  // Section 6: Abschluss
+  "helpfulInfoSources": { displayId: "6-InfoSources", dbColumn: "helpful_info_sources" },
+  "additionalExperiences": { displayId: "6-Experiences", dbColumn: "additional_experiences" },
+  "documentUpload": { displayId: "6-DocumentUpload", dbColumn: "uploaded_documents" },
+  "surveyImprovements": { displayId: "6-SurveyImprovements", dbColumn: "survey_improvements" },
+  "npsScore": { displayId: "6-NpsScore", dbColumn: "nps_score" },
+};
+
+// Helper: Get display ID for a question
+export function getDisplayId(questionId: string): string {
+  return QUESTION_REGISTRY[questionId]?.displayId || questionId;
+}
+
+// Helper: Get DB column for a question
+export function getDbColumn(questionId: string): string {
+  return QUESTION_REGISTRY[questionId]?.dbColumn || toSnakeCase(questionId);
 }
 
 // Export für JSON-Generierung
