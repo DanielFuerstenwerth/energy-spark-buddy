@@ -1,975 +1,663 @@
 <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
-<meta charset="UTF-8">
-<meta name="ProgId" content="Word.Document">
-<meta name="Generator" content="VNB Transparenz surveySchema.ts">
-<title>Umfrage zu GGV, Mieterstrom &amp; Energy Sharing – Dokumentation</title>
-<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->
-<style>
-@page { size: A4; margin: 2cm; }
-body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1a1a1a; }
-h1 { font-size: 20pt; color: #1a365d; margin-bottom: 6pt; }
-h2 { font-size: 16pt; color: #1a365d; border-bottom: 2pt solid #22c55e; padding-bottom: 6pt; margin-top: 28pt; }
-table { border-collapse: collapse; width: 100%; margin-top: 6pt; font-size: 10pt; }
-td, th { vertical-align: top; padding: 4pt 6pt; border: 1pt solid #ccc; }
-th { background: #e5e7eb; text-align: left; font-weight: bold; }
-.q { margin: 14pt 0; padding: 10pt; background: #f9fafb; border: 1pt solid #e5e7eb; }
-.qn { color: #999; font-size: 8pt; font-weight: bold; }
-.ql { font-size: 11pt; font-weight: bold; }
-.qm { font-size: 9pt; color: #666; margin: 2pt 0 4pt; }
-.req { color: #dc2626; font-weight: bold; }
-.opt { color: #2563eb; }
-.vis { font-size: 9pt; margin-top: 4pt; padding: 3pt 8pt; background: #fef3c7; border-left: 3pt solid #f59e0b; color: #92400e; }
-.cond { font-size: 9pt; margin-top: 4pt; padding: 3pt 8pt; background: #fee2e2; border-left: 3pt solid #dc2626; color: #991b1b; }
-.skip { font-size: 9pt; margin-top: 4pt; padding: 3pt 8pt; background: #fef3c7; border-left: 3pt solid #f59e0b; color: #92400e; }
-.scale { font-size: 9pt; margin-top: 6pt; padding: 4pt 8pt; background: #f0f9ff; }
-.ex { font-size: 9pt; color: #d97706; }
-.desc { font-size: 9pt; color: #666; font-style: italic; margin-bottom: 4pt; }
-.secvis { background: #fef3c7; padding: 4pt 8pt; border-left: 3pt solid #f59e0b; font-size: 9pt; color: #92400e; margin-bottom: 8pt; }
-.mono { font-family: monospace; font-size: 9pt; color: #374151; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="ProgId" content="Word.Document">
+  <meta name="Generator" content="VNB Transparenz generate-word-doc.ts">
+  <title>Umfrage zu GGV, Mieterstrom &amp; Energy Sharing – Dokumentation v3.0.0</title>
+  <!--[if gte mso 9]>
+  <xml>
+    <w:WordDocument>
+      <w:View>Print</w:View>
+    </w:WordDocument>
+  </xml>
+  <![endif]-->
+  <style>
+    @page { size: A4; margin: 2cm; }
+    body { font-family: Calibri, Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1a1a1a; }
+    h1 { font-size: 20pt; color: #1a365d; margin-bottom: 6pt; }
+    h2 { font-size: 16pt; }
+    table { border-collapse: collapse; }
+    td, th { vertical-align: top; }
+    .q { margin: 12pt 0; padding: 10pt; background: #f9fafb; border: 1pt solid #e5e7eb; border-radius: 4pt; }
+    .qnum { color: #999; font-size: 8pt; font-weight: bold; }
+    .qlabel { font-size: 11pt; font-weight: bold; }
+    .qmeta { margin: 0 0 4pt; font-size: 9pt; color: #666; }
+    .vis { font-size: 9pt; margin-top: 4pt; padding: 3pt 6pt; background: #fef3c7; border-left: 3pt solid #f59e0b; color: #92400e; }
+    .req { color: #dc2626; font-weight: bold; }
+    .opt { color: #2563eb; }
+    .tbl { width: 100%; border-collapse: collapse; margin-top: 6pt; font-size: 10pt; }
+    .tbl th { text-align: left; padding: 3pt 6pt; border: 1pt solid #ccc; background: #e5e7eb; }
+    .tbl td { padding: 3pt 6pt; border: 1pt solid #ccc; }
+    .val { font-family: monospace; font-size: 9pt; color: #374151; }
+    .extra { font-size: 9pt; color: #f59e0b; }
+    .sec { page-break-before: auto; margin-top: 24pt; }
+    .sec h2 { color: #1a365d; border-bottom: 2pt solid #22c55e; padding-bottom: 6pt; font-size: 16pt; }
+    .condreq { font-size: 9pt; margin-top: 4pt; padding: 3pt 6pt; background: #fee2e2; border-left: 3pt solid #dc2626; color: #991b1b; }
+    .skip { font-size: 9pt; margin-top: 4pt; padding: 3pt 6pt; background: #fef3c7; border-left: 3pt solid #f59e0b; color: #92400e; }
+  </style>
 </head>
 <body>
+  <h1>📋 Umfrage zu GGV, Mieterstrom &amp; Energy Sharing</h1>
+  <p style="color: #666; font-size: 10pt;">Version: 3.0.0 | Stand: 2026-02-09 | Generiert: 2026-02-09</p>
+  <p style="color: #666; font-size: 10pt;">Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.</p>
+
+  <p style="font-size: 10pt; background: #e0f2fe; padding: 8pt; border-left: 4pt solid #0284c7; margin: 12pt 0;">
+    <strong>Multi-Evaluation Architektur:</strong> Die Umfrage unterstützt mehrere VNB-Bewertungen pro Sitzung.<br>
+    <strong>Globale Abschnitte</strong> (einmal pro Sitzung): A. Über Sie, E. Energy Sharing, Abschluss<br>
+    <strong>Pro-Evaluation Abschnitte</strong> (je Tab/VNB): Projektdetails, B–D (GGV), M/MP/MB (Mieterstrom)
+  </p>
+
+  <hr style="border: 1pt solid #22c55e; margin: 12pt 0;">
+  
+  <h2 style="font-size: 14pt; color: #1a365d;">Inhaltsverzeichnis</h2>
+  <ol style="font-size: 10pt;">
+    <li>A. Über Sie (3 Fragen) – <em>Global</em></li>
+    <li>Projektdetails (13 Fragen) – <em>Pro Evaluation</em></li>
+    <li>B. Planungsstand (5 Fragen) – <em>Pro Evaluation</em></li>
+    <li>B6. Herausforderungen (1 Frage) – <em>Pro Evaluation</em></li>
+    <li>C. VNB Planung GGV (12 Fragen) – <em>Pro Evaluation</em></li>
+    <li>C8. MSB Details (10 Fragen) – <em>Pro Evaluation</em></li>
+    <li>D. GGV Betrieb (15 Fragen) – <em>Pro Evaluation</em></li>
+    <li>Dienstleister (7 Fragen) – <em>Pro Evaluation</em></li>
+    <li>M. Mieterstrom Planung (12 Fragen) – <em>Pro Evaluation</em></li>
+    <li>MP. VNB Angebot Mieterstrom (6 Fragen) – <em>Pro Evaluation</em></li>
+    <li>MB. Mieterstrom Betrieb (12 Fragen) – <em>Pro Evaluation</em></li>
+    <li>E. Energy Sharing (14 Fragen) – <em>Global</em></li>
+    <li>Abschluss (5 Fragen) – <em>Global</em></li>
+  </ol>
+  <p style="font-size: 10pt;"><strong>Statistik:</strong> 13 Abschnitte, 115 Fragen insgesamt</p>
+  
+  <hr style="border: 1pt solid #e5e7eb; margin: 12pt 0;">
+
+  <!-- ===== A. ÜBER SIE ===== -->
+  <div class="sec">
+    <h2>A. Über Sie</h2>
+    <p style="color: #666; font-style: italic;">Einordnung &amp; Motivation</p>
+    <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt – wird einmal pro Sitzung ausgefüllt</p>
+
+    <div class="q">
+      <p><span class="qnum">#1</span> <span class="qlabel">A1. In welche Akteursgruppe fallen Sie?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
+      <p class="qmeta">Mehrfachauswahl möglich</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">buergerenergie</td><td>Bürgerenergiegenossenschaft</td><td class="extra">+ Textfeld ("Name der Genossenschaft (optional)")</td></tr>
+        <tr><td class="val">weg</td><td>Wohnungseigentümergemeinschaft</td><td></td></tr>
+        <tr><td class="val">vermieter_privat</td><td>Vermieter/in - Privatperson</td><td></td></tr>
+        <tr><td class="val">vermieter_prof_klein</td><td>Vermieter/in - Professionell (&lt;100 Einheiten)</td><td></td></tr>
+        <tr><td class="val">vermieter_wohnungsunternehmen</td><td>Vermieter/in - Wohnungsunternehmen (&gt;100 Einheiten)</td><td></td></tr>
+        <tr><td class="val">kommune</td><td>Kommune / kommunales Unternehmen</td><td></td></tr>
+        <tr><td class="val">kmu</td><td>Kleine und Mittelständische Unternehmen (KMU)</td><td></td></tr>
+        <tr><td class="val">dienstleister</td><td>Dienstleister für GGV/Mieterstrom/Energy Sharing</td><td class="extra">+ Textfeld ("Welche Dienstleistung?")</td></tr>
+        <tr><td class="val">installateur</td><td>Installateur von PV-Anlagen</td><td></td></tr>
+        <tr><td class="val">msb</td><td>Wettbewerblicher Messstellenbetreiber</td><td></td></tr>
+        <tr><td class="val">stadtwerk</td><td>Stadtwerk/EVU</td><td></td></tr>
+        <tr><td class="val">andere</td><td>Andere</td><td class="extra">+ Textfeld ("Bitte beschreiben")</td></tr>
+      </table>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#2</span> <span class="qlabel">A2. Wie würden Sie Ihre Motivation einordnen?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">pv_nutzung</td><td>Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen</td><td></td></tr>
+        <tr><td class="val">energiewende</td><td>Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage</td><td></td></tr>
+        <tr><td class="val">geschaeft</td><td>Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein</td><td></td></tr>
+        <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
+      </table>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#3</span> <span class="qlabel">Falls wir Sie bei Rückfragen kontaktieren dürfen, lassen Sie gerne eine E-Mail da</span></p>
+      <p class="qmeta">Typ: E-Mail | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "ihre@email.de"</p>
+    </div>
+  </div>
+
+  <!-- ===== PROJEKTDETAILS ===== -->
+  <div class="sec">
+    <h2>Projektdetails</h2>
+    <p style="color: #666; font-style: italic;">VNB, Projektart und Dimensionen</p>
+    <p style="background: #f0fdf4; padding: 4pt 8pt; border-left: 3pt solid #22c55e; font-size: 9pt; color: #166534;">📋 Pro-Evaluation Abschnitt – wird für jeden VNB/Tab separat ausgefüllt</p>
+
+    <div class="q">
+      <p><span class="qnum">#4</span> <span class="qlabel">Welcher Verteilnetzbetreiber ist für Ihr Projekt zuständig?</span></p>
+      <p class="qmeta">Typ: VNB-Auswahl (Suchfeld) | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #666;">Suchen oder geben Sie den Namen Ihres VNB ein</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#5</span> <span class="qlabel">Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl | <span class="req">Pflichtfeld</span></p>
+      <p style="font-size: 9pt; color: #666;">Mehrfachauswahl möglich</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">ggv</td><td>GGV (Gemeinschaftliche Gebäudeversorgung)</td><td></td></tr>
+        <tr><td class="val">mieterstrom</td><td>Mieterstrom</td><td></td></tr>
+        <tr><td class="val">ggv_oder_mieterstrom</td><td>Entweder GGV oder Mieterstrom</td><td></td></tr>
+        <tr><td class="val">energysharing</td><td>Energy Sharing (in Zukunft möglich)</td><td></td></tr>
+      </table>
+      <p class="vis">⚡ Logik: Bei nur "Energy Sharing" entfallen GGV/Mieterstrom-Fragen. "ggv_oder_mieterstrom" zeigt sowohl GGV- als auch Mieterstrom-Abschnitte.</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#6</span> <span class="qlabel">Projektumfang</span></p>
+      <p class="qmeta">Typ: Einfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">single</td><td>Ein einzelnes Projekt</td><td></td></tr>
+        <tr><td class="val">multiple</td><td>Mehrere Projekte</td><td></td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV oder Mieterstrom ausgewählt. Bei beiden: gemeinsamer Projektumfang.</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#7</span> <span class="qlabel">Größe der PV-Anlage in kW</span></p>
+      <p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "z.B. 30" (bei multiple: "z.B. 150" / Label: "Gesamte Größe der PV-Anlagen in kW")</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#8</span> <span class="qlabel">Anzahl der Parteien, die Strom abnehmen</span></p>
+      <p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "z.B. 12" (bei multiple: "z.B. 60" / Label: "Gesamtanzahl der Parteien")</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#9</span> <span class="qlabel">Art des Gebäudes</span></p>
+      <p class="qmeta">Typ: Einfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">wohngebaeude</td><td>Wohngebäude</td><td></td></tr>
+        <tr><td class="val">gewerbe</td><td>Gewerbegebäude</td><td></td></tr>
+        <tr><td class="val">gemischt</td><td>Gemischt</td><td></td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#10</span> <span class="qlabel">Gesamtzahl der Projekte</span></p>
+      <p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "z.B. 5"</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV und ggvProjectType = 'multiple'</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#11</span> <span class="qlabel">Zusätzliche Informationen (GGV)</span></p>
+      <p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#12</span> <span class="qlabel">Größe der PV-Anlage(n) in kW</span></p>
+      <p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "z.B. 50"</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#13</span> <span class="qlabel">Anzahl der Mietparteien</span></p>
+      <p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "z.B. 24"</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#14</span> <span class="qlabel">Art des Gebäudes (Mieterstrom)</span></p>
+      <p class="qmeta">Typ: Einfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">wohngebaeude</td><td>Wohngebäude</td><td></td></tr>
+        <tr><td class="val">gewerbe</td><td>Gewerbegebäude</td><td></td></tr>
+        <tr><td class="val">gemischt</td><td>Gemischt</td><td></td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#15</span> <span class="qlabel">Zusätzliche Informationen (Mieterstrom)</span></p>
+      <p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p>
+      <p style="font-size: 9pt; color: #999; font-style: italic;">Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt</p>
+    </div>
+
+    <div class="q" style="background: #f0fdf4; border: 2pt solid #22c55e;">
+      <p><span class="qnum">#16</span> <span class="qlabel">Standort(e) des Projekts</span></p>
+      <p class="qmeta">Typ: Textfeld | <span style="color: #22c55e; font-weight: bold;">Optional – nur wenn Veröffentlichung der Adresse erwünscht ist</span></p>
+      <p style="font-size: 9pt; color: #666;">PLZ, Adresse und bei mehreren Projekten kW pro Standort.</p>
+      <p class="vis">⚡ Immer am Ende der Projektdetails<br>⚡ single → 1 Zeile (PLZ + Adresse) | multiple → dynamische Zeilen (+/−) mit PLZ + Adresse + kW</p>
+    </div>
+  </div>
+
+  <!-- ===== B. PLANUNGSSTAND ===== -->
+  <div class="sec">
+    <h2>B. Planungsstand</h2>
+    <p style="color: #666; font-style: italic;">Aktueller Status</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV oder Mieterstrom ausgewählt (nicht nur Energy Sharing)</p>
+
+    <div class="q">
+      <p><span class="qnum">#17</span> <span class="qlabel">B1. Wo stehen Sie aktuell mit dem Projekt?</span></p>
+      <p class="qmeta">Typ: Einfachauswahl | <span class="req">Pflichtfeld</span></p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">info_sammeln</td><td>Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen</td><td></td></tr>
+        <tr><td class="val">planung_stockt_ggv</td><td>Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom</td><td></td></tr>
+        <tr><td class="val">planung_stockt_pv</td><td>Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage</td><td></td></tr>
+        <tr><td class="val">planung_fast_fertig</td><td>Wir sind fast fertig mit der Planung</td><td></td></tr>
+        <tr><td class="val">pv_laeuft_ggv_planung</td><td>Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung</td><td></td></tr>
+        <tr><td class="val">pv_laeuft_ggv_laeuft</td><td>Die PV-Anlage läuft bereits mit GGV/Mieterstrom</td><td></td></tr>
+        <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
+      </table>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#18</span> <span class="qlabel">B2. Sind Sie bereits festgelegt auf GGV oder Mieterstrom?</span></p>
+      <p class="qmeta">Typ: Einfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">sicher_ggv</td><td>Wir sind sicher - es wird/ist GGV</td><td></td></tr>
+        <tr><td class="val">unsicher</td><td>Wir sind unsicher - es fehlen noch Informationen für eine Entscheidung</td><td></td></tr>
+        <tr><td class="val">sicher_mieterstrom</td><td>Wir sind sicher - es wird/ist Mieterstrom</td><td></td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn 'ggv_oder_mieterstrom' ausgewählt</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#19</span> <span class="qlabel">B3. Falls Sie derzeit eher zur GGV tendieren oder sich dafür entschlossen haben - warum?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">buerokratie_mieterstrom</td><td>Wegen der bürokratischen Herausforderungen bei Mieterstrom</td><td></td></tr>
+        <tr><td class="val">reststrom_pflicht</td><td>Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom</td><td></td></tr>
+        <tr><td class="val">ladesaeulen_waermepumpen</td><td>Weil die Einbindung von Ladesäulen/Wärmepumpen einfacher ist</td><td></td></tr>
+        <tr><td class="val">vnb_empfehlung</td><td>Weil unser VNB das empfiehlt</td><td></td></tr>
+        <tr><td class="val">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
+        <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_ggv'</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#20</span> <span class="qlabel">B4. Falls Sie derzeit eher zu Mieterstrom tendieren oder sich dafür entschlossen haben - warum?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">einfacher_umsetzung</td><td>Weil das in der Umsetzung einfacher zu sein scheint</td><td></td></tr>
+        <tr><td class="val">kein_dienstleister_ggv</td><td>Weil wir für die GGV nicht den richtigen Dienstleister finden</td><td></td></tr>
+        <tr><td class="val">vnb_empfehlung</td><td>Weil unser VNB das empfiehlt</td><td></td></tr>
+        <tr><td class="val">vnb_kann_ggv_nicht</td><td>Weil der VNB die GGV nicht umsetzen kann</td><td></td></tr>
+        <tr><td class="val">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
+        <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
+      </table>
+      <p class="vis">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_mieterstrom'</p>
+    </div>
+
+    <div class="q">
+      <p><span class="qnum">#21</span> <span class="qlabel">B5. Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl</p>
+      <p style="font-size: 9pt; color: #666;">Über die Installation der PV-Anlage hinaus - Mehrfachauswahl möglich</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">alleine</td><td>Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden</td><td></td></tr>
+        <tr><td class="val">dienstleister_ok</td><td>Dienstleister sind OK, solange das preislich attraktiv ist</td><td></td></tr>
+        <tr><td class="val">dienstleister_alles</td><td>Ideal wäre es, wenn sich ein Dienstleister um alles kümmert</td><td></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== B6. HERAUSFORDERUNGEN ===== -->
+  <div class="sec">
+    <h2>B6. Herausforderungen</h2>
+    <p style="color: #666; font-style: italic;">Erlebte Schwierigkeiten</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV oder Mieterstrom ausgewählt</p>
+
+    <div class="q">
+      <p><span class="qnum">#22</span> <span class="qlabel">Gab oder gibt es wesentliche Herausforderungen?</span></p>
+      <p class="qmeta">Typ: Mehrfachauswahl</p>
+      <table class="tbl">
+        <tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr>
+        <tr><td class="val">keine</td><td>Nein, alles läuft gut</td><td class="extra">exklusiv</td></tr>
+        <tr><td class="val">pv_installation</td><td>Technische Probleme mit der Installation der PV-Anlage</td><td class="extra">+ Textfeld ("Was war das Problem?")</td></tr>
+        <tr><td class="val">vnb_blockiert</td><td>Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu</td><td class="extra">+ Textfeld ("Gründe des VNB")</td></tr>
+        <tr><td class="val">kosten_zu_hoch</td><td>Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch</td><td class="extra">+ Textfeld ("Details zu den Kosten")</td></tr>
+        <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld ("Andere Herausforderungen")</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== C. VNB PLANUNG GGV ===== -->
+  <div class="sec">
+    <h2>C. VNB Planung (GGV)</h2>
+    <p style="color: #666; font-style: italic;">Details zur GGV-Planung mit dem Verteilnetzbetreiber</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt oder ggvOrMieterstromDecision = 'sicher_ggv'</p>
+
+    <div class="q"><p><span class="qnum">#23</span> <span class="qlabel">C1. Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr><tr><td class="val">nein</td><td>Nein, es gibt sicher noch keine</td><td></td></tr><tr><td class="val">ja_mindestens_eins</td><td>Ja, es gibt mindestens eins</td><td></td></tr><tr><td class="val">ja_viele</td><td>Ja, es gibt schon eine ganze Reihe</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#24</span> <span class="qlabel">C2. Waren Sie schon im Kontakt mit Ihrem VNB?</span></p><p class="qmeta">Typ: Einfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">ja_direkt</td><td>Ja, wir hatten direkten Kontakt mit dem VNB</td><td></td></tr><tr><td class="val">ja_installateur</td><td>Ja, über den Installateur/Dienstleister</td><td></td></tr><tr><td class="val">nein</td><td>Nein, noch kein Kontakt</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#25</span> <span class="qlabel">C3. Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?</span></p><p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">moeglich_gmssb</td><td>Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen</td><td></td></tr><tr><td class="val">moeglich_wmsb</td><td>Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen</td><td></td></tr><tr><td class="val">keine_antwort</td><td>Unser VNB hat die Anfrage bisher nicht beantwortet</td><td></td></tr><tr><td class="val">nicht_moeglich</td><td>Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist</td><td class="extra">+ Textfeld ("Gründe des VNB")</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#26</span> <span class="qlabel">C4.1 Informationen zum Messkonzept (Weblink)</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p><p style="font-size: 9pt; color: #666;">ℹ️ Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?</p></div>
+
+    <div class="q"><p><span class="qnum">#27</span> <span class="qlabel">C4.2 Formulare für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel (Weblink)</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#28</span> <span class="qlabel">C4.3 Online-Portal für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel</span></p><p class="qmeta">Typ: Einfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja</td><td>Ja, vorhanden</td></tr><tr><td class="val">nein</td><td>Nein, nicht vorhanden</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#29</span> <span class="qlabel">C4.4 Weiteres</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#30</span> <span class="qlabel">C5. Bietet Ihr VNB eine Kontaktmöglichkeit zur GGV und ist das hilfreich?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">ja_hilfreich</td><td>Ja, es gibt eine Kontaktmöglichkeit und da wurde uns geholfen</td><td></td></tr><tr><td class="val">ja_nicht_hilfreich</td><td>Ja, aber es gab wenig hilfreiche Information</td><td></td></tr><tr><td class="val">nein</td><td>Nein, es gibt keine Kontaktmöglichkeit</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#31</span> <span class="qlabel">C6. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">ja_bestanden</td><td>Ja, es bestanden schon persönliche Kontakte zum VNB</td><td></td></tr><tr><td class="val">ja_entstanden</td><td>Ja, persönliche Kontakte sind bei der Umsetzung der GGV entstanden</td><td></td></tr><tr><td class="val">nein</td><td>Nein, es bestehen keine persönlichen Kontakte</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#32</span> <span class="qlabel">C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?</span></p><p class="qmeta">Typ: Bewertungsskala</p><p style="font-size: 9pt; padding: 4pt 8pt; background: #f0f9ff; border-radius: 4pt;"><strong>Skala:</strong> 1–10 | 1: bremst aktiv | 10: unterstützt aktiv</p></div>
+
+    <div class="q"><p><span class="qnum">#33</span> <span class="qlabel">C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">ja</td><td>Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen</td><td></td></tr><tr><td class="val">nein_wmsb</td><td>Nein - ich brauche dafür einen wettbewerblichen Messstellenbetreiber</td><td></td></tr><tr><td class="val">nein_gar_nicht</td><td>Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht</td><td></td></tr></table><p class="skip">➡️ Sprunglogik: Je nach Auswahl werden unterschiedliche Folgefragen angezeigt</p></div>
+  </div>
+
+  <!-- ===== C8. MSB DETAILS ===== -->
+  <div class="sec">
+    <h2>C8. MSB Details</h2>
+    <p style="color: #666; font-style: italic;">Details zum Messstellenbetreiber-Angebot</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer beantwortet</p>
+
+    <div class="q"><p><span class="qnum">#34</span> <span class="qlabel">C8.1a Ab wann kann das starten?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">sofort</td><td>Sofort - wir sind in der Planung und das sieht gut aus</td><td></td></tr><tr><td class="val">zeitnah</td><td>Zeitnah - wir warten auf den Start jederzeit</td><td></td></tr><tr><td class="val">12_monate</td><td>In den nächsten 12 Monaten</td><td></td></tr><tr><td class="val">spaeter</td><td>Später als in 12 Monaten</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#35</span> <span class="qlabel">C8.1b Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">nein</td><td>Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</td></tr><tr><td class="val">ja</td><td>Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#36</span> <span class="qlabel">Einmalbetrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Nur wenn vnbAdditionalCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
+
+    <div class="q"><p><span class="qnum">#37</span> <span class="qlabel">Jährlicher Betrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Nur wenn vnbAdditionalCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
+
+    <div class="q"><p><span class="qnum">#38</span> <span class="qlabel">C8.1c Einschränkende Bedingung Full-Service-Angebot</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th></tr><tr><td class="val">nur_full_service</td><td>Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an</td></tr><tr><td class="val">auch_ohne</td><td>Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#39</span> <span class="qlabel">C8.1d Wie beabsichtigt Ihr VNB, Ihnen die für die Abrechnung benötigten Daten bereitzustellen?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th></tr><tr><td class="val">mail_excel</td><td>Per Mail als Excel</td></tr><tr><td class="val">portal_verrechnete_werte</td><td>Online-Portal mit verrechneten Werten</td></tr><tr><td class="val">portal_alle_messwerte</td><td>Online-Portal mit allen Messwerten</td></tr><tr><td class="val">dienstleister_marktkommunikation</td><td>Eigener Dienstleister über Marktkommunikation</td></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#40</span> <span class="qlabel">C8.1e Falls Ihr VNB/gMSB die Daten direkt übermittelt, was wird es kosten?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">kostenlos</td><td>Kostenlos</td></tr><tr><td class="val">weniger_3_eur</td><td>Weniger als 3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">mehr_3_eur</td><td>Mehr als 3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">keine_auskunft</td><td>Dazu gibt es noch keine Auskunft</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#41</span> <span class="qlabel">C8.1f Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der VNB/gMSB dafür Geld?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">kostenlos</td><td>Das macht er umsonst</td></tr><tr><td class="val">weniger_3_eur</td><td>Weniger (oder gleich) 3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">mehr_3_eur</td><td>Mehr als 3 EUR/Messstelle/Jahr</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#42</span> <span class="qlabel">C8.2a Hat der VNB in Aussicht gestellt, ab wann der gMSB die Verrechnung durchführen kann?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja_12_monate</td><td>Ja, innerhalb der nächsten 12 Monate</td></tr><tr><td class="val">ja_spaeter</td><td>Ja, in über 12 Monaten</td></tr><tr><td class="val">nicht_gefragt</td><td>Nein, das haben wir nicht gefragt</td></tr><tr><td class="val">keine_aussage</td><td>Nein, dazu gab es keine Aussage</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'nein_wmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#43</span> <span class="qlabel">C8.2b Gibt es schon eine Aussage, ab wann eine Umsetzung möglich sein wird?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja_12_monate</td><td>Ja, innerhalb der nächsten 12 Monate</td></tr><tr><td class="val">ja_spaeter</td><td>Ja, in über 12 Monaten</td></tr><tr><td class="val">nicht_gefragt</td><td>Nein, das haben wir nicht gefragt</td></tr><tr><td class="val">keine_aussage</td><td>Nein, dazu gab es keine Aussage</td></tr></table><p class="vis">⚡ Nur wenn vnbMsbOffer = 'nein_gar_nicht'</p></div>
+  </div>
+
+  <!-- ===== C9-C10 (im selben Abschnitt C8/VNB-MSB) ===== -->
+  <div class="sec">
+    <h2 style="font-size: 14pt;">C9-C10 Wandlermessung &amp; Planungsdauer</h2>
+
+    <div class="q"><p><span class="qnum">#44</span> <span class="qlabel">C9. Verlangt Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?</span></p><p class="qmeta">Typ: Einfachauswahl</p><p style="font-size: 9pt; color: #666;">Erfordert die Installation einer 'Wandlermessung' für &gt; 5.000 EUR</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja</td><td>Ja</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">wissen_nicht</td><td>Das wissen wir nicht</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#45</span> <span class="qlabel">Ergänzende Informationen zur Wandlermessung</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn vnbWandlermessung beantwortet</p></div>
+
+    <div class="q"><p><span class="qnum">#46</span> <span class="qlabel">C10. Wie lange sind Sie bereits in Diskussionen zur Umsetzung der GGV mit Ihrem VNB?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">unter_2_monate</td><td>Unter 2 Monaten</td></tr><tr><td class="val">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr><tr><td class="val">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#47</span> <span class="qlabel">Woran scheitert die Umsetzung bislang?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+  </div>
+
+  <!-- ===== D. GGV BETRIEB ===== -->
+  <div class="sec">
+    <h2>D. GGV Betrieb</h2>
+    <p style="color: #666; font-style: italic;">Erfahrungen im laufenden Betrieb</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enthält</p>
+
+    <div class="q"><p><span class="qnum">#48</span> <span class="qlabel">D0. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">unter_2_monate</td><td>Unter 2 Monaten</td></tr><tr><td class="val">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr><tr><td class="val">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
 
-<h1>📋 Umfrage zu GGV, Mieterstrom &amp; Energy Sharing</h1>
-<p style="color:#666;font-size:10pt;">Version: 2.1.0 | Stand: 2026-01-26 | Generiert: 2026-02-09</p>
-<p style="color:#666;font-size:10pt;">Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.</p>
-
-<p style="font-size:10pt;"><strong>Legende:</strong></p>
-<ul style="font-size:9pt;">
-<li><span class="req">Pflichtfeld</span> = Muss beantwortet werden</li>
-<li><span class="opt">Optional</span> = Freiwillig</li>
-<li>⚡ Sichtbarkeit = Frage wird nur unter bestimmten Bedingungen angezeigt</li>
-<li>➡️ Sprunglogik = Steuert welche Folgefragen erscheinen</li>
-<li>🔒 Bedingt Pflicht = Pflichtfeld unter bestimmten Bedingungen</li>
-<li>hasTextField = Bei Auswahl dieser Option erscheint ein zusätzliches Textfeld</li>
-<li>EXKLUSIV = Deselektiert alle anderen Optionen bei Auswahl</li>
-</ul>
-
-<h2 style="font-size:14pt;">Inhaltsverzeichnis</h2>
-<ol style="font-size:10pt;">
-<li>A. Über Sie (4 Fragen)</li>
-<li>Projektdetails (13 Fragen)</li>
-<li>B. Planungsstand (5 Fragen)</li>
-<li>B6. Herausforderungen (1 Frage)</li>
-<li>C. VNB Planung GGV (11 Fragen)</li>
-<li>C8. MSB Details (14 Fragen)</li>
-<li>D. GGV Betrieb (18 Fragen)</li>
-<li>Dienstleister (6 Fragen)</li>
-<li>M. Mieterstrom Planung (12 Fragen)</li>
-<li>MP. VNB Angebot Mieterstrom (6 Fragen)</li>
-<li>MB. Mieterstrom Betrieb (11 Fragen)</li>
-<li>E. Energy Sharing (13 Fragen)</li>
-<li>Abschluss (5 Fragen)</li>
-</ol>
-<p style="font-size:10pt;"><strong>Gesamt: 13 Abschnitte, 119 Fragen</strong></p>
-<hr style="border:1pt solid #22c55e;margin:12pt 0;">
-
-<!-- ============================== SECTION A ============================== -->
-<h2>A. Über Sie</h2>
-<p class="desc">Einordnung &amp; Motivation</p>
-
-<div class="q">
-<p><span class="qn">#1</span> <span class="ql">A1. In welche Akteursgruppe fallen Sie?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
-<p class="qm">Mehrfachauswahl möglich</p>
-<table>
-<tr><th style="width:25%;">Wert</th><th>Label</th><th style="width:22%;">Extras</th></tr>
-<tr><td class="mono">buergerenergie</td><td>Bürgerenergiegenossenschaft</td><td class="ex">+ Textfeld ("Name der Genossenschaft (optional)")</td></tr>
-<tr><td class="mono">weg</td><td>Wohnungseigentümergemeinschaft</td><td></td></tr>
-<tr><td class="mono">vermieter_privat</td><td>Vermieter/in - Privatperson</td><td></td></tr>
-<tr><td class="mono">vermieter_prof_klein</td><td>Vermieter/in - Professionell (&lt;100 Einheiten)</td><td></td></tr>
-<tr><td class="mono">vermieter_wohnungsunternehmen</td><td>Vermieter/in - Wohnungsunternehmen (&gt;100 Einheiten)</td><td></td></tr>
-<tr><td class="mono">kommune</td><td>Kommune / kommunales Unternehmen</td><td></td></tr>
-<tr><td class="mono">kmu</td><td>Kleine und Mittelständische Unternehmen (KMU)</td><td></td></tr>
-<tr><td class="mono">dienstleister</td><td>Dienstleister für GGV/Mieterstrom/Energy Sharing</td><td class="ex">+ Textfeld ("Welche Dienstleistung?")</td></tr>
-<tr><td class="mono">installateur</td><td>Installateur von PV-Anlagen</td><td></td></tr>
-<tr><td class="mono">msb</td><td>Wettbewerblicher Messstellenbetreiber</td><td></td></tr>
-<tr><td class="mono">stadtwerk</td><td>Stadtwerk/EVU</td><td></td></tr>
-<tr><td class="mono">andere</td><td>Andere</td><td class="ex">+ Textfeld ("Bitte beschreiben")</td></tr>
-</table>
-</div>
-
-<div class="q">
-<p><span class="qn">#2</span> <span class="ql">A2. Wie würden Sie Ihre Motivation einordnen?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
-<p class="qm">Mehrfachauswahl möglich</p>
-<table>
-<tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">pv_nutzung</td><td>Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen</td><td></td></tr>
-<tr><td class="mono">energiewende</td><td>Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage</td><td></td></tr>
-<tr><td class="mono">geschaeft</td><td>Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr>
-</table>
-</div>
-
-<div class="q">
-<p><span class="qn">#3</span> <span class="ql">A3. Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="req">Pflichtfeld</span></p>
-<p class="qm">Mehrfachauswahl möglich</p>
-<table>
-<tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ggv</td><td>GGV (Gemeinschaftliche Gebäudeversorgung)</td></tr>
-<tr><td class="mono">mieterstrom</td><td>Mieterstrom</td></tr>
-<tr><td class="mono">ggv_oder_mieterstrom</td><td>Entweder GGV oder Mieterstrom</td></tr>
-<tr><td class="mono">energysharing</td><td>Energy Sharing (in Zukunft möglich)</td></tr>
-</table>
-</div>
-
-<div class="q">
-<p><span class="qn">#4</span> <span class="ql">Falls wir Sie bei Rückfragen kontaktieren dürfen, lassen Sie gerne eine E-Mail da</span></p>
-<p class="qm">Typ: E-Mail | <span class="opt">Optional</span></p>
-<p class="qm" style="font-style:italic;">Platzhalter: "ihre@email.de"</p>
-</div>
-
-<!-- ============================== PROJEKTDETAILS ============================== -->
-<h2>Projektdetails</h2>
-<p class="desc">VNB und Projektdimensionen</p>
-
-<div class="q">
-<p><span class="qn">#5</span> <span class="ql">Wählen Sie den Schwerpunkt, zu dem Sie Details teilen möchten</span></p>
-<p class="qm">Typ: Projektfokus-Auswahl</p>
-<p class="qm">GGV, Mieterstrom oder Energy Sharing</p>
-<table>
-<tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ggv</td><td>GGV - Gemeinschaftliche Gebäudeversorgung</td></tr>
-<tr><td class="mono">mieterstrom</td><td>Mieterstrom - Mieterstrom-Modelle</td></tr>
-<tr><td class="mono">energysharing</td><td>Energy Sharing - Gemeinschaftliche Nutzung</td></tr>
-</table>
-<p class="vis">⚡ Sichtbarkeit: Sichtbar wenn projectTypes eines von [ggv, mieterstrom, ggv_oder_mieterstrom] enthält</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#6</span> <span class="ql">Welcher Verteilnetzbetreiber ist für Ihr Projekt zuständig?</span></p>
-<p class="qm">Typ: VNB-Auswahl (Suchfeld) | <span class="opt">Optional</span></p>
-<p class="qm">Suchen oder geben Sie den Namen Ihres VNB ein</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#7</span> <span class="ql">Projektumfang (GGV)</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">single</td><td>Ein einzelnes Projekt</td></tr>
-<tr><td class="mono">multiple</td><td>Mehrere Projekte</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#8</span> <span class="ql">Größe der PV-Anlage in kW</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 30"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#9</span> <span class="ql">Anzahl der Parteien, die Strom abnehmen</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 12"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#10</span> <span class="ql">Art des Gebäudes</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wohngebaeude</td><td>Wohngebäude</td></tr>
-<tr><td class="mono">gewerbe</td><td>Gewerbegebäude</td></tr>
-<tr><td class="mono">gemischt</td><td>Gemischt</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#11</span> <span class="ql">Gesamtzahl der Projekte</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 5"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv' und ggvProjectType = 'multiple'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#12</span> <span class="ql">Zusätzliche Informationen (GGV)</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#13</span> <span class="ql">Projektumfang (Mieterstrom)</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">single</td><td>Ein einzelnes Projekt</td></tr>
-<tr><td class="mono">multiple</td><td>Mehrere Projekte</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#14</span> <span class="ql">Größe der PV-Anlage(n) in kW</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 50"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#15</span> <span class="ql">Anzahl der Mietparteien</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 24"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#16</span> <span class="ql">Art des Gebäudes (Mieterstrom)</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wohngebaeude</td><td>Wohngebäude</td></tr>
-<tr><td class="mono">gewerbe</td><td>Gewerbegebäude</td></tr>
-<tr><td class="mono">gemischt</td><td>Gemischt</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#17</span> <span class="ql">Zusätzliche Informationen (Mieterstrom)</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Weitere Details zu Ihrem Projekt..."</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn projectFocus = 'mieterstrom'</p>
-</div>
-
-<!-- ============================== SECTION B ============================== -->
-<h2>B. Planungsstand</h2>
-<p class="desc">Aktueller Status</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn GGV oder Mieterstrom ausgewählt (nicht nur Energy Sharing)</p>
-
-<div class="q">
-<p><span class="qn">#18</span> <span class="ql">B1. Wo stehen Sie aktuell mit dem Projekt?</span></p>
-<p class="qm">Typ: Einfachauswahl | <span class="req">Pflichtfeld</span></p>
-<table>
-<tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">info_sammeln</td><td>Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen</td><td></td></tr>
-<tr><td class="mono">planung_stockt_ggv</td><td>Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom</td><td></td></tr>
-<tr><td class="mono">planung_stockt_pv</td><td>Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage</td><td></td></tr>
-<tr><td class="mono">planung_fast_fertig</td><td>Wir sind fast fertig mit der Planung</td><td></td></tr>
-<tr><td class="mono">pv_laeuft_ggv_planung</td><td>Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung</td><td></td></tr>
-<tr><td class="mono">pv_laeuft_ggv_laeuft</td><td>Die PV-Anlage läuft bereits mit GGV/Mieterstrom</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr>
-</table>
-</div>
-
-<div class="q">
-<p><span class="qn">#19</span> <span class="ql">B2. Sind Sie bereits festgelegt auf GGV oder Mieterstrom?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">sicher_ggv</td><td>Wir sind sicher - es wird/ist GGV</td></tr>
-<tr><td class="mono">unsicher</td><td>Wir sind unsicher - es fehlen noch Informationen für eine Entscheidung</td></tr>
-<tr><td class="mono">sicher_mieterstrom</td><td>Wir sind sicher - es wird/ist Mieterstrom</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn 'ggv_oder_mieterstrom' ausgewählt</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#20</span> <span class="ql">B3. Falls Sie derzeit eher zur GGV tendieren oder sich dafür entschlossen haben - warum?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">buerokratie_mieterstrom</td><td>Wegen der bürokratischen Herausforderungen bei Mieterstrom</td><td></td></tr>
-<tr><td class="mono">reststrom_pflicht</td><td>Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom</td><td></td></tr>
-<tr><td class="mono">ladesaeulen_waermepumpen</td><td>Weil die Einbindung von Ladesäulen/Wärmepumpen einfacher ist</td><td></td></tr>
-<tr><td class="mono">vnb_empfehlung</td><td>Weil unser VNB das empfiehlt</td><td></td></tr>
-<tr><td class="mono">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_ggv'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#21</span> <span class="ql">B4. Falls Sie derzeit eher zu Mieterstrom tendieren oder sich dafür entschlossen haben - warum?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">einfacher_umsetzung</td><td>Weil das in der Umsetzung einfacher zu sein scheint</td><td></td></tr>
-<tr><td class="mono">kein_dienstleister_ggv</td><td>Weil wir für die GGV nicht den richtigen Dienstleister finden</td><td></td></tr>
-<tr><td class="mono">vnb_empfehlung</td><td>Weil unser VNB das empfiehlt</td><td></td></tr>
-<tr><td class="mono">vnb_kann_ggv_nicht</td><td>Weil der VNB die GGV nicht umsetzen kann</td><td></td></tr>
-<tr><td class="mono">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn ggvOrMieterstromDecision = 'sicher_mieterstrom'</p>
-</div>
-
-<div class="q">
-<p><span class="qn">#22</span> <span class="ql">B5. Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | Über die Installation der PV-Anlage hinaus - Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">alleine</td><td>Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden</td></tr>
-<tr><td class="mono">dienstleister_ok</td><td>Dienstleister sind OK, solange das preislich attraktiv ist</td></tr>
-<tr><td class="mono">dienstleister_alles</td><td>Ideal wäre es, wenn sich ein Dienstleister um alles kümmert</td></tr></table>
-</div>
-
-<!-- ============================== B6 HERAUSFORDERUNGEN ============================== -->
-<h2>B6. Herausforderungen</h2>
-<p class="desc">Erlebte Schwierigkeiten</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn GGV oder Mieterstrom ausgewählt</p>
-
-<div class="q">
-<p><span class="qn">#23</span> <span class="ql">Gab oder gibt es wesentliche Herausforderungen?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">keine</td><td>Nein, alles läuft gut</td><td class="ex">EXKLUSIV</td></tr>
-<tr><td class="mono">pv_installation</td><td>Technische Probleme mit der Installation der PV-Anlage</td><td class="ex">+ Textfeld ("Was war das Problem?")</td></tr>
-<tr><td class="mono">vnb_blockiert</td><td>Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu</td><td class="ex">+ Textfeld ("Gründe des VNB")</td></tr>
-<tr><td class="mono">kosten_zu_hoch</td><td>Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch</td><td class="ex">+ Textfeld ("Details zu den Kosten")</td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld ("Andere Herausforderungen")</td></tr></table>
-</div>
-
-<!-- ============================== SECTION C ============================== -->
-<h2>C. VNB Planung (GGV)</h2>
-<p class="desc">Details zur GGV-Planung mit dem Verteilnetzbetreiber</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn GGV ausgewählt oder ggvOrMieterstromDecision = 'sicher_ggv'</p>
-
-<div class="q"><p><span class="qn">#24</span> <span class="ql">C1. Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, es gibt sicher noch keine</td><td></td></tr>
-<tr><td class="mono">ja_mindestens_eins</td><td>Ja, es gibt mindestens eins</td><td></td></tr>
-<tr><td class="mono">ja_viele</td><td>Ja, es gibt schon eine ganze Reihe</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#25</span> <span class="ql">C2. Waren Sie schon im Kontakt mit Ihrem VNB?</span></p>
-<p class="qm">Typ: Einfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_direkt</td><td>Ja, wir hatten direkten Kontakt mit dem VNB</td><td></td></tr>
-<tr><td class="mono">ja_installateur</td><td>Ja, über den Installateur/Dienstleister</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, noch kein Kontakt</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#26</span> <span class="ql">C3. Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span> | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">moeglich_gmssb</td><td>Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen</td><td></td></tr>
-<tr><td class="mono">moeglich_wmsb</td><td>Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen</td><td></td></tr>
-<tr><td class="mono">keine_antwort</td><td>Unser VNB hat die Anfrage bisher nicht beantwortet</td><td></td></tr>
-<tr><td class="mono">nicht_moeglich</td><td>Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist</td><td class="ex">+ Textfeld ("Gründe des VNB")</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#27</span> <span class="ql">C4.1 Informationen zum Messkonzept (Weblink)</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Platzhalter: "https://..."</p>
-<p class="qm">ℹ️ Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?</p></div>
-
-<div class="q"><p><span class="qn">#28</span> <span class="ql">C4.2 Formulare für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel (Weblink)</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Platzhalter: "https://..."</p></div>
-
-<div class="q"><p><span class="qn">#29</span> <span class="ql">C4.3 Online-Portal für die Übermittlung der Teilnehmenden &amp; Aufteilungsschlüssel</span></p>
-<p class="qm">Typ: Einfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja</td><td>Ja, vorhanden</td></tr>
-<tr><td class="mono">nein</td><td>Nein, nicht vorhanden</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#30</span> <span class="ql">C4.4 Weiteres</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Platzhalter: "Weitere Unterstützungsangebote..."</p></div>
-
-<div class="q"><p><span class="qn">#31</span> <span class="ql">C5. Bietet Ihr VNB eine Kontaktmöglichkeit zur GGV und ist das hilfreich?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_hilfreich</td><td>Ja, es gibt eine Kontaktmöglichkeit (Mailadresse/Telefonnummer) und da wurde uns geholfen</td><td></td></tr>
-<tr><td class="mono">ja_nicht_hilfreich</td><td>Ja, aber es gab wenig hilfreiche Information</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, es gibt keine Kontaktmöglichkeit</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#32</span> <span class="ql">C6. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_bestanden</td><td>Ja, es bestanden schon persönliche Kontakte zum VNB</td><td></td></tr>
-<tr><td class="mono">ja_entstanden</td><td>Ja, persönliche Kontakte sind bei der Umsetzung der GGV entstanden</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, es bestehen keine persönlichen Kontakte</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#33</span> <span class="ql">C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?</span></p>
-<p class="qm">Typ: Bewertungsskala</p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: bremst aktiv<br>10: unterstützt aktiv</div></div>
-
-<div class="q"><p><span class="qn">#34</span> <span class="ql">C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja</td><td>Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen</td></tr>
-<tr><td class="mono">nein_wmsb</td><td>Nein - ich brauche dafür einen wettbewerblichen Messstellenbetreiber</td></tr>
-<tr><td class="mono">nein_gar_nicht</td><td>Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht</td></tr></table>
-<p class="skip">➡️ Sprunglogik: Je nach Auswahl werden unterschiedliche Folgefragen angezeigt</p></div>
-
-<!-- ============================== C8 MSB DETAILS ============================== -->
-<h2>C8. MSB Details</h2>
-<p class="desc">Details zum Messstellenbetreiber-Angebot</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer beantwortet</p>
-
-<div class="q"><p><span class="qn">#35</span> <span class="ql">C8.1a Ab wann kann das starten? (wenn VNB MSB anbietet)</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">sofort</td><td>Sofort - wir sind in der Planung und das sieht gut aus</td><td></td></tr>
-<tr><td class="mono">zeitnah</td><td>Zeitnah - wir warten auf den Start jederzeit</td><td></td></tr>
-<tr><td class="mono">12_monate</td><td>In den nächsten 12 Monaten</td><td></td></tr>
-<tr><td class="mono">spaeter</td><td>Später als in 12 Monaten</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#36</span> <span class="ql">C8.1b Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td></tr>
-<tr><td class="mono">nein</td><td>Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</td></tr>
-<tr><td class="mono">ja</td><td>Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#37</span> <span class="ql">Einmalbetrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 500"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbAdditionalCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#38</span> <span class="ql">Jährlicher Betrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 100"</p>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbAdditionalCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#39</span> <span class="ql">C8.1c Einschränkende Bedingung Full-Service-Angebot</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">nur_full_service</td><td>Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk</td></tr>
-<tr><td class="mono">auch_ohne</td><td>Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#40</span> <span class="ql">C8.1d Wie beabsichtigt Ihr VNB, Ihnen die für die Abrechnung benötigten Daten bereitzustellen?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">mail_excel</td><td>Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung</td><td></td></tr>
-<tr><td class="mono">portal_verrechnete_werte</td><td>Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können</td><td></td></tr>
-<tr><td class="mono">portal_alle_messwerte</td><td>Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können, um diese selber zu verrechnen</td><td></td></tr>
-<tr><td class="mono">dienstleister_marktkommunikation</td><td>Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft</td><td></td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#41</span> <span class="ql">C8.1e Falls Ihr VNB/gMSB die Daten direkt an Sie übermittelt, was wird es kosten?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">kostenlos</td><td>Kostenlos</td><td></td></tr>
-<tr><td class="mono">weniger_3_eur</td><td>Weniger als 3 EUR/Messstelle/Jahr</td><td></td></tr>
-<tr><td class="mono">mehr_3_eur</td><td>Mehr als 3 EUR/Messstelle/Jahr</td><td></td></tr>
-<tr><td class="mono">keine_auskunft</td><td>Dazu gibt es noch keine Auskunft</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#42</span> <span class="ql">C8.1f Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der VNB/gMSB dafür Geld?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td></tr>
-<tr><td class="mono">kostenlos</td><td>Das macht er umsonst</td></tr>
-<tr><td class="mono">weniger_3_eur</td><td>Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr</td></tr>
-<tr><td class="mono">mehr_3_eur</td><td>Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#43</span> <span class="ql">C8.2a Hat der VNB in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja_12_monate</td><td>Ja, innerhalb der nächsten 12 Monate</td></tr>
-<tr><td class="mono">ja_spaeter</td><td>Ja, in über 12 Monaten</td></tr>
-<tr><td class="mono">nicht_gefragt</td><td>Nein, das haben wir nicht gefragt</td></tr>
-<tr><td class="mono">keine_aussage</td><td>Nein, dazu gab es keine Aussage</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'nein_wmsb'</p></div>
-
-<div class="q"><p><span class="qn">#44</span> <span class="ql">C8.2b Gibt es schon eine Aussage, ab wann eine Umsetzung möglich sein wird?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja_12_monate</td><td>Ja, innerhalb der nächsten 12 Monate</td></tr>
-<tr><td class="mono">ja_spaeter</td><td>Ja, in über 12 Monaten</td></tr>
-<tr><td class="mono">nicht_gefragt</td><td>Nein, das haben wir nicht gefragt</td></tr>
-<tr><td class="mono">keine_aussage</td><td>Nein, dazu gab es keine Aussage</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Nur wenn vnbMsbOffer = 'nein_gar_nicht'</p></div>
-
-<div class="q"><p><span class="qn">#45</span> <span class="ql">C9. Verlangt Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?</span></p>
-<p class="qm">Typ: Einfachauswahl | Erfordert die Installation einer 'Wandlermessung' für &gt; 5.000 EUR</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja</td><td>Ja</td></tr><tr><td class="mono">nein</td><td>Nein</td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Das wissen wir nicht</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#46</span> <span class="ql">Ergänzende Informationen zur Wandlermessung</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Weitere Details..."</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn vnbWandlermessung beantwortet</p></div>
-
-<div class="q"><p><span class="qn">#47</span> <span class="ql">C10. Wie lange sind Sie bereits in Diskussionen zur Umsetzung der GGV mit Ihrem VNB?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">unter_2_monate</td><td>Unter 2 Monaten</td></tr>
-<tr><td class="mono">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr>
-<tr><td class="mono">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#48</span> <span class="ql">Woran scheitert die Umsetzung bislang?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Beschreiben Sie die Gründe..."</p></div>
-
-<!-- ============================== SECTION D ============================== -->
-<h2>D. GGV Betrieb</h2>
-<p class="desc">Erfahrungen im laufenden Betrieb</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enthält</p>
-
-<div class="q"><p><span class="qn">#49</span> <span class="ql">D0. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">unter_2_monate</td><td>Unter 2 Monaten</td></tr>
-<tr><td class="mono">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr>
-<tr><td class="mono">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#50</span> <span class="ql">Falls es lange dauerte: Was war das große Problem?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Beschreiben Sie die Gründe..."</p></div>
-
-<div class="q"><p><span class="qn">#51</span> <span class="ql">D1. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung &gt; 5.000 EUR)?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja</td><td>Ja</td></tr><tr><td class="mono">nein</td><td>Nein</td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Das wissen wir nicht</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#52</span> <span class="ql">Ergänzende Informationen zur Wandlermessung</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Weitere Details..."</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationWandlermessung beantwortet</p></div>
-
-<div class="q"><p><span class="qn">#53</span> <span class="ql">D2.1 Messstellenbetrieb: Wer baut die Smart Meter ein und betreibt sie?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">gmsb</td><td>Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)</td></tr>
-<tr><td class="mono">wmsb</td><td>Ein wMSB</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#54</span> <span class="ql">D2.2 Aufteilung der PV-Stromerzeugung auf die Teilnehmenden (Verrechnung)</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">gmsb</td><td>Unser lokaler gMSB</td><td></td></tr>
-<tr><td class="mono">wmsb</td><td>Ein wMSB</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#55</span> <span class="ql">D2.3 Übermittlung der errechneten Strommengen je Teilnehmer</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">gmsb</td><td>Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)</td></tr>
-<tr><td class="mono">wmsb</td><td>Ein wMSB</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#56</span> <span class="ql">D3.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Weiß ich nicht</td></tr>
-<tr><td class="mono">schnell</td><td>Das ging problemlos und schnell</td></tr>
-<tr><td class="mono">4_monate</td><td>Ca. 4 Monate (gesetzlich vorgegebene Frist)</td></tr>
-<tr><td class="mono">laenger</td><td>Deutlich länger als 4 Monate</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationMsbProvider = 'gmsb'</p></div>
-
-<div class="q"><p><span class="qn">#57</span> <span class="ql">D3.2 Stellt der VNB/gMSB zusätzliche Kosten für den 'Einbau auf Kundenwunsch' in Rechnung?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">nein</td><td>Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</td></tr>
-<tr><td class="mono">ja</td><td>Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationMsbProvider = 'gmsb'</p></div>
-
-<div class="q"><p><span class="qn">#58</span> <span class="ql">Einmalbetrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 500"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationMsbAdditionalCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#59</span> <span class="ql">Jährlicher Betrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 100"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationMsbAdditionalCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#60</span> <span class="ql">D4. Falls jemand anderes als der VNB/gMSB die Aufteilung der Strommengen vornimmt, wer ist das?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Weiß ich nicht</td><td></td></tr>
-<tr><td class="mono">dienstleister</td><td>Das macht ein Dienstleister, den ich bezahle</td><td></td></tr>
-<tr><td class="mono">selber</td><td>Das mache ich selber, auf Basis der kompletten Verbrauchsdaten aller Teilnehmenden</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationAllocationProvider nicht 'gmsb'</p></div>
-
-<div class="q"><p><span class="qn">#61</span> <span class="ql">D5.1 Wie erhalten Sie die Daten?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">mail_excel</td><td>Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung</td><td></td></tr>
-<tr><td class="mono">portal_verrechnete_werte</td><td>Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können</td><td></td></tr>
-<tr><td class="mono">portal_alle_messwerte</td><td>Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können</td><td></td></tr>
-<tr><td class="mono">dienstleister_marktkommunikation</td><td>Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft</td><td></td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#62</span> <span class="ql">D5.2 Wieviel kostet die Bereitstellung der verrechneten Werte?</span></p>
-<p class="qm">Typ: Einfachauswahl | Dabei sind die Kosten für die Smart Meter nicht zu berücksichtigen</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">kostenlos</td><td>Kostenlos</td><td></td></tr>
-<tr><td class="mono">weniger_3_eur</td><td>Dauerhaft weniger (oder gleich) 3 EUR/Messstelle pro Jahr</td><td></td></tr>
-<tr><td class="mono">mehr_3_eur</td><td>Dauerhaft mehr als 3 EUR/Messstelle pro Jahr</td><td></td></tr>
-<tr><td class="mono">aktuell_kostenlos</td><td>Aktuell kostenlos, das wird sich aber ändern</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#63</span> <span class="ql">Betrag in EUR/Messstelle/Jahr</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 5"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationDataCost = 'mehr_3_eur'</p></div>
-
-<div class="q"><p><span class="qn">#64</span> <span class="ql">D6. Falls Ihr Dienstleister die Werte vom VNB/gMSB für Sie abruft (ESA-Marktrolle), verlangt der VNB/gMSB dafür Geld?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td></tr>
-<tr><td class="mono">kostenlos</td><td>Nein, das macht er umsonst</td></tr>
-<tr><td class="mono">weniger_3_eur</td><td>Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr</td></tr>
-<tr><td class="mono">mehr_3_eur</td><td>Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#65</span> <span class="ql">Betrag in EUR/Messstelle/Jahr</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 5"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn operationEsaCost = 'mehr_3_eur'</p></div>
-
-<div class="q"><p><span class="qn">#66</span> <span class="ql">D7. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?</span></p>
-<p class="qm">Typ: Bewertungsskala</p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: Unser VNB will das eigentlich lieber verhindern<br>10: Unser VNB möchte das wirklich mit uns umsetzen</div></div>
-
-<!-- ============================== DIENSTLEISTER ============================== -->
-<h2>Dienstleister</h2>
-<p class="desc">Feedback zu Dienstleistern &amp; Reaktionen</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur bei GGV-Fokus</p>
-
-<div class="q"><p><span class="qn">#67</span> <span class="ql">D8. Mit welchem Dienstleister arbeiten Sie zusammen?</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Platzhalter: "Name des Dienstleisters"</p></div>
-
-<div class="q"><p><span class="qn">#68</span> <span class="ql">Zufriedenheit mit Dienstleister 1</span></p>
-<p class="qm">Typ: Bewertungsskala | <span class="opt">Optional</span></p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: Sehr unzufrieden<br>10: Sehr zufrieden</div>
-<p class="vis">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</p></div>
-
-<div class="q"><p><span class="qn">#69</span> <span class="ql">Kommentare zu Dienstleister 1</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Was lief gut? Was könnte besser sein?"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</p></div>
-
-<div class="q"><p><span class="qn">#70</span> <span class="ql">Dienstleister 2 (optional)</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Platzhalter: "Name des zweiten Dienstleisters"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn serviceProviderName ausgefüllt</p></div>
-
-<div class="q"><p><span class="qn">#71</span> <span class="ql">Zufriedenheit mit Dienstleister 2</span></p>
-<p class="qm">Typ: Bewertungsskala | <span class="opt">Optional</span></p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: Sehr unzufrieden<br>10: Sehr zufrieden</div>
-<p class="vis">⚡ Sichtbarkeit: Wenn serviceProvider2Name ausgefüllt</p></div>
-
-<div class="q"><p><span class="qn">#72</span> <span class="ql">D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">bnetza</td><td>Wir haben uns bereits an die BNetzA gewendet</td><td></td></tr>
-<tr><td class="mono">rechtliche_schritte</td><td>Wir überlegen rechtliche Schritte zu gehen</td><td></td></tr>
-<tr><td class="mono">keine_schritte</td><td>Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<!-- ============================== SECTION M ============================== -->
-<h2>M. Mieterstrom Planung</h2>
-<p class="desc">Details zu Mieterstrom-Projekten</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt oder ggvOrMieterstromDecision = 'sicher_mieterstrom'</p>
-
-<div class="q"><p><span class="qn">#73</span> <span class="ql">M1. Möchten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenzähler umsetzen?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">virtuell</td><td>Mit virtuellem Summenzähler</td><td></td></tr>
-<tr><td class="mono">physikalisch</td><td>Mit physikalischem Summenzähler</td><td></td></tr>
-<tr><td class="mono">kein_unterschied</td><td>Wir kennen den Unterschied nicht</td><td></td></tr>
-<tr><td class="mono">keine_praeferenz</td><td>Wir haben keine Präferenz</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#74</span> <span class="ql">M2. Gab oder gibt es wesentliche Herausforderungen?</span></p>
-<p class="qm">Typ: Mehrfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">keine</td><td>Nein, alles läuft gut</td><td class="ex">EXKLUSIV</td></tr>
-<tr><td class="mono">opposition</td><td>Manche Parteien im Haus sind gegen das Projekt</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">pv_installation</td><td>Technische Probleme mit der Installation der PV-Anlage</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">vnb_blocking</td><td>Der VNB lässt die Umsetzung von Mieterstrom nicht zu</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">kosten</td><td>Die Kosten für die Umsetzung des Mieterstrom sind zu hoch</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#75</span> <span class="ql">M3. Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr><tr><td class="mono">nein</td><td>Nein, es gibt sicher noch keine</td><td></td></tr>
-<tr><td class="mono">ja_mindestens_eins</td><td>Ja, es gibt mindestens eins</td><td></td></tr><tr><td class="mono">ja_viele</td><td>Ja, es gibt schon eine ganze Reihe</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#76</span> <span class="ql">M4. Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte mit virtuellem Summenzähler?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr><tr><td class="mono">nein</td><td>Nein, es gibt sicher noch keine</td><td></td></tr>
-<tr><td class="mono">ja_mindestens_eins</td><td>Ja, es gibt mindestens eins</td><td></td></tr><tr><td class="mono">ja_viele</td><td>Ja, es gibt schon eine ganze Reihe</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#77</span> <span class="ql">M5. Waren Sie schon im Kontakt mit Ihrem VNB?</span></p>
-<p class="qm">Typ: Einfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">direkt</td><td>Ja, wir hatten direkten Kontakt mit dem VNB</td><td></td></tr>
-<tr><td class="mono">installateur</td><td>Nein, nur über den Installateur/Dienstleister</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#78</span> <span class="ql">M6. Lässt Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">ja</td><td>Ja</td></tr><tr><td class="mono">nein</td><td>Nein</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromSummenzaehler = 'virtuell'</p></div>
-
-<div class="q"><p><span class="qn">#79</span> <span class="ql">M7. Wenn Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten &gt;5.000 EUR)?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">nein</td><td>Nein</td><td></td></tr>
-<tr><td class="mono">ja</td><td>Ja</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromVirtuellAllowed = 'ja'</p></div>
-
-<div class="q"><p><span class="qn">#80</span> <span class="ql">M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span> | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">moeglich_gmsb</td><td>Wir können Mieterstrom umsetzen, der VNB/gMSB kann dies als Messstellenbetreiber machen</td><td></td></tr>
-<tr><td class="mono">moeglich_wmsb</td><td>Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen</td><td></td></tr>
-<tr><td class="mono">keine_antwort</td><td>Unser VNB hat die Anfrage bisher nicht beantwortet</td><td></td></tr>
-<tr><td class="mono">nicht_moeglich</td><td>Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#81</span> <span class="ql">M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom bereit?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">messkonzept</td><td>Informationen zum Messkonzept und Prozessen</td><td class="ex">+ Textfeld ("Weblink")</td></tr>
-<tr><td class="mono">formulare</td><td>Formulare für die Übermittlung der Teilnehmenden / Änderungen</td><td></td></tr>
-<tr><td class="mono">portal</td><td>Online-Portal für die Übermittlung der Teilnehmenden / Änderungen</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Weiteres</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#82</span> <span class="ql">M10. Bietet Ihr VNB eine Kontaktmöglichkeit für Mieterstrom und ist das hilfreich?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_hilfreich</td><td>Ja, es gibt eine Kontaktmöglichkeit und da wurde uns geholfen</td><td></td></tr>
-<tr><td class="mono">ja_nicht_hilfreich</td><td>Ja, aber es gab wenig hilfreiche Information</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, es gibt keine Kontaktmöglichkeit</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#83</span> <span class="ql">M11. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_bestanden</td><td>Ja, es bestanden schon persönliche Kontakte zum VNB</td><td></td></tr>
-<tr><td class="mono">ja_entstanden</td><td>Ja, persönliche Kontakte sind bei der Umsetzung von Mieterstrom entstanden</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, es bestehen keine persönlichen Kontakte</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#84</span> <span class="ql">Wie sehr fühlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterstützt?</span></p>
-<p class="qm">Typ: Bewertungsskala</p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: Unser VNB will das eigentlich lieber verhindern<br>10: Unser VNB möchte das wirklich mit uns umsetzen</div></div>
-
-<!-- ============================== SECTION MP ============================== -->
-<h2>MP. VNB Angebot (Mieterstrom)</h2>
-<p class="desc">Details zum MSB-Angebot des VNB für Mieterstrom</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt und nicht in Betrieb</p>
-
-<div class="q"><p><span class="qn">#85</span> <span class="ql">MP1a. Full-Service-Angebot</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">nur_full_service</td><td>Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk</td></tr>
-<tr><td class="mono">auch_ohne</td><td>Unser Stadtwerk/VNB bietet dies auch ohne Stromlieferverträge an</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#86</span> <span class="ql">MP1b. Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr>
-<tr><td class="mono">nein</td><td>Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</td><td></td></tr>
-<tr><td class="mono">ja</td><td>Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#87</span> <span class="ql">Einmalbetrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 500"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromMsbCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#88</span> <span class="ql">Jährlicher Betrag (EUR)</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 100"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromMsbCosts = 'ja'</p>
-<p class="cond">🔒 Bedingt Pflicht: mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich</p></div>
-
-<div class="q"><p><span class="qn">#89</span> <span class="ql">MP1c. Auswahl an Umsetzungsmodellen</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">virtuell</td><td>Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für &gt;5.000 EUR) bleibt uns damit erspart</td></tr>
-<tr><td class="mono">physikalisch</td><td>Ein sogenanntes 'physikalisches Summenzählermodell' (erfordert einen 'physikalischen Summenzähler')</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#90</span> <span class="ql">MP1d. Bereitstellung der Daten</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">direkt_guenstig</td><td>Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - für weniger (oder gleich) 3 EUR/Messstelle/Jahr</td></tr>
-<tr><td class="mono">direkt_teuer</td><td>Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr</td></tr>
-<tr><td class="mono">marktkommunikation</td><td>Der VNB/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten</td></tr></table></div>
-
-<!-- ============================== SECTION MB ============================== -->
-<h2>MB. Mieterstrom Betrieb</h2>
-<p class="desc">Erfahrungen im laufenden Mieterstrom-Betrieb</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn Mieterstrom in Betrieb</p>
-
-<div class="q"><p><span class="qn">#91</span> <span class="ql">MB1. Welche Rolle übernimmt der VNB in Ihrem Mieterstrom-Projekt?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">keine</td><td>Gar keine - wir machen das mit einem wettbewerblichen Messstellenbetreiber</td></tr>
-<tr><td class="mono">msb_dienstleister</td><td>Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung</td></tr>
-<tr><td class="mono">msb_direkt</td><td>Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung</td></tr>
-<tr><td class="mono">full_service</td><td>Das Stadtwerk übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#92</span> <span class="ql">MB2. Wie lange hat die Abstimmung mit dem VNB zum Mieterstrom gedauert?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">unter_2_monate</td><td>Unter 2 Monaten</td></tr>
-<tr><td class="mono">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr>
-<tr><td class="mono">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#93</span> <span class="ql">MB3. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung &gt;5.000 EUR)?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">nein</td><td>Nein</td><td></td></tr>
-<tr><td class="mono">ja</td><td>Ja</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">wissen_nicht</td><td>Das wissen wir nicht</td><td></td></tr></table></div>
-
-<div class="q"><p><span class="qn">#94</span> <span class="ql">MB4.1 Messstellenbetrieb: Wer stellt die Zähler oder die Smart Meter bereit?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">gmsb</td><td>Unser lokaler gMSB (gleiches Unternehmen wie der VNB)</td></tr>
-<tr><td class="mono">wmsb</td><td>Ein wMSB</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#95</span> <span class="ql">MB4.2 Übermittlung der verbrauchten Strommengen je Teilnehmer</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">gmsb</td><td>Unser lokaler gMSB</td><td></td></tr>
-<tr><td class="mono">dienstleister</td><td>Ein Dienstleister</td><td></td></tr>
-<tr><td class="mono">wmsb</td><td>Ein wMSB</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#96</span> <span class="ql">MB5.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Weiß ich nicht</td></tr>
-<tr><td class="mono">schnell</td><td>Das ging problemlos und schnell</td></tr>
-<tr><td class="mono">4_monate</td><td>Die 4 Monate gesetzliche Frist wurden gerade so eingehalten</td></tr>
-<tr><td class="mono">laenger</td><td>Die Frist von 4 Monaten wurde deutlich überschritten</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromMsbProvider = 'gmsb'</p></div>
-
-<div class="q"><p><span class="qn">#97</span> <span class="ql">MB5.2 Stellt der VNB/gMSB Ihnen für den Betrieb der Smart Meter zusätzliche Kosten in Rechnung?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wissen_nicht</td><td>Wissen wir nicht</td></tr>
-<tr><td class="mono">nein</td><td>Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten</td></tr>
-<tr><td class="mono">ja</td><td>Ja, unser VNB/gMSB verlangt dafür Zusatzkosten</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn mieterstromMsbProvider = 'gmsb'</p></div>
-
-<div class="q"><p><span class="qn">#98</span> <span class="ql">MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?</span></p>
-<p class="qm">Typ: Bewertungsskala</p>
-<div class="scale"><strong>Skala:</strong> 1 – 10<br>1: bremst aktiv<br>10: unterstützt aktiv</div></div>
-
-<div class="q"><p><span class="qn">#99</span> <span class="ql">MD1. Falls Ihr VNB die Umsetzung von Mieterstrom nicht oder nur unzureichend anbietet/durchführt, wie haben Sie bislang reagiert?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">bnetza</td><td>Wir haben uns bereits an die BNetzA gewendet</td><td></td></tr>
-<tr><td class="mono">rechtliche_schritte</td><td>Wir überlegen rechtliche Schritte zu gehen</td><td></td></tr>
-<tr><td class="mono">keine_schritte</td><td>Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#100</span> <span class="ql">MD2. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Mieterstrom?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "z.B. Webseiten, Beratungsstellen, Netzwerke..."</p></div>
-
-<div class="q"><p><span class="qn">#101</span> <span class="ql">MD3. Welche Erfahrungen möchten Sie noch teilen?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Ihre Erfahrungen..."</p></div>
-
-<!-- ============================== SECTION E ============================== -->
-<h2>E. Energy Sharing</h2>
-<p class="desc">Details zu Energy Sharing</p>
-<p class="secvis">⚡ Sichtbarkeit: Nur wenn Energy Sharing ausgewählt</p>
-
-<div class="q"><p><span class="qn">#102</span> <span class="ql">E1. Wo stehen Sie aktuell mit dem Projekt?</span></p>
-<p class="qm">Typ: Einfachauswahl | <span class="req">Pflichtfeld</span></p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">in_betrieb_vollversorgung</td><td>Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell</td><td></td></tr>
-<tr><td class="mono">in_betrieb_42c</td><td>Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG</td><td></td></tr>
-<tr><td class="mono">planung_bereit</td><td>Wir sind in der Planung und wollen loslegen sobald es geht</td><td></td></tr>
-<tr><td class="mono">info_sammeln</td><td>Wir haben grundsätzliches Interesse, sammeln derzeit Infos</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#103</span> <span class="ql">E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen?</span></p>
-<p class="qm">Typ: Mehrfachauswahl | Mehrfachauswahl möglich</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">wind</td><td>Windenergieanlage</td></tr>
-<tr><td class="mono">buergerwind</td><td>Windenergieanlage - Bürgerwindanlage</td></tr>
-<tr><td class="mono">pv_freiflaeche</td><td>PV-Freiflächenanlage</td></tr>
-<tr><td class="mono">buergersolar</td><td>Bürgersolaranlage</td></tr>
-<tr><td class="mono">pv_efh</td><td>PV-Dachanlage auf Einfamilienhaus</td></tr>
-<tr><td class="mono">pv_mfh</td><td>PV-Dachanlage auf Mehrfamilienhaus</td></tr>
-<tr><td class="mono">pv_nichtwohn</td><td>PV-Dachanlage auf einem Nicht-Wohngebäude</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</p></div>
-
-<div class="q"><p><span class="qn">#104</span> <span class="ql">E4. Projektumfang</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">single</td><td>Ein einzelnes Projekt</td></tr>
-<tr><td class="mono">multiple</td><td>Mehrere Projekte</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</p></div>
-
-<div class="q"><p><span class="qn">#105</span> <span class="ql">Größe der PV-Anlage in kW</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 100"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn esProjectScope = 'single'</p></div>
-
-<div class="q"><p><span class="qn">#106</span> <span class="ql">Größe der Windenergieanlage in kW</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 2000"</p>
-<p class="vis">⚡ Sichtbarkeit: Wenn esProjectScope = 'single'</p></div>
-
-<div class="q"><p><span class="qn">#107</span> <span class="ql">Anzahl der belieferten Parteien</span></p>
-<p class="qm">Typ: Zahleneingabe | <span class="opt">Optional</span> | Platzhalter: "z.B. 50"</p></div>
-
-<div class="q"><p><span class="qn">#108</span> <span class="ql">E5. Welche Stromverbraucher sollen eingebunden werden?</span></p>
-<p class="qm">Typ: Mehrfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">privat</td><td>Private Haushalte</td></tr>
-<tr><td class="mono">kommune</td><td>Kommune</td></tr>
-<tr><td class="mono">kommunal_unternehmen</td><td>Kommunale Unternehmen</td></tr>
-<tr><td class="mono">kmu</td><td>KMU</td></tr>
-<tr><td class="mono">vereine</td><td>Vereine</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</p></div>
-
-<div class="q"><p><span class="qn">#109</span> <span class="ql">E6. An wen soll der Strom geliefert werden?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">alle</td><td>An jeden der Interesse hat</td><td></td></tr>
-<tr><td class="mono">primaer_bestimmte</td><td>Primär an bestimmte Stromverbraucher, aber gerne auch andere</td><td></td></tr>
-<tr><td class="mono">nur_bestimmte</td><td>Nur an bestimmte Abnehmer</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn in Planung oder Information sammeln</p></div>
-
-<div class="q"><p><span class="qn">#110</span> <span class="ql">Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern?</span></p>
-<p class="qm">Typ: Textfeld | <span class="opt">Optional</span> | Eine ungefähre Schätzung reicht | Platzhalter: "z.B. 5 km"</p></div>
-
-<div class="q"><p><span class="qn">#111</span> <span class="ql">E6. Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th></tr>
-<tr><td class="mono">yes</td><td>Ja</td></tr><tr><td class="mono">no</td><td>Nein</td></tr></table></div>
-
-<div class="q"><p><span class="qn">#112</span> <span class="ql">E7. Was war die Rückmeldung des VNB?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">bereit_06_2026</td><td>Der VNB bereitet sich schon darauf vor - ab dem 01.06.2026 können wir starten!</td><td></td></tr>
-<tr><td class="mono">bereit_12_monate</td><td>Der VNB bereitet sich schon darauf vor - in den nächsten 12 Monaten soll die Umsetzung möglich sein</td><td></td></tr>
-<tr><td class="mono">moeglich_keine_zeit</td><td>Der VNB hat angekündigt, dass das möglich sein wird - aber noch keine genaue Zeit genannt</td><td></td></tr>
-<tr><td class="mono">vertroestet</td><td>Der VNB hat uns auf später vertröstet</td><td></td></tr>
-<tr><td class="mono">weiss_nicht</td><td>Der VNB weiß nicht, was Energy Sharing ist</td><td></td></tr>
-<tr><td class="mono">sonstiges</td><td>Sonstiges</td><td class="ex">+ Textfeld</td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn esVnbContact = 'yes'</p></div>
-
-<div class="q"><p><span class="qn">#113</span> <span class="ql">E8. Haben Sie mit Ihrem VNB bereits über die Abrechnung der Netzentgelte gesprochen?</span></p>
-<p class="qm">Typ: Einfachauswahl</p>
-<table><tr><th>Wert</th><th>Label</th><th>Extras</th></tr>
-<tr><td class="mono">ja_vorschlag</td><td>Ja - und der VNB hatte schon einen Vorschlag wie das geht</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">ja_unklar</td><td>Ja - aber der VNB weiß auch nicht wie das gehen soll</td><td class="ex">+ Textfeld</td></tr>
-<tr><td class="mono">nein</td><td>Nein</td><td></td></tr></table>
-<p class="vis">⚡ Sichtbarkeit: Wenn esVnbContact = 'yes'</p></div>
-
-<div class="q"><p><span class="qn">#114</span> <span class="ql">Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Energy Sharing?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "z.B. Webseiten, Verbände, Beratungsstellen..."</p></div>
-
-<!-- ============================== ABSCHLUSS ============================== -->
-<h2>Abschluss</h2>
-<p class="desc">Letzte Informationen</p>
-
-<div class="q"><p><span class="qn">#115</span> <span class="ql">Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "z.B. Webseiten, Beratungsstellen, Netzwerke, Verbände..."</p></div>
-
-<div class="q"><p><span class="qn">#116</span> <span class="ql">Welche Erfahrungen möchten Sie noch teilen?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Ihre Erfahrungen..."</p></div>
-
-<div class="q"><p><span class="qn">#117</span> <span class="ql">Möglichkeit zum Hochladen von Dokumenten</span></p>
-<p class="qm">Typ: Datei-Upload | <span class="opt">Optional</span></p>
-<p class="qm">z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)</p></div>
-
-<div class="q"><p><span class="qn">#118</span> <span class="ql">Haben Sie Verbesserungsvorschläge für diese Umfrage?</span></p>
-<p class="qm">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span> | Platzhalter: "Ihr Feedback zur Umfrage..."</p></div>
-
-<div class="q"><p><span class="qn">#119</span> <span class="ql">Wie wahrscheinlich ist es, dass Sie Anderen die Umsetzung von GGV/Mieterstrom empfehlen würden?</span></p>
-<p class="qm">Typ: Bewertungsskala | <span class="opt">Optional</span></p>
-<div class="scale"><strong>Skala:</strong> 0 – 10<br>0: Sehr unwahrscheinlich<br>10: Sehr wahrscheinlich</div></div>
-
-<hr style="border:1pt solid #e5e7eb;margin:24pt 0 12pt;">
-<p style="text-align:center;color:#999;font-size:9pt;">
-Generiert aus src/data/surveySchema.ts | Version 2.1.0 | Total questions: 119 | 2026-02-09
-</p>
+    <div class="q"><p><span class="qnum">#49</span> <span class="qlabel">Falls es lange dauerte: Was war das große Problem?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#50</span> <span class="qlabel">D1. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss verlangt (Wandlermessung)?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja</td><td>Ja</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">wissen_nicht</td><td>Das wissen wir nicht</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#51</span> <span class="qlabel">Ergänzende Informationen zur Wandlermessung</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn operationWandlermessung beantwortet</p></div>
+
+    <div class="q"><p><span class="qnum">#52</span> <span class="qlabel">D2.1 Messstellenbetrieb: Wer baut die Smart Meter ein und betreibt sie?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">gmsb</td><td>Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)</td></tr><tr><td class="val">wmsb</td><td>Ein wMSB</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#53</span> <span class="qlabel">D2.2 Aufteilung der PV-Stromerzeugung auf die Teilnehmenden (Verrechnung)</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">gmsb</td><td>Unser lokaler gMSB</td></tr><tr><td class="val">wmsb</td><td>Ein wMSB</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#54</span> <span class="qlabel">D2.3 Übermittlung der errechneten Strommengen je Teilnehmer</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">gmsb</td><td>Unser lokaler gMSB</td></tr><tr><td class="val">wmsb</td><td>Ein wMSB</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#55</span> <span class="qlabel">D3.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Weiß ich nicht</td></tr><tr><td class="val">schnell</td><td>Das ging problemlos und schnell</td></tr><tr><td class="val">4_monate</td><td>Ca. 4 Monate (gesetzlich vorgegebene Frist)</td></tr><tr><td class="val">laenger</td><td>Deutlich länger als 4 Monate</td></tr></table><p class="vis">⚡ Wenn operationMsbProvider = 'gmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#56</span> <span class="qlabel">D3.2 Stellt der VNB/gMSB zusätzliche Kosten für den 'Einbau auf Kundenwunsch' in Rechnung?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">nein</td><td>Nein, keine Zusatzkosten</td></tr><tr><td class="val">ja</td><td>Ja, Zusatzkosten</td></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr></table><p class="vis">⚡ Wenn operationMsbProvider = 'gmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#57</span> <span class="qlabel">Einmalbetrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn operationMsbAdditionalCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens eins von Einmalbetrag/Jährlich</p></div>
+
+    <div class="q"><p><span class="qnum">#58</span> <span class="qlabel">Jährlicher Betrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn operationMsbAdditionalCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens eins von Einmalbetrag/Jährlich</p></div>
+
+    <div class="q"><p><span class="qnum">#59</span> <span class="qlabel">D4. Falls jemand anderes als der VNB/gMSB die Aufteilung der Strommengen vornimmt, wer ist das?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Weiß ich nicht</td></tr><tr><td class="val">dienstleister</td><td>Das macht ein Dienstleister</td></tr><tr><td class="val">selber</td><td>Das mache ich selber</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table><p class="vis">⚡ Wenn operationAllocationProvider nicht 'gmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#60</span> <span class="qlabel">D5.1 Wie erhalten Sie die Daten?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">mail_excel</td><td>Per Mail als Excel</td></tr><tr><td class="val">portal_verrechnete_werte</td><td>Online-Portal (verrechnete Werte)</td></tr><tr><td class="val">portal_alle_messwerte</td><td>Online-Portal (alle Messwerte)</td></tr><tr><td class="val">dienstleister_marktkommunikation</td><td>Dienstleister über Marktkommunikation</td></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#61</span> <span class="qlabel">D5.2 Wieviel kostet die Bereitstellung der verrechneten Werte?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">kostenlos</td><td>Kostenlos</td></tr><tr><td class="val">weniger_3_eur</td><td>≤3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">mehr_3_eur</td><td>&gt;3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">aktuell_kostenlos</td><td>Aktuell kostenlos, wird sich ändern</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#62</span> <span class="qlabel">Betrag in EUR/Messstelle/Jahr</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn operationDataCost = 'mehr_3_eur'</p></div>
+
+    <div class="q"><p><span class="qnum">#63</span> <span class="qlabel">D6. Falls Dienstleister die Werte abruft (ESA-Marktrolle), verlangt der VNB dafür Geld?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">kostenlos</td><td>Nein, umsonst</td></tr><tr><td class="val">weniger_3_eur</td><td>≤3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">mehr_3_eur</td><td>&gt;3 EUR/Messstelle/Jahr</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#64</span> <span class="qlabel">Betrag in EUR/Messstelle/Jahr (ESA)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn operationEsaCost = 'mehr_3_eur'</p></div>
+
+    <div class="q"><p><span class="qnum">#65</span> <span class="qlabel">D7. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?</span></p><p class="qmeta">Typ: Bewertungsskala</p><p style="font-size: 9pt; padding: 4pt 8pt; background: #f0f9ff; border-radius: 4pt;"><strong>Skala:</strong> 1–10 | 1: Unser VNB will das eigentlich lieber verhindern | 10: Unser VNB möchte das wirklich mit uns umsetzen</p></div>
+  </div>
+
+  <!-- ===== DIENSTLEISTER ===== -->
+  <div class="sec">
+    <h2>Dienstleister</h2>
+    <p style="color: #666; font-style: italic;">Feedback zu Dienstleistern &amp; Reaktionen</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur bei GGV-Fokus</p>
+
+    <div class="q"><p><span class="qnum">#66</span> <span class="qlabel">D8. Mit welchem Dienstleister arbeiten Sie zusammen?</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#67</span> <span class="qlabel">Zufriedenheit mit Dienstleister 1</span></p><p class="qmeta">Typ: Bewertungsskala (1-10) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn serviceProviderName ausgefüllt</p></div>
+
+    <div class="q"><p><span class="qnum">#68</span> <span class="qlabel">Kommentare zu Dienstleister 1</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn serviceProviderName ausgefüllt</p></div>
+
+    <div class="q"><p><span class="qnum">#69</span> <span class="qlabel">Dienstleister 2 (optional)</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn serviceProviderName ausgefüllt</p></div>
+
+    <div class="q"><p><span class="qnum">#70</span> <span class="qlabel">Zufriedenheit mit Dienstleister 2</span></p><p class="qmeta">Typ: Bewertungsskala (1-10) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn serviceProvider2Name ausgefüllt</p></div>
+
+    <div class="q"><p><span class="qnum">#71</span> <span class="qlabel">D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?</span></p><p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">bnetza</td><td>Wir haben uns bereits an die BNetzA gewendet</td></tr><tr><td class="val">rechtliche_schritte</td><td>Wir überlegen rechtliche Schritte zu gehen</td></tr><tr><td class="val">keine_schritte</td><td>Wir sehen von rechtlichen Schritten ab</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#72</span> <span class="qlabel">ServiceProvider2Comments</span> (Kommentare zu Dienstleister 2)</p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn serviceProvider2Name ausgefüllt</p></div>
+  </div>
+
+  <!-- ===== M. MIETERSTROM PLANUNG ===== -->
+  <div class="sec">
+    <h2>M. Mieterstrom Planung</h2>
+    <p style="color: #666; font-style: italic;">Details zu Mieterstrom-Projekten</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt oder ggvOrMieterstromDecision = 'sicher_mieterstrom'</p>
+
+    <div class="q"><p><span class="qnum">#73</span> <span class="qlabel">M1. Möchten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenzähler umsetzen?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">virtuell</td><td>Mit virtuellem Summenzähler</td></tr><tr><td class="val">physikalisch</td><td>Mit physikalischem Summenzähler</td></tr><tr><td class="val">kein_unterschied</td><td>Wir kennen den Unterschied nicht</td></tr><tr><td class="val">keine_praeferenz</td><td>Wir haben keine Präferenz</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#74</span> <span class="qlabel">M2. Gab oder gibt es wesentliche Herausforderungen?</span></p><p class="qmeta">Typ: Mehrfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th><th>Extras</th></tr><tr><td class="val">keine</td><td>Nein, alles läuft gut</td><td class="extra">exklusiv</td></tr><tr><td class="val">opposition</td><td>Manche Parteien im Haus sind gegen das Projekt</td><td class="extra">+ Textfeld</td></tr><tr><td class="val">pv_installation</td><td>Technische Probleme mit der Installation der PV-Anlage</td><td class="extra">+ Textfeld</td></tr><tr><td class="val">vnb_blocking</td><td>Der VNB lässt die Umsetzung von Mieterstrom nicht zu</td><td class="extra">+ Textfeld</td></tr><tr><td class="val">kosten</td><td>Die Kosten sind zu hoch</td><td class="extra">+ Textfeld</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#75</span> <span class="qlabel">M3. Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja_mindestens_eins</td><td>Ja, mindestens eins</td></tr><tr><td class="val">ja_viele</td><td>Ja, schon eine ganze Reihe</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#76</span> <span class="qlabel">M4. Gibt es Mieterstrom-Projekte mit virtuellem Summenzähler?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja_mindestens_eins</td><td>Ja, mindestens eins</td></tr><tr><td class="val">ja_viele</td><td>Ja, schon eine ganze Reihe</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#77</span> <span class="qlabel">M5. Waren Sie schon im Kontakt mit Ihrem VNB?</span></p><p class="qmeta">Typ: Einfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">direkt</td><td>Ja, direkter Kontakt</td></tr><tr><td class="val">installateur</td><td>Nur über Installateur/Dienstleister</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#78</span> <span class="qlabel">M6. Lässt Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zu?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja</td><td>Ja</td></tr><tr><td class="val">nein</td><td>Nein</td></tr></table><p class="vis">⚡ Wenn mieterstromSummenzaehler = 'virtuell'</p></div>
+
+    <div class="q"><p><span class="qnum">#79</span> <span class="qlabel">M7. Verlangt er dennoch den Einbau einer Wandlermessung (&gt;5.000 EUR)?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja</td><td>Ja</td></tr></table><p class="vis">⚡ Wenn mieterstromVirtuellAllowed = 'ja'</p></div>
+
+    <div class="q"><p><span class="qnum">#80</span> <span class="qlabel">M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?</span></p><p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">moeglich_gmsb</td><td>Umsetzung möglich, VNB/gMSB als MSB</td></tr><tr><td class="val">moeglich_wmsb</td><td>Umsetzung möglich, wMSB erforderlich</td></tr><tr><td class="val">keine_antwort</td><td>Keine Antwort vom VNB</td></tr><tr><td class="val">nicht_moeglich</td><td>Umsetzung bislang nicht möglich</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#81</span> <span class="qlabel">M9. Stellt Ihr VNB konkrete Unterstützung für Mieterstrom bereit?</span></p><p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">messkonzept</td><td>Informationen zum Messkonzept</td></tr><tr><td class="val">formulare</td><td>Formulare</td></tr><tr><td class="val">portal</td><td>Online-Portal</td></tr><tr><td class="val">sonstiges</td><td>Weiteres</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#82</span> <span class="qlabel">M10. Bietet Ihr VNB eine Kontaktmöglichkeit für Mieterstrom und ist das hilfreich?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja_hilfreich</td><td>Ja, hilfreich</td></tr><tr><td class="val">ja_nicht_hilfreich</td><td>Ja, aber wenig hilfreich</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#83</span> <span class="qlabel">M11. Haben Sie persönliche Kontakte bei Ihrem VNB?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja_bestanden</td><td>Ja, bestanden schon</td></tr><tr><td class="val">ja_entstanden</td><td>Ja, bei Umsetzung entstanden</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#84</span> <span class="qlabel">Wie sehr fühlen Sie sich von Ihrem VNB unterstützt?</span></p><p class="qmeta">Typ: Bewertungsskala</p><p style="font-size: 9pt; padding: 4pt 8pt; background: #f0f9ff; border-radius: 4pt;"><strong>Skala:</strong> 1–10 | 1: bremst aktiv | 10: unterstützt aktiv</p></div>
+  </div>
+
+  <!-- ===== MP. VNB ANGEBOT MIETERSTROM ===== -->
+  <div class="sec">
+    <h2>MP. VNB Angebot (Mieterstrom)</h2>
+    <p style="color: #666; font-style: italic;">Details zum MSB-Angebot des VNB für Mieterstrom</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom ausgewählt und nicht in Betrieb</p>
+
+    <div class="q"><p><span class="qnum">#85</span> <span class="qlabel">MP1a. Full-Service-Angebot</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">nur_full_service</td><td>Nur in Kombination mit Full-Service-Angebot</td></tr><tr><td class="val">auch_ohne</td><td>Auch ohne Stromlieferverträge</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#86</span> <span class="qlabel">MP1b. Stellt Ihr VNB/gMSB zusätzliche Kosten in Rechnung?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja</td><td>Ja</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#87</span> <span class="qlabel">Einmalbetrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn mieterstromMsbCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens eins erforderlich</p></div>
+
+    <div class="q"><p><span class="qnum">#88</span> <span class="qlabel">Jährlicher Betrag (EUR)</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn mieterstromMsbCosts = 'ja'</p><p class="condreq">🔒 Bedingt Pflicht: mindestens eins erforderlich</p></div>
+
+    <div class="q"><p><span class="qnum">#89</span> <span class="qlabel">MP1c. Auswahl an Umsetzungsmodellen</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">virtuell</td><td>Virtueller Summenzähler mit Smart Metern</td></tr><tr><td class="val">physikalisch</td><td>Physikalisches Summenzählermodell</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#90</span> <span class="qlabel">MP1d. Bereitstellung der Daten</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">direkt_guenstig</td><td>Direkt, ≤3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">direkt_teuer</td><td>Direkt, &gt;3 EUR/Messstelle/Jahr</td></tr><tr><td class="val">marktkommunikation</td><td>Über Marktkommunikation (Dienstleister nötig)</td></tr></table></div>
+  </div>
+
+  <!-- ===== MB. MIETERSTROM BETRIEB ===== -->
+  <div class="sec">
+    <h2>MB. Mieterstrom Betrieb</h2>
+    <p style="color: #666; font-style: italic;">Erfahrungen im laufenden Mieterstrom-Betrieb</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn Mieterstrom in Betrieb</p>
+
+    <div class="q"><p><span class="qnum">#91</span> <span class="qlabel">MB1. Welche Rolle übernimmt der VNB?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">keine</td><td>Gar keine - wMSB</td></tr><tr><td class="val">msb_dienstleister</td><td>VNB/gMSB als MSB, Dienstleister stellt Daten bereit</td></tr><tr><td class="val">msb_direkt</td><td>VNB/gMSB als MSB, stellt Daten direkt bereit</td></tr><tr><td class="val">full_service</td><td>Stadtwerk übernimmt alles inkl. Stromlieferung</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#92</span> <span class="qlabel">MB2. Wie lange hat die Abstimmung mit dem VNB gedauert?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">unter_2_monate</td><td>Unter 2 Monaten</td></tr><tr><td class="val">2_bis_12_monate</td><td>Zwischen 2 und 12 Monaten</td></tr><tr><td class="val">ueber_12_monate</td><td>Über 12 Monate</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#93</span> <span class="qlabel">MB3. Hat Ihr VNB eine Wandlermessung (&gt;5.000 EUR) verlangt?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja</td><td>Ja</td></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#94</span> <span class="qlabel">MB4.1 Wer stellt die Zähler/Smart Meter bereit?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">gmsb</td><td>Lokaler gMSB</td></tr><tr><td class="val">wmsb</td><td>Ein wMSB</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#95</span> <span class="qlabel">MB4.2 Übermittlung der verbrauchten Strommengen je Teilnehmer</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">gmsb</td><td>Lokaler gMSB</td></tr><tr><td class="val">dienstleister</td><td>Ein Dienstleister</td></tr><tr><td class="val">wmsb</td><td>Ein wMSB</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#96</span> <span class="qlabel">MB5.1 Dauer von Bestellung bis Einbau der Smart Meter</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Weiß ich nicht</td></tr><tr><td class="val">schnell</td><td>Problemlos und schnell</td></tr><tr><td class="val">4_monate</td><td>4 Monate (gesetzliche Frist)</td></tr><tr><td class="val">laenger</td><td>Frist deutlich überschritten</td></tr></table><p class="vis">⚡ Wenn mieterstromMsbProvider = 'gmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#97</span> <span class="qlabel">MB5.2 Zusätzliche Kosten für den Betrieb der Smart Meter?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td></tr><tr><td class="val">nein</td><td>Nein</td></tr><tr><td class="val">ja</td><td>Ja</td></tr></table><p class="vis">⚡ Wenn mieterstromMsbProvider = 'gmsb'</p></div>
+
+    <div class="q"><p><span class="qnum">#98</span> <span class="qlabel">MB6. Wie zufrieden sind Sie mit Ihrem VNB?</span></p><p class="qmeta">Typ: Bewertungsskala</p><p style="font-size: 9pt; padding: 4pt 8pt; background: #f0f9ff; border-radius: 4pt;"><strong>Skala:</strong> 1–10 | 1: bremst aktiv | 10: unterstützt aktiv</p></div>
+
+    <div class="q"><p><span class="qnum">#99</span> <span class="qlabel">MD1. Falls Ihr VNB Mieterstrom nicht oder unzureichend anbietet, wie haben Sie reagiert?</span></p><p class="qmeta">Typ: Mehrfachauswahl | <span class="opt">Optional</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">bnetza</td><td>BNetzA kontaktiert</td></tr><tr><td class="val">rechtliche_schritte</td><td>Rechtliche Schritte erwägt</td></tr><tr><td class="val">keine_schritte</td><td>Keine rechtlichen Schritte</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#100</span> <span class="qlabel">MD2. Welche Informationsquellen waren besonders hilfreich?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#101</span> <span class="qlabel">MD3. Welche Erfahrungen möchten Sie noch teilen?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+  </div>
+
+  <!-- ===== E. ENERGY SHARING ===== -->
+  <div class="sec">
+    <h2>E. Energy Sharing</h2>
+    <p style="color: #666; font-style: italic;">Details zu Energy Sharing</p>
+    <p class="vis">⚡ Sichtbarkeit: Nur wenn Energy Sharing ausgewählt</p>
+    <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt</p>
+
+    <div class="q"><p><span class="qnum">#102</span> <span class="qlabel">E1. Wo stehen Sie aktuell mit dem Projekt?</span></p><p class="qmeta">Typ: Einfachauswahl | <span class="req">Pflichtfeld</span></p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">in_betrieb_vollversorgung</td><td>Schon in Betrieb - Vollversorgungsmodell</td></tr><tr><td class="val">in_betrieb_42c</td><td>Schon in Betrieb - nach §42c EnWG</td></tr><tr><td class="val">planung_bereit</td><td>In der Planung, wollen loslegen</td></tr><tr><td class="val">info_sammeln</td><td>Grundsätzliches Interesse, sammeln Infos</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#103</span> <span class="qlabel">E3. Welche Art von Anlage?</span></p><p class="qmeta">Typ: Mehrfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">wind</td><td>Windenergieanlage</td></tr><tr><td class="val">buergerwind</td><td>Bürgerwindanlage</td></tr><tr><td class="val">pv_freiflaeche</td><td>PV-Freiflächenanlage</td></tr><tr><td class="val">buergersolar</td><td>Bürgersolaranlage</td></tr><tr><td class="val">pv_efh</td><td>PV-Dachanlage auf Einfamilienhaus</td></tr><tr><td class="val">pv_mfh</td><td>PV-Dachanlage auf Mehrfamilienhaus</td></tr><tr><td class="val">pv_nichtwohn</td><td>PV-Dachanlage auf Nicht-Wohngebäude</td></tr></table><p class="vis">⚡ Wenn in Planung oder Information sammeln</p></div>
+
+    <div class="q"><p><span class="qnum">#104</span> <span class="qlabel">E4. Projektumfang</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">single</td><td>Ein einzelnes Projekt</td></tr><tr><td class="val">multiple</td><td>Mehrere Projekte</td></tr></table><p class="vis">⚡ Wenn in Planung oder Information sammeln</p></div>
+
+    <div class="q"><p><span class="qnum">#105</span> <span class="qlabel">Größe der PV-Anlage in kW</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn esProjectScope = 'single'</p></div>
+
+    <div class="q"><p><span class="qnum">#106</span> <span class="qlabel">Größe der Windenergieanlage in kW</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p><p class="vis">⚡ Wenn esProjectScope = 'single'</p></div>
+
+    <div class="q"><p><span class="qnum">#107</span> <span class="qlabel">Anzahl der belieferten Parteien</span></p><p class="qmeta">Typ: Zahleneingabe | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#108</span> <span class="qlabel">E5. Welche Stromverbraucher sollen eingebunden werden?</span></p><p class="qmeta">Typ: Mehrfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">privat</td><td>Private Haushalte</td></tr><tr><td class="val">kommune</td><td>Kommune</td></tr><tr><td class="val">kommunal_unternehmen</td><td>Kommunale Unternehmen</td></tr><tr><td class="val">kmu</td><td>KMU</td></tr><tr><td class="val">vereine</td><td>Vereine</td></tr></table><p class="vis">⚡ Wenn in Planung oder Information sammeln</p></div>
+
+    <div class="q"><p><span class="qnum">#109</span> <span class="qlabel">E6. An wen soll der Strom geliefert werden?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">alle</td><td>An jeden der Interesse hat</td></tr><tr><td class="val">primaer_bestimmte</td><td>Primär an bestimmte, aber gerne auch andere</td></tr><tr><td class="val">nur_bestimmte</td><td>Nur an bestimmte Abnehmer</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table><p class="vis">⚡ Wenn in Planung oder Information sammeln</p></div>
+
+    <div class="q"><p><span class="qnum">#110</span> <span class="qlabel">Max. geografischer Abstand zwischen Anlagen und Verbrauchern</span></p><p class="qmeta">Typ: Textfeld | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#111</span> <span class="qlabel">E6. Waren Sie bereits in Kontakt mit Ihrem VNB zu Energy Sharing?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">yes</td><td>Ja</td></tr><tr><td class="val">no</td><td>Nein</td></tr></table></div>
+
+    <div class="q"><p><span class="qnum">#112</span> <span class="qlabel">E7. Was war die Rückmeldung des VNB?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">bereit_06_2026</td><td>VNB bereitet sich vor - ab 01.06.2026</td></tr><tr><td class="val">bereit_12_monate</td><td>VNB bereitet sich vor - nächste 12 Monate</td></tr><tr><td class="val">moeglich_keine_zeit</td><td>Möglich, aber keine genaue Zeit</td></tr><tr><td class="val">vertroestet</td><td>Auf später vertröstet</td></tr><tr><td class="val">weiss_nicht</td><td>VNB weiß nicht, was Energy Sharing ist</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td></tr></table><p class="vis">⚡ Wenn esVnbContact = 'yes'</p></div>
+
+    <div class="q"><p><span class="qnum">#113</span> <span class="qlabel">E8. Haben Sie mit Ihrem VNB über die Abrechnung der Netzentgelte gesprochen?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th>Wert</th><th>Label</th></tr><tr><td class="val">ja_vorschlag</td><td>Ja, VNB hatte einen Vorschlag</td></tr><tr><td class="val">ja_unklar</td><td>Ja, aber VNB weiß auch nicht wie</td></tr><tr><td class="val">nein</td><td>Nein</td></tr></table><p class="vis">⚡ Wenn esVnbContact = 'yes'</p></div>
+
+    <div class="q"><p><span class="qnum">#114</span> <span class="qlabel">Welche Informationsquellen waren besonders hilfreich zu Energy Sharing?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+  </div>
+
+  <!-- ===== ABSCHLUSS ===== -->
+  <div class="sec">
+    <h2>Abschluss</h2>
+    <p style="color: #666; font-style: italic;">Letzte Informationen</p>
+    <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt</p>
+
+    <div class="q"><p><span class="qnum">#115</span> <span class="qlabel">Welche Informationsquellen fanden Sie besonders hilfreich?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#116</span> <span class="qlabel">Welche Erfahrungen möchten Sie noch teilen?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#117</span> <span class="qlabel">Möglichkeit zum Hochladen von Dokumenten</span></p><p class="qmeta">Typ: Datei-Upload | <span class="opt">Optional</span></p><p style="font-size: 9pt; color: #666;">z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)</p></div>
+
+    <div class="q"><p><span class="qnum">#118</span> <span class="qlabel">Haben Sie Verbesserungsvorschläge für diese Umfrage?</span></p><p class="qmeta">Typ: Textfeld (mehrzeilig) | <span class="opt">Optional</span></p></div>
+
+    <div class="q"><p><span class="qnum">#119</span> <span class="qlabel">Wie wahrscheinlich ist es, dass Sie Anderen die Umsetzung von GGV/Mieterstrom empfehlen würden?</span></p><p class="qmeta">Typ: Bewertungsskala | <span class="opt">Optional</span></p><p style="font-size: 9pt; padding: 4pt 8pt; background: #f0f9ff; border-radius: 4pt;"><strong>Skala:</strong> 0–10 | 0: Sehr unwahrscheinlich | 10: Sehr wahrscheinlich</p></div>
+  </div>
+
+  <hr style="border: 1pt solid #22c55e; margin: 24pt 0 12pt;">
+
+  <!-- ===== LOGISCHE VERBINDUNGEN ===== -->
+  <div style="page-break-before: always; margin-top: 24pt;">
+    <h2 style="color: #1a365d; border-bottom: 2pt solid #22c55e; padding-bottom: 6pt;">📊 Zusammenfassung: Logische Verbindungen</h2>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">1. Multi-Evaluation Architektur</h3>
+    <table class="tbl">
+      <tr style="background: #e5e7eb;"><th>Typ</th><th>Abschnitte</th><th>Beschreibung</th></tr>
+      <tr><td>🌐 Global</td><td>A, E, Abschluss</td><td>Einmal pro Sitzung, gilt für alle Tabs</td></tr>
+      <tr><td>📋 Pro Evaluation</td><td>Projektdetails, B, B6, C, C8, D, Dienstleister, M, MP, MB</td><td>Separat für jeden VNB/Tab</td></tr>
+    </table>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">2. Projektart → Abschnitt-Sichtbarkeit</h3>
+    <table class="tbl">
+      <tr style="background: #e5e7eb;"><th>projectTypes</th><th>Sichtbare Abschnitte</th></tr>
+      <tr><td>ggv</td><td>B, B6, C, C8, D, Dienstleister (+ GGV-Dimensionen)</td></tr>
+      <tr><td>mieterstrom</td><td>B, B6, M, MP, MB (+ Mieterstrom-Dimensionen)</td></tr>
+      <tr><td>ggv_oder_mieterstrom</td><td>B, B6, C, C8, D, Dienstleister, M, MP, MB (alle)</td></tr>
+      <tr><td>energysharing (allein)</td><td>Nur E (Energy Sharing)</td></tr>
+    </table>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">3. Planungsstatus → Betrieb</h3>
+    <table class="tbl">
+      <tr style="background: #e5e7eb;"><th>planningStatus</th><th>Wirkung</th></tr>
+      <tr><td>pv_laeuft_ggv_laeuft</td><td>→ D. GGV Betrieb + Dienstleister / MB. Mieterstrom Betrieb</td></tr>
+      <tr><td>Alle anderen</td><td>→ Nur Planungs-Abschnitte (C/M/MP)</td></tr>
+    </table>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">4. Standort-Logik (#16)</h3>
+    <table class="tbl">
+      <tr style="background: #e5e7eb;"><th>Projektumfang</th><th>UI-Verhalten</th></tr>
+      <tr><td>single</td><td>1 Zeile: PLZ + Adresse</td></tr>
+      <tr><td>multiple</td><td>Dynamische Zeilen (+/−): PLZ + Adresse + kW</td></tr>
+    </table>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">5. Wichtige Sprunglogiken</h3>
+    <table class="tbl">
+      <tr style="background: #e5e7eb;"><th>Frage</th><th>Auswahl</th><th>Wirkung</th></tr>
+      <tr><td>C8 vnbMsbOffer</td><td>ja</td><td>→ C8.1a–f</td></tr>
+      <tr><td>C8 vnbMsbOffer</td><td>nein_wmsb</td><td>→ C8.2a</td></tr>
+      <tr><td>C8 vnbMsbOffer</td><td>nein_gar_nicht</td><td>→ C8.2b</td></tr>
+      <tr><td>vnbAdditionalCosts</td><td>ja</td><td>→ Kostenfelder (mind. 1 Pflicht)</td></tr>
+      <tr><td>B2 ggvOrMieterstromDecision</td><td>sicher_ggv</td><td>→ B3 Gründe</td></tr>
+      <tr><td>B2 ggvOrMieterstromDecision</td><td>sicher_mieterstrom</td><td>→ B4 Gründe</td></tr>
+      <tr><td>M1 mieterstromSummenzaehler</td><td>virtuell</td><td>→ M6 + M7</td></tr>
+      <tr><td>E6 esVnbContact</td><td>yes</td><td>→ E7 + E8</td></tr>
+    </table>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">6. Exklusive Optionen</h3>
+    <ul style="font-size: 10pt;">
+      <li>B6 challenges: "keine" → alle anderen abwählen</li>
+      <li>M2 mieterstromChallenges: "keine" → alle anderen abwählen</li>
+    </ul>
+
+    <h3 style="color: #1a365d; font-size: 13pt; margin-top: 16pt;">7. Bedingte Pflichtfelder</h3>
+    <ul style="font-size: 10pt;">
+      <li>#36/#37: vnbAdditionalCosts = 'ja' → mindestens Einmal- oder Jahresbetrag</li>
+      <li>#57/#58: operationMsbAdditionalCosts = 'ja' → mindestens eins</li>
+      <li>#87/#88: mieterstromMsbCosts = 'ja' → mindestens eins</li>
+    </ul>
+  </div>
+
+  <hr style="border: 1pt solid #e5e7eb; margin: 24pt 0 12pt;">
+  <p style="text-align: center; color: #999; font-size: 9pt;">
+    Generiert aus src/data/surveySchema.ts | Version 3.0.0 | Total questions: 119 | 2026-02-09
+  </p>
 </body>
 </html>
