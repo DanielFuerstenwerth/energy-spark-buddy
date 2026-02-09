@@ -51,6 +51,7 @@ export function cleanLabel(text: string): string {
 }
 
 // === SECTION A: Über Sie ===
+
 const SECTION_ABOUT_YOU: SurveySection = {
   id: "about",
   title: "A. Über Sie",
@@ -1423,6 +1424,23 @@ export const surveySchema: SurveySchema = {
     SECTION_FINAL,
   ],
 };
+
+// Helper to get question options by ID from any section
+export function getQuestionById(questionId: string): SurveyQuestion | undefined {
+  for (const section of surveySchema.sections) {
+    const q = section.questions.find(q => q.id === questionId);
+    if (q) return q;
+  }
+  return undefined;
+}
+
+export function getOptionsForQuestion(questionId: string): SurveyOption[] {
+  return getQuestionById(questionId)?.options || [];
+}
+
+export function getLabelForQuestion(questionId: string): string {
+  return getQuestionById(questionId)?.label || '';
+}
 
 // Export für JSON-Generierung
 export function getSurveySchemaAsJson() {
