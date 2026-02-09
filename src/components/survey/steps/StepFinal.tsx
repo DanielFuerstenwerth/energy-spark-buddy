@@ -43,7 +43,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
 
       <FileUpload
         id="documents"
-        label={getLabelForQuestion("uploadedDocuments")}
+        label={getLabelForQuestion("documentUpload")}
         description="z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)"
         value={uploadedDocuments}
         onChange={setUploadedDocuments}
