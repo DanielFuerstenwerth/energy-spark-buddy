@@ -1,30 +1,7 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
-import { TextQuestion } from "../questions/TextQuestion";
 import { ConditionalCostFields } from "../questions/ConditionalCostFields";
-
-const FULL_SERVICE_OPTIONS = [
-  { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
-  { value: "auch_ohne", label: "Unser Stadtwerk/VNB bietet dies auch ohne Stromlieferverträge an" },
-];
-
-const MSB_COSTS_OPTIONS = [
-  { value: "wissen_nicht", label: "Wissen wir nicht" },
-  { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
-  { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
-
-const MODEL_CHOICE_OPTIONS = [
-  { value: "virtuell", label: "Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für >5.000 EUR) bleibt uns damit erspart" },
-  { value: "physikalisch", label: "Ein sogenanntes 'physikalisches Summenzählermodell' (erfordert einen 'physikalischen Summenzähler')" },
-];
-
-const DATA_PROVISION_OPTIONS = [
-  { value: "direkt_guenstig", label: "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - für weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
-  { value: "direkt_teuer", label: "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr" },
-  { value: "marktkommunikation", label: "Der VNB/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten" },
-];
+import { getOptionsForQuestion, getLabelForQuestion } from "@/data/surveySchema";
 
 interface StepMieterstromVnbOfferProps {
   data: SurveyData;
@@ -43,16 +20,16 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
 
       <SingleSelectQuestion
         id="mieterstrom-full-service"
-        label="MP1a. Full-Service-Angebot"
-        options={FULL_SERVICE_OPTIONS}
+        label={getLabelForQuestion("mieterstromFullService")}
+        options={getOptionsForQuestion("mieterstromFullService")}
         value={data.mieterstromFullService}
         onChange={(val) => updateData("mieterstromFullService", val)}
       />
 
       <SingleSelectQuestion
         id="mieterstrom-msb-costs"
-        label="MP1b. Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?"
-        options={MSB_COSTS_OPTIONS}
+        label={getLabelForQuestion("mieterstromMsbCosts")}
+        options={getOptionsForQuestion("mieterstromMsbCosts")}
         value={data.mieterstromMsbCosts}
         otherValue={data.mieterstromMsbCostsOther}
         onChange={(val) => updateData("mieterstromMsbCosts", val)}
@@ -71,16 +48,16 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
 
       <SingleSelectQuestion
         id="mieterstrom-model-choice"
-        label="MP1c. Auswahl an Umsetzungsmodellen"
-        options={MODEL_CHOICE_OPTIONS}
+        label={getLabelForQuestion("mieterstromModelChoice")}
+        options={getOptionsForQuestion("mieterstromModelChoice")}
         value={data.mieterstromModelChoice}
         onChange={(val) => updateData("mieterstromModelChoice", val)}
       />
 
       <SingleSelectQuestion
         id="mieterstrom-data-provision"
-        label="MP1d. Bereitstellung der Daten"
-        options={DATA_PROVISION_OPTIONS}
+        label={getLabelForQuestion("mieterstromDataProvision")}
+        options={getOptionsForQuestion("mieterstromDataProvision")}
         value={data.mieterstromDataProvision}
         onChange={(val) => updateData("mieterstromDataProvision", val)}
       />

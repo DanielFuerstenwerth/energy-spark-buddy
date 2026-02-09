@@ -2,59 +2,7 @@ import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
-
-const ES_STATUS_OPTIONS = [
-  { value: "in_betrieb_vollversorgung", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell" },
-  { value: "in_betrieb_42c", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
-  { value: "planung_bereit", label: "Wir sind in der Planung und wollen loslegen sobald es geht" },
-  { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Infos" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
-
-const ES_PLANT_TYPE_OPTIONS = [
-  { value: "wind", label: "Windenergieanlage" },
-  { value: "buergerwind", label: "Windenergieanlage - Bürgerwindanlage" },
-  { value: "pv_freiflaeche", label: "PV-Freiflächenanlage" },
-  { value: "buergersolar", label: "Bürgersolaranlage" },
-  { value: "pv_efh", label: "PV-Dachanlage auf Einfamilienhaus" },
-  { value: "pv_mfh", label: "PV-Dachanlage auf Mehrfamilienhaus" },
-  { value: "pv_nichtwohn", label: "PV-Dachanlage auf einem Nicht-Wohngebäude" },
-];
-
-const ES_PROJECT_SCOPE_OPTIONS = [
-  { value: "single", label: "Ein einzelnes Projekt" },
-  { value: "multiple", label: "Mehrere Projekte" },
-];
-
-const ES_CONSUMER_TYPES_OPTIONS = [
-  { value: "privat", label: "Private Haushalte" },
-  { value: "kommune", label: "Kommune" },
-  { value: "kommunal_unternehmen", label: "Kommunale Unternehmen" },
-  { value: "kmu", label: "KMU" },
-  { value: "vereine", label: "Vereine" },
-];
-
-const ES_CONSUMER_SCOPE_OPTIONS = [
-  { value: "alle", label: "An jeden der Interesse hat" },
-  { value: "primaer_bestimmte", label: "Primär an bestimmte Stromverbraucher, aber gerne auch andere" },
-  { value: "nur_bestimmte", label: "Nur an bestimmte Abnehmer", hasTextField: true },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
-
-const ES_VNB_RESPONSE_OPTIONS = [
-  { value: "bereit_06_2026", label: "Der VNB bereitet sich schon darauf vor - ab dem 01.06.2026 können wir starten!" },
-  { value: "bereit_12_monate", label: "Der VNB bereitet sich schon darauf vor - in den nächsten 12 Monaten soll die Umsetzung möglich sein" },
-  { value: "moeglich_keine_zeit", label: "Der VNB hat angekündigt, dass das möglich sein wird - aber noch keine genaue Zeit genannt" },
-  { value: "vertroestet", label: "Der VNB hat uns auf später vertröstet" },
-  { value: "weiss_nicht", label: "Der VNB weiß nicht, was Energy Sharing ist" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
-
-const ES_NETZENTGELTE_OPTIONS = [
-  { value: "ja_vorschlag", label: "Ja - und der VNB hatte schon einen Vorschlag wie das geht", hasTextField: true },
-  { value: "ja_unklar", label: "Ja - aber der VNB weiß auch nicht wie das gehen soll", hasTextField: true },
-  { value: "nein", label: "Nein" },
-];
+import { getOptionsForQuestion, getLabelForQuestion } from "@/data/surveySchema";
 
 interface StepEnergySharingProps {
   data: SurveyData;
@@ -62,7 +10,6 @@ interface StepEnergySharingProps {
 }
 
 export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) {
-  // Changed to single-select: esStatus is now a string, not array
   const esStatusValue = Array.isArray(data.esStatus) ? data.esStatus[0] : data.esStatus;
   const isInOperation = esStatusValue?.includes('in_betrieb') || false;
   const isPlanning = esStatusValue === 'planung_bereit' || esStatusValue === 'info_sammeln';
@@ -78,8 +25,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
       <SingleSelectQuestion
         id="es-status"
-        label="E1. Wo stehen Sie aktuell mit dem Projekt?"
-        options={ES_STATUS_OPTIONS}
+        label={getLabelForQuestion("esStatus")}
+        options={getOptionsForQuestion("esStatus")}
         value={esStatusValue}
         otherValue={data.esStatusOther}
         onChange={(val) => updateData("esStatus", [val])}
@@ -114,17 +61,17 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         <div className="space-y-6 pt-4 border-t">
           <MultiSelectQuestion
             id="es-plant-type"
-            label="E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen?"
+            label={getLabelForQuestion("esPlantType")}
             description="Mehrfachauswahl möglich"
-            options={ES_PLANT_TYPE_OPTIONS}
+            options={getOptionsForQuestion("esPlantType")}
             value={data.esPlantType}
             onChange={(val) => updateData("esPlantType", val)}
           />
 
           <SingleSelectQuestion
             id="es-project-scope"
-            label="E4. Projektumfang"
-            options={ES_PROJECT_SCOPE_OPTIONS}
+            label={getLabelForQuestion("esProjectScope")}
+            options={getOptionsForQuestion("esProjectScope")}
             value={data.esProjectScope}
             onChange={(val) => updateData("esProjectScope", val)}
           />
@@ -195,8 +142,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
           <MultiSelectQuestion
             id="es-consumer-types"
-            label="E5. Welche Stromverbraucher sollen eingebunden werden?"
-            options={ES_CONSUMER_TYPES_OPTIONS}
+            label={getLabelForQuestion("esConsumerTypes")}
+            options={getOptionsForQuestion("esConsumerTypes")}
             value={data.esConsumerTypes}
             onChange={(val) => updateData("esConsumerTypes", val)}
           />
@@ -213,8 +160,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
           <SingleSelectQuestion
             id="es-consumer-scope"
-            label="E6. An wen soll der Strom geliefert werden?"
-            options={ES_CONSUMER_SCOPE_OPTIONS}
+            label={getLabelForQuestion("esConsumerScope")}
+            options={getOptionsForQuestion("esConsumerScope")}
             value={data.esConsumerScope}
             otherValue={data.esConsumerScopeOther}
             onChange={(val) => updateData("esConsumerScope", val)}
@@ -223,7 +170,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
           <TextQuestion
             id="es-max-distance"
-            label="Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern?"
+            label={getLabelForQuestion("esMaxDistance")}
             description="Eine ungefähre Schätzung reicht"
             value={data.esMaxDistance}
             onChange={(val) => updateData("esMaxDistance", val)}
@@ -236,11 +183,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
       <div className="space-y-6 pt-4 border-t">
         <SingleSelectQuestion
           id="es-vnb-contact"
-          label="E6. Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?"
-          options={[
-            { value: "yes", label: "Ja" },
-            { value: "no", label: "Nein" },
-          ]}
+          label={getLabelForQuestion("esVnbContact")}
+          options={getOptionsForQuestion("esVnbContact")}
           value={data.esVnbContact === true ? 'yes' : data.esVnbContact === false ? 'no' : undefined}
           onChange={(val) => updateData("esVnbContact", val === 'yes')}
         />
@@ -249,8 +193,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
           <>
             <SingleSelectQuestion
               id="es-vnb-response"
-              label="E7. Was war die Rückmeldung des VNB?"
-              options={ES_VNB_RESPONSE_OPTIONS}
+              label={getLabelForQuestion("esVnbResponse")}
+              options={getOptionsForQuestion("esVnbResponse")}
               value={data.esVnbResponse}
               otherValue={data.esVnbResponseOther}
               onChange={(val) => updateData("esVnbResponse", val)}
@@ -259,8 +203,8 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
             <SingleSelectQuestion
               id="es-netzentgelte-discussion"
-              label="E8. Haben Sie mit Ihrem VNB bereits über die Abrechnung der Netzentgelte gesprochen?"
-              options={ES_NETZENTGELTE_OPTIONS}
+              label={getLabelForQuestion("esNetzentgelteDiscussion")}
+              options={getOptionsForQuestion("esNetzentgelteDiscussion")}
               value={data.esNetzentgelteDiscussion}
               otherValue={data.esNetzentgelteDetails}
               onChange={(val) => updateData("esNetzentgelteDiscussion", val)}
@@ -272,7 +216,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
 
       <TextQuestion
         id="es-info-sources"
-        label="Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Energy Sharing?"
+        label={getLabelForQuestion("esInfoSources")}
         type="textarea"
         value={data.esInfoSources}
         onChange={(val) => updateData("esInfoSources", val)}

@@ -4,57 +4,7 @@ import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
 import { RatingQuestion } from "../questions/RatingQuestion";
 import { FileUpload } from "../questions/FileUpload";
-
-const VNB_ROLE_OPTIONS = [
-  { value: "keine", label: "Gar keine - wir machen das mit einem wettbewerblichen Messstellenbetreiber" },
-  { value: "msb_dienstleister", label: "Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung" },
-  { value: "msb_direkt", label: "Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung" },
-  { value: "full_service", label: "Das Stadtwerk übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden" },
-];
-
-const DURATION_OPTIONS = [
-  { value: "unter_2_monate", label: "Unter 2 Monaten" },
-  { value: "2_bis_12_monate", label: "Zwischen 2 und 12 Monaten" },
-  { value: "ueber_12_monate", label: "Über 12 Monate" },
-];
-
-const WANDLERMESSUNG_OPTIONS = [
-  { value: "nein", label: "Nein" },
-  { value: "ja", label: "Ja", hasTextField: true },
-  { value: "wissen_nicht", label: "Das wissen wir nicht" },
-];
-
-const MSB_PROVIDER_OPTIONS = [
-  { value: "gmsb", label: "Unser lokaler gMSB (gleiches Unternehmen wie der VNB)" },
-  { value: "wmsb", label: "Ein wMSB" },
-];
-
-const DATA_PROVIDER_OPTIONS = [
-  { value: "gmsb", label: "Unser lokaler gMSB" },
-  { value: "dienstleister", label: "Ein Dienstleister" },
-  { value: "wmsb", label: "Ein wMSB" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
-
-const MSB_DURATION_OPTIONS = [
-  { value: "wissen_nicht", label: "Weiß ich nicht" },
-  { value: "schnell", label: "Das ging problemlos und schnell" },
-  { value: "4_monate", label: "Die 4 Monate gesetzliche Frist wurden gerade so eingehalten" },
-  { value: "laenger", label: "Die Frist von 4 Monaten wurde deutlich überschritten" },
-];
-
-const ADDITIONAL_COSTS_OPTIONS = [
-  { value: "wissen_nicht", label: "Wissen wir nicht" },
-  { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
-  { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
-];
-
-const REJECTION_RESPONSE_OPTIONS = [
-  { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
-  { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
-  { value: "keine_schritte", label: "Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab" },
-  { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-];
+import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
 interface StepMieterstromOperationProps {
   data: SurveyData;
@@ -65,6 +15,7 @@ interface StepMieterstromOperationProps {
 
 export function StepMieterstromOperation({ data, updateData, uploadedDocuments, setUploadedDocuments }: StepMieterstromOperationProps) {
   const showGmsbDetails = data.mieterstromMsbProvider === 'gmsb';
+  const satisfactionQ = getQuestionById("mieterstromOperationSatisfaction");
 
   return (
     <div className="space-y-8">
@@ -77,16 +28,16 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
 
       <SingleSelectQuestion
         id="mieterstrom-vnb-role"
-        label="MB1. Welche Rolle übernimmt der VNB in Ihrem Mieterstrom-Projekt?"
-        options={VNB_ROLE_OPTIONS}
+        label={getLabelForQuestion("mieterstromVnbRole")}
+        options={getOptionsForQuestion("mieterstromVnbRole")}
         value={data.mieterstromVnbRole}
         onChange={(val) => updateData("mieterstromVnbRole", val)}
       />
 
       <SingleSelectQuestion
         id="mieterstrom-vnb-duration"
-        label="MB2. Wie lange hat die Abstimmung mit dem VNB zum Mieterstrom gedauert?"
-        options={DURATION_OPTIONS}
+        label={getLabelForQuestion("mieterstromVnbDuration")}
+        options={getOptionsForQuestion("mieterstromVnbDuration")}
         value={data.mieterstromVnbDuration}
         onChange={(val) => updateData("mieterstromVnbDuration", val)}
       />
@@ -103,8 +54,8 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
 
       <SingleSelectQuestion
         id="mieterstrom-wandlermessung"
-        label="MB3. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung >5.000 EUR)?"
-        options={WANDLERMESSUNG_OPTIONS}
+        label={getLabelForQuestion("mieterstromWandlermessung")}
+        options={getOptionsForQuestion("mieterstromWandlermessung")}
         value={data.mieterstromWandlermessung}
         otherValue={data.mieterstromWandlermessungComment}
         onChange={(val) => updateData("mieterstromWandlermessung", val)}
@@ -116,16 +67,16 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         
         <SingleSelectQuestion
           id="mieterstrom-msb-provider"
-          label="MB4.1 Messstellenbetrieb: Wer stellt die Zähler oder die Smart Meter bereit?"
-          options={MSB_PROVIDER_OPTIONS}
+          label={getLabelForQuestion("mieterstromMsbProvider")}
+          options={getOptionsForQuestion("mieterstromMsbProvider")}
           value={data.mieterstromMsbProvider}
           onChange={(val) => updateData("mieterstromMsbProvider", val)}
         />
 
         <SingleSelectQuestion
           id="mieterstrom-data-provider"
-          label="MB4.2 Übermittlung der verbrauchten Strommengen je Teilnehmer"
-          options={DATA_PROVIDER_OPTIONS}
+          label={getLabelForQuestion("mieterstromDataProvider")}
+          options={getOptionsForQuestion("mieterstromDataProvider")}
           value={data.mieterstromDataProvider}
           otherValue={data.mieterstromDataProviderOther}
           onChange={(val) => updateData("mieterstromDataProvider", val)}
@@ -139,16 +90,16 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
           
           <SingleSelectQuestion
             id="mieterstrom-msb-install-duration"
-            label="MB5.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?"
-            options={MSB_DURATION_OPTIONS}
+            label={getLabelForQuestion("mieterstromMsbInstallDuration")}
+            options={getOptionsForQuestion("mieterstromMsbInstallDuration")}
             value={data.mieterstromMsbInstallDuration}
             onChange={(val) => updateData("mieterstromMsbInstallDuration", val)}
           />
 
           <SingleSelectQuestion
             id="mieterstrom-operation-costs"
-            label="MB5.2 Stellt der VNB/gMSB Ihnen für den Betrieb der Smart Meter zusätzliche Kosten in Rechnung?"
-            options={ADDITIONAL_COSTS_OPTIONS}
+            label={getLabelForQuestion("mieterstromOperationCosts")}
+            options={getOptionsForQuestion("mieterstromOperationCosts")}
             value={data.mieterstromOperationCosts}
             onChange={(val) => updateData("mieterstromOperationCosts", val)}
           />
@@ -187,22 +138,21 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         </div>
       )}
 
-      {/* P1.7: Neutralized rating labels */}
       <RatingQuestion
         id="mieterstrom-operation-satisfaction"
-        label="MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?"
+        label={getLabelForQuestion("mieterstromOperationSatisfaction")}
         value={data.mieterstromOperationSatisfaction}
         onChange={(val) => updateData("mieterstromOperationSatisfaction", val)}
-        minLabel="bremst aktiv"
-        maxLabel="unterstützt aktiv"
-        min={1}
-        max={10}
+        minLabel={satisfactionQ?.minLabel || "bremst aktiv"}
+        maxLabel={satisfactionQ?.maxLabel || "unterstützt aktiv"}
+        min={satisfactionQ?.min || 1}
+        max={satisfactionQ?.max || 10}
       />
 
       <MultiSelectQuestion
         id="mieterstrom-rejection-response"
-        label="MD1. Falls Ihr VNB die Umsetzung von Mieterstrom nicht oder nur unzureichend anbietet/durchführt, wie haben Sie bislang reagiert?"
-        options={REJECTION_RESPONSE_OPTIONS}
+        label={getLabelForQuestion("mieterstromRejectionResponse")}
+        options={getOptionsForQuestion("mieterstromRejectionResponse")}
         value={data.mieterstromRejectionResponse || []}
         otherValue={data.mieterstromRejectionResponseOther}
         onChange={(val) => updateData("mieterstromRejectionResponse", val)}
@@ -212,7 +162,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
 
       <TextQuestion
         id="mieterstrom-info-sources"
-        label="MD2. Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Mieterstrom?"
+        label={getLabelForQuestion("mieterstromInfoSources")}
         type="textarea"
         value={data.mieterstromInfoSources}
         onChange={(val) => updateData("mieterstromInfoSources", val)}
@@ -222,7 +172,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
 
       <TextQuestion
         id="mieterstrom-experiences"
-        label="MD3. Welche Erfahrungen möchten Sie noch teilen?"
+        label={getLabelForQuestion("mieterstromExperiences")}
         type="textarea"
         value={data.mieterstromExperiences}
         onChange={(val) => updateData("mieterstromExperiences", val)}
@@ -240,7 +190,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
 
       <TextQuestion
         id="mieterstrom-survey-improvements"
-        label="MD4. Haben Sie Verbesserungsvorschläge für diese Umfrage?"
+        label="Haben Sie Verbesserungsvorschläge für diese Umfrage?"
         type="textarea"
         value={data.mieterstromSurveyImprovements}
         onChange={(val) => updateData("mieterstromSurveyImprovements", val)}
