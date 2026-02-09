@@ -59,7 +59,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     {
       id: "actorTypes",
       type: "multi-select",
-      label: "A1. Zu welcher Akteursgruppe würden Sie sich zählen?",
+      label: "A1. In welche Akteursgruppe fallen Sie?",
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "buergerenergie", label: "Bürgerenergiegenossenschaft", hasTextField: true, textFieldLabel: "Name der Genossenschaft (optional)" },
@@ -80,7 +80,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     {
       id: "motivation",
       type: "multi-select",
-      label: "A2. Was ist Ihre Motivation?",
+      label: "A2. Wie würden Sie Ihre Motivation einordnen?",
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "pv_nutzung", label: "Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen" },
@@ -93,7 +93,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     {
       id: "projectTypes",
       type: "multi-select",
-      label: "A3. Welche Projektart interessiert Sie?",
+      label: "A3. Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
@@ -106,8 +106,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     {
       id: "contactEmail",
       type: "email",
-      label: "Kontakt E-Mail",
-      description: "Optional - falls wir Rückfragen haben",
+      label: "Falls wir Sie bei Rückfragen kontaktieren dürfen, lassen Sie gerne eine E-Mail da",
       placeholder: "ihre@email.de",
       optional: true,
     },
@@ -250,7 +249,7 @@ const SECTION_PLANNING: SurveySection = {
     {
       id: "planningStatus",
       type: "single-select", // Changed from multi-select to single-select per P0.6
-      label: "B1. Wo stehen Sie aktuell?",
+      label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
       options: [
         { value: "info_sammeln", label: "Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen" },
         { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
@@ -265,7 +264,7 @@ const SECTION_PLANNING: SurveySection = {
     {
       id: "ggvOrMieterstromDecision",
       type: "single-select",
-      label: "B2. Wie sicher sind Sie, ob Sie GGV oder Mieterstrom umsetzen?",
+      label: "B2. Sind Sie bereits festgelegt auf GGV oder Mieterstrom?",
       options: [
         { value: "sicher_ggv", label: "Wir sind sicher - es wird/ist GGV" },
         { value: "unsicher", label: "Wir sind unsicher - es fehlen noch Informationen für eine Entscheidung" },
@@ -276,7 +275,7 @@ const SECTION_PLANNING: SurveySection = {
     {
       id: "ggvDecisionReasons",
       type: "multi-select",
-      label: "B3. Warum haben Sie sich für GGV entschieden?",
+      label: "B3. Falls Sie derzeit eher zur GGV tendieren oder sich dafür entschlossen haben - warum?",
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "buerokratie_mieterstrom", label: "Wegen der bürokratischen Herausforderungen bei Mieterstrom" },
@@ -291,7 +290,7 @@ const SECTION_PLANNING: SurveySection = {
     {
       id: "mieterstromDecisionReasons",
       type: "multi-select",
-      label: "B4. Warum haben Sie sich für Mieterstrom entschieden?",
+      label: "B4. Falls Sie derzeit eher zu Mieterstrom tendieren oder sich dafür entschlossen haben - warum?",
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "einfacher_umsetzung", label: "Weil das in der Umsetzung einfacher zu sein scheint" },
@@ -306,8 +305,8 @@ const SECTION_PLANNING: SurveySection = {
     {
       id: "implementationApproach",
       type: "multi-select",
-      label: "B5. Wie möchten Sie die Umsetzung angehen?",
-      description: "Mehrfachauswahl möglich",
+      label: "B5. Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?",
+      description: "Über die Installation der PV-Anlage hinaus - Mehrfachauswahl möglich",
       options: [
         { value: "alleine", label: "Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden" },
         { value: "dienstleister_ok", label: "Dienstleister sind OK, solange das preislich attraktiv ist" },
@@ -630,16 +629,9 @@ const SECTION_GGV_OPERATION: SurveySection = {
   visibilityLogic: "Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enthält",
   questions: [
     {
-      id: "operationStartDate",
-      type: "text",
-      label: "D0. Seit wann ist die GGV in Betrieb?",
-      placeholder: "z.B. Januar 2025",
-      optional: true,
-    },
-    {
       id: "operationVnbDuration",
       type: "single-select",
-      label: "D1. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?",
+      label: "D0. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?",
       options: [
         { value: "unter_2_monate", label: "Unter 2 Monaten" },
         { value: "2_bis_12_monate", label: "Zwischen 2 und 12 Monaten" },
@@ -647,9 +639,16 @@ const SECTION_GGV_OPERATION: SurveySection = {
       ],
     },
     {
+      id: "operationVnbDurationReasons",
+      type: "textarea",
+      label: "Falls es lange dauerte: Was war das große Problem?",
+      placeholder: "Beschreiben Sie die Gründe...",
+      optional: true,
+    },
+    {
       id: "operationWandlermessung",
       type: "single-select",
-      label: "D2. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung >5.000 EUR)?",
+      label: "D1. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung > 5.000 EUR)?",
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
@@ -657,9 +656,17 @@ const SECTION_GGV_OPERATION: SurveySection = {
       ],
     },
     {
+      id: "operationWandlermessungComment",
+      type: "textarea",
+      label: "Ergänzende Informationen zur Wandlermessung",
+      placeholder: "Weitere Details...",
+      optional: true,
+      visibilityLogic: "Wenn operationWandlermessung beantwortet",
+    },
+    {
       id: "operationMsbProvider",
       type: "single-select",
-      label: "D3. Wer ist der Messstellenbetreiber?",
+      label: "D2.1 Messstellenbetrieb: Wer baut die Smart Meter ein und betreibt sie?",
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
         { value: "wmsb", label: "Ein wMSB" },
@@ -668,7 +675,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationAllocationProvider",
       type: "single-select",
-      label: "D4. Wer übernimmt die Aufteilung?",
+      label: "D2.2 Aufteilung der PV-Stromerzeugung auf die Teilnehmenden (Verrechnung)",
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB" },
         { value: "wmsb", label: "Ein wMSB" },
@@ -676,30 +683,71 @@ const SECTION_GGV_OPERATION: SurveySection = {
       ],
     },
     {
+      id: "operationDataProvider",
+      type: "single-select",
+      label: "D2.3 Übermittlung der errechneten Strommengen je Teilnehmer",
+      options: [
+        { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
+        { value: "wmsb", label: "Ein wMSB" },
+      ],
+    },
+    {
       id: "operationMsbDuration",
       type: "single-select",
-      label: "D5. Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?",
+      label: "D3.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?",
       options: [
         { value: "wissen_nicht", label: "Weiß ich nicht" },
         { value: "schnell", label: "Das ging problemlos und schnell" },
         { value: "4_monate", label: "Ca. 4 Monate (gesetzlich vorgegebene Frist)" },
         { value: "laenger", label: "Deutlich länger als 4 Monate" },
       ],
+      visibilityLogic: "Wenn operationMsbProvider = 'gmsb'",
     },
     {
       id: "operationMsbAdditionalCosts",
       type: "single-select",
-      label: "D6. Stellt der VNB/gMSB zusätzliche Kosten in Rechnung?",
+      label: "D3.2 Stellt der VNB/gMSB zusätzliche Kosten für den 'Einbau auf Kundenwunsch' in Rechnung?",
       options: [
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
       ],
+      visibilityLogic: "Wenn operationMsbProvider = 'gmsb'",
+    },
+    {
+      id: "operationMsbAdditionalCostsOneTime",
+      type: "number",
+      label: "Einmalbetrag (EUR)",
+      placeholder: "z.B. 500",
+      optional: true,
+      visibilityLogic: "Wenn operationMsbAdditionalCosts = 'ja'",
+      conditionalRequired: "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
+    },
+    {
+      id: "operationMsbAdditionalCostsYearly",
+      type: "number",
+      label: "Jährlicher Betrag (EUR)",
+      placeholder: "z.B. 100",
+      optional: true,
+      visibilityLogic: "Wenn operationMsbAdditionalCosts = 'ja'",
+      conditionalRequired: "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
+    },
+    {
+      id: "operationAllocationWho",
+      type: "single-select",
+      label: "D4. Falls jemand anderes als der VNB/gMSB die Aufteilung der Strommengen vornimmt, wer ist das?",
+      options: [
+        { value: "wissen_nicht", label: "Weiß ich nicht" },
+        { value: "dienstleister", label: "Das macht ein Dienstleister, den ich bezahle" },
+        { value: "selber", label: "Das mache ich selber, auf Basis der kompletten Verbrauchsdaten aller Teilnehmenden" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+      ],
+      visibilityLogic: "Wenn operationAllocationProvider nicht 'gmsb'",
     },
     {
       id: "operationDataFormat",
       type: "single-select",
-      label: "D7. Wie übermittelt Ihr VNB/MSB die Daten für die Abrechnung?",
+      label: "D5.1 Wie erhalten Sie die Daten?",
       options: [
         { value: "mail_excel", label: "Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
         { value: "portal_verrechnete_werte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
@@ -710,13 +758,53 @@ const SECTION_GGV_OPERATION: SurveySection = {
       ],
     },
     {
+      id: "operationDataCost",
+      type: "single-select",
+      label: "D5.2 Wieviel kostet die Bereitstellung der verrechneten Werte?",
+      description: "Dabei sind die Kosten für die Smart Meter nicht zu berücksichtigen",
+      options: [
+        { value: "kostenlos", label: "Kostenlos" },
+        { value: "weniger_3_eur", label: "Dauerhaft weniger (oder gleich) 3 EUR/Messstelle pro Jahr" },
+        { value: "mehr_3_eur", label: "Dauerhaft mehr als 3 EUR/Messstelle pro Jahr" },
+        { value: "aktuell_kostenlos", label: "Aktuell kostenlos, das wird sich aber ändern" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+      ],
+    },
+    {
+      id: "operationDataCostAmount",
+      type: "number",
+      label: "Betrag in EUR/Messstelle/Jahr",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityLogic: "Wenn operationDataCost = 'mehr_3_eur'",
+    },
+    {
+      id: "operationEsaCost",
+      type: "single-select",
+      label: "D6. Falls Ihr Dienstleister die Werte vom VNB/gMSB für Sie abruft (ESA-Marktrolle), verlangt der VNB/gMSB dafür Geld?",
+      options: [
+        { value: "wissen_nicht", label: "Wissen wir nicht" },
+        { value: "kostenlos", label: "Nein, das macht er umsonst" },
+        { value: "weniger_3_eur", label: "Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
+        { value: "mehr_3_eur", label: "Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
+      ],
+    },
+    {
+      id: "operationEsaCostAmount",
+      type: "number",
+      label: "Betrag in EUR/Messstelle/Jahr",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityLogic: "Wenn operationEsaCost = 'mehr_3_eur'",
+    },
+    {
       id: "operationSatisfactionRating",
       type: "rating",
-      label: "D8. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung der GGV?",
+      label: "D7. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?",
       min: 1,
       max: 10,
-      minLabel: "Sehr unzufrieden",
-      maxLabel: "Sehr zufrieden",
+      minLabel: "Unser VNB will das eigentlich lieber verhindern",
+      maxLabel: "Unser VNB möchte das wirklich mit uns umsetzen",
     },
   ],
 };
@@ -731,7 +819,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
     {
       id: "serviceProviderName",
       type: "text",
-      label: "Mit welchem Dienstleister arbeiten Sie zusammen?",
+      label: "D8. Mit welchem Dienstleister arbeiten Sie zusammen?",
       placeholder: "Name des Dienstleisters",
       optional: true,
     },
@@ -776,7 +864,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
     {
       id: "vnbRejectionResponse",
       type: "multi-select",
-      label: "Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?",
+      label: "D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?",
       options: [
         { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
         { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
@@ -860,53 +948,50 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       type: "single-select",
       label: "M6. Lässt Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?",
       options: [
-        { value: "wissen_nicht", label: "Wissen wir nicht" },
-        { value: "ja", label: "Ja" },
-        { value: "nein", label: "Nein", hasTextField: true },
-      ],
-      visibilityLogic: "Wenn mieterstromSummenzaehler = 'virtuell'",
-    },
-    {
-      id: "mieterstromVirtuellWandlermessung",
-      type: "single-select",
-      label: "M7. Verlangt Ihr VNB/gMSB bei einem virtuellen Summenzähler eine Wandlermessung?",
-      options: [
-        { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
       ],
       visibilityLogic: "Wenn mieterstromSummenzaehler = 'virtuell'",
     },
     {
+      id: "mieterstromVirtuellWandlermessung",
+      type: "single-select",
+      label: "M7. Wenn Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten >5.000 EUR)?",
+      options: [
+        { value: "nein", label: "Nein" },
+        { value: "ja", label: "Ja", hasTextField: true },
+      ],
+      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'ja'",
+    },
+    {
       id: "mieterstromVnbResponse",
       type: "multi-select",
-      label: "M8. Welche Aussage zur Rückmeldung vom VNB zu Mieterstrom trifft zu?",
+      label: "M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?",
       description: "Mehrfachauswahl möglich",
       options: [
-        { value: "moeglich", label: "Umsetzung von Mieterstrom ist möglich" },
+        { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB kann dies als Messstellenbetreiber machen" },
+        { value: "moeglich_wmsb", label: "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
         { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
         { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       optional: true,
     },
     {
       id: "mieterstromVnbSupport",
       type: "multi-select",
-      label: "M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom online bereit?",
+      label: "M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom bereit?",
       options: [
-        { value: "messkonzept", label: "Informationen zum Messkonzept", hasTextField: true, textFieldLabel: "Weblink" },
-        { value: "formulare", label: "Formulare", hasTextField: true, textFieldLabel: "Weblink" },
-        { value: "portal", label: "Online-Portal" },
-        { value: "keine", label: "Keine Unterstützung bekannt" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "messkonzept", label: "Informationen zum Messkonzept und Prozessen", hasTextField: true, textFieldLabel: "Weblink" },
+        { value: "formulare", label: "Formulare für die Übermittlung der Teilnehmenden / Änderungen" },
+        { value: "portal", label: "Online-Portal für die Übermittlung der Teilnehmenden / Änderungen" },
+        { value: "sonstiges", label: "Weiteres", hasTextField: true },
       ],
       optional: true,
     },
     {
       id: "mieterstromVnbHelpful",
       type: "single-select",
-      label: "M10. Bietet Ihr VNB eine Kontaktmöglichkeit zu Mieterstrom und ist das hilfreich?",
+      label: "M10. Bietet Ihr VNB eine Kontaktmöglichkeit für Mieterstrom und ist das hilfreich?",
       options: [
         { value: "ja_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit und da wurde uns geholfen" },
         { value: "ja_nicht_hilfreich", label: "Ja, aber es gab wenig hilfreiche Information" },
@@ -931,8 +1016,8 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Wie sehr fühlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterstützt?",
       min: 1,
       max: 10,
-      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
-      maxLabel: "unterstützt aktiv",
+      minLabel: "Unser VNB will das eigentlich lieber verhindern",
+      maxLabel: "Unser VNB möchte das wirklich mit uns umsetzen",
     },
   ],
 };
