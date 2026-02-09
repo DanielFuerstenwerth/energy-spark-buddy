@@ -52,7 +52,7 @@ const FINAL_FIELDS: (keyof SurveyData)[] = [
   'helpfulInfoSources', 'additionalExperiences', 'surveyImprovements', 'npsScore',
 ];
 
-export const GLOBAL_STEP_IDS = new Set(['about', 'energy-sharing', 'final']);
+export const GLOBAL_STEP_IDS = new Set(['about', 'final']);
 
 export function isGlobalStep(stepId: string): boolean {
   return GLOBAL_STEP_IDS.has(stepId);

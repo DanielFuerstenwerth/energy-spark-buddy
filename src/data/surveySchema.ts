@@ -101,10 +101,10 @@ const SECTION_ABOUT_YOU: SurveySection = {
   ],
 };
 
-// === SECTION: Projektdetails ===
+// === SECTION: Projekt ===
 const SECTION_PROJECT_DETAILS: SurveySection = {
   id: "project",
-  title: "Projektdetails",
+  title: "Projekt",
   description: "VNB, Projektart und Dimensionen",
   questions: [
     {
@@ -226,11 +226,11 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
   ],
 };
 
-// === SECTION B: Planungsstatus ===
+// === SECTION B: Planung Allgemeines - Planungsstatus ===
 const SECTION_PLANNING: SurveySection = {
   id: "planning",
-  title: "B. Planungsstand",
-  description: "Aktueller Status",
+  title: "Planung: Allgemeines – Planungsstand",
+  description: "Aktueller Status Ihres Projekts",
   visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
   questions: [
     {
@@ -272,7 +272,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn #18 = 'sicher_ggv'",
+      visibilityLogic: "Nur wenn #18 = 'sicher_ggv' (Kontrollfrage, keine Logik-Auswirkung)",
     },
     {
       id: "mieterstromDecisionReasons",
@@ -287,7 +287,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn #18 = 'sicher_mieterstrom'",
+      visibilityLogic: "Nur wenn #18 = 'sicher_mieterstrom' (Kontrollfrage, keine Logik-Auswirkung)",
     },
     {
       id: "implementationApproach",
@@ -303,11 +303,11 @@ const SECTION_PLANNING: SurveySection = {
   ],
 };
 
-// === SECTION: Herausforderungen ===
+// === SECTION: Planung Allgemeines - Herausforderungen ===
 const SECTION_CHALLENGES: SurveySection = {
   id: "challenges",
-  title: "B6. Herausforderungen",
-  description: "Erlebte Schwierigkeiten",
+  title: "Planung: Allgemeines – Herausforderungen",
+  description: "Erlebte Schwierigkeiten bei der Umsetzung",
   visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
   questions: [
     {
@@ -326,12 +326,12 @@ const SECTION_CHALLENGES: SurveySection = {
   ],
 };
 
-// === SECTION C: VNB Planung GGV ===
+// === SECTION C: Planung Modellspezifisch - GGV ===
 const SECTION_VNB_PLANNING_GGV: SurveySection = {
   id: "vnb-planning",
-  title: "C. VNB Planung (GGV)",
+  title: "Planung: Modellspezifisch – GGV (C)",
   description: "Details zur GGV-Planung mit dem Verteilnetzbetreiber",
-  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_ggv'",
+  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
   questions: [
     {
       id: "vnbExistingProjects",
@@ -447,10 +447,10 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
   ],
 };
 
-// === SECTION: VNB MSB Details ===
+// === SECTION: Planung Modellspezifisch - GGV MSB Details ===
 const SECTION_VNB_MSB_DETAILS: SurveySection = {
   id: "vnb-msb",
-  title: "C8. MSB Details",
+  title: "Planung: Modellspezifisch – GGV MSB Details (C8)",
   description: "Details zum Messstellenbetreiber-Angebot",
   visibilityLogic: "Nur wenn #33 beantwortet",
   questions: [
@@ -608,11 +608,11 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   ],
 };
 
-// === SECTION D: GGV Betrieb ===
+// === SECTION D: Betrieb Modellspezifisch - GGV ===
 const SECTION_GGV_OPERATION: SurveySection = {
   id: "ggv-operation",
-  title: "D. GGV Betrieb",
-  description: "Erfahrungen im laufenden Betrieb",
+  title: "Betrieb: Modellspezifisch – GGV (D)",
+  description: "Erfahrungen im laufenden GGV-Betrieb",
   visibilityLogic: "Nur wenn #17 = 'pv_laeuft_ggv_laeuft'",
   questions: [
     {
@@ -796,12 +796,12 @@ const SECTION_GGV_OPERATION: SurveySection = {
   ],
 };
 
-// === SECTION: Dienstleister ===
+// === SECTION: Betrieb Modellspezifisch - GGV Dienstleister ===
 const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
-  title: "Dienstleister",
+  title: "Betrieb: Modellspezifisch – Dienstleister (GGV)",
   description: "Feedback zu Dienstleistern & Reaktionen",
-  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_ggv'",
+  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
   questions: [
     {
       id: "serviceProviderName",
@@ -863,12 +863,12 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
   ],
 };
 
-// === SECTION: Mieterstrom Planung ===
+// === SECTION: Planung Modellspezifisch - Mieterstrom ===
 const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   id: "mieterstrom-planning",
-  title: "M. Mieterstrom Planung",
+  title: "Planung: Modellspezifisch – Mieterstrom (M)",
   description: "Details zu Mieterstrom-Projekten",
-  visibilityLogic: "Nur wenn in #5 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_mieterstrom'",
+  visibilityLogic: "Nur wenn in #5 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
   questions: [
     {
       id: "mieterstromSummenzaehler",
@@ -1009,10 +1009,10 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   ],
 };
 
-// === SECTION: Mieterstrom VNB Offer ===
+// === SECTION: Planung Modellspezifisch - Mieterstrom VNB Angebot ===
 const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
   id: "mieterstrom-vnb-offer",
-  title: "MP. VNB Angebot (Mieterstrom)",
+  title: "Planung: Modellspezifisch – VNB Angebot Mieterstrom (MP)",
   description: "Details zum MSB-Angebot des VNB für Mieterstrom",
   visibilityLogic: "Nur wenn Mieterstrom ausgewählt und nicht in Betrieb",
   questions: [
@@ -1076,10 +1076,10 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
   ],
 };
 
-// === SECTION: Mieterstrom Betrieb ===
+// === SECTION: Betrieb Modellspezifisch - Mieterstrom ===
 const SECTION_MIETERSTROM_OPERATION: SurveySection = {
   id: "mieterstrom-operation",
-  title: "MB. Mieterstrom Betrieb",
+  title: "Betrieb: Modellspezifisch – Mieterstrom (MB)",
   description: "Erfahrungen im laufenden Mieterstrom-Betrieb",
   visibilityLogic: "Nur wenn Mieterstrom in Betrieb",
   questions: [
@@ -1195,10 +1195,10 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
   ],
 };
 
-// === SECTION E: Energy Sharing ===
+// === SECTION E: Planung Modellspezifisch - Energy Sharing ===
 const SECTION_ENERGY_SHARING: SurveySection = {
   id: "energy-sharing",
-  title: "E. Energy Sharing",
+  title: "Planung: Modellspezifisch – Energy Sharing (E)",
   description: "Details zu Energy Sharing",
   visibilityLogic: "Nur wenn Energy Sharing ausgewählt",
   questions: [
