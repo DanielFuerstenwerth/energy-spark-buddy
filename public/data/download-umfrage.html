@@ -23,12 +23,6 @@
     }
     h1 { color: #1a365d; margin-bottom: 20px; font-size: 28px; }
     p { color: #666; margin-bottom: 20px; line-height: 1.6; }
-    .buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      margin-top: 30px;
-    }
     a.btn {
       display: inline-block;
       background: #3182ce;
@@ -39,12 +33,9 @@
       font-weight: bold;
       font-size: 18px;
       transition: background 0.2s;
+      margin-top: 20px;
     }
     a.btn:hover { background: #2c5282; }
-    a.btn.secondary {
-      background: #48bb78;
-    }
-    a.btn.secondary:hover { background: #38a169; }
     .hint {
       margin-top: 30px;
       font-size: 14px;
@@ -56,30 +47,28 @@
       text-align: left;
     }
     .hint strong { color: #2d3748; }
+    .version { font-size: 12px; color: #aaa; margin-top: 20px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📄 Fragebogen GGV - Dokumentation</h1>
-    <p>Vollständige Dokumentation aller 13 Sektionen (A-I) mit 117 Fragen,<br>
-    Antwortoptionen und Sichtbarkeitslogik.</p>
+    <h1>📋 Fragebogen – Dokumentation</h1>
+    <p>Vollständige Dokumentation aller Sektionen mit Fragen,<br>
+    Antwortoptionen, Display-IDs, DB-Spalten und Sichtbarkeitslogik.</p>
     
-    <div class="buttons">
-      <a href="umfrage-dokumentation.doc" download="Fragebogen-GGV-Dokumentation.doc" class="btn">
-        ⬇️ Download als Word (.doc)
-      </a>
-      <a href="umfrage-komplett.html" download="Fragebogen-GGV-Dokumentation.html" class="btn secondary">
-        ⬇️ Download als HTML
-      </a>
-    </div>
+    <a href="umfrage-dokumentation.doc" download="Fragebogen-Dokumentation.doc" class="btn">
+      ⬇️ Download als Word (.doc)
+    </a>
     
     <div class="hint">
-      <strong>So öffnest du die Datei in Word:</strong><br><br>
-      1. Klicke auf "Download als HTML"<br>
+      <strong>So öffnest du die Datei:</strong><br><br>
+      1. Klicke auf "Download als Word (.doc)"<br>
       2. Öffne die heruntergeladene Datei mit Word<br>
-      3. In Word: "Datei" → "Speichern unter" → Format ".docx" wählen<br><br>
-      <strong>Tipp:</strong> Die Datei ist bereits Word-optimiert und behält alle Tabellen und Formatierungen.
+      3. Optional: "Datei" → "Speichern unter" → Format ".docx" wählen<br><br>
+      <strong>Korrektur-Workflow:</strong> Wenn du Änderungen anmerken möchtest, beginne die Anmerkung mit "<strong>Korrektur</strong>" und referenziere die Display-ID (z.B. <code>4-GGV-MsbOffer</code>).
     </div>
+    
+    <p class="version">Generiert aus surveySchema.ts (SSOT v3.0.0)</p>
   </div>
 </body>
 </html>
