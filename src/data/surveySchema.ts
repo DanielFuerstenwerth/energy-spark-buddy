@@ -1430,6 +1430,33 @@ export function getLabelForQuestion(questionId: string): string {
   return getQuestionById(questionId)?.label || '';
 }
 
+// Convert camelCase to snake_case
+function toSnakeCase(str: string): string {
+  return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
+}
+
+// Build database-ready object from SurveyData
+export function buildDbData(
+  data: SurveyData,
+  sessionGroupId: string,
+  uploadedDocuments: string[]
+): Record<string, unknown> {
+  const dbData: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    if (value === undefined || value === '') continue;
+    const snakeKey = toSnakeCase(key);
+    dbData[snakeKey] = value;
+  }
+
+  dbData.session_group_id = sessionGroupId;
+  if (uploadedDocuments.length > 0) {
+    dbData.uploaded_documents = uploadedDocuments;
+  }
+
+  return dbData;
+}
+
 // Export für JSON-Generierung
 export function getSurveySchemaAsJson() {
   return {
