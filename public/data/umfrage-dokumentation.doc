@@ -140,12 +140,11 @@
         <tr><td class="val">energysharing</td><td>Energy Sharing (in Zukunft möglich)</td><td></td></tr>
       </table>
       <p class="fwd">➡️ <strong>Auswirkungen von #5:</strong><br>
-        • Bei nur "Energy Sharing": Abschnitte B–D, M, MP, MB, Dienstleister entfallen komplett.<br>
-        • "GGV" → #6–#11 (GGV-Projektdetails), Abschnitte B, B6, C, C8, D, Dienstleister werden angezeigt.<br>
-        • "Mieterstrom" → #12–#15 (Mieterstrom-Projektdetails), Abschnitte B, B6, M, MP, MB werden angezeigt.<br>
-        • "GGV oder Mieterstrom" → #6–#11 UND #12–#15 werden angezeigt, ALLE Abschnitte (B–D, M, MP, MB, Dienstleister) werden angezeigt. Zusätzlich wird #18 relevant für die Entscheidung.<br>
-        • "GGV" oder "Mieterstrom" → #18 wird angezeigt (zur Bestätigung/Änderung der Entscheidung).<br>
-        • "Energy Sharing" (auch in Kombination) → Abschnitt E wird angezeigt.
+        • Bei nur "Energy Sharing": Abschnitte 3, 4-GGV, 4-MS, 5-GGV, 5-MS entfallen komplett.<br>
+        • "GGV" → #6–#11 (GGV-Projektdetails), Abschnitte 3, 4-GGV, 5-GGV werden angezeigt. #19 (GGV-Gründe) wird sichtbar.<br>
+        • "Mieterstrom" → #12–#15 (Mieterstrom-Projektdetails), Abschnitte 3, 4-MS, 5-MS werden angezeigt. #20 (Mieterstrom-Gründe) wird sichtbar.<br>
+        • "GGV oder Mieterstrom" → #6–#11 UND #12–#15 werden angezeigt, ALLE Abschnitte (3, 4-GGV, 4-MS, 5-GGV, 5-MS) werden angezeigt. Sowohl #19 als auch #20 werden sichtbar.<br>
+        • "Energy Sharing" (auch in Kombination) → Abschnitt 4-ES wird angezeigt.
       </p>
     </div>
 
@@ -262,7 +261,7 @@
         <tr><td class="val">pv_laeuft_ggv_laeuft</td><td>Die PV-Anlage läuft bereits mit GGV/Mieterstrom</td><td></td></tr>
         <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
       </table>
-      <p class="fwd">➡️ Bei #17 = "pv_laeuft_ggv_laeuft": Abschnitt D (GGV Betrieb, #48–#62) wird angezeigt.</p>
+      <p class="fwd">➡️ Bei #17 = "pv_laeuft_ggv_laeuft": Abschnitt 5-GGV (GGV Betrieb, #48–#62) wird angezeigt.</p>
     </div>
 
     <div class="q">
@@ -275,11 +274,7 @@
         <tr><td class="val">sicher_mieterstrom</td><td>Wir sind sicher - es wird/ist Mieterstrom</td><td></td></tr>
       </table>
       <p class="vis">⚡ Sichtbar wenn: In #5 "GGV", "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt.</p>
-      <p class="fwd">➡️ <strong>Auswirkungen von #18:</strong><br>
-        • "sicher_ggv" → #19 (GGV-Gründe) wird angezeigt. Abschnitte C, C8, D, Dienstleister werden angezeigt (auch wenn in #5 nur "GGV oder Mieterstrom" stand).<br>
-        • "sicher_mieterstrom" → #20 (Mieterstrom-Gründe) wird angezeigt. Abschnitte M, MP, MB werden angezeigt.<br>
-        • "unsicher" → Sowohl GGV- als auch Mieterstrom-Abschnitte bleiben sichtbar.
-      </p>
+      <p style="font-size: 9pt; margin-top: 4pt; padding: 3pt 6pt; background: #e0e7ff; border-left: 3pt solid #6366f1; color: #3730a3;">ℹ️ <strong>Reine Kontrollfrage</strong> – hat keine Auswirkungen auf die Umfrage-Logik. Die Sichtbarkeit der Abschnitte wird ausschließlich durch #5 gesteuert.</p>
     </div>
 
     <div class="q">
@@ -294,7 +289,7 @@
         <tr><td class="val">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
         <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
       </table>
-      <p class="vis">⚡ Sichtbar wenn: #18 = "sicher_ggv".</p>
+      <p class="vis">⚡ Sichtbar wenn: In #5 "GGV" oder "GGV oder Mieterstrom" ausgewählt.</p>
     </div>
 
     <div class="q">
@@ -309,7 +304,7 @@
         <tr><td class="val">finanziell_attraktiver</td><td>Weil das finanziell attraktiver ist</td><td></td></tr>
         <tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr>
       </table>
-      <p class="vis">⚡ Sichtbar wenn: #18 = "sicher_mieterstrom".</p>
+      <p class="vis">⚡ Sichtbar wenn: In #5 "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt.</p>
     </div>
 
     <div class="q">
@@ -345,7 +340,7 @@
   <div class="sec">
     <h2>4-GGV – Planung: GGV</h2>
     <p style="color: #666; font-style: italic;">Details zur GGV-Planung mit dem Verteilnetzbetreiber</p>
-    <p class="vis">⚡ Sichtbar wenn: In #5 "GGV" oder "GGV oder Mieterstrom" ausgewählt, ODER #18 = "sicher_ggv".</p>
+    <p class="vis">⚡ Sichtbar wenn: In #5 "GGV" oder "GGV oder Mieterstrom" ausgewählt.</p>
 
     <div class="q"><p><span class="qnum">#23</span> <span class="qlabel">C1. Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th><th style="width:20%">Extras</th></tr><tr><td class="val">wissen_nicht</td><td>Wissen wir nicht</td><td></td></tr><tr><td class="val">nein</td><td>Nein, es gibt sicher noch keine</td><td></td></tr><tr><td class="val">ja_mindestens_eins</td><td>Ja, es gibt mindestens eins</td><td></td></tr><tr><td class="val">ja_viele</td><td>Ja, es gibt schon eine ganze Reihe</td><td></td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table></div>
 
@@ -475,7 +470,7 @@
   <div class="sec">
     <h2>4-MS – Planung: Mieterstrom</h2>
     <p style="color: #666; font-style: italic;">Details zu Mieterstrom-Projekten</p>
-    <p class="vis">⚡ Sichtbar wenn: In #5 "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt, ODER #18 = "sicher_mieterstrom".</p>
+    <p class="vis">⚡ Sichtbar wenn: In #5 "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt.</p>
 
     <div class="q"><p><span class="qnum">#71</span> <span class="qlabel">M1. Möchten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenzähler umsetzen?</span></p><p class="qmeta">Typ: Einfachauswahl</p><table class="tbl"><tr><th style="width:25%">Wert</th><th>Label</th></tr><tr><td class="val">virtuell</td><td>Mit virtuellem Summenzähler</td></tr><tr><td class="val">physikalisch</td><td>Mit physikalischem Summenzähler</td></tr><tr><td class="val">kein_unterschied</td><td>Wir kennen den Unterschied nicht</td></tr><tr><td class="val">keine_praeferenz</td><td>Wir haben keine Präferenz</td></tr><tr><td class="val">sonstiges</td><td>Sonstiges</td><td class="extra">+ Textfeld</td></tr></table>
     <p class="fwd">➡️ Bei #71 = "virtuell": #76 und #77 (virtueller Summenzähler Details) werden angezeigt.</p></div>

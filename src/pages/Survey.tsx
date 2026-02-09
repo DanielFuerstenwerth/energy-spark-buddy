@@ -112,8 +112,8 @@ export default function Survey() {
   const effectiveProjectTypes = evalData.projectTypes;
   const isGgvInOperation = evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft');
   const isMieterstromInOperation = evalData.mieterstromInOperation === true;
-  const isGgv = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('ggv_oder_mieterstrom') || evalData.ggvOrMieterstromDecision === 'sicher_ggv';
-  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom') || effectiveProjectTypes.includes('ggv_oder_mieterstrom') || evalData.ggvOrMieterstromDecision === 'sicher_mieterstrom';
+  const isGgv = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('ggv_oder_mieterstrom');
+  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom') || effectiveProjectTypes.includes('ggv_oder_mieterstrom');
   const isGgvOrMieterstrom = isGgv || isMieterstrom;
   const isEnergySharing = effectiveProjectTypes.includes('energysharing');
   const onlyEnergySharing = isEnergySharing && !isGgvOrMieterstrom;
