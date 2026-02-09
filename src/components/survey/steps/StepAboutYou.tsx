@@ -34,15 +34,6 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         onOtherChange={(val) => updateData("motivationOther", val)}
       />
 
-      <MultiSelectQuestion
-        id="project-types"
-        label={getLabelForQuestion("projectTypes")}
-        description="Mehrfachauswahl möglich"
-        options={getOptionsForQuestion("projectTypes")}
-        value={data.projectTypes}
-        onChange={(val) => updateData("projectTypes", val)}
-      />
-
       <TextQuestion
         id="contact-email"
         label={getLabelForQuestion("contactEmail")}

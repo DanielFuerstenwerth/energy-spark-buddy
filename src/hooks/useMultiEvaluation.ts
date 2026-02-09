@@ -32,7 +32,6 @@ function createDefaultEvaluation(index: number): Evaluation {
 const GLOBAL_FIELDS: (keyof SurveyData)[] = [
   'actorTypes', 'actorTextFields', 'actorOther',
   'motivation', 'motivationOther',
-  'projectTypes',
   'contactEmail',
 ];
 
@@ -79,11 +78,9 @@ export function useMultiEvaluation() {
 
   const addEvaluation = useCallback(() => {
     const newEval = createDefaultEvaluation(evaluations.length);
-    // Copy projectTypes from global so the new evaluation inherits selected types
-    newEval.data.projectTypes = [...globalData.projectTypes];
     setEvaluations(prev => [...prev, newEval]);
     setActiveEvaluationIndex(evaluations.length);
-  }, [evaluations.length, globalData.projectTypes]);
+  }, [evaluations.length]);
 
   const removeEvaluation = useCallback((index: number) => {
     if (evaluations.length <= 1) return;

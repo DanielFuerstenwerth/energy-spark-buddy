@@ -270,6 +270,9 @@ export interface SurveyData {
   projectAddress?: string;
   projectPlz?: string;
   
+  // === Projekt-Standorte (bei mehreren Projekten) ===
+  projectLocations?: Array<{ plz?: string; address?: string; pvSizeKw?: number }>;
+  
   // === Multi-Evaluation ===
   evaluationLabel?: string;
   sessionGroupId?: string;

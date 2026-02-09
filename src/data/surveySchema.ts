@@ -92,19 +92,6 @@ const SECTION_ABOUT_YOU: SurveySection = {
       optional: true,
     },
     {
-      id: "projectTypes",
-      type: "multi-select",
-      label: "A3. Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
-      description: "Mehrfachauswahl möglich",
-      options: [
-        { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
-        { value: "mieterstrom", label: "Mieterstrom" },
-        { value: "ggv_oder_mieterstrom", label: "Entweder GGV oder Mieterstrom" },
-        { value: "energysharing", label: "Energy Sharing (in Zukunft möglich)" },
-      ],
-      required: true,
-    },
-    {
       id: "contactEmail",
       type: "email",
       label: "Falls wir Sie bei Rückfragen kontaktieren dürfen, lassen Sie gerne eine E-Mail da",
@@ -118,20 +105,8 @@ const SECTION_ABOUT_YOU: SurveySection = {
 const SECTION_PROJECT_DETAILS: SurveySection = {
   id: "project",
   title: "Projektdetails",
-  description: "VNB und Projektdimensionen",
+  description: "VNB, Projektart und Dimensionen",
   questions: [
-    {
-      id: "projectFocus",
-      type: "project-focus",
-      label: "Wählen Sie den Schwerpunkt, zu dem Sie Details teilen möchten",
-      description: "GGV, Mieterstrom oder Energy Sharing",
-      options: [
-        { value: "ggv", label: "GGV - Gemeinschaftliche Gebäudeversorgung" },
-        { value: "mieterstrom", label: "Mieterstrom - Mieterstrom-Modelle" },
-        { value: "energysharing", label: "Energy Sharing - Gemeinschaftliche Nutzung" },
-      ],
-      visibilityLogic: "Sichtbar wenn projectTypes eines von [ggv, mieterstrom, ggv_oder_mieterstrom] enthält",
-    },
     {
       id: "vnbName",
       type: "vnb-select",
@@ -140,14 +115,27 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       optional: true,
     },
     {
+      id: "projectTypes",
+      type: "multi-select",
+      label: "Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
+      description: "Mehrfachauswahl möglich",
+      options: [
+        { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
+        { value: "mieterstrom", label: "Mieterstrom" },
+        { value: "ggv_oder_mieterstrom", label: "Entweder GGV oder Mieterstrom" },
+        { value: "energysharing", label: "Energy Sharing (in Zukunft möglich)" },
+      ],
+      required: true,
+    },
+    {
       id: "ggvProjectType",
       type: "single-select",
-      label: "Projektumfang (GGV)",
+      label: "Projektumfang",
       options: [
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte" },
       ],
-      visibilityLogic: "Nur wenn projectFocus = 'ggv'",
+      visibilityLogic: "Nur wenn GGV oder Mieterstrom ausgewählt",
     },
     {
       id: "ggvPvSizeKw",
@@ -155,7 +143,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Größe der PV-Anlage in kW",
       placeholder: "z.B. 30",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'ggv'",
+      visibilityLogic: "Nur wenn GGV ausgewählt",
     },
     {
       id: "ggvPartyCount",
@@ -163,7 +151,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Anzahl der Parteien, die Strom abnehmen",
       placeholder: "z.B. 12",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'ggv'",
+      visibilityLogic: "Nur wenn GGV ausgewählt",
     },
     {
       id: "ggvBuildingType",
@@ -174,7 +162,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gewerbe", label: "Gewerbegebäude" },
         { value: "gemischt", label: "Gemischt" },
       ],
-      visibilityLogic: "Nur wenn projectFocus = 'ggv'",
+      visibilityLogic: "Nur wenn GGV ausgewählt",
     },
     {
       id: "ggvBuildingCount",
@@ -182,7 +170,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Gesamtzahl der Projekte",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'ggv' und ggvProjectType = 'multiple'",
+      visibilityLogic: "Nur wenn GGV und ggvProjectType = 'multiple'",
     },
     {
       id: "ggvAdditionalInfo",
@@ -190,17 +178,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Zusätzliche Informationen (GGV)",
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'ggv'",
-    },
-    {
-      id: "mieterstromProjectType",
-      type: "single-select",
-      label: "Projektumfang (Mieterstrom)",
-      options: [
-        { value: "single", label: "Ein einzelnes Projekt" },
-        { value: "multiple", label: "Mehrere Projekte" },
-      ],
-      visibilityLogic: "Nur wenn projectFocus = 'mieterstrom'",
+      visibilityLogic: "Nur wenn GGV ausgewählt",
     },
     {
       id: "mieterstromPvSizeKw",
@@ -208,7 +186,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Größe der PV-Anlage(n) in kW",
       placeholder: "z.B. 50",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'mieterstrom'",
+      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
     },
     {
       id: "mieterstromPartyCount",
@@ -216,7 +194,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Anzahl der Mietparteien",
       placeholder: "z.B. 24",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'mieterstrom'",
+      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
     },
     {
       id: "mieterstromBuildingType",
@@ -227,7 +205,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gewerbe", label: "Gewerbegebäude" },
         { value: "gemischt", label: "Gemischt" },
       ],
-      visibilityLogic: "Nur wenn projectFocus = 'mieterstrom'",
+      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
     },
     {
       id: "mieterstromAdditionalInfo",
@@ -235,7 +213,15 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Zusätzliche Informationen (Mieterstrom)",
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
-      visibilityLogic: "Nur wenn projectFocus = 'mieterstrom'",
+      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
+    },
+    {
+      id: "projectLocations",
+      type: "text",
+      label: "Standort(e) des Projekts",
+      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      optional: true,
+      visibilityLogic: "Immer am Ende der Projektdetails",
     },
   ],
 };
