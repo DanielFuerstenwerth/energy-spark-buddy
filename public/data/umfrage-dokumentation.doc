@@ -43,36 +43,40 @@
   <p style="color: #666; font-size: 10pt;">Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.</p>
 
   <p style="font-size: 10pt; background: #e0f2fe; padding: 8pt; border-left: 4pt solid #0284c7; margin: 12pt 0;">
-    <strong>Multi-Evaluation Architektur:</strong> Die Umfrage unterstützt mehrere VNB-Bewertungen pro Sitzung.<br>
-    <strong>Globale Abschnitte</strong> (einmal pro Sitzung): A. Über Sie, E. Energy Sharing, Abschluss<br>
-    <strong>Pro-Evaluation Abschnitte</strong> (je Tab/VNB): Projektdetails, B–D (GGV), M/MP/MB (Mieterstrom), Dienstleister
+    <strong>6-Schritte-Architektur:</strong> Die Umfrage ist in 6 Schritte gegliedert und unterstützt mehrere VNB-Bewertungen pro Sitzung.<br>
+    <strong>Schritt 1:</strong> Über Sie (Global)<br>
+    <strong>Schritt 2:</strong> Projekt (Pro Evaluation)<br>
+    <strong>Schritt 3:</strong> Planung: Allgemeines (Planungsstand + Herausforderungen, Pro Evaluation)<br>
+    <strong>Schritt 4:</strong> Planung: Modellspezifisch (GGV C/C8, Mieterstrom M/MP, Energy Sharing E – je nach #5)<br>
+    <strong>Schritt 5:</strong> Betrieb: Modellspezifisch (GGV D/Dienstleister, Mieterstrom MB – entfällt bei nur Energy Sharing)<br>
+    <strong>Schritt 6:</strong> Abschluss (Global)
   </p>
 
   <hr style="border: 1pt solid #22c55e; margin: 12pt 0;">
   
   <h2 style="font-size: 14pt; color: #1a365d;">Inhaltsverzeichnis</h2>
   <ol style="font-size: 10pt;">
-    <li>A. Über Sie (3 Fragen: #1–#3) – <em>Global</em></li>
-    <li>Projektdetails (13 Fragen: #4–#16) – <em>Pro Evaluation</em></li>
-    <li>B. Planungsstand (5 Fragen: #17–#21) – <em>Pro Evaluation</em></li>
-    <li>B6. Herausforderungen (1 Frage: #22) – <em>Pro Evaluation</em></li>
-    <li>C. VNB Planung GGV (12 Fragen: #23–#34) – <em>Pro Evaluation</em></li>
-    <li>C8. MSB Details (10 Fragen: #35–#47 inkl. C9–C10) – <em>Pro Evaluation</em></li>
-    <li>D. GGV Betrieb (15 Fragen: #48–#62) – <em>Pro Evaluation</em></li>
-    <li>Dienstleister (7 Fragen: #63–#69) – <em>Pro Evaluation</em></li>
-    <li>M. Mieterstrom Planung (12 Fragen: #70–#81) – <em>Pro Evaluation</em></li>
-    <li>MP. VNB Angebot Mieterstrom (6 Fragen: #82–#87) – <em>Pro Evaluation</em></li>
-    <li>MB. Mieterstrom Betrieb (12 Fragen: #88–#99) – <em>Pro Evaluation</em></li>
-    <li>E. Energy Sharing (14 Fragen: #100–#113) – <em>Global</em></li>
-    <li>Abschluss (5 Fragen: #114–#118) – <em>Global</em></li>
+    <li><strong>Schritt 1:</strong> Über Sie (3 Fragen: #1–#3) – <em>Global</em></li>
+    <li><strong>Schritt 2:</strong> Projekt (13 Fragen: #4–#16) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 3:</strong> Planung: Allgemeines – Planungsstand (5 Fragen: #17–#21) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 3:</strong> Planung: Allgemeines – Herausforderungen (1 Frage: #22) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 4:</strong> Planung: Modellspezifisch – GGV (C) (12 Fragen: #23–#34) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 4:</strong> Planung: Modellspezifisch – GGV MSB Details (C8) (10 Fragen: #35–#47) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 5:</strong> Betrieb: Modellspezifisch – GGV (D) (15 Fragen: #48–#62) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 5:</strong> Betrieb: Modellspezifisch – Dienstleister (GGV) (7 Fragen: #63–#69) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 4:</strong> Planung: Modellspezifisch – Mieterstrom (M) (12 Fragen: #70–#81) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 4:</strong> Planung: Modellspezifisch – VNB Angebot Mieterstrom (MP) (6 Fragen: #82–#87) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 5:</strong> Betrieb: Modellspezifisch – Mieterstrom (MB) (12 Fragen: #88–#99) – <em>Pro Evaluation</em></li>
+    <li><strong>Schritt 4:</strong> Planung: Modellspezifisch – Energy Sharing (E) (14 Fragen: #100–#113) – <em>Global</em></li>
+    <li><strong>Schritt 6:</strong> Abschluss (5 Fragen: #114–#118) – <em>Global</em></li>
   </ol>
-  <p style="font-size: 10pt;"><strong>Statistik:</strong> 13 Abschnitte, 118 Fragen insgesamt</p>
+  <p style="font-size: 10pt;"><strong>Statistik:</strong> 13 Abschnitte in 6 Schritten, 118 Fragen insgesamt</p>
   
   <hr style="border: 1pt solid #e5e7eb; margin: 12pt 0;">
 
   <!-- ===== A. ÜBER SIE ===== -->
   <div class="sec">
-    <h2>A. Über Sie</h2>
+    <h2>Schritt 1: Über Sie</h2>
     <p style="color: #666; font-style: italic;">Einordnung &amp; Motivation</p>
     <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt – wird einmal pro Sitzung ausgefüllt</p>
 
@@ -118,7 +122,7 @@
 
   <!-- ===== PROJEKTDETAILS ===== -->
   <div class="sec">
-    <h2>Projektdetails</h2>
+    <h2>Schritt 2: Projekt</h2>
     <p style="color: #666; font-style: italic;">VNB, Projektart und Dimensionen</p>
     <p style="background: #f0fdf4; padding: 4pt 8pt; border-left: 3pt solid #22c55e; font-size: 9pt; color: #166534;">📋 Pro-Evaluation Abschnitt – wird für jeden VNB/Tab separat ausgefüllt</p>
 
@@ -245,7 +249,7 @@
 
   <!-- ===== B. PLANUNGSSTAND ===== -->
   <div class="sec">
-    <h2>B. Planungsstand</h2>
+    <h2>Schritt 3: Planung: Allgemeines – Planungsstand</h2>
     <p style="color: #666; font-style: italic;">Aktueller Status</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "GGV", "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt (nicht nur Energy Sharing).</p>
 
@@ -327,7 +331,7 @@
 
   <!-- ===== B6. HERAUSFORDERUNGEN ===== -->
   <div class="sec">
-    <h2>B6. Herausforderungen</h2>
+    <h2>Schritt 3: Planung: Allgemeines – Herausforderungen</h2>
     <p style="color: #666; font-style: italic;">Erlebte Schwierigkeiten</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "GGV", "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt.</p>
 
@@ -347,7 +351,7 @@
 
   <!-- ===== C. VNB PLANUNG GGV ===== -->
   <div class="sec">
-    <h2>C. VNB Planung (GGV)</h2>
+    <h2>Schritt 4: Planung: Modellspezifisch – GGV (C)</h2>
     <p style="color: #666; font-style: italic;">Details zur GGV-Planung mit dem Verteilnetzbetreiber</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "GGV" oder "GGV oder Mieterstrom" ausgewählt, ODER #18 = "sicher_ggv".</p>
 
@@ -386,7 +390,7 @@
 
   <!-- ===== C8. MSB DETAILS ===== -->
   <div class="sec">
-    <h2>C8. MSB Details</h2>
+    <h2>Schritt 4: Planung: Modellspezifisch – GGV MSB Details (C8)</h2>
     <p style="color: #666; font-style: italic;">Details zum Messstellenbetreiber-Angebot</p>
     <p class="vis">⚡ Sichtbar wenn: #33 beantwortet.</p>
 
@@ -420,7 +424,7 @@
 
   <!-- ===== D. GGV BETRIEB ===== -->
   <div class="sec">
-    <h2>D. GGV Betrieb</h2>
+    <h2>Schritt 5: Betrieb: Modellspezifisch – GGV (D)</h2>
     <p style="color: #666; font-style: italic;">Erfahrungen im laufenden Betrieb</p>
     <p class="vis">⚡ Sichtbar wenn: #17 = "pv_laeuft_ggv_laeuft".</p>
 
@@ -464,7 +468,7 @@
 
   <!-- ===== DIENSTLEISTER ===== -->
   <div class="sec">
-    <h2>Dienstleister</h2>
+    <h2>Schritt 5: Betrieb: Modellspezifisch – Dienstleister (GGV)</h2>
     <p style="color: #666; font-style: italic;">Feedback zu Dienstleistern &amp; Reaktionen</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "GGV" oder "GGV oder Mieterstrom" ausgewählt, ODER #18 = "sicher_ggv".</p>
 
@@ -485,7 +489,7 @@
 
   <!-- ===== M. MIETERSTROM PLANUNG ===== -->
   <div class="sec">
-    <h2>M. Mieterstrom Planung</h2>
+    <h2>Schritt 4: Planung: Modellspezifisch – Mieterstrom (M)</h2>
     <p style="color: #666; font-style: italic;">Details zu Mieterstrom-Projekten</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "Mieterstrom" oder "GGV oder Mieterstrom" ausgewählt, ODER #18 = "sicher_mieterstrom".</p>
 
@@ -518,7 +522,7 @@
 
   <!-- ===== MP. VNB ANGEBOT MIETERSTROM ===== -->
   <div class="sec">
-    <h2>MP. VNB Angebot (Mieterstrom)</h2>
+    <h2>Schritt 4: Planung: Modellspezifisch – VNB Angebot Mieterstrom (MP)</h2>
     <p style="color: #666; font-style: italic;">Details zum MSB-Angebot des VNB für Mieterstrom</p>
     <p class="vis">⚡ Sichtbar wenn: Mieterstrom-Abschnitt sichtbar UND Projekt noch nicht in Betrieb.</p>
 
@@ -538,7 +542,7 @@
 
   <!-- ===== MB. MIETERSTROM BETRIEB ===== -->
   <div class="sec">
-    <h2>MB. Mieterstrom Betrieb</h2>
+    <h2>Schritt 5: Betrieb: Modellspezifisch – Mieterstrom (MB)</h2>
     <p style="color: #666; font-style: italic;">Erfahrungen im laufenden Mieterstrom-Betrieb</p>
     <p class="vis">⚡ Sichtbar wenn: Mieterstrom in Betrieb (mieterstromInOperation = true).</p>
 
@@ -570,7 +574,7 @@
 
   <!-- ===== E. ENERGY SHARING ===== -->
   <div class="sec">
-    <h2>E. Energy Sharing</h2>
+    <h2>Schritt 4: Planung: Modellspezifisch – Energy Sharing (E)</h2>
     <p style="color: #666; font-style: italic;">Details zu Energy Sharing</p>
     <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt – wird einmal pro Sitzung ausgefüllt</p>
     <p class="vis">⚡ Sichtbar wenn: In #5 "Energy Sharing" ausgewählt (auch in Kombination mit anderen).</p>
@@ -607,7 +611,7 @@
 
   <!-- ===== ABSCHLUSS ===== -->
   <div class="sec">
-    <h2>Abschluss</h2>
+    <h2>Schritt 6: Abschluss</h2>
     <p style="color: #666; font-style: italic;">Letzte Informationen</p>
     <p style="background: #dbeafe; padding: 4pt 8pt; border-left: 3pt solid #2563eb; font-size: 9pt; color: #1e40af;">🌐 Globaler Abschnitt – wird einmal pro Sitzung ausgefüllt</p>
 
