@@ -16,16 +16,9 @@ import Footer from "@/components/Footer";
 
 import { StepAboutYou } from "@/components/survey/steps/StepAboutYou";
 import { StepProjectDetails } from "@/components/survey/steps/StepProjectDetails";
-import { StepPlanningStatus } from "@/components/survey/steps/StepPlanningStatus";
-import { StepChallenges } from "@/components/survey/steps/StepChallenges";
-import { StepVnbPlanningGgv } from "@/components/survey/steps/StepVnbPlanningGgv";
-import { StepVnbMsbDetails } from "@/components/survey/steps/StepVnbMsbDetails";
-import { StepGgvOperation } from "@/components/survey/steps/StepGgvOperation";
-import { StepServiceProvider } from "@/components/survey/steps/StepServiceProvider";
-import { StepMieterstromPlanning } from "@/components/survey/steps/StepMieterstromPlanning";
-import { StepMieterstromVnbOffer } from "@/components/survey/steps/StepMieterstromVnbOffer";
-import { StepMieterstromOperation } from "@/components/survey/steps/StepMieterstromOperation";
-import { StepEnergySharing } from "@/components/survey/steps/StepEnergySharing";
+import { StepPlanningGeneral } from "@/components/survey/steps/StepPlanningGeneral";
+import { StepPlanningModel } from "@/components/survey/steps/StepPlanningModel";
+import { StepOperationModel } from "@/components/survey/steps/StepOperationModel";
 import { StepFinal } from "@/components/survey/steps/StepFinal";
 
 import { useMultiEvaluation, isGlobalStep } from "@/hooks/useMultiEvaluation";
@@ -119,55 +112,29 @@ export default function Survey() {
   const effectiveProjectTypes = evalData.projectTypes;
   const isGgvInOperation = evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft');
   const isMieterstromInOperation = evalData.mieterstromInOperation === true;
-  const isGgv = effectiveProjectTypes.includes('ggv') || evalData.ggvOrMieterstromDecision === 'sicher_ggv';
-  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom') || evalData.ggvOrMieterstromDecision === 'sicher_mieterstrom';
-  const isGgvOrMieterstrom = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('mieterstrom') || 
-    effectiveProjectTypes.includes('ggv_oder_mieterstrom');
+  const isGgv = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('ggv_oder_mieterstrom') || evalData.ggvOrMieterstromDecision === 'sicher_ggv';
+  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom') || effectiveProjectTypes.includes('ggv_oder_mieterstrom') || evalData.ggvOrMieterstromDecision === 'sicher_mieterstrom';
+  const isGgvOrMieterstrom = isGgv || isMieterstrom;
   const isEnergySharing = effectiveProjectTypes.includes('energysharing');
   const onlyEnergySharing = isEnergySharing && !isGgvOrMieterstrom;
+  const hasAnyModel = isGgvOrMieterstrom || isEnergySharing;
 
   const steps = useMemo(() => {
     const baseSteps = [
       { id: "about", title: "Über Sie", description: "Einordnung & Motivation" },
       { id: "project", title: "Projekt", description: "Projektdetails & VNB" },
+      { id: "planning-general", title: "Planung: Allgemeines", description: "Planungsstand & Herausforderungen" },
+      { id: "planning-model", title: "Planung: Modellspezifisch", description: "Details zum gewählten Modell" },
     ];
 
     if (!onlyEnergySharing) {
-      baseSteps.push(
-        { id: "planning", title: "Planungsstand", description: "Aktueller Status" },
-        { id: "challenges", title: "Herausforderungen", description: "Erlebte Schwierigkeiten" }
-      );
-
-      if (isGgv || evalData.ggvOrMieterstromDecision === 'sicher_ggv' || effectiveProjectTypes.includes('ggv_oder_mieterstrom')) {
-        baseSteps.push({ id: "vnb-planning", title: "VNB Planung (GGV)", description: "Details zur GGV-Planung" });
-        if (evalData.vnbMsbOffer) {
-          baseSteps.push({ id: "vnb-msb", title: "MSB Details", description: "Messstellenbetreiber" });
-        }
-        if (isGgvInOperation) {
-          baseSteps.push({ id: "ggv-operation", title: "GGV Betrieb", description: "Erfahrungen im Betrieb" });
-        }
-        baseSteps.push({ id: "service-provider", title: "Dienstleister", description: "Feedback & Reaktionen" });
-      }
-
-      if (isMieterstrom || evalData.ggvOrMieterstromDecision === 'sicher_mieterstrom' || effectiveProjectTypes.includes('ggv_oder_mieterstrom')) {
-        baseSteps.push({ id: "mieterstrom-planning", title: "Mieterstrom Planung", description: "Details zu Mieterstrom" });
-        if (!isMieterstromInOperation) {
-          baseSteps.push({ id: "mieterstrom-vnb-offer", title: "VNB Angebot", description: "MSB-Angebot für Mieterstrom" });
-        }
-        if (isMieterstromInOperation) {
-          baseSteps.push({ id: "mieterstrom-operation", title: "Mieterstrom Betrieb", description: "Erfahrungen im Betrieb" });
-        }
-      }
-    }
-
-    if (isEnergySharing) {
-      baseSteps.push({ id: "energy-sharing", title: "Energy Sharing", description: "Details zu Energy Sharing" });
+      baseSteps.push({ id: "operation-model", title: "Betrieb: Modellspezifisch", description: "Erfahrungen im Betrieb" });
     }
 
     baseSteps.push({ id: "final", title: "Abschluss", description: "Letzte Informationen" });
 
     return baseSteps;
-  }, [effectiveProjectTypes, evalData.ggvOrMieterstromDecision, evalData.vnbMsbOffer, isGgvInOperation, isMieterstromInOperation, isGgv, isMieterstrom, isEnergySharing, onlyEnergySharing]);
+  }, [onlyEnergySharing]);
 
   const handleNext = () => { if (currentStep < steps.length - 1) { setCurrentStep(currentStep + 1); window.scrollTo(0, 0); } };
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
@@ -210,16 +177,30 @@ export default function Survey() {
     switch (stepId) {
       case "about": return <StepAboutYou data={stepData} updateData={stepUpdateData} />;
       case "project": return <StepProjectDetails data={evalData} updateData={updateEvaluationData} />;
-      case "planning": return <StepPlanningStatus data={evalData} updateData={updateEvaluationData} />;
-      case "challenges": return <StepChallenges data={evalData} updateData={updateEvaluationData} />;
-      case "vnb-planning": return <StepVnbPlanningGgv data={evalData} updateData={updateEvaluationData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
-      case "vnb-msb": return <StepVnbMsbDetails data={evalData} updateData={updateEvaluationData} />;
-      case "ggv-operation": return <StepGgvOperation data={evalData} updateData={updateEvaluationData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
-      case "service-provider": return <StepServiceProvider data={evalData} updateData={updateEvaluationData} />;
-      case "mieterstrom-planning": return <StepMieterstromPlanning data={evalData} updateData={updateEvaluationData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
-      case "mieterstrom-vnb-offer": return <StepMieterstromVnbOffer data={evalData} updateData={updateEvaluationData} />;
-      case "mieterstrom-operation": return <StepMieterstromOperation data={evalData} updateData={updateEvaluationData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
-      case "energy-sharing": return <StepEnergySharing data={stepData} updateData={stepUpdateData} />;
+      case "planning-general": return <StepPlanningGeneral data={evalData} updateData={updateEvaluationData} />;
+      case "planning-model": return (
+        <StepPlanningModel
+          data={evalData}
+          updateData={updateEvaluationData}
+          uploadedDocuments={uploadedDocuments}
+          setUploadedDocuments={setUploadedDocuments}
+          showGgv={isGgv}
+          showMieterstrom={isMieterstrom}
+          showEnergySharing={isEnergySharing}
+        />
+      );
+      case "operation-model": return (
+        <StepOperationModel
+          data={evalData}
+          updateData={updateEvaluationData}
+          uploadedDocuments={uploadedDocuments}
+          setUploadedDocuments={setUploadedDocuments}
+          showGgv={isGgv}
+          showGgvInOperation={isGgvInOperation}
+          showMieterstrom={isMieterstrom}
+          showMieterstromInOperation={isMieterstromInOperation}
+        />
+      );
       case "final": return <StepFinal data={stepData} updateData={stepUpdateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
       default: return null;
     }
