@@ -1390,8 +1390,8 @@ const SECTION_FINAL: SurveySection = {
 
 // === HAUPTSCHEMA ===
 export const surveySchema: SurveySchema = {
-  version: "2.1.0",
-  lastUpdated: "2026-01-26",
+  version: "3.0.0",
+  lastUpdated: "2026-02-09",
   title: "Umfrage zu GGV, Mieterstrom & Energy Sharing",
   description: "Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.",
   sections: [
