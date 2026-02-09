@@ -266,6 +266,14 @@ export interface SurveyData {
   esNetzentgelteDetails?: string;
   esInfoSources?: string;
   
+  // === Adresse ===
+  projectAddress?: string;
+  projectPlz?: string;
+  
+  // === Multi-Evaluation ===
+  evaluationLabel?: string;
+  sessionGroupId?: string;
+  
   // === Abschluss ===
   helpfulInfoSources?: string;
   additionalExperiences?: string;

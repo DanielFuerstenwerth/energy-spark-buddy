@@ -14,13 +14,15 @@ const BUILDING_TYPE_OPTIONS = [
 interface StepProjectDetailsProps {
   data: SurveyData;
   updateData: <K extends keyof SurveyData>(field: K, value: SurveyData[K]) => void;
+  globalData?: SurveyData;
 }
 
-export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps) {
-  // Determine focus based on selected project types
-  const hasGgv = data.projectTypes.includes('ggv') || data.projectTypes.includes('ggv_oder_mieterstrom');
-  const hasMieterstrom = data.projectTypes.includes('mieterstrom') || data.projectTypes.includes('ggv_oder_mieterstrom');
-  const hasEnergySharing = data.projectTypes.includes('energysharing');
+export function StepProjectDetails({ data, updateData, globalData }: StepProjectDetailsProps) {
+  // Use globalData for project type detection if available, fall back to data
+  const projectTypes = globalData?.projectTypes ?? data.projectTypes;
+  const hasGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
+  const hasMieterstrom = projectTypes.includes('mieterstrom') || projectTypes.includes('ggv_oder_mieterstrom');
+  const hasEnergySharing = projectTypes.includes('energysharing');
   const onlyEnergySharing = hasEnergySharing && !hasGgv && !hasMieterstrom;
 
   if (onlyEnergySharing) {
@@ -37,6 +39,24 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
           onChange={(val) => updateData("vnbName", val)}
           optional
         />
+        <div className="grid gap-4 md:grid-cols-2">
+          <TextQuestion
+            id="project-address"
+            label="Adresse des Projekts"
+            value={data.projectAddress}
+            onChange={(val) => updateData("projectAddress", val)}
+            placeholder="z.B. Musterstraße 1, Berlin"
+            optional
+          />
+          <TextQuestion
+            id="project-plz"
+            label="PLZ"
+            value={data.projectPlz}
+            onChange={(val) => updateData("projectPlz", val)}
+            placeholder="z.B. 10115"
+            optional
+          />
+        </div>
       </div>
     );
   }
@@ -76,6 +96,25 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
         onChange={(val) => updateData("vnbName", val)}
         optional
       />
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <TextQuestion
+          id="project-address"
+          label="Adresse des Projekts"
+          value={data.projectAddress}
+          onChange={(val) => updateData("projectAddress", val)}
+          placeholder="z.B. Musterstraße 1, Berlin"
+          optional
+        />
+        <TextQuestion
+          id="project-plz"
+          label="PLZ"
+          value={data.projectPlz}
+          onChange={(val) => updateData("projectPlz", val)}
+          placeholder="z.B. 10115"
+          optional
+        />
+      </div>
 
       {/* GGV Project Details */}
       {data.projectFocus === 'ggv' && (
