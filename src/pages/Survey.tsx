@@ -116,7 +116,7 @@ export default function Survey() {
   const evalData = activeEvaluation.data;
   
   // For step logic, merge global projectTypes into evaluation context
-  const effectiveProjectTypes = globalData.projectTypes;
+  const effectiveProjectTypes = evalData.projectTypes;
   const isGgvInOperation = evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft');
   const isMieterstromInOperation = evalData.mieterstromInOperation === true;
   const isGgv = effectiveProjectTypes.includes('ggv') || evalData.ggvOrMieterstromDecision === 'sicher_ggv';
@@ -209,7 +209,7 @@ export default function Survey() {
 
     switch (stepId) {
       case "about": return <StepAboutYou data={stepData} updateData={stepUpdateData} />;
-      case "project": return <StepProjectDetails data={evalData} updateData={updateEvaluationData} globalData={globalData} />;
+      case "project": return <StepProjectDetails data={evalData} updateData={updateEvaluationData} />;
       case "planning": return <StepPlanningStatus data={evalData} updateData={updateEvaluationData} />;
       case "challenges": return <StepChallenges data={evalData} updateData={updateEvaluationData} />;
       case "vnb-planning": return <StepVnbPlanningGgv data={evalData} updateData={updateEvaluationData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
@@ -333,6 +333,7 @@ function buildDbData(data: SurveyData, sessionGroupId: string, uploadedDocuments
     evaluation_label: data.evaluationLabel,
     project_address: data.projectAddress,
     project_plz: data.projectPlz,
+    project_locations: data.projectLocations || [],
     actor_types: data.actorTypes,
     actor_other: data.actorOther,
     actor_text_fields: data.actorTextFields,

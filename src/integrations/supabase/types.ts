@@ -351,6 +351,7 @@ export type Database = {
           planning_status_other: string | null
           project_address: string | null
           project_focus: string | null
+          project_locations: Json | null
           project_plz: string | null
           project_types: string[] | null
           service_provider_2_comments: string | null
@@ -563,6 +564,7 @@ export type Database = {
           planning_status_other?: string | null
           project_address?: string | null
           project_focus?: string | null
+          project_locations?: Json | null
           project_plz?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
@@ -775,6 +777,7 @@ export type Database = {
           planning_status_other?: string | null
           project_address?: string | null
           project_focus?: string | null
+          project_locations?: Json | null
           project_plz?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
