@@ -75,7 +75,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
         { value: "stadtwerk", label: "Stadtwerk/EVU" },
         { value: "andere", label: "Andere", hasTextField: true, textFieldLabel: "Bitte beschreiben" },
       ],
-      required: true,
+      optional: true,
     },
     {
       id: "motivation",
@@ -85,10 +85,10 @@ const SECTION_ABOUT_YOU: SurveySection = {
       options: [
         { value: "pv_nutzung", label: "Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen" },
         { value: "energiewende", label: "Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage" },
-        { value: "geschaeft", label: "Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen" },
+        { value: "geschaeft", label: "Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      required: true,
+      optional: true,
     },
     {
       id: "projectTypes",

@@ -33,7 +33,7 @@ Vollst\'e4ndige Dokumentation\par
 \pard\sa200\sl276\slmult1\b0\fs22\cf0\par
 \cf3\i Einordnung & Motivation\cf0\i0\par
 \par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A1\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A1\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
 \b\fs24 Zu welcher Akteursgruppe w\'fcrden Sie sich z\'e4hlen?\par
 \b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
 \par
@@ -59,7 +59,7 @@ Vollst\'e4ndige Dokumentation\par
 \pard\intbl stadtwerk\cell Stadtwerk/EVU\cell \emdash\cell\row
 \pard\intbl andere\cell Andere\cell + Bitte beschreiben\cell\row
 \pard\sa200\sl276\slmult1\par
-\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A2\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
+\pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A2\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
 \b\fs24 Was ist Ihre Motivation?\par
 \b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
 \par
@@ -72,7 +72,7 @@ Vollst\'e4ndige Dokumentation\par
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl pv_nutzung\cell Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und m\'f6chten den Strom vor Ort nutzen\cell\row
 \pard\intbl energiewende\cell Wir m\'f6chten gerne Energiewende vor Ort umsetzen - sobald die Nutzung gekl\'e4rt ist, kommt die PV-Anlage\cell\row
-\pard\intbl geschaeft\cell Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen\cell\row
+\pard\intbl geschaeft\cell Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein\cell\row
 \pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 A3\b0\cf0  | \i Multi-Select\i0  | \cf4\'b7 Pflichtfeld\cf0\par
