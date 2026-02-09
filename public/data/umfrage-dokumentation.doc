@@ -762,44 +762,41 @@ Platzhalter: https://...\par
 \pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M5\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Bietet Ihr VNB den Betrieb des virtuellen Summenz\'e4hlers an?\par
+\b\fs24 Waren Sie schon im Kontakt mit Ihrem VNB?\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\pard\intbl ja\cell Ja\cell\row
-\pard\intbl nein_wmsb\cell Nein - wir brauchen einen wMSB\cell\row
-\pard\intbl nein_nicht_moeglich\cell Nein - und das ist auch mit einem wMSB nicht m\'f6glich\cell\row
-\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl direkt\cell Ja, wir hatten direkten Kontakt mit dem VNB\cell\row
+\pard\intbl installateur\cell Nein, nur \'fcber den Installateur/Dienstleister\cell\row
 \pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M6\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
-\cf6\u10132? Wenn mieterstromVirtuellAllowed = 'ja'\cf0\par
-\b\fs24 Verlangt Ihr VNB einen neuen zus\'e4tzlichen Z\'e4hler direkt hinter dem Netzanschluss des Geb\'e4udes (Wandlermessung >5.000 EUR)?\par
+\cf6\u10132? Wenn mieterstromSummenzaehler = 'virtuell'\cf0\par
+\b\fs24 L\'e4sst Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenz\'e4hlers' durch einen wettbewerblichen MSB zu?\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
 \pard\intbl ja\cell Ja\cell\row
-\pard\intbl nein\cell Nein\cell\row
-\pard\intbl wissen_nicht\cell Das wissen wir nicht\cell\row
+\pard\intbl nein\cell Nein \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M7\b0\cf0  | \i Single-Select\i0  | \cf5 o Optional\cf0\par
-\b\fs24 Waren Sie bereits in Kontakt mit Ihrem VNB bzgl. Mieterstrom?\par
+\cf6\u10132? Wenn mieterstromSummenzaehler = 'virtuell'\cf0\par
+\b\fs24 Verlangt Ihr VNB/gMSB bei einem virtuellen Summenz\'e4hler eine Wandlermessung?\par
 \b0\fs22\par
 \trowd\trgaph108\trleft-108
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\pard\intbl ja_direkt\cell Ja, wir hatten direkten Kontakt mit dem VNB\cell\row
-\pard\intbl ja_installateur\cell Ja, \'fcber den Installateur/Dienstleister\cell\row
-\pard\intbl nein\cell Nein, noch kein Kontakt\cell\row
-\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
+\pard\intbl wissen_nicht\cell Wissen wir nicht\cell\row
+\pard\intbl ja\cell Ja\cell\row
+\pard\intbl nein\cell Nein\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M8\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
-\cf6\u10132? Wenn mieterstromVnbContact ausgef\'fcllt\cf0\par
 \b\fs24 Welche Aussage zur R\'fcckmeldung vom VNB zu Mieterstrom trifft zu?\par
 \b0\fs22\cf3\i Mehrfachauswahl m\'f6glich\cf0\i0\par
 \par
@@ -807,10 +804,10 @@ Platzhalter: https://...\par
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx3500
 \clbrdrt\brdrw10\brdrs\clbrdrl\brdrw10\brdrs\clbrdrb\brdrw10\brdrs\clbrdrr\brdrw10\brdrs\cellx9500
 \pard\intbl\b Wert\cell Anzeige\cell\b0\row
-\pard\intbl moeglich_gmssb\cell Umsetzung ist heute schon m\'f6glich, der VNB/gMSB kann dies als MSB machen\cell\row
-\pard\intbl moeglich_wmsb\cell Umsetzung ist heute schon m\'f6glich, wir m\'fcssen aber einen wMSB beauftragen\cell\row
+\pard\intbl moeglich\cell Umsetzung von Mieterstrom ist m\'f6glich\cell\row
 \pard\intbl keine_antwort\cell Unser VNB hat die Anfrage bisher nicht beantwortet\cell\row
 \pard\intbl nicht_moeglich\cell Unser VNB sagt, dass eine Umsetzung bislang nicht m\'f6glich ist \cf3 + Textfeld\cf0\cell\row
+\pard\intbl sonstiges\cell Sonstiges \cf3 + Textfeld\cf0\cell\row
 \pard\sa200\sl276\slmult1\par
 \pard\box\brdrs\brdrw10\brsp20 \sa200\sl276\slmult1\b\cf2 M9\b0\cf0  | \i Multi-Select\i0  | \cf5 o Optional\cf0\par
 \b\fs24 Stellt Ihr VNB konkrete Unterst\'fctzung f\'fcr die massentaugliche Umsetzung von Mieterstrom online bereit?\par
