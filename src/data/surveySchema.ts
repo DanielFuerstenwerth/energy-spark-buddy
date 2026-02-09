@@ -135,7 +135,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte" },
       ],
-      visibilityLogic: "Nur wenn GGV oder Mieterstrom ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "ggvPvSizeKw",
@@ -143,7 +143,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Größe der PV-Anlage in kW",
       placeholder: "z.B. 30",
       optional: true,
-      visibilityLogic: "Nur wenn GGV ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "ggvPartyCount",
@@ -151,7 +151,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Anzahl der Parteien, die Strom abnehmen",
       placeholder: "z.B. 12",
       optional: true,
-      visibilityLogic: "Nur wenn GGV ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "ggvBuildingType",
@@ -162,7 +162,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gewerbe", label: "Gewerbegebäude" },
         { value: "gemischt", label: "Gemischt" },
       ],
-      visibilityLogic: "Nur wenn GGV ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "ggvBuildingCount",
@@ -170,7 +170,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Gesamtzahl der Projekte",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Nur wenn GGV und ggvProjectType = 'multiple'",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #6 = 'multiple'",
     },
     {
       id: "ggvAdditionalInfo",
@@ -178,7 +178,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Zusätzliche Informationen (GGV)",
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
-      visibilityLogic: "Nur wenn GGV ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "mieterstromPvSizeKw",
@@ -191,7 +191,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromPartyCount",
       type: "number",
-      label: "Anzahl der Mietparteien",
+      label: "Anzahl der Parteien, die Strom abnehmen",
       placeholder: "z.B. 24",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
@@ -231,7 +231,7 @@ const SECTION_PLANNING: SurveySection = {
   id: "planning",
   title: "B. Planungsstand",
   description: "Aktueller Status",
-  visibilityLogic: "Nur wenn GGV oder Mieterstrom ausgewählt (nicht nur Energy Sharing)",
+  visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
   questions: [
     {
       id: "planningStatus",
@@ -257,7 +257,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "unsicher", label: "Wir sind unsicher - es fehlen noch Informationen für eine Entscheidung" },
         { value: "sicher_mieterstrom", label: "Wir sind sicher - es wird/ist Mieterstrom" },
       ],
-      visibilityLogic: "Nur wenn 'ggv_oder_mieterstrom' ausgewählt",
+      visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "ggvDecisionReasons",
@@ -272,7 +272,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn ggvOrMieterstromDecision = 'sicher_ggv'",
+      visibilityLogic: "Nur wenn #18 = 'sicher_ggv'",
     },
     {
       id: "mieterstromDecisionReasons",
@@ -287,7 +287,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn ggvOrMieterstromDecision = 'sicher_mieterstrom'",
+      visibilityLogic: "Nur wenn #18 = 'sicher_mieterstrom'",
     },
     {
       id: "implementationApproach",
@@ -308,7 +308,7 @@ const SECTION_CHALLENGES: SurveySection = {
   id: "challenges",
   title: "B6. Herausforderungen",
   description: "Erlebte Schwierigkeiten",
-  visibilityLogic: "Nur wenn GGV oder Mieterstrom ausgewählt",
+  visibilityLogic: "Nur wenn in #5 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
   questions: [
     {
       id: "challenges",
@@ -331,7 +331,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
   id: "vnb-planning",
   title: "C. VNB Planung (GGV)",
   description: "Details zur GGV-Planung mit dem Verteilnetzbetreiber",
-  visibilityLogic: "Nur wenn GGV ausgewählt oder ggvOrMieterstromDecision = 'sicher_ggv'",
+  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_ggv'",
   questions: [
     {
       id: "vnbExistingProjects",
@@ -452,7 +452,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   id: "vnb-msb",
   title: "C8. MSB Details",
   description: "Details zum Messstellenbetreiber-Angebot",
-  visibilityLogic: "Nur wenn vnbMsbOffer beantwortet",
+  visibilityLogic: "Nur wenn #33 beantwortet",
   questions: [
     {
       id: "vnbStartTimeline",
@@ -465,7 +465,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "spaeter", label: "Später als in 12 Monaten" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
+      visibilityLogic: "Nur wenn #33 = 'ja'",
     },
     {
       id: "vnbAdditionalCosts",
@@ -476,7 +476,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
+      visibilityLogic: "Nur wenn #33 = 'ja'",
     },
     {
       id: "vnbAdditionalCostsOneTime",
@@ -613,7 +613,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
   id: "ggv-operation",
   title: "D. GGV Betrieb",
   description: "Erfahrungen im laufenden Betrieb",
-  visibilityLogic: "Nur wenn planningStatus 'pv_laeuft_ggv_laeuft' enthält",
+  visibilityLogic: "Nur wenn #17 = 'pv_laeuft_ggv_laeuft'",
   questions: [
     {
       id: "operationVnbDuration",
@@ -801,7 +801,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
   title: "Dienstleister",
   description: "Feedback zu Dienstleistern & Reaktionen",
-  visibilityLogic: "Nur bei GGV-Fokus",
+  visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_ggv'",
   questions: [
     {
       id: "serviceProviderName",
@@ -868,7 +868,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   id: "mieterstrom-planning",
   title: "M. Mieterstrom Planung",
   description: "Details zu Mieterstrom-Projekten",
-  visibilityLogic: "Nur wenn Mieterstrom ausgewählt oder ggvOrMieterstromDecision = 'sicher_mieterstrom'",
+  visibilityLogic: "Nur wenn in #5 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt, oder #18 = 'sicher_mieterstrom'",
   questions: [
     {
       id: "mieterstromSummenzaehler",
