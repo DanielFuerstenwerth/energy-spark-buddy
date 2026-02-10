@@ -718,10 +718,12 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationDataProvider",
       type: "single-select",
-      label: "D2.3 Übermittlung der errechneten Strommengen je Teilnehmer",
+      label: "D2.3 Übermittlung der errechneten Strommengen je Teilnehmer: Wer stellt Ihnen die errechneten Werte (zugeordneten Erzeugungsmengen) zur Verfügung, damit Sie eine Abrechnung machen können?", // Korrektur: Label
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
         { value: "wmsb", label: "Ein wMSB" },
+        { value: "dienstleister", label: "Dienstleister / Sonstiges", hasTextField: true }, // Korrektur: Neue Option
+        { value: "abrechnung_dienstleister", label: "Die Abrechnung mit den Teilnehmenden übernimmt ein Dienstleister" }, // Korrektur: Neue Option
       ],
     },
     {
@@ -765,26 +767,15 @@ const SECTION_GGV_OPERATION: SurveySection = {
       visibilityLogic: "Wenn operationMsbAdditionalCosts = 'ja'",
       conditionalRequired: "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
-    {
-      id: "operationAllocationWho",
-      type: "single-select",
-      label: "D4. Falls jemand anderes als der VNB/gMSB die Aufteilung der Strommengen vornimmt, wer ist das?",
-      options: [
-        { value: "wissen_nicht", label: "Weiß ich nicht" },
-        { value: "dienstleister", label: "Das macht ein Dienstleister, den ich bezahle" },
-        { value: "selber", label: "Das mache ich selber, auf Basis der kompletten Verbrauchsdaten aller Teilnehmenden" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-      visibilityLogic: "Wenn operationAllocationProvider nicht 'gmsb'",
-    },
+    // Korrektur: operationAllocationWho GELÖSCHT (identisch mit #54)
     {
       id: "operationDataFormat",
       type: "single-select",
-      label: "D5.1 Wie erhalten Sie die Daten?",
+      label: "D5.1 Wie erhalten Sie die errechneten Daten von Ihrem VNB/gMSB?", // Korrektur: Label
       options: [
         { value: "mail_excel", label: "Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
         { value: "portal_verrechnete_werte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
-        { value: "portal_alle_messwerte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können" },
+        { value: "portal_alle_messwerte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können, um diese selber zu verrechnen" },
         { value: "dienstleister_marktkommunikation", label: "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft" },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
@@ -895,7 +886,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   id: "mieterstrom-planning",
   title: "4. Planung: Modellspezifisch – Mieterstrom",
   description: "Details zu Mieterstrom-Projekten",
-  visibilityLogic: "Nur wenn in #5 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
+  visibilityLogic: "Nur wenn in #5 'Mieterstrom' ausgewählt", // Korrektur: ggv_oder_mieterstrom öffnet nur GGV-Pfad
   questions: [
     {
       id: "mieterstromSummenzaehler",
@@ -1070,18 +1061,19 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
     {
       id: "mieterstromModelChoice",
       type: "single-select",
-      label: "MP1c. Auswahl an Umsetzungsmodellen",
+      label: "Welche Umsetzungsmodelle bietet Ihr VNB/gMSB als Messstellenbetreiber an?", // Korrektur: Label
       options: [
         { value: "virtuell", label: "Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für >5.000 EUR) bleibt uns damit erspart" },
-        { value: "physikalisch", label: "Ein sogenanntes 'physikalisches Summenzählermodell' (erfordert einen 'physikalischen Summenzähler')" },
+        { value: "physikalisch", label: "Nur das sogenannte 'physikalische Summenzählermodell' (erfordert einen 'physikalischen Summenzähler' für >5.000 EUR)" }, // Korrektur: Label
+        { value: "beide", label: "Beide Modelle" }, // Korrektur: Neue Option
       ],
     },
     {
       id: "mieterstromDataProvision",
       type: "single-select",
-      label: "MP1d. Bereitstellung der Daten",
+      label: "MP1d. Wie stellt der VNB/gMSB Ihnen die Daten zur Verfügung wenn er den Messstellenbetrieb durchführt?", // Korrektur: Label
       options: [
-        { value: "direkt_guenstig", label: "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - für weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
+        { value: "direkt_guenstig", label: "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) – kostenlos oder für weniger (oder gleich) 3 EUR/Messstelle/Jahr" }, // Korrektur: Label
         { value: "direkt_teuer", label: "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr" },
         { value: "marktkommunikation", label: "Der VNB/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten" },
       ],
@@ -1497,7 +1489,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "operationMsbAdditionalCosts": { displayId: "5-GGV-MsbAdditionalCosts", dbColumn: "operation_msb_additional_costs" },
   "operationMsbAdditionalCostsOneTime": { displayId: "5-GGV-MsbCostsOneTime", dbColumn: "operation_msb_additional_costs_one_time" },
   "operationMsbAdditionalCostsYearly": { displayId: "5-GGV-MsbCostsYearly", dbColumn: "operation_msb_additional_costs_yearly" },
-  "operationAllocationWho": { displayId: "5-GGV-AllocationWho", dbColumn: "operation_allocation_who" },
+  // operationAllocationWho GELÖSCHT
   "operationDataFormat": { displayId: "5-GGV-DataFormat", dbColumn: "operation_data_format" },
   "operationDataCost": { displayId: "5-GGV-DataCost", dbColumn: "operation_data_cost" },
   "operationDataCostAmount": { displayId: "5-GGV-DataCostAmount", dbColumn: "operation_data_cost_amount" },

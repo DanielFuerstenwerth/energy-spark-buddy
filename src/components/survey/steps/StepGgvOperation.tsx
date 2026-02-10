@@ -148,17 +148,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         </div>
       )}
 
-      {data.operationAllocationProvider && data.operationAllocationProvider !== 'gmsb' && (
-        <SingleSelectQuestion
-          id="operation-allocation-who"
-          label={getLabelForQuestion("operationAllocationWho")}
-          options={getOptionsForQuestion("operationAllocationWho")}
-          value={data.operationAllocationWho}
-          otherValue={data.operationAllocationWhoOther}
-          onChange={(val) => updateData("operationAllocationWho", val)}
-          onOtherChange={(val) => updateData("operationAllocationWhoOther", val)}
-        />
-      )}
+      {/* Korrektur: operationAllocationWho GELÖSCHT */}
 
       {/* Korrektur: D5/D6 only when operationDataProvider = 'gmsb' */}
       {data.operationDataProvider === 'gmsb' && (

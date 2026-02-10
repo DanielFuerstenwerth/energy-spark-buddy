@@ -138,7 +138,7 @@ export interface SurveyData {
   mieterstromSummenzaehler?: string;
   mieterstromExistingProjects?: string;
   mieterstromExistingProjectsVirtuell?: string;
-  mieterstromVnbContact?: string;
+  mieterstromVnbContact?: string[] | string; // Korrektur: multi-select wie vnbContact, backward compat mit string
   mieterstromVnbContactOther?: string;
   mieterstromVirtuellAllowed?: string;
   mieterstromVirtuellDeniedReason?: string; // Korrektur: Neu
