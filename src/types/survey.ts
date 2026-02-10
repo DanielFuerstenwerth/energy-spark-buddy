@@ -177,7 +177,7 @@ export interface SurveyData {
   mieterstromRejectionResponseOther?: string;
   mieterstromInfoSources?: string;
   mieterstromExperiences?: string;
-  mieterstromSurveyImprovements?: string;
+  // mieterstromSurveyImprovements removed (duplicate of surveyImprovements)
   mieterstromChallenges?: string[];
   mieterstromChallengesOpposition?: string;
   mieterstromChallengesPv?: string;

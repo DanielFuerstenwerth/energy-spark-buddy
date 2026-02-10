@@ -88,23 +88,23 @@ const REVIEW_ANNOTATIONS: Record<string, ReviewAnnotation[]> = {
     text: '🔍 REVIEW: Label "Projektumfang" ist sehr generisch. Besser: "Wie viele GGV-Projekte planen/betreiben Sie?"'
   }],
   "planningStatus": [{
-    type: 'logik',
-    text: '⚠️ BUG: Im Schema als single-select definiert, wird aber in SurveyData/Code als Array gespeichert (planningStatus: string[]). Sollte zu string geändert werden.'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Multi-Select behalten. Schema auf multi-select geändert, da mehrere Status gleichzeitig zutreffen können.'
   }, {
     type: 'verständnis',
     text: '🔍 REVIEW: Die Optionen mischen Planungs- und Betriebsstatus. "Die PV-Anlage läuft bereits mit GGV/Mieterstrom" steuert die Betriebsfragen – das ist für Nutzer nicht offensichtlich.'
   }],
   "ggvOrMieterstromDecision": [{
-    type: 'inhalt',
-    text: '🔍 REVIEW: Diese Frage wird IMMER angezeigt, auch wenn der Nutzer nur "GGV" oder nur "Mieterstrom" gewählt hat. Dann ist sie redundant. Visibility-Logic prüfen.'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Frage wird IMMER angezeigt (auch wenn nur ein Modell gewählt). Dient als Kontrollfrage.'
   }],
   "vnbContact": [{
-    type: 'logik',
-    text: '⚠️ BUG: Im Schema als single-select definiert, wird aber im Code als Array gespeichert und mit vnbContact[0] gelesen. Inkonsistenz.'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Multi-Select behalten. Schema auf multi-select geändert, da mehrere Kontaktwege gleichzeitig möglich.'
   }],
   "esStatus": [{
-    type: 'logik',
-    text: '⚠️ BUG: Im Schema als single-select definiert, wird aber im Code als Array gespeichert (esStatus: string[]) und mit esStatus[0] gelesen. Sollte zu string geändert werden.'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Multi-Select behalten. Schema auf multi-select geändert.'
   }],
   "vnbSupportMesskonzept": [{
     type: 'verständnis',
@@ -155,8 +155,8 @@ const REVIEW_ANNOTATIONS: Record<string, ReviewAnnotation[]> = {
     text: '🔍 REVIEW: Die Optionen sind sehr lang (volle Sätze). Nutzer mit mittlerem Wissen könnten die Unterschiede nicht verstehen. Vorschlag: Kürzere Optionen + helpText.'
   }],
   "esVnbResponse": [{
-    type: 'inhalt',
-    text: '🔍 REVIEW: Option "ab dem 01.06.2026" – Dieses Datum wird veralten. Dynamisch halten oder generischer formulieren: "In den nächsten 6 Monaten".'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Datum "01.06.2026" bleibt wie es ist – bewusste inhaltliche Entscheidung.'
   }],
   "esNetzentgelteDiscussion": [{
     type: 'verständnis',
@@ -167,16 +167,16 @@ const REVIEW_ANNOTATIONS: Record<string, ReviewAnnotation[]> = {
     text: '🔍 REVIEW: Dienstleister-Sektion erscheint in "Betrieb: GGV", ist aber im Schema unter einer eigenen Section. Nutzer in der Planungsphase könnten schon Dienstleister-Erfahrungen haben. Soll das auch für Planer sichtbar sein?'
   }],
   "vnbRejectionResponse": [{
-    type: 'ux',
-    text: '🔍 REVIEW: Diese Frage (Reaktion auf VNB-Ablehnung) erscheint im GGV-Dienstleister-Abschnitt. Thematisch passt sie besser in den GGV-Planungs-Abschnitt.'
+    type: 'cto',
+    text: '📋 ZU PRÜFEN: Verschiebung von Betrieb nach Planung wird im Word-Dokument geprüft. Aktuelle Platzierung bleibt vorerst.'
   }],
   "helpfulInfoSources": [{
-    type: 'inhalt',
-    text: '🔍 REVIEW: Diese Frage ist fast identisch mit mieterstromInfoSources (MD2) und esInfoSources. Redundanz? Oder ist die Intention, eine allgemeinere Antwort zu bekommen?'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: Drei separate InfoSources-Fragen (GGV, Mieterstrom, Energy Sharing) bleiben getrennt.'
   }],
   "mieterstromSurveyImprovements": [{
-    type: 'inhalt',
-    text: '🔍 REVIEW: "Verbesserungsvorschläge für diese Umfrage" – Diese Frage gibt es auch im Abschluss-Abschnitt (surveyImprovements). Dopplung entfernen?'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN & UMGESETZT: Duplikat entfernt. Nur noch eine Verbesserungsfrage im Abschluss (surveyImprovements).'
   }],
   "challenges": [{
     type: 'ux',
@@ -187,8 +187,8 @@ const REVIEW_ANNOTATIONS: Record<string, ReviewAnnotation[]> = {
     text: '🔍 REVIEW: "Über die Installation der PV-Anlage hinaus" – Diese Beschreibung ist wichtig, geht aber leicht unter. Prominenter platzieren.'
   }],
   "npsScore": [{
-    type: 'verständnis',
-    text: '🔍 REVIEW: NPS-Frage fragt "Wie wahrscheinlich empfehlen Sie die Umsetzung von GGV/Mieterstrom?" – Das misst nicht NPS im klassischen Sinne (Weiterempfehlung eines Produkts), sondern eher die Zufriedenheit mit dem Modell. Ist das beabsichtigt?'
+    type: 'cto',
+    text: '✅ ENTSCHIEDEN: NPS bewertet das Modell (GGV/Mieterstrom/Energy Sharing), nicht die Umfrage oder den VNB.'
   }],
   "documentUpload": [{
     type: 'logik',
@@ -531,25 +531,31 @@ function generateWordDoc(schema: SurveySchema, registry: Record<string, Registry
       Anhang B: CTO Review – Zusammenfassung der Findings
     </h2>
     
-    <h3 style="color: #dc2626; font-size: 13pt; margin-top: 16pt;">🐛 Bugs (sofort beheben)</h3>
+    <h3 style="color: #059669; font-size: 13pt; margin-top: 16pt;">✅ Entschieden & Umgesetzt</h3>
     <ol style="font-size: 10pt; line-height: 1.8;">
-      <li><strong>planningStatus</strong> (3-PlanningStatus): Im Schema als single-select, im Code als Array gespeichert. → <em>SurveyData auf string ändern</em></li>
-      <li><strong>vnbContact</strong> (4-GGV-Contact): Im Schema als single-select, im Code als Array. → <em>SurveyData auf string ändern</em></li>
-      <li><strong>esStatus</strong> (4-ES-Status): Im Schema als single-select, im Code als Array. → <em>SurveyData auf string ändern</em></li>
+      <li><strong>planningStatus</strong>: Multi-Select behalten (Schema korrigiert)</li>
+      <li><strong>vnbContact</strong>: Multi-Select behalten (Schema korrigiert)</li>
+      <li><strong>esStatus</strong>: Multi-Select behalten (Schema korrigiert)</li>
+      <li><strong>mieterstromSurveyImprovements</strong>: Duplikat entfernt – nur noch surveyImprovements im Abschluss</li>
+      <li><strong>ggvOrMieterstromDecision</strong>: Wird immer angezeigt (Kontrollfrage)</li>
+      <li><strong>Datum "01.06.2026"</strong>: Bleibt wie es ist</li>
+      <li><strong>InfoSources</strong>: Bleiben getrennt (GGV, MS, ES)</li>
+      <li><strong>NPS</strong>: Bewertet das Modell (GGV/Mieterstrom/Energy Sharing)</li>
+      <li><strong>Technische Erklärungen</strong>: Tooltips für Fachbegriffe geplant (Wandlermessung, Summenzähler, gMSB/wMSB, ESA, Netzentgelte)</li>
+    </ol>
+
+    <h3 style="color: #d97706; font-size: 13pt; margin-top: 16pt;">📋 Noch zu prüfen</h3>
+    <ol style="font-size: 10pt; line-height: 1.8;">
+      <li><strong>vnbRejectionResponse</strong>: Verschiebung von Betrieb nach Planung – wird im Word-Dokument geprüft</li>
+    </ol>
+
+    <h3 style="color: #dc2626; font-size: 13pt; margin-top: 16pt;">🐛 Offene Bugs</h3>
+    <ol style="font-size: 10pt; line-height: 1.8;">
       <li><strong>documentUpload</strong> (6-DocumentUpload): StepFinal referenziert "uploadedDocuments" statt "documentUpload" für getLabelForQuestion. → <em>Korrekte ID verwenden</em></li>
       <li><strong>mieterstromVirtuellAllowed</strong> (4-MS-VirtuellAllowed): Schema sagt "nur wenn summenzaehler='virtuell'", Code zeigt es immer. → <em>Visibility im Code hinzufügen</em></li>
     </ol>
 
-    <h3 style="color: #d97706; font-size: 13pt; margin-top: 16pt;">📝 Inhaltliche Verbesserungen (Entscheidung nötig)</h3>
-    <ol style="font-size: 10pt; line-height: 1.8;">
-      <li><strong>Doppelte Abschluss-Fragen:</strong> mieterstromSurveyImprovements + surveyImprovements – Eine davon entfernen?</li>
-      <li><strong>Doppelte Infoquellen-Fragen:</strong> helpfulInfoSources + mieterstromInfoSources + esInfoSources – Konsolidieren?</li>
-      <li><strong>ggvOrMieterstromDecision:</strong> Wird angezeigt, auch wenn nur ein Modell gewählt – redundant?</li>
-      <li><strong>vnbRejectionResponse:</strong> Thematisch im falschen Abschnitt (Dienstleister statt Planung GGV)</li>
-      <li><strong>esVnbResponse Option "01.06.2026":</strong> Hardcodiertes Datum wird veralten</li>
-    </ol>
-
-    <h3 style="color: #7c3aed; font-size: 13pt; margin-top: 16pt;">👤 Verständlichkeit für Laien (Erklärungen hinzufügen)</h3>
+    <h3 style="color: #7c3aed; font-size: 13pt; margin-top: 16pt;">👤 Verständlichkeit für Laien (Technische Erklärungen geplant)</h3>
     <ol style="font-size: 10pt; line-height: 1.8;">
       <li><strong>GGV/Mieterstrom/Energy Sharing:</strong> Einleitungs-Glossar fehlt komplett</li>
       <li><strong>gMSB / wMSB:</strong> Abkürzungen nie erklärt – helpText bei erster Verwendung</li>
@@ -563,18 +569,16 @@ function generateWordDoc(schema: SurveySchema, registry: Record<string, Registry
 
     <h3 style="color: #059669; font-size: 13pt; margin-top: 16pt;">🗄️ Datenbank-Review</h3>
     <ol style="font-size: 10pt; line-height: 1.8;">
-      <li><strong>Grundsätzlich gut:</strong> Alle Felder haben sinnvolle Spalten, RLS-Policies sind korrekt (public INSERT, admin SELECT/UPDATE/DELETE)</li>
-      <li><strong>Keine Fremdschlüssel zu auth.users:</strong> Korrekt – anonyme Umfrage</li>
-      <li><strong>session_group_id:</strong> Gut für Multi-Evaluation-Zuordnung</li>
-      <li><strong>Verwaiste Spalten:</strong> vnb_ggv_possible, vnb_ggv_possible_reasons, vnb_full_service_condition, vnb_data_provision_method, vnb_no_msb_future_timeline, vnb_rejection_future_timeline, operation_data_method, operation_data_method_other, operation_direct_data_cost, operation_esa_role_cost, operation_allocation_who_details, vnb_direct_data_cost, vnb_esa_role_cost – diese DB-Spalten existieren, sind aber im Schema nicht mehr als Fragen definiert. Prüfen ob Legacy oder vergessen.</li>
-      <li><strong>Shared uploadedDocuments state:</strong> Alle File-Uploads (GGV, MS, Final) teilen denselben Array. Das bedeutet, ein Upload bei GGV-Rejection wird auch bei Final angezeigt. → Trennung prüfen.</li>
+      <li><strong>Grundsätzlich gut:</strong> Alle Felder haben sinnvolle Spalten, RLS-Policies sind korrekt</li>
+      <li><strong>Verwaiste Spalten:</strong> vnb_ggv_possible, vnb_ggv_possible_reasons, vnb_full_service_condition, vnb_data_provision_method, vnb_no_msb_future_timeline, vnb_rejection_future_timeline, operation_data_method, operation_data_method_other, operation_direct_data_cost, operation_esa_role_cost, operation_allocation_who_details, vnb_direct_data_cost, vnb_esa_role_cost – prüfen ob Legacy oder vergessen</li>
+      <li><strong>Shared uploadedDocuments state:</strong> Alle File-Uploads teilen denselben Array – Trennung prüfen</li>
     </ol>
 
     <h3 style="color: #2563eb; font-size: 13pt; margin-top: 16pt;">🖥️ UX-Verbesserungen</h3>
     <ol style="font-size: 10pt; line-height: 1.8;">
-      <li><strong>Exklusive Optionen:</strong> Bei "Nein, alles läuft gut" fehlt visueller Hinweis dass andere abgewählt werden</li>
-      <li><strong>Lange Optionentexte:</strong> Besonders bei Daten-Fragen (C8.1d, D5.1) – Optionen sind ganze Sätze</li>
-      <li><strong>Fortschrittsanzeige:</strong> "Planung: Modellspezifisch" kann je nach Auswahl sehr lang (20+ Fragen) oder kurz (5 Fragen) sein – Nutzer haben keine Ahnung wie weit sie sind</li>
+      <li><strong>Exklusive Optionen:</strong> Bei "Nein, alles läuft gut" fehlt visueller Hinweis</li>
+      <li><strong>Lange Optionentexte:</strong> Besonders bei Daten-Fragen – Optionen sind ganze Sätze</li>
+      <li><strong>Fortschrittsanzeige:</strong> "Planung: Modellspezifisch" kann je nach Auswahl sehr unterschiedlich lang sein</li>
     </ol>
   </div>`;
 
