@@ -167,7 +167,9 @@ function renderQuestionHtml(q: SurveyQuestion, questionNumber: number): string {
 
 function generateWordDocHtml(): string {
   const schema = surveyDefinition;
-  const buildDate = new Date().toISOString().split("T")[0];
+  const now = new Date();
+  const buildDate = now.toISOString().split("T")[0];
+  const buildTimestamp = now.toLocaleString("de-DE", { dateStyle: "long", timeStyle: "short", timeZone: "Europe/Berlin" });
   const totalQuestions = schema.sections.reduce((acc, s) => acc + s.questions.length, 0);
   const totalAnnotations = Object.values(REVIEW_ANNOTATIONS).reduce((acc, arr) => acc + arr.length, 0);
 
@@ -253,7 +255,7 @@ function generateWordDocHtml(): string {
 </head>
 <body>
   <h1>📋 ${esc(schema.title)}</h1>
-  <p style="color:#666;font-size:10pt;">Version: ${esc(schema.version)} | Stand: ${esc(schema.lastUpdated)} | Generiert: ${buildDate}</p>
+  <p style="color:#666;font-size:10pt;">Version: ${esc(schema.version)} | Stand: ${esc(schema.lastUpdated)} | Generiert: ${buildTimestamp}</p>
   <p style="color:#666;font-size:10pt;">${esc(schema.description)}</p>
   <p style="font-size:10pt;"><strong>Statistik:</strong> ${schema.sections.length} Abschnitte, ${totalQuestions} Fragen, ${Object.keys(QUESTION_REGISTRY).length} Registry-Einträge, <span style="color:#be185d;font-weight:bold;">${totalAnnotations} Review-Anmerkungen</span></p>
   
@@ -288,7 +290,7 @@ function generateWordDocHtml(): string {
   
   <hr style="border:1pt solid #e5e7eb;margin:24pt 0 12pt;">
   <p style="text-align:center;color:#999;font-size:9pt;">
-    Generiert aus surveySchema.ts (SSOT v${esc(schema.version)}) | ${totalQuestions} Fragen | ${totalAnnotations} Review-Anmerkungen | ${buildDate}
+    Generiert aus surveySchema.ts (SSOT v${esc(schema.version)}) | ${totalQuestions} Fragen | ${totalAnnotations} Review-Anmerkungen | ${buildTimestamp}
   </p>
 </body>
 </html>`;
