@@ -1,5 +1,5 @@
 // Zentrales Schema für die Umfrage - Single Source of Truth (SSOT)
-// Letzte Aktualisierung: 2026-02-09
+// Letzte Aktualisierung: 2026-02-10 (Korrektur-Runde aus Word-Review)
 
 import type { SurveyData } from '@/types/survey';
 
@@ -29,7 +29,7 @@ export interface SurveyQuestion {
   placeholder?: string;
   visibilityLogic?: string;
   skipLogic?: string;
-  conditionalRequired?: string; // e.g., "vnbAdditionalCosts='ja'"
+  conditionalRequired?: string;
 }
 
 export interface SurveySection {
@@ -53,7 +53,7 @@ export function cleanLabel(text: string): string {
   return text.replace(/\n?L\d+:\s*/g, '').trim();
 }
 
-// === SECTION A: Über Sie ===
+// === SECTION 1: Über Sie ===
 
 const SECTION_ABOUT_YOU: SurveySection = {
   id: "about",
@@ -101,10 +101,21 @@ const SECTION_ABOUT_YOU: SurveySection = {
       placeholder: "ihre@email.de",
       optional: true,
     },
+    // Korrektur: Neue Frage
+    {
+      id: "confirmationForUpdate",
+      type: "single-select",
+      label: "Falls Sie eine Info über die Ergebnisse der Umfrage per E-Mail erhalten möchten, lassen Sie uns das wissen:",
+      options: [
+        { value: "ja", label: "Ja, ich möchte eine Info erhalten" },
+        { value: "nein", label: "Nein, ich schaue selber online nach Updates" },
+      ],
+      optional: true,
+    },
   ],
 };
 
-// === SECTION: Projekt ===
+// === SECTION 2: Projekt ===
 const SECTION_PROJECT_DETAILS: SurveySection = {
   id: "project",
   title: "2. Projekt",
@@ -122,6 +133,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       type: "multi-select",
       label: "Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
       description: "Mehrfachauswahl möglich",
+      helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
         { value: "mieterstrom", label: "Mieterstrom" },
@@ -133,7 +145,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvProjectType",
       type: "single-select",
-      label: "Projektumfang",
+      label: "Projektumfang - GGV", // Korrektur
       options: [
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte" },
@@ -143,7 +155,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvPvSizeKw",
       type: "number",
-      label: "Größe der PV-Anlage in kW",
+      label: "Größe der PV-Anlage in kW - GGV", // Korrektur
       placeholder: "z.B. 30",
       optional: true,
       visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
@@ -151,7 +163,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvPartyCount",
       type: "number",
-      label: "Anzahl der Parteien, die Strom abnehmen",
+      label: "Anzahl der Parteien, die Strom abnehmen - GGV", // Korrektur
       placeholder: "z.B. 12",
       optional: true,
       visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
@@ -159,7 +171,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvBuildingType",
       type: "single-select",
-      label: "Art des Gebäudes",
+      label: "Art des Gebäudes - GGV", // Korrektur
       options: [
         { value: "wohngebaeude", label: "Wohngebäude" },
         { value: "gewerbe", label: "Gewerbegebäude" },
@@ -170,7 +182,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvBuildingCount",
       type: "number",
-      label: "Gesamtzahl der Projekte",
+      label: "Gesamtzahl der Projekte - GGV", // Korrektur
       placeholder: "z.B. 5",
       optional: true,
       visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #6 = 'multiple'",
@@ -178,7 +190,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "ggvAdditionalInfo",
       type: "textarea",
-      label: "Zusätzliche Informationen (GGV)",
+      label: "Zusätzliche Informationen - GGV", // Korrektur
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
       visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
@@ -186,7 +198,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromPvSizeKw",
       type: "number",
-      label: "Größe der PV-Anlage(n) in kW",
+      label: "Größe der PV-Anlage(n) in kW - Mieterstrom", // Korrektur
       placeholder: "z.B. 50",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
@@ -194,7 +206,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromPartyCount",
       type: "number",
-      label: "Anzahl der Parteien, die Strom abnehmen",
+      label: "Anzahl der Parteien, die Strom abnehmen - Mieterstrom", // Korrektur
       placeholder: "z.B. 24",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
@@ -202,7 +214,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromBuildingType",
       type: "single-select",
-      label: "Art des Gebäudes (Mieterstrom)",
+      label: "Art des Gebäudes - Mieterstrom", // Korrektur
       options: [
         { value: "wohngebaeude", label: "Wohngebäude" },
         { value: "gewerbe", label: "Gewerbegebäude" },
@@ -213,7 +225,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromAdditionalInfo",
       type: "textarea",
-      label: "Zusätzliche Informationen (Mieterstrom)",
+      label: "Zusätzliche Informationen - Mieterstrom", // Korrektur
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
@@ -229,7 +241,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
   ],
 };
 
-// === SECTION B: Planung Allgemeines - Planungsstatus ===
+// === SECTION 3: Planung Allgemeines - Planungsstatus ===
 const SECTION_PLANNING: SurveySection = {
   id: "planning",
   title: "3. Planung: Allgemeines – Planungsstand",
@@ -241,6 +253,7 @@ const SECTION_PLANNING: SurveySection = {
       type: "multi-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
       description: "Mehrfachauswahl möglich",
+      helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.", // Korrektur
       options: [
         { value: "info_sammeln", label: "Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen" },
         { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
@@ -276,7 +289,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn #18 = 'sicher_ggv' (Kontrollfrage, keine Logik-Auswirkung)",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt", // Korrektur
     },
     {
       id: "mieterstromDecisionReasons",
@@ -291,7 +304,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn #18 = 'sicher_mieterstrom' (Kontrollfrage, keine Logik-Auswirkung)",
+      visibilityLogic: "Nur wenn in #5 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt", // Korrektur
     },
     {
       id: "implementationApproach",
@@ -307,7 +320,7 @@ const SECTION_PLANNING: SurveySection = {
   ],
 };
 
-// === SECTION: Planung Allgemeines - Herausforderungen ===
+// === SECTION 3: Planung Allgemeines - Herausforderungen ===
 const SECTION_CHALLENGES: SurveySection = {
   id: "challenges",
   title: "3. Planung: Allgemeines – Herausforderungen",
@@ -320,17 +333,32 @@ const SECTION_CHALLENGES: SurveySection = {
       label: "Gab oder gibt es wesentliche Herausforderungen?",
       description: "Mehrfachauswahl möglich",
       options: [
-        { value: "keine", label: "Nein, alles läuft gut", exclusive: true }, // P0.3: marked as exclusive
+        { value: "keine", label: "Nein, alles läuft gut", exclusive: true },
+        { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt", hasTextField: true, textFieldLabel: "Details" }, // Korrektur: Neue Option
         { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true, textFieldLabel: "Was war das Problem?" },
         { value: "vnb_blockiert", label: "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", hasTextField: true, textFieldLabel: "Gründe des VNB" },
         { value: "kosten_zu_hoch", label: "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", hasTextField: true, textFieldLabel: "Details zu den Kosten" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldLabel: "Andere Herausforderungen" },
       ],
+      optional: true, // Korrektur: optional
+    },
+    // Korrektur: #71 hierher verschoben (war in Betrieb-Sektion)
+    {
+      id: "vnbRejectionResponse",
+      type: "multi-select",
+      label: "Falls Ihr VNB die Umsetzung von GGV oder Mieterstrom nicht oder nur unzureichend unterstützt, wie haben Sie bislang reagiert?", // Korrektur: Label
+      options: [
+        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet" }, // Korrektur: Label
+        { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
+        { value: "keine_schritte", label: "Wir sind / unser Dienstleister ist bei dem Anschluss anderer Projekte auf den VNB angewiesen, wir sehen daher von rechtlichen Schritten gegenüber dem VNB oder einer Anfrage bei der BNetzA ab" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+      ],
+      optional: true,
     },
   ],
 };
 
-// === SECTION C: Planung Modellspezifisch - GGV ===
+// === SECTION 4: Planung Modellspezifisch - GGV ===
 const SECTION_VNB_PLANNING_GGV: SurveySection = {
   id: "vnb-planning",
   title: "4. Planung: Modellspezifisch – GGV",
@@ -375,35 +403,36 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       ],
       optional: true,
     },
+    // Korrektur #26-29: Gemeinsamer Einleitungstext als helpText, SupportPortal wird Textfeld
     {
       id: "vnbSupportMesskonzept",
       type: "text",
       label: "C4.1 Informationen zum Messkonzept (Weblink)",
+      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       placeholder: "https://...",
       optional: true,
-      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
     },
     {
       id: "vnbSupportFormulare",
       type: "text",
       label: "C4.2 Formulare für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel (Weblink)",
+      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       placeholder: "https://...",
       optional: true,
     },
     {
       id: "vnbSupportPortal",
-      type: "single-select",
-      label: "C4.3 Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
-      options: [
-        { value: "ja", label: "Ja, vorhanden" },
-        { value: "nein", label: "Nein, nicht vorhanden" },
-      ],
+      type: "text", // Korrektur: war single-select, jetzt Textfeld
+      label: "C4.3 Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel (Weblink)",
+      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+      placeholder: "https://...",
       optional: true,
     },
     {
       id: "vnbSupportOther",
       type: "text",
       label: "C4.4 Weiteres",
+      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       placeholder: "Weitere Unterstützungsangebote...",
       optional: true,
     },
@@ -435,7 +464,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       label: "C7. Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?",
       min: 1,
       max: 10,
-      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
+      minLabel: "bremst aktiv",
       maxLabel: "unterstützt aktiv",
     },
     {
@@ -452,12 +481,12 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
   ],
 };
 
-// === SECTION: Planung Modellspezifisch - GGV MSB Details ===
+// === SECTION 4: Planung Modellspezifisch - GGV MSB Details ===
 const SECTION_VNB_MSB_DETAILS: SurveySection = {
   id: "vnb-msb",
   title: "4. Planung: Modellspezifisch – GGV - MSB Details",
-  description: "Details zum Messstellenbetreiber-Angebot",
-  visibilityLogic: "Nur wenn #33 beantwortet",
+  description: "Wenn der VNB anbietet, den Messstellenbetrieb in der GGV zu übernehmen:", // Korrektur: Neue Überschrift
+  visibilityLogic: "Nur wenn #33 = 'ja'", // Korrektur: nur bei ja
   questions: [
     {
       id: "vnbStartTimeline",
@@ -490,7 +519,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       placeholder: "z.B. 500",
       optional: true,
       visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
-      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
+      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
     {
       id: "vnbAdditionalCostsYearly",
@@ -499,7 +528,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       placeholder: "z.B. 100",
       optional: true,
       visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
-      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
+      conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
     {
       id: "vnbFullService",
@@ -553,7 +582,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbMsbTimeline",
       type: "single-select",
-      label: "C8.2a Hat der VNB in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?",
+      label: "Falls Ihr VNB nicht anbietet, den Messstellenbetrieb selber zu übernehmen: hat er in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?", // Korrektur: Label
       options: [
         { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
         { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
@@ -565,7 +594,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbRejectionTimeline",
       type: "single-select",
-      label: "C8.2b Gibt es schon eine Aussage, ab wann eine Umsetzung möglich sein wird?",
+      label: "Falls Ihr VNB die Umsetzung bislang vollständig ablehnt: gibt es schon eine Aussage, ab wann es möglich sein wird?", // Korrektur: Label
       options: [
         { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
         { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
@@ -577,7 +606,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbWandlermessung",
       type: "single-select",
-      label: "C9. Verlangt Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?",
+      label: "C9. Frage zum Detail der technischen Anforderungen des Messkonzeptes: Verlangt Ihr VNB einen neuen, zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?", // Korrektur: ausführlicheres Label
       description: "Erfordert die Installation einer 'Wandlermessung' für > 5.000 EUR",
       options: [
         { value: "ja", label: "Ja" },
@@ -588,10 +617,19 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbWandlermessungComment",
       type: "textarea",
-      label: "Ergänzende Informationen zur Wandlermessung",
+      label: "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr VNB hierzu und womit werden die begründet?", // Korrektur: Label
       placeholder: "Weitere Details...",
       optional: true,
-      visibilityLogic: "Wenn vnbWandlermessung beantwortet",
+      visibilityLogic: "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'", // Korrektur
+    },
+    // Korrektur: Upload-Option für Wandlermessung-Dokumente
+    {
+      id: "vnbWandlermessungDocuments",
+      type: "file",
+      label: "Dokumente zur Wandlermessung hochladen",
+      description: "z.B. Messkonzept, Korrespondenz mit VNB",
+      optional: true,
+      visibilityLogic: "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'",
     },
     {
       id: "vnbPlanningDuration",
@@ -613,7 +651,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   ],
 };
 
-// === SECTION D: Betrieb Modellspezifisch - GGV ===
+// === SECTION 5: Betrieb Modellspezifisch - GGV ===
 const SECTION_GGV_OPERATION: SurveySection = {
   id: "ggv-operation",
   title: "5. Betrieb: Modellspezifisch – GGV",
@@ -623,7 +661,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationVnbDuration",
       type: "single-select",
-      label: "D0. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert?",
+      label: "D0. Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert, von der ersten Kontaktaufnahme bis zur Klärung aller Fragen bzw. Start der Belieferung?",
       options: [
         { value: "unter_2_monate", label: "Unter 2 Monaten" },
         { value: "2_bis_12_monate", label: "Zwischen 2 und 12 Monaten" },
@@ -633,7 +671,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationVnbDurationReasons",
       type: "textarea",
-      label: "Falls es lange dauerte: Was war das große Problem?",
+      label: "Falls es lange dauerte: Was war das größte Problem?", // Korrektur: Label
       placeholder: "Beschreiben Sie die Gründe...",
       optional: true,
     },
@@ -644,6 +682,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
+        { value: "nein_freiwillig", label: "Nein, aber wir haben das freiwillig eingebaut", hasTextField: true, textFieldLabel: "Erläuterung" }, // Korrektur: Neue Option
         { value: "wissen_nicht", label: "Das wissen wir nicht" },
       ],
     },
@@ -653,12 +692,14 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Ergänzende Informationen zur Wandlermessung",
       placeholder: "Weitere Details...",
       optional: true,
-      visibilityLogic: "Wenn operationWandlermessung beantwortet",
+      visibilityLogic: "Wenn operationWandlermessung = 'ja'", // Korrektur: nur bei ja
     },
+    // Korrektur: Sammelüberfrage vor #52-54
     {
       id: "operationMsbProvider",
       type: "single-select",
       label: "D2.1 Messstellenbetrieb: Wer baut die Smart Meter ein und betreibt sie?",
+      description: "Wer ist in dem Projekt der Messstellenbetreiber, wer führt die Aufteilung der PV-Stromerzeugung durch und wie erhalten Sie die für die Abrechnung mit den Teilnehmenden erforderlichen Daten?", // Korrektur: Sammelüberfrage als description
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
         { value: "wmsb", label: "Ein wMSB" },
@@ -667,11 +708,11 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationAllocationProvider",
       type: "single-select",
-      label: "D2.2 Aufteilung der PV-Stromerzeugung auf die Teilnehmenden (Verrechnung)",
+      label: "D2.2 Aufteilung der PV-Stromerzeugung auf die Teilnehmenden: Wer verrechnet die Messwerte und ordnet die Erzeugung je 15-Minuten-Intervall auf die Teilnehmenden zu?", // Korrektur: Label
       options: [
-        { value: "gmsb", label: "Unser lokaler gMSB" },
+        { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" }, // Korrektur: Label
         { value: "wmsb", label: "Ein wMSB" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Ein Dienstleister / Sonstiges", hasTextField: true }, // Korrektur: Label
       ],
     },
     {
@@ -752,7 +793,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationDataCost",
       type: "single-select",
-      label: "D5.2 Wieviel kostet die Bereitstellung der verrechneten Werte?",
+      label: "D5.2 Wieviel kostet die direkte Bereitstellung der verrechneten Werte durch Ihren VNB/gMSB?", // Korrektur: Label
       description: "Dabei sind die Kosten für die Smart Meter nicht zu berücksichtigen",
       options: [
         { value: "kostenlos", label: "Kostenlos" },
@@ -761,6 +802,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "aktuell_kostenlos", label: "Aktuell kostenlos, das wird sich aber ändern" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
+      visibilityLogic: "Wenn operationDataProvider = 'gmsb'", // Korrektur: Sichtbarkeit
     },
     {
       id: "operationDataCostAmount",
@@ -780,6 +822,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "weniger_3_eur", label: "Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
+      visibilityLogic: "Wenn operationDataProvider = 'gmsb'", // Korrektur: Sichtbarkeit
     },
     {
       id: "operationEsaCostAmount",
@@ -801,7 +844,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
   ],
 };
 
-// === SECTION: Betrieb Modellspezifisch - GGV Dienstleister ===
+// === SECTION 5: Betrieb Modellspezifisch - GGV Dienstleister ===
 const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
   title: "5. Betrieb: Modellspezifisch – Dienstleister (GGV)",
@@ -815,17 +858,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       placeholder: "Name des Dienstleisters",
       optional: true,
     },
-    {
-      id: "serviceProviderRating",
-      type: "rating",
-      label: "Zufriedenheit mit Dienstleister 1",
-      min: 1,
-      max: 10,
-      minLabel: "Sehr unzufrieden",
-      maxLabel: "Sehr zufrieden",
-      optional: true,
-      visibilityLogic: "Wenn serviceProviderName ausgefüllt",
-    },
+    // Korrektur: serviceProviderRating (#67) GELÖSCHT
     {
       id: "serviceProviderComments",
       type: "textarea",
@@ -853,22 +886,11 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       optional: true,
       visibilityLogic: "Wenn serviceProvider2Name ausgefüllt",
     },
-    {
-      id: "vnbRejectionResponse",
-      type: "multi-select",
-      label: "D9. Falls Ihr VNB die GGV nicht oder nur unzureichend anbietet/umsetzt, wie haben Sie bislang reagiert?",
-      options: [
-        { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
-        { value: "rechtliche_schritte", label: "Wir überlegen rechtliche Schritte zu gehen" },
-        { value: "keine_schritte", label: "Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-      optional: true,
-    },
+    // Korrektur: vnbRejectionResponse wurde nach Section 3 (Challenges) verschoben
   ],
 };
 
-// === SECTION: Planung Modellspezifisch - Mieterstrom ===
+// === SECTION 4: Planung Modellspezifisch - Mieterstrom ===
 const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   id: "mieterstrom-planning",
   title: "4. Planung: Modellspezifisch – Mieterstrom",
@@ -887,19 +909,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
     },
-    {
-      id: "mieterstromChallenges",
-      type: "multi-select",
-      label: "M2. Gab oder gibt es wesentliche Herausforderungen?",
-      options: [
-        { value: "keine", label: "Nein, alles läuft gut", exclusive: true }, // P0.3: marked as exclusive
-        { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt", hasTextField: true },
-        { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true },
-        { value: "vnb_blocking", label: "Der VNB lässt die Umsetzung von Mieterstrom nicht zu", hasTextField: true },
-        { value: "kosten", label: "Die Kosten für die Umsetzung des Mieterstrom sind zu hoch", hasTextField: true },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-    },
+    // Korrektur: mieterstromChallenges (#73) GELÖSCHT
     {
       id: "mieterstromExistingProjects",
       type: "single-select",
@@ -926,11 +936,13 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
     },
     {
       id: "mieterstromVnbContact",
-      type: "single-select",
+      type: "multi-select", // Korrektur: gleiche Optionen wie #24 (vnbContact)
       label: "M5. Waren Sie schon im Kontakt mit Ihrem VNB?",
+      description: "Mehrfachauswahl möglich",
       options: [
-        { value: "direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
-        { value: "installateur", label: "Nein, nur über den Installateur/Dienstleister" },
+        { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
+        { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
+        { value: "nein", label: "Nein, noch kein Kontakt" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       optional: true,
@@ -938,12 +950,30 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
     {
       id: "mieterstromVirtuellAllowed",
       type: "single-select",
-      label: "M6. Lässt Ihr VNB/gMSB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?",
+      label: "Lässt Ihr VNB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?", // Korrektur: Label
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
+        { value: "wissen_nicht", label: "Wissen wir nicht" }, // Korrektur: Neue Option
       ],
-      visibilityLogic: "Wenn mieterstromSummenzaehler = 'virtuell'",
+      // Korrektur: Sichtbarkeit immer (war: nur bei summenzaehler='virtuell')
+    },
+    // Korrektur: Neue Frage 4-MS-Virtuell-DeniedReason
+    {
+      id: "mieterstromVirtuellDeniedReason",
+      type: "textarea",
+      label: "Warum lässt Ihr VNB den virtuellen Summenzähler nicht zu?",
+      placeholder: "Bitte beschreiben Sie die Gründe...",
+      optional: true,
+      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'nein'",
+    },
+    {
+      id: "mieterstromVirtuellDeniedDocuments",
+      type: "file",
+      label: "Dokumente zum virtuellen Summenzähler hochladen",
+      description: "z.B. Korrespondenz mit VNB, Ablehnungsschreiben",
+      optional: true,
+      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'nein'",
     },
     {
       id: "mieterstromVirtuellWandlermessung",
@@ -955,53 +985,31 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       ],
       visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'ja'",
     },
+    // Korrektur: Upload bei ja
+    {
+      id: "mieterstromVirtuellWandlermessungDocuments",
+      type: "file",
+      label: "Dokumente zur Wandlermessung hochladen",
+      description: "z.B. Messkonzept, Korrespondenz",
+      optional: true,
+      visibilityLogic: "Wenn mieterstromVirtuellWandlermessung = 'ja'",
+    },
     {
       id: "mieterstromVnbResponse",
       type: "multi-select",
       label: "M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?",
       description: "Mehrfachauswahl möglich",
       options: [
-        { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB kann dies als Messstellenbetreiber machen" },
+        { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB bietet an, dies als Messstellenbetreiber zu unterstützen" }, // Korrektur: Label
         { value: "moeglich_wmsb", label: "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
         { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
-        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true },
+        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung in seinem Netzgebiet bislang nicht möglich ist", hasTextField: true }, // Korrektur: Label + Textfeld
       ],
       optional: true,
     },
-    {
-      id: "mieterstromVnbSupport",
-      type: "multi-select",
-      label: "M9. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung von Mieterstrom bereit?",
-      options: [
-        { value: "messkonzept", label: "Informationen zum Messkonzept und Prozessen", hasTextField: true, textFieldLabel: "Weblink" },
-        { value: "formulare", label: "Formulare für die Übermittlung der Teilnehmenden / Änderungen" },
-        { value: "portal", label: "Online-Portal für die Übermittlung der Teilnehmenden / Änderungen" },
-        { value: "sonstiges", label: "Weiteres", hasTextField: true },
-      ],
-      optional: true,
-    },
-    {
-      id: "mieterstromVnbHelpful",
-      type: "single-select",
-      label: "M10. Bietet Ihr VNB eine Kontaktmöglichkeit für Mieterstrom und ist das hilfreich?",
-      options: [
-        { value: "ja_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit und da wurde uns geholfen" },
-        { value: "ja_nicht_hilfreich", label: "Ja, aber es gab wenig hilfreiche Information" },
-        { value: "nein", label: "Nein, es gibt keine Kontaktmöglichkeit" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-    },
-    {
-      id: "mieterstromPersonalContacts",
-      type: "single-select",
-      label: "M11. Haben Sie persönliche Kontakte bei Ihrem Verteilnetzbetreiber?",
-      options: [
-        { value: "ja_bestanden", label: "Ja, es bestanden schon persönliche Kontakte zum VNB" },
-        { value: "ja_entstanden", label: "Ja, persönliche Kontakte sind bei der Umsetzung von Mieterstrom entstanden" },
-        { value: "nein", label: "Nein, es bestehen keine persönlichen Kontakte" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-    },
+    // Korrektur: mieterstromVnbSupport (#80) GELÖSCHT
+    // Korrektur: mieterstromVnbHelpful (#81) GELÖSCHT
+    // Korrektur: mieterstromPersonalContacts (#82) GELÖSCHT
     {
       id: "mieterstromSupportRating",
       type: "rating",
@@ -1014,20 +1022,20 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   ],
 };
 
-// === SECTION: Planung Modellspezifisch - Mieterstrom VNB Angebot ===
+// === SECTION 4: Planung Modellspezifisch - Mieterstrom VNB Angebot ===
 const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
   id: "mieterstrom-vnb-offer",
   title: "4. Planung: Modellspezifisch – Mieterstrom - VNB Angebot",
   description: "Details zum MSB-Angebot des VNB für Mieterstrom",
-  visibilityLogic: "Nur wenn Mieterstrom ausgewählt und nicht in Betrieb",
+  visibilityLogic: "Nur wenn in #79 'moeglich_gmsb' ausgewählt", // Korrektur: Sichtbarkeit
   questions: [
     {
       id: "mieterstromFullService",
       type: "single-select",
-      label: "MP1a. Full-Service-Angebot",
+      label: "Bietet der VNB/gMSB den Messstellenbetrieb im Mieterstrom grundsätzlich immer an, oder nur in Kombination mit einem Full-Service-Angebot?", // Korrektur: Label
       options: [
-        { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
-        { value: "auch_ohne", label: "Unser Stadtwerk/VNB bietet dies auch ohne Stromlieferverträge an" },
+        { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk." },
+        { value: "auch_ohne", label: "Unser Stadtwerk/VNB bietet dies auch an, ohne selber Strom zu liefern." }, // Korrektur: Label
       ],
     },
     {
@@ -1048,7 +1056,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       placeholder: "z.B. 500",
       optional: true,
       visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
-      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
+      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
     {
       id: "mieterstromMsbCostsYearly",
@@ -1057,7 +1065,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       placeholder: "z.B. 100",
       optional: true,
       visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
-      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich", // P0.5
+      conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
     {
       id: "mieterstromModelChoice",
@@ -1081,7 +1089,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
   ],
 };
 
-// === SECTION: Betrieb Modellspezifisch - Mieterstrom ===
+// === SECTION 5: Betrieb Modellspezifisch - Mieterstrom ===
 const SECTION_MIETERSTROM_OPERATION: SurveySection = {
   id: "mieterstrom-operation",
   title: "5. Betrieb: Modellspezifisch – Mieterstrom",
@@ -1096,7 +1104,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "keine", label: "Gar keine - wir machen das mit einem wettbewerblichen Messstellenbetreiber" },
         { value: "msb_dienstleister", label: "Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung" },
         { value: "msb_direkt", label: "Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung" },
-        { value: "full_service", label: "Das Stadtwerk übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden" },
+        { value: "full_service", label: "Das Stadtwerk (oder ein mit dem VNB verbundenes Unternehmen) übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden" },
       ],
     },
     {
@@ -1119,26 +1127,8 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "wissen_nicht", label: "Das wissen wir nicht" },
       ],
     },
-    {
-      id: "mieterstromMsbProvider",
-      type: "single-select",
-      label: "MB4.1 Messstellenbetrieb: Wer stellt die Zähler oder die Smart Meter bereit?",
-      options: [
-        { value: "gmsb", label: "Unser lokaler gMSB (gleiches Unternehmen wie der VNB)" },
-        { value: "wmsb", label: "Ein wMSB" },
-      ],
-    },
-    {
-      id: "mieterstromDataProvider",
-      type: "single-select",
-      label: "MB4.2 Übermittlung der verbrauchten Strommengen je Teilnehmer",
-      options: [
-        { value: "gmsb", label: "Unser lokaler gMSB" },
-        { value: "dienstleister", label: "Ein Dienstleister" },
-        { value: "wmsb", label: "Ein wMSB" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
-      ],
-    },
+    // Korrektur: mieterstromMsbProvider (#93) GELÖSCHT
+    // Korrektur: mieterstromDataProvider (#94) GELÖSCHT
     {
       id: "mieterstromMsbInstallDuration",
       type: "single-select",
@@ -1149,7 +1139,6 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "4_monate", label: "Die 4 Monate gesetzliche Frist wurden gerade so eingehalten" },
         { value: "laenger", label: "Die Frist von 4 Monaten wurde deutlich überschritten" },
       ],
-      visibilityLogic: "Wenn mieterstromMsbProvider = 'gmsb'",
     },
     {
       id: "mieterstromOperationCosts",
@@ -1160,17 +1149,8 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
-      visibilityLogic: "Wenn mieterstromMsbProvider = 'gmsb'",
     },
-    {
-      id: "mieterstromOperationSatisfaction",
-      type: "rating",
-      label: "MB6. Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?",
-      min: 1,
-      max: 10,
-      minLabel: "bremst aktiv", // P1.7: neutralized rating labels
-      maxLabel: "unterstützt aktiv",
-    },
+    // Korrektur: mieterstromOperationSatisfaction (#97) GELÖSCHT
     {
       id: "mieterstromRejectionResponse",
       type: "multi-select",
@@ -1200,7 +1180,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
   ],
 };
 
-// === SECTION E: Planung Modellspezifisch - Energy Sharing ===
+// === SECTION 4: Planung Modellspezifisch - Energy Sharing ===
 const SECTION_ENERGY_SHARING: SurveySection = {
   id: "energy-sharing",
   title: "4. Planung: Modellspezifisch – Energy Sharing",
@@ -1219,12 +1199,12 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Infos" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      required: true,
+      optional: true, // Korrektur: war required
     },
     {
       id: "esPlantType",
       type: "multi-select",
-      label: "E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen?",
+      label: "E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen (oder nutzen sie bereits)?", // Korrektur: Label
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "wind", label: "Windenergieanlage" },
@@ -1235,45 +1215,39 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "pv_mfh", label: "PV-Dachanlage auf Mehrfamilienhaus" },
         { value: "pv_nichtwohn", label: "PV-Dachanlage auf einem Nicht-Wohngebäude" },
       ],
-      visibilityLogic: "Wenn in Planung oder Information sammeln",
+      // Korrektur: Sichtbarkeit immer (war: nur bei Planung)
     },
     {
       id: "esProjectScope",
       type: "single-select",
-      label: "E4. Projektumfang",
+      label: "Planen Sie eine einzelne Anlage zu nutzen oder mehrere Anlagen einzubinden (oder tun Sie dies bereits)?", // Korrektur: Label
       options: [
-        { value: "single", label: "Ein einzelnes Projekt" },
-        { value: "multiple", label: "Mehrere Projekte" },
+        { value: "single", label: "Eine einzelne Anlage" }, // Korrektur: Label
+        { value: "multiple", label: "Mehrere Anlagen" }, // Korrektur: Label
       ],
-      visibilityLogic: "Wenn in Planung oder Information sammeln",
+      // Korrektur: Sichtbarkeit immer
     },
     {
-      id: "esPvSizeKw",
+      id: "esCapacitySizeKw", // Korrektur: ID umbenannt von esPvSizeKw
       type: "number",
-      label: "Größe der PV-Anlage in kW",
+      label: "Welche Größe hat die / haben die betroffene(n) EE-Anlage(n) in kW? (1000 kW = 1 MW)", // Korrektur: Label
       placeholder: "z.B. 100",
       optional: true,
-      visibilityLogic: "Wenn esProjectScope = 'single'",
+      // Korrektur: Sichtbarkeit immer (war: nur bei single)
     },
-    {
-      id: "esWindSizeKw",
-      type: "number",
-      label: "Größe der Windenergieanlage in kW",
-      placeholder: "z.B. 2000",
-      optional: true,
-      visibilityLogic: "Wenn esProjectScope = 'single'",
-    },
+    // Korrektur: esWindSizeKw (#105) GELÖSCHT
     {
       id: "esPartyCount",
       type: "number",
-      label: "Anzahl der belieferten Parteien",
+      label: "Wie viele Parteien sollen beliefert werden (oder werden schon beliefert)?", // Korrektur: Label
       placeholder: "z.B. 50",
       optional: true,
+      // Korrektur: Sichtbarkeit immer
     },
     {
       id: "esConsumerTypes",
       type: "multi-select",
-      label: "E5. Welche Stromverbraucher sollen eingebunden werden?",
+      label: "E5. Welche Stromverbraucher sollen eingebunden werden (oder sind schon eingebunden)?", // Korrektur: Label
       options: [
         { value: "privat", label: "Private Haushalte" },
         { value: "kommune", label: "Kommune" },
@@ -1281,24 +1255,23 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "kmu", label: "KMU" },
         { value: "vereine", label: "Vereine" },
       ],
-      visibilityLogic: "Wenn in Planung oder Information sammeln",
+      // Korrektur: Sichtbarkeit immer
     },
     {
       id: "esConsumerScope",
       type: "single-select",
-      label: "E6. An wen soll der Strom geliefert werden?",
+      label: "E6. An wen soll der Strom geliefert werden (oder wird der Strom geliefert)?",
       options: [
-        { value: "alle", label: "An jeden der Interesse hat" },
-        { value: "primaer_bestimmte", label: "Primär an bestimmte Stromverbraucher, aber gerne auch andere" },
+        { value: "alle", label: "An jeden, der Interesse hat" }, // Korrektur: Label
+        { value: "primaer_bestimmte", label: "Primär an bestimmte Abnehmer, aber gerne auch an weitere" }, // Korrektur: Label
         { value: "nur_bestimmte", label: "Nur an bestimmte Abnehmer", hasTextField: true },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Wenn in Planung oder Information sammeln",
     },
     {
       id: "esMaxDistance",
       type: "text",
-      label: "Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern?",
+      label: "Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern (geplant oder realisiert)?", // Korrektur: Label
       description: "Eine ungefähre Schätzung reicht",
       placeholder: "z.B. 5 km",
       optional: true,
@@ -1347,23 +1320,17 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   ],
 };
 
-// === SECTION: Abschluss ===
+// === SECTION 6: Abschluss ===
 const SECTION_FINAL: SurveySection = {
   id: "final",
   title: "6. Abschluss",
   description: "Letzte Informationen",
   questions: [
-    {
-      id: "helpfulInfoSources",
-      type: "textarea",
-      label: "Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen?", // P1.8: removed D10 prefix
-      placeholder: "z.B. Webseiten, Beratungsstellen, Netzwerke, Verbände...",
-      optional: true,
-    },
+    // Korrektur: helpfulInfoSources (#114) GELÖSCHT
     {
       id: "additionalExperiences",
       type: "textarea",
-      label: "Welche Erfahrungen möchten Sie noch teilen?", // P1.8: removed D11 prefix
+      label: "Welche Erfahrungen möchten Sie noch teilen?",
       placeholder: "Ihre Erfahrungen...",
       optional: true,
     },
@@ -1377,7 +1344,7 @@ const SECTION_FINAL: SurveySection = {
     {
       id: "surveyImprovements",
       type: "textarea",
-      label: "Haben Sie Verbesserungsvorschläge für diese Umfrage?", // P1.8: removed D12 prefix
+      label: "Haben Sie Verbesserungsvorschläge für diese Umfrage?",
       placeholder: "Ihr Feedback zur Umfrage...",
       optional: true,
     },
@@ -1396,8 +1363,8 @@ const SECTION_FINAL: SurveySection = {
 
 // === HAUPTSCHEMA ===
 export const surveyDefinition: SurveySchema = {
-  version: "3.0.0",
-  lastUpdated: "2026-02-09",
+  version: "3.1.0", // Korrektur-Runde
+  lastUpdated: "2026-02-10",
   title: "Umfrage zu GGV, Mieterstrom & Energy Sharing",
   description: "Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.",
   sections: [
@@ -1463,10 +1430,11 @@ export function buildDbData(
 
 // === QUESTION REGISTRY: Display-IDs (Abschnitt-Modell-Name) + DB-Spalten ===
 export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: string }> = {
-  // Section A: Über Sie
+  // Section 1: Über Sie
   "actorTypes": { displayId: "1-ActorTypes", dbColumn: "actor_types" },
   "motivation": { displayId: "1-Motivation", dbColumn: "motivation" },
   "contactEmail": { displayId: "1-ContactEmail", dbColumn: "contact_email" },
+  "confirmationForUpdate": { displayId: "1-ConfirmationForUpdate", dbColumn: "confirmation_for_update" }, // Korrektur: Neu
   // Section 2: Projekt
   "vnbName": { displayId: "2-VnbName", dbColumn: "vnb_name" },
   "projectTypes": { displayId: "2-ProjectTypes", dbColumn: "project_types" },
@@ -1488,6 +1456,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromDecisionReasons": { displayId: "3-MS-DecisionReasons", dbColumn: "mieterstrom_decision_reasons" },
   "implementationApproach": { displayId: "3-ImplApproach", dbColumn: "implementation_approach" },
   "challenges": { displayId: "3-Challenges", dbColumn: "challenges" },
+  "vnbRejectionResponse": { displayId: "3-RejectionResponse", dbColumn: "vnb_rejection_response" }, // Korrektur: verschoben, neue ID
   // Section 4-GGV: Planung GGV
   "vnbExistingProjects": { displayId: "4-GGV-ExistingProjects", dbColumn: "vnb_existing_projects" },
   "vnbContact": { displayId: "4-GGV-VnbContact", dbColumn: "vnb_contact" },
@@ -1513,6 +1482,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "vnbRejectionTimeline": { displayId: "4-GGV-RejectionTimeline", dbColumn: "vnb_rejection_timeline" },
   "vnbWandlermessung": { displayId: "4-GGV-Wandlermessung", dbColumn: "vnb_wandlermessung" },
   "vnbWandlermessungComment": { displayId: "4-GGV-WandlermessungComment", dbColumn: "vnb_wandlermessung_comment" },
+  "vnbWandlermessungDocuments": { displayId: "4-GGV-WandlermessungDocuments", dbColumn: "vnb_wandlermessung_documents" }, // Korrektur: Neu
   "vnbPlanningDuration": { displayId: "4-GGV-PlanningDuration", dbColumn: "vnb_planning_duration" },
   "vnbPlanningDurationReasons": { displayId: "4-GGV-PlanningDurationReasons", dbColumn: "vnb_planning_duration_reasons" },
   // Section 5-GGV: Betrieb GGV
@@ -1536,23 +1506,25 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "operationSatisfactionRating": { displayId: "5-GGV-SatisfactionRating", dbColumn: "operation_satisfaction_rating" },
   // Section 5-GGV: Dienstleister
   "serviceProviderName": { displayId: "5-GGV-SP-Name", dbColumn: "service_provider_name" },
-  "serviceProviderRating": { displayId: "5-GGV-SP-Rating", dbColumn: "service_provider_rating" },
+  // serviceProviderRating GELÖSCHT
   "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments" },
   "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name" },
   "serviceProvider2Rating": { displayId: "5-GGV-SP2-Rating", dbColumn: "service_provider_2_rating" },
-  "vnbRejectionResponse": { displayId: "5-GGV-RejectionResponse", dbColumn: "vnb_rejection_response" },
   // Section 4-MS: Planung Mieterstrom
   "mieterstromSummenzaehler": { displayId: "4-MS-Summenzaehler", dbColumn: "mieterstrom_summenzaehler" },
-  "mieterstromChallenges": { displayId: "4-MS-Challenges", dbColumn: "mieterstrom_challenges" },
+  // mieterstromChallenges GELÖSCHT
   "mieterstromExistingProjects": { displayId: "4-MS-ExistingProjects", dbColumn: "mieterstrom_existing_projects" },
   "mieterstromExistingProjectsVirtuell": { displayId: "4-MS-ExistingProjectsVirtuell", dbColumn: "mieterstrom_existing_projects_virtuell" },
   "mieterstromVnbContact": { displayId: "4-MS-VnbContact", dbColumn: "mieterstrom_vnb_contact" },
   "mieterstromVirtuellAllowed": { displayId: "4-MS-VirtuellAllowed", dbColumn: "mieterstrom_virtuell_allowed" },
+  "mieterstromVirtuellDeniedReason": { displayId: "4-MS-VirtuellDeniedReason", dbColumn: "mieterstrom_virtuell_denied_reason" }, // Korrektur: Neu
+  "mieterstromVirtuellDeniedDocuments": { displayId: "4-MS-VirtuellDeniedDocuments", dbColumn: "mieterstrom_virtuell_denied_documents" }, // Korrektur: Neu
   "mieterstromVirtuellWandlermessung": { displayId: "4-MS-VirtuellWandlermessung", dbColumn: "mieterstrom_virtuell_wandlermessung" },
+  "mieterstromVirtuellWandlermessungDocuments": { displayId: "4-MS-VirtuellWandlermessungDocuments", dbColumn: "mieterstrom_virtuell_wandlermessung_documents" }, // Korrektur: Neu
   "mieterstromVnbResponse": { displayId: "4-MS-VnbResponse", dbColumn: "mieterstrom_vnb_response" },
-  "mieterstromVnbSupport": { displayId: "4-MS-VnbSupport", dbColumn: "mieterstrom_vnb_support" },
-  "mieterstromVnbHelpful": { displayId: "4-MS-VnbHelpful", dbColumn: "mieterstrom_vnb_helpful" },
-  "mieterstromPersonalContacts": { displayId: "4-MS-PersonalContacts", dbColumn: "mieterstrom_personal_contacts" },
+  // mieterstromVnbSupport GELÖSCHT
+  // mieterstromVnbHelpful GELÖSCHT
+  // mieterstromPersonalContacts GELÖSCHT
   "mieterstromSupportRating": { displayId: "4-MS-SupportRating", dbColumn: "mieterstrom_support_rating" },
   // Section 4-MS: VNB Angebot
   "mieterstromFullService": { displayId: "4-MS-FullService", dbColumn: "mieterstrom_full_service" },
@@ -1565,21 +1537,20 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromVnbRole": { displayId: "5-MS-VnbRole", dbColumn: "mieterstrom_vnb_role" },
   "mieterstromVnbDuration": { displayId: "5-MS-VnbDuration", dbColumn: "mieterstrom_vnb_duration" },
   "mieterstromWandlermessung": { displayId: "5-MS-Wandlermessung", dbColumn: "mieterstrom_wandlermessung" },
-  "mieterstromMsbProvider": { displayId: "5-MS-MsbProvider", dbColumn: "mieterstrom_msb_provider" },
-  "mieterstromDataProvider": { displayId: "5-MS-DataProvider", dbColumn: "mieterstrom_data_provider" },
+  // mieterstromMsbProvider GELÖSCHT
+  // mieterstromDataProvider GELÖSCHT
   "mieterstromMsbInstallDuration": { displayId: "5-MS-MsbInstallDuration", dbColumn: "mieterstrom_msb_install_duration" },
   "mieterstromOperationCosts": { displayId: "5-MS-OperationCosts", dbColumn: "mieterstrom_operation_costs" },
-  "mieterstromOperationSatisfaction": { displayId: "5-MS-Satisfaction", dbColumn: "mieterstrom_operation_satisfaction" },
+  // mieterstromOperationSatisfaction GELÖSCHT
   "mieterstromRejectionResponse": { displayId: "5-MS-RejectionResponse", dbColumn: "mieterstrom_rejection_response" },
   "mieterstromInfoSources": { displayId: "5-MS-InfoSources", dbColumn: "mieterstrom_info_sources" },
   "mieterstromExperiences": { displayId: "5-MS-Experiences", dbColumn: "mieterstrom_experiences" },
-  // mieterstromSurveyImprovements removed (duplicate of surveyImprovements in Section 6)
   // Section 4-ES: Energy Sharing
   "esStatus": { displayId: "4-ES-Status", dbColumn: "es_status" },
   "esPlantType": { displayId: "4-ES-PlantType", dbColumn: "es_plant_type" },
   "esProjectScope": { displayId: "4-ES-ProjectScope", dbColumn: "es_project_scope" },
-  "esPvSizeKw": { displayId: "4-ES-PvSizeKw", dbColumn: "es_pv_size_kw" },
-  "esWindSizeKw": { displayId: "4-ES-WindSizeKw", dbColumn: "es_wind_size_kw" },
+  "esCapacitySizeKw": { displayId: "4-ES-CapacitySizeKw", dbColumn: "es_capacity_size_kw" }, // Korrektur: umbenannt
+  // esWindSizeKw GELÖSCHT
   "esPartyCount": { displayId: "4-ES-PartyCount", dbColumn: "es_party_count" },
   "esConsumerTypes": { displayId: "4-ES-ConsumerTypes", dbColumn: "es_consumer_types" },
   "esConsumerScope": { displayId: "4-ES-ConsumerScope", dbColumn: "es_consumer_scope" },
@@ -1589,7 +1560,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esNetzentgelteDiscussion": { displayId: "4-ES-Netzentgelte", dbColumn: "es_netzentgelte_discussion" },
   "esInfoSources": { displayId: "4-ES-InfoSources", dbColumn: "es_info_sources" },
   // Section 6: Abschluss
-  "helpfulInfoSources": { displayId: "6-InfoSources", dbColumn: "helpful_info_sources" },
+  // helpfulInfoSources GELÖSCHT
   "additionalExperiences": { displayId: "6-Experiences", dbColumn: "additional_experiences" },
   "documentUpload": { displayId: "6-DocumentUpload", dbColumn: "uploaded_documents" },
   "surveyImprovements": { displayId: "6-SurveyImprovements", dbColumn: "survey_improvements" },
