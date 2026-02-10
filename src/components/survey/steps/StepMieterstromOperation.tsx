@@ -188,15 +188,6 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onChange={setUploadedDocuments}
       />
 
-      <TextQuestion
-        id="mieterstrom-survey-improvements"
-        label="Haben Sie Verbesserungsvorschläge für diese Umfrage?"
-        type="textarea"
-        value={data.mieterstromSurveyImprovements}
-        onChange={(val) => updateData("mieterstromSurveyImprovements", val)}
-        placeholder="Ihr Feedback zur Umfrage..."
-        optional
-      />
     </div>
   );
 }

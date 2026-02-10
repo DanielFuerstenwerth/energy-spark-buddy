@@ -238,8 +238,9 @@ const SECTION_PLANNING: SurveySection = {
   questions: [
     {
       id: "planningStatus",
-      type: "single-select", // Changed from multi-select to single-select per P0.6
+      type: "multi-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
+      description: "Mehrfachauswahl möglich",
       options: [
         { value: "info_sammeln", label: "Wir habe(n) grundsätzliches Interesse, sammeln derzeit Informationen" },
         { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
@@ -350,8 +351,9 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
     },
     {
       id: "vnbContact",
-      type: "single-select", // Changed from multi-select to single-select per P0.6
+      type: "multi-select",
       label: "C2. Waren Sie schon im Kontakt mit Ihrem VNB?",
+      description: "Mehrfachauswahl möglich",
       options: [
         { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
         { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
@@ -1207,8 +1209,9 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   questions: [
     {
       id: "esStatus",
-      type: "single-select", // Changed from multi-select to single-select per P0.6
+      type: "multi-select",
       label: "E1. Wo stehen Sie aktuell mit dem Projekt?",
+      description: "Mehrfachauswahl möglich",
       options: [
         { value: "in_betrieb_vollversorgung", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell" },
         { value: "in_betrieb_42c", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
@@ -1570,7 +1573,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromRejectionResponse": { displayId: "5-MS-RejectionResponse", dbColumn: "mieterstrom_rejection_response" },
   "mieterstromInfoSources": { displayId: "5-MS-InfoSources", dbColumn: "mieterstrom_info_sources" },
   "mieterstromExperiences": { displayId: "5-MS-Experiences", dbColumn: "mieterstrom_experiences" },
-  "mieterstromSurveyImprovements": { displayId: "5-MS-SurveyImprovements", dbColumn: "mieterstrom_survey_improvements" },
+  // mieterstromSurveyImprovements removed (duplicate of surveyImprovements in Section 6)
   // Section 4-ES: Energy Sharing
   "esStatus": { displayId: "4-ES-Status", dbColumn: "es_status" },
   "esPlantType": { displayId: "4-ES-PlantType", dbColumn: "es_plant_type" },
