@@ -143,7 +143,7 @@ function renderQuestionHtml(q: SurveyQuestion, questionNumber: number): string {
     </p>`;
 
   if (q.description) html += `<p style="font-size:9pt;color:#666;margin:2pt 0;">${esc(cleanLabel(q.description))}</p>`;
-  if (q.helpText) html += `<p style="font-size:9pt;color:#666;margin:2pt 0;">ℹ️ ${esc(cleanLabel(q.helpText))}</p>`;
+  if (q.helpText) html += `<div style="font-size:9pt;margin:6pt 0;padding:6pt 10pt;background:#eff6ff;border-left:3pt solid #3b82f6;border-radius:2pt;color:#1e40af;">ℹ️ <strong>Hinweis:</strong> ${esc(cleanLabel(q.helpText))}</div>`;
   if (q.placeholder) html += `<p style="font-size:9pt;color:#999;font-style:italic;margin:2pt 0;">Platzhalter: "${esc(q.placeholder)}"</p>`;
 
   if (q.options?.length) html += renderOptionsHtml(q.options);
