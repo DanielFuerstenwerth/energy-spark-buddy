@@ -20,6 +20,7 @@ import AdminVnbMapping from "./pages/AdminVnbMapping";
 import Auth from "./pages/Auth";
 import Reply from "./pages/Reply";
 import Survey from "./pages/Survey";
+import SurveyDocumentation from "./pages/SurveyDocumentation";
 import NotFound from "./pages/NotFound";
 import AnliegenGgv from "./pages/anliegen/Ggv";
 import AnliegenZvne from "./pages/anliegen/Zvne";
@@ -70,6 +71,7 @@ const App = () => (
           <Route path="/mitmachen" element={<Mitmachen />} />
           <Route path="/reply" element={<Reply />} />
           <Route path="/umfrage" element={<Survey />} />
+          <Route path="/umfrage/dokumentation" element={<SurveyDocumentation />} />
           {/* /umfrage/audit is served as static HTML from public/umfrage/audit/index.html */}
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
