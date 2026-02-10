@@ -25,7 +25,7 @@ interface StepProjectDetailsProps {
 export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps) {
   const projectTypes = data.projectTypes;
   const hasGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
-  const hasMieterstrom = projectTypes.includes('mieterstrom') || projectTypes.includes('ggv_oder_mieterstrom');
+  const hasMieterstrom = projectTypes.includes('mieterstrom'); // Korrektur: ggv_oder_mieterstrom öffnet NUR GGV-Pfad
   const hasEnergySharing = projectTypes.includes('energysharing');
   const onlyEnergySharing = hasEnergySharing && !hasGgv && !hasMieterstrom;
 

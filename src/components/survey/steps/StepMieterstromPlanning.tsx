@@ -54,9 +54,9 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         label={getLabelForQuestion("mieterstromVnbContact")}
         description="Mehrfachauswahl möglich"
         options={getOptionsForQuestion("mieterstromVnbContact")}
-        value={data.mieterstromVnbContact ? [data.mieterstromVnbContact].flat() : []}
+        value={Array.isArray(data.mieterstromVnbContact) ? data.mieterstromVnbContact : data.mieterstromVnbContact ? [data.mieterstromVnbContact] : []}
         otherValue={data.mieterstromVnbContactOther}
-        onChange={(val) => updateData("mieterstromVnbContact", val[0] || '')}
+        onChange={(val) => updateData("mieterstromVnbContact" as any, val)}
         onOtherChange={(val) => updateData("mieterstromVnbContactOther", val)}
         optional
       />
