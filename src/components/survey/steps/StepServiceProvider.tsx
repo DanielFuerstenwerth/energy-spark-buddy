@@ -1,7 +1,6 @@
 import { SurveyData } from "@/types/survey";
 import { TextQuestion } from "../questions/TextQuestion";
 import { RatingQuestion } from "../questions/RatingQuestion";
-import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
 interface StepServiceProviderProps {
@@ -10,7 +9,6 @@ interface StepServiceProviderProps {
 }
 
 export function StepServiceProvider({ data, updateData }: StepServiceProviderProps) {
-  const sp1Q = getQuestionById("serviceProviderRating");
   const sp2Q = getQuestionById("serviceProvider2Rating");
 
   return (
@@ -35,30 +33,17 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
             optional
           />
 
+          {/* Korrektur: serviceProviderRating GELÖSCHT - only show comments */}
           {data.serviceProviderName && (
-            <>
-              <RatingQuestion
-                id="service-provider-rating"
-                label={getLabelForQuestion("serviceProviderRating")}
-                value={data.serviceProviderRating}
-                onChange={(val) => updateData("serviceProviderRating", val)}
-                minLabel={sp1Q?.minLabel || "Sehr unzufrieden"}
-                maxLabel={sp1Q?.maxLabel || "Sehr zufrieden"}
-                min={sp1Q?.min || 1}
-                max={sp1Q?.max || 10}
-                optional
-              />
-
-              <TextQuestion
-                id="service-provider-comments"
-                label={getLabelForQuestion("serviceProviderComments")}
-                type="textarea"
-                value={data.serviceProviderComments}
-                onChange={(val) => updateData("serviceProviderComments", val)}
-                placeholder="Was lief gut? Was könnte besser sein?"
-                optional
-              />
-            </>
+            <TextQuestion
+              id="service-provider-comments"
+              label={getLabelForQuestion("serviceProviderComments")}
+              type="textarea"
+              value={data.serviceProviderComments}
+              onChange={(val) => updateData("serviceProviderComments", val)}
+              placeholder="Was lief gut? Was könnte besser sein?"
+              optional
+            />
           )}
         </div>
 
@@ -102,16 +87,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
         )}
       </div>
 
-      <MultiSelectQuestion
-        id="vnb-rejection-response"
-        label={getLabelForQuestion("vnbRejectionResponse")}
-        options={getOptionsForQuestion("vnbRejectionResponse")}
-        value={data.vnbRejectionResponse || []}
-        otherValue={data.vnbRejectionResponseOther}
-        onChange={(val) => updateData("vnbRejectionResponse", val)}
-        onOtherChange={(val) => updateData("vnbRejectionResponseOther", val)}
-        optional
-      />
+      {/* Korrektur: vnbRejectionResponse removed from here, moved to StepChallenges */}
     </div>
   );
 }

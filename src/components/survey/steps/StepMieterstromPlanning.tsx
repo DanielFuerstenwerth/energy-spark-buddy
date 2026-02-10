@@ -33,28 +33,6 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         onChange={(val) => updateData("mieterstromSummenzaehler", val)}
       />
 
-      <MultiSelectQuestion
-        id="mieterstrom-challenges"
-        label={getLabelForQuestion("mieterstromChallenges")}
-        options={getOptionsForQuestion("mieterstromChallenges")}
-        value={data.mieterstromChallenges || []}
-        optionTextValues={{
-          opposition: data.mieterstromChallengesOpposition,
-          pv_installation: data.mieterstromChallengesPv,
-          vnb_blocking: data.mieterstromChallengesVnb,
-          kosten: data.mieterstromChallengesCosts,
-          sonstiges: data.mieterstromChallengesOther,
-        }}
-        onChange={(val) => updateData("mieterstromChallenges", val)}
-        onOptionTextChange={(optVal, text) => {
-          if (optVal === 'opposition') updateData("mieterstromChallengesOpposition", text);
-          if (optVal === 'pv_installation') updateData("mieterstromChallengesPv", text);
-          if (optVal === 'vnb_blocking') updateData("mieterstromChallengesVnb", text);
-          if (optVal === 'kosten') updateData("mieterstromChallengesCosts", text);
-          if (optVal === 'sonstiges') updateData("mieterstromChallengesOther", text);
-        }}
-      />
-
       <SingleSelectQuestion
         id="mieterstrom-existing-projects"
         label={getLabelForQuestion("mieterstromExistingProjects")}
@@ -71,37 +49,71 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         onChange={(val) => updateData("mieterstromExistingProjectsVirtuell", val)}
       />
 
-      <SingleSelectQuestion
+      <MultiSelectQuestion
         id="mieterstrom-vnb-contact"
         label={getLabelForQuestion("mieterstromVnbContact")}
+        description="Mehrfachauswahl möglich"
         options={getOptionsForQuestion("mieterstromVnbContact")}
-        value={data.mieterstromVnbContact}
+        value={data.mieterstromVnbContact ? [data.mieterstromVnbContact].flat() : []}
         otherValue={data.mieterstromVnbContactOther}
-        onChange={(val) => updateData("mieterstromVnbContact", val)}
+        onChange={(val) => updateData("mieterstromVnbContact", val[0] || '')}
         onOtherChange={(val) => updateData("mieterstromVnbContactOther", val)}
         optional
       />
 
-      {data.mieterstromSummenzaehler === 'virtuell' && (
-        <SingleSelectQuestion
-          id="mieterstrom-virtuell-allowed"
-          label={getLabelForQuestion("mieterstromVirtuellAllowed")}
-          options={getOptionsForQuestion("mieterstromVirtuellAllowed")}
-          value={data.mieterstromVirtuellAllowed}
-          onChange={(val) => updateData("mieterstromVirtuellAllowed", val)}
-        />
+      {/* Korrektur: mieterstromVirtuellAllowed always visible (not only when summenzaehler='virtuell') */}
+      <SingleSelectQuestion
+        id="mieterstrom-virtuell-allowed"
+        label={getLabelForQuestion("mieterstromVirtuellAllowed")}
+        options={getOptionsForQuestion("mieterstromVirtuellAllowed")}
+        value={data.mieterstromVirtuellAllowed}
+        onChange={(val) => updateData("mieterstromVirtuellAllowed", val)}
+      />
+
+      {/* Korrektur: Show denied reason when mieterstromVirtuellAllowed = 'nein' */}
+      {data.mieterstromVirtuellAllowed === 'nein' && (
+        <>
+          <TextQuestion
+            id="mieterstrom-virtuell-denied-reason"
+            label={getLabelForQuestion("mieterstromVirtuellDeniedReason")}
+            type="textarea"
+            value={data.mieterstromVirtuellDeniedReason}
+            onChange={(val) => updateData("mieterstromVirtuellDeniedReason", val)}
+            placeholder="Bitte beschreiben Sie die Gründe..."
+            optional
+          />
+          <FileUpload
+            id="mieterstrom-virtuell-denied-docs"
+            label="Dokumente zum virtuellen Summenzähler hochladen"
+            description="z.B. Korrespondenz mit VNB, Ablehnungsschreiben"
+            value={data.mieterstromVirtuellDeniedDocuments || []}
+            onChange={(docs) => updateData("mieterstromVirtuellDeniedDocuments", docs)}
+          />
+        </>
       )}
 
-      {data.mieterstromSummenzaehler === 'virtuell' && data.mieterstromVirtuellAllowed === 'ja' && (
-        <SingleSelectQuestion
-          id="mieterstrom-virtuell-wandlermessung"
-          label={getLabelForQuestion("mieterstromVirtuellWandlermessung")}
-          options={getOptionsForQuestion("mieterstromVirtuellWandlermessung")}
-          value={data.mieterstromVirtuellWandlermessung}
-          otherValue={data.mieterstromVirtuellWandlermessungComment}
-          onChange={(val) => updateData("mieterstromVirtuellWandlermessung", val)}
-          onOtherChange={(val) => updateData("mieterstromVirtuellWandlermessungComment", val)}
-        />
+      {/* Korrektur: Show wandlermessung when mieterstromVirtuellAllowed = 'ja' */}
+      {data.mieterstromVirtuellAllowed === 'ja' && (
+        <>
+          <SingleSelectQuestion
+            id="mieterstrom-virtuell-wandlermessung"
+            label={getLabelForQuestion("mieterstromVirtuellWandlermessung")}
+            options={getOptionsForQuestion("mieterstromVirtuellWandlermessung")}
+            value={data.mieterstromVirtuellWandlermessung}
+            otherValue={data.mieterstromVirtuellWandlermessungComment}
+            onChange={(val) => updateData("mieterstromVirtuellWandlermessung", val)}
+            onOtherChange={(val) => updateData("mieterstromVirtuellWandlermessungComment", val)}
+          />
+          {data.mieterstromVirtuellWandlermessung === 'ja' && (
+            <FileUpload
+              id="mieterstrom-virtuell-wandlermessung-docs"
+              label="Dokumente zur Wandlermessung hochladen"
+              description="z.B. Messkonzept, Korrespondenz"
+              value={data.mieterstromVirtuellWandlermessungDocuments || []}
+              onChange={(docs) => updateData("mieterstromVirtuellWandlermessungDocuments", docs)}
+            />
+          )}
+        </>
       )}
 
       <MultiSelectQuestion
@@ -133,36 +145,6 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
           />
         </>
       )}
-
-      <MultiSelectQuestion
-        id="mieterstrom-vnb-support"
-        label={getLabelForQuestion("mieterstromVnbSupport")}
-        options={getOptionsForQuestion("mieterstromVnbSupport")}
-        value={data.mieterstromVnbSupport || []}
-        otherValue={data.mieterstromVnbSupportOther}
-        onChange={(val) => updateData("mieterstromVnbSupport", val)}
-        onOtherChange={(val) => updateData("mieterstromVnbSupportOther", val)}
-      />
-
-      <SingleSelectQuestion
-        id="mieterstrom-vnb-helpful"
-        label={getLabelForQuestion("mieterstromVnbHelpful")}
-        options={getOptionsForQuestion("mieterstromVnbHelpful")}
-        value={data.mieterstromVnbHelpful}
-        otherValue={data.mieterstromVnbHelpfulOther}
-        onChange={(val) => updateData("mieterstromVnbHelpful", val)}
-        onOtherChange={(val) => updateData("mieterstromVnbHelpfulOther", val)}
-      />
-
-      <SingleSelectQuestion
-        id="mieterstrom-personal-contacts"
-        label={getLabelForQuestion("mieterstromPersonalContacts")}
-        options={getOptionsForQuestion("mieterstromPersonalContacts")}
-        value={data.mieterstromPersonalContacts}
-        otherValue={data.mieterstromPersonalContactsOther}
-        onChange={(val) => updateData("mieterstromPersonalContacts", val)}
-        onOtherChange={(val) => updateData("mieterstromPersonalContactsOther", val)}
-      />
 
       <RatingQuestion
         id="mieterstrom-support-rating"

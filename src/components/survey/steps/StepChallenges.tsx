@@ -20,6 +20,18 @@ export function StepChallenges({ data, updateData }: StepChallengesProps) {
         onChange={(val) => updateData("challenges", val)}
         onOptionTextChange={(optVal, text) => updateData("challengesDetails", { ...data.challengesDetails, [optVal]: text })}
       />
+
+      {/* Korrektur: vnbRejectionResponse moved here from ServiceProvider section */}
+      <MultiSelectQuestion
+        id="vnb-rejection-response"
+        label={getLabelForQuestion("vnbRejectionResponse")}
+        options={getOptionsForQuestion("vnbRejectionResponse")}
+        value={data.vnbRejectionResponse || []}
+        otherValue={data.vnbRejectionResponseOther}
+        onChange={(val) => updateData("vnbRejectionResponse", val)}
+        onOtherChange={(val) => updateData("vnbRejectionResponseOther", val)}
+        optional
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
+import { FileUpload } from "../questions/FileUpload";
 import { ConditionalCostFields } from "../questions/ConditionalCostFields";
 import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
@@ -152,16 +153,27 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
         onChange={(val) => updateData("vnbWandlermessung", val)}
       />
 
-      {data.vnbWandlermessung && (
-        <TextQuestion
-          id="vnb-wandlermessung-comment"
-          label={getLabelForQuestion("vnbWandlermessungComment")}
-          type="textarea"
-          value={data.vnbWandlermessungComment}
-          onChange={(val) => updateData("vnbWandlermessungComment", val)}
-          placeholder="Weitere Details..."
-          optional
-        />
+      {/* Korrektur: Show comment only when vnbWandlermessung = 'ja' or 'wissen_nicht' */}
+      {(data.vnbWandlermessung === 'ja' || data.vnbWandlermessung === 'wissen_nicht') && (
+        <>
+          <TextQuestion
+            id="vnb-wandlermessung-comment"
+            label={getLabelForQuestion("vnbWandlermessungComment")}
+            type="textarea"
+            value={data.vnbWandlermessungComment}
+            onChange={(val) => updateData("vnbWandlermessungComment", val)}
+            placeholder="Weitere Details..."
+            optional
+          />
+          {/* Korrektur: Upload for Wandlermessung documents */}
+          <FileUpload
+            id="vnb-wandlermessung-docs"
+            label="Dokumente zur Wandlermessung hochladen"
+            description="z.B. Messkonzept, Korrespondenz mit VNB"
+            value={data.vnbWandlermessungDocuments || []}
+            onChange={(docs) => updateData("vnbWandlermessungDocuments", docs)}
+          />
+        </>
       )}
 
       <SingleSelectQuestion

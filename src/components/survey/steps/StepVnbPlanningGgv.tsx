@@ -35,13 +35,15 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         onOtherChange={(val) => updateData("vnbExistingProjectsOther", val)}
       />
 
-      <SingleSelectQuestion
+      {/* Korrektur: vnbContact is multi-select per schema */}
+      <MultiSelectQuestion
         id="vnb-contact"
         label={getLabelForQuestion("vnbContact")}
+        description="Mehrfachauswahl möglich"
         options={getOptionsForQuestion("vnbContact")}
-        value={data.vnbContact[0] || undefined}
+        value={data.vnbContact}
         otherValue={data.vnbContactOther}
-        onChange={(val) => updateData("vnbContact", [val])}
+        onChange={(val) => updateData("vnbContact", val)}
         onOtherChange={(val) => updateData("vnbContactOther", val)}
         optional
       />
@@ -89,12 +91,13 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
           optional
         />
 
-        <SingleSelectQuestion
+        {/* Korrektur: vnbSupportPortal is now a text field (was single-select) */}
+        <TextQuestion
           id="vnb-support-portal"
           label={getLabelForQuestion("vnbSupportPortal")}
-          options={getOptionsForQuestion("vnbSupportPortal")}
-          value={data.vnbSupportPortal ? "ja" : data.vnbSupportPortal === false ? "nein" : undefined}
-          onChange={(val) => updateData("vnbSupportPortal", val === "ja")}
+          value={typeof data.vnbSupportPortal === 'string' ? data.vnbSupportPortal : ''}
+          onChange={(val) => updateData("vnbSupportPortal", val as any)}
+          placeholder="https://..."
           optional
         />
 

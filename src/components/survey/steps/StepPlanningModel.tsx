@@ -25,7 +25,7 @@ export function StepPlanningModel({
   showEnergySharing,
 }: StepPlanningModelProps) {
   const showMsbDetails = showGgv && !!data.vnbMsbOffer;
-  const showMieterstromVnbOffer = showMieterstrom && !data.mieterstromInOperation;
+  const showMieterstromVnbOffer = showMieterstrom && data.mieterstromVnbResponse?.includes('moeglich_gmsb');
 
   return (
     <div className="space-y-10">
