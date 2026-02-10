@@ -44,6 +44,24 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_rate_limits: {
+        Row: {
+          client_ip: string
+          created_at: string
+          id: string
+        }
+        Insert: {
+          client_ip: string
+          created_at?: string
+          id?: string
+        }
+        Update: {
+          client_ip?: string
+          created_at?: string
+          id?: string
+        }
+        Relationships: []
+      }
       classification_examples: {
         Row: {
           categories: string | null
@@ -872,6 +890,7 @@ export type Database = {
       }
     }
     Functions: {
+      cleanup_old_rate_limits: { Args: never; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

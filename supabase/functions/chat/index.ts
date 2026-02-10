@@ -96,37 +96,6 @@ const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 const MAX_MESSAGES_PER_SESSION = 30; // Max messages per session per hour
 const MAX_MESSAGES_PER_IP = 60; // Max messages per IP per hour
 
-// IP-based rate limiting (in-memory, supplements session-based DB checks)
-const ipRateLimitStore = new Map<string, number[]>();
-
-function cleanupIpEntries() {
-  const now = Date.now();
-  for (const [ip, timestamps] of ipRateLimitStore.entries()) {
-    const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-    if (recent.length === 0) {
-      ipRateLimitStore.delete(ip);
-    } else {
-      ipRateLimitStore.set(ip, recent);
-    }
-  }
-}
-
-function checkIpRateLimit(clientIp: string): boolean {
-  cleanupIpEntries();
-  const now = Date.now();
-  const timestamps = ipRateLimitStore.get(clientIp) || [];
-  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  return recent.length < MAX_MESSAGES_PER_IP;
-}
-
-function recordIpRequest(clientIp: string) {
-  const now = Date.now();
-  const timestamps = ipRateLimitStore.get(clientIp) || [];
-  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  recent.push(now);
-  ipRateLimitStore.set(clientIp, recent);
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -149,12 +118,28 @@ serve(async (req) => {
 
     const { sessionId, userMessage } = validationResult.data;
 
-    // IP-based rate limiting (prevents session ID abuse)
+    // Initialize Supabase (needed for all rate limiting and DB operations)
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // IP-based rate limiting (persistent, prevents session ID abuse)
     const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
                      req.headers.get('x-real-ip') || 
                      'unknown';
 
-    if (!checkIpRateLimit(clientIp)) {
+    const oneHourAgoIp = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
+    
+    // Cleanup old entries periodically (fire-and-forget)
+    supabase.rpc('cleanup_old_rate_limits').then(() => {}).catch(() => {});
+
+    const { count: ipMessageCount, error: ipCountError } = await supabase
+      .from("chat_rate_limits")
+      .select("id", { count: "exact", head: true })
+      .eq("client_ip", clientIp)
+      .gte("created_at", oneHourAgoIp);
+
+    if (!ipCountError && ipMessageCount !== null && ipMessageCount >= MAX_MESSAGES_PER_IP) {
       console.warn("[chat] IP rate limit exceeded for:", clientIp);
       return new Response(
         JSON.stringify({ 
@@ -166,11 +151,6 @@ serve(async (req) => {
     }
 
     console.log("[chat] Received request for session:", sessionId);
-
-    // Initialize Supabase
-    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Rate limiting: Check message count for this session in the last hour
     const oneHourAgo = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
@@ -350,8 +330,8 @@ serve(async (req) => {
 
     console.log("[chat] Saved messages to database");
 
-    // Record successful request for IP rate limiting
-    recordIpRequest(clientIp);
+    // Record successful request for persistent IP rate limiting
+    await supabase.from("chat_rate_limits").insert({ client_ip: clientIp });
 
     return new Response(
       JSON.stringify({
