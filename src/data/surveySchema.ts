@@ -729,7 +729,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
     {
       id: "operationMsbDuration",
       type: "single-select",
-      label: "D3.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?",
+      label: "D3.1 Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter durch den VNB/gMSB?", // Korrektur: Label
       options: [
         { value: "wissen_nicht", label: "Weiß ich nicht" },
         { value: "schnell", label: "Das ging problemlos und schnell" },
