@@ -2,7 +2,6 @@ import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
-import { RatingQuestion } from "../questions/RatingQuestion";
 import { FileUpload } from "../questions/FileUpload";
 import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
@@ -14,9 +13,6 @@ interface StepMieterstromOperationProps {
 }
 
 export function StepMieterstromOperation({ data, updateData, uploadedDocuments, setUploadedDocuments }: StepMieterstromOperationProps) {
-  const showGmsbDetails = data.mieterstromMsbProvider === 'gmsb';
-  const satisfactionQ = getQuestionById("mieterstromOperationSatisfaction");
-
   return (
     <div className="space-y-8">
       <div className="bg-green-50 dark:bg-green-950/20 p-4 rounded-lg border border-green-200 dark:border-green-800">
@@ -62,92 +58,57 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onOtherChange={(val) => updateData("mieterstromWandlermessungComment", val)}
       />
 
-      <div className="space-y-4 pt-4 border-t">
-        <h4 className="font-medium">MB4. Wer ist der Messstellenbetreiber und wer übermittelt Ihnen die Daten?</h4>
-        
-        <SingleSelectQuestion
-          id="mieterstrom-msb-provider"
-          label={getLabelForQuestion("mieterstromMsbProvider")}
-          options={getOptionsForQuestion("mieterstromMsbProvider")}
-          value={data.mieterstromMsbProvider}
-          onChange={(val) => updateData("mieterstromMsbProvider", val)}
-        />
+      {/* Korrektur: mieterstromMsbProvider and mieterstromDataProvider DELETED from schema */}
 
-        <SingleSelectQuestion
-          id="mieterstrom-data-provider"
-          label={getLabelForQuestion("mieterstromDataProvider")}
-          options={getOptionsForQuestion("mieterstromDataProvider")}
-          value={data.mieterstromDataProvider}
-          otherValue={data.mieterstromDataProviderOther}
-          onChange={(val) => updateData("mieterstromDataProvider", val)}
-          onOtherChange={(val) => updateData("mieterstromDataProviderOther", val)}
-        />
-      </div>
+      <SingleSelectQuestion
+        id="mieterstrom-msb-install-duration"
+        label={getLabelForQuestion("mieterstromMsbInstallDuration")}
+        options={getOptionsForQuestion("mieterstromMsbInstallDuration")}
+        value={data.mieterstromMsbInstallDuration}
+        onChange={(val) => updateData("mieterstromMsbInstallDuration", val)}
+      />
 
-      {showGmsbDetails && (
-        <div className="space-y-4 pt-4 border-t">
-          <h4 className="font-medium">MB5. Details zum gMSB</h4>
-          
-          <SingleSelectQuestion
-            id="mieterstrom-msb-install-duration"
-            label={getLabelForQuestion("mieterstromMsbInstallDuration")}
-            options={getOptionsForQuestion("mieterstromMsbInstallDuration")}
-            value={data.mieterstromMsbInstallDuration}
-            onChange={(val) => updateData("mieterstromMsbInstallDuration", val)}
+      <SingleSelectQuestion
+        id="mieterstrom-operation-costs"
+        label={getLabelForQuestion("mieterstromOperationCosts")}
+        options={getOptionsForQuestion("mieterstromOperationCosts")}
+        value={data.mieterstromOperationCosts}
+        onChange={(val) => updateData("mieterstromOperationCosts", val)}
+      />
+
+      {data.mieterstromOperationCosts === 'ja' && (
+        <div className="space-y-4 pl-4 border-l-2 border-primary/20">
+          <div className="grid grid-cols-2 gap-4">
+            <TextQuestion
+              id="mieterstrom-operation-costs-one-time"
+              label="Einmalbetrag (EUR)"
+              type="number"
+              value={data.mieterstromOperationCostsOneTime}
+              onChange={(val) => updateData("mieterstromOperationCostsOneTime", val ? parseFloat(val) : undefined)}
+              placeholder="z.B. 500"
+              optional
+            />
+            <TextQuestion
+              id="mieterstrom-operation-costs-yearly"
+              label="Jährlicher Betrag (EUR)"
+              type="number"
+              value={data.mieterstromOperationCostsYearly}
+              onChange={(val) => updateData("mieterstromOperationCostsYearly", val ? parseFloat(val) : undefined)}
+              placeholder="z.B. 100"
+              optional
+            />
+          </div>
+          <FileUpload
+            id="mieterstrom-costs-docs"
+            label="Option zum Hochladen der Rechnung"
+            description="Falls Sie die Rechnung teilen möchten"
+            value={uploadedDocuments}
+            onChange={setUploadedDocuments}
           />
-
-          <SingleSelectQuestion
-            id="mieterstrom-operation-costs"
-            label={getLabelForQuestion("mieterstromOperationCosts")}
-            options={getOptionsForQuestion("mieterstromOperationCosts")}
-            value={data.mieterstromOperationCosts}
-            onChange={(val) => updateData("mieterstromOperationCosts", val)}
-          />
-
-          {data.mieterstromOperationCosts === 'ja' && (
-            <div className="space-y-4 pl-4 border-l-2 border-primary/20">
-              <div className="grid grid-cols-2 gap-4">
-                <TextQuestion
-                  id="mieterstrom-operation-costs-one-time"
-                  label="Einmalbetrag (EUR)"
-                  type="number"
-                  value={data.mieterstromOperationCostsOneTime}
-                  onChange={(val) => updateData("mieterstromOperationCostsOneTime", val ? parseFloat(val) : undefined)}
-                  placeholder="z.B. 500"
-                  optional
-                />
-                <TextQuestion
-                  id="mieterstrom-operation-costs-yearly"
-                  label="Jährlicher Betrag (EUR)"
-                  type="number"
-                  value={data.mieterstromOperationCostsYearly}
-                  onChange={(val) => updateData("mieterstromOperationCostsYearly", val ? parseFloat(val) : undefined)}
-                  placeholder="z.B. 100"
-                  optional
-                />
-              </div>
-              <FileUpload
-                id="mieterstrom-costs-docs"
-                label="Option zum Hochladen der Rechnung"
-                description="Falls Sie die Rechnung teilen möchten"
-                value={uploadedDocuments}
-                onChange={setUploadedDocuments}
-              />
-            </div>
-          )}
         </div>
       )}
 
-      <RatingQuestion
-        id="mieterstrom-operation-satisfaction"
-        label={getLabelForQuestion("mieterstromOperationSatisfaction")}
-        value={data.mieterstromOperationSatisfaction}
-        onChange={(val) => updateData("mieterstromOperationSatisfaction", val)}
-        minLabel={satisfactionQ?.minLabel || "bremst aktiv"}
-        maxLabel={satisfactionQ?.maxLabel || "unterstützt aktiv"}
-        min={satisfactionQ?.min || 1}
-        max={satisfactionQ?.max || 10}
-      />
+      {/* Korrektur: mieterstromOperationSatisfaction DELETED from schema */}
 
       <MultiSelectQuestion
         id="mieterstrom-rejection-response"
@@ -187,7 +148,6 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         value={uploadedDocuments}
         onChange={setUploadedDocuments}
       />
-
     </div>
   );
 }

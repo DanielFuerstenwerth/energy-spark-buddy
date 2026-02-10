@@ -38,7 +38,7 @@ const GLOBAL_FIELDS: (keyof SurveyData)[] = [
 // Fields that belong to Energy Sharing (global)
 const ES_FIELDS: (keyof SurveyData)[] = [
   'esStatus', 'esStatusOther', 'esInOperationDetails', 'esOperatorDetails',
-  'esPlantType', 'esPlantTypeDetails', 'esPvSizeKw', 'esWindSizeKw',
+  'esPlantType', 'esPlantTypeDetails', 'esCapacitySizeKw',
   'esProjectScope', 'esTotalPvSizeKw', 'esTotalWindSizeKw',
   'esPartyCount', 'esConsumerTypes', 'esConsumerDetails',
   'esConsumerScope', 'esConsumerScopeOther', 'esMaxDistance',
@@ -49,7 +49,7 @@ const ES_FIELDS: (keyof SurveyData)[] = [
 
 // Fields that belong to "Abschluss" (global)
 const FINAL_FIELDS: (keyof SurveyData)[] = [
-  'helpfulInfoSources', 'additionalExperiences', 'surveyImprovements', 'npsScore',
+  'additionalExperiences', 'surveyImprovements', 'npsScore',
 ];
 
 export const GLOBAL_STEP_IDS = new Set(['about', 'final']);

@@ -12,7 +12,6 @@ interface StepEnergySharingProps {
 export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) {
   const esStatusValue = Array.isArray(data.esStatus) ? data.esStatus[0] : data.esStatus;
   const isInOperation = esStatusValue?.includes('in_betrieb') || false;
-  const isPlanning = esStatusValue === 'planung_bereit' || esStatusValue === 'info_sammeln';
 
   return (
     <div className="space-y-8">
@@ -57,128 +56,82 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         </div>
       )}
 
-      {isPlanning && (
-        <div className="space-y-6 pt-4 border-t">
-          <MultiSelectQuestion
-            id="es-plant-type"
-            label={getLabelForQuestion("esPlantType")}
-            description="Mehrfachauswahl möglich"
-            options={getOptionsForQuestion("esPlantType")}
-            value={data.esPlantType}
-            onChange={(val) => updateData("esPlantType", val)}
-          />
+      {/* Korrektur: esPlantType, esProjectScope, esCapacitySizeKw, esPartyCount, esConsumerTypes always visible */}
+      <MultiSelectQuestion
+        id="es-plant-type"
+        label={getLabelForQuestion("esPlantType")}
+        description="Mehrfachauswahl möglich"
+        options={getOptionsForQuestion("esPlantType")}
+        value={data.esPlantType}
+        onChange={(val) => updateData("esPlantType", val)}
+      />
 
-          <SingleSelectQuestion
-            id="es-project-scope"
-            label={getLabelForQuestion("esProjectScope")}
-            options={getOptionsForQuestion("esProjectScope")}
-            value={data.esProjectScope}
-            onChange={(val) => updateData("esProjectScope", val)}
-          />
+      <SingleSelectQuestion
+        id="es-project-scope"
+        label={getLabelForQuestion("esProjectScope")}
+        options={getOptionsForQuestion("esProjectScope")}
+        value={data.esProjectScope}
+        onChange={(val) => updateData("esProjectScope", val)}
+      />
 
-          {data.esProjectScope === 'single' && (
-            <div className="grid grid-cols-2 gap-4">
-              <TextQuestion
-                id="es-pv-size"
-                label="Größe der PV-Anlage in kW"
-                type="number"
-                value={data.esPvSizeKw}
-                onChange={(val) => updateData("esPvSizeKw", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 100"
-                optional
-              />
-              <TextQuestion
-                id="es-wind-size"
-                label="Größe der Windenergieanlage in kW"
-                type="number"
-                value={data.esWindSizeKw}
-                onChange={(val) => updateData("esWindSizeKw", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 2000"
-                optional
-              />
-              <TextQuestion
-                id="es-party-count"
-                label="Anzahl der belieferten Parteien"
-                type="number"
-                value={data.esPartyCount}
-                onChange={(val) => updateData("esPartyCount", val ? parseInt(val) : undefined)}
-                placeholder="z.B. 50"
-                optional
-              />
-            </div>
-          )}
+      {/* Korrektur: Consolidated to esCapacitySizeKw (was esPvSizeKw + esWindSizeKw) */}
+      <TextQuestion
+        id="es-capacity-size"
+        label={getLabelForQuestion("esCapacitySizeKw")}
+        type="number"
+        value={data.esCapacitySizeKw}
+        onChange={(val) => updateData("esCapacitySizeKw", val ? parseFloat(val) : undefined)}
+        placeholder="z.B. 100"
+        optional
+      />
 
-          {data.esProjectScope === 'multiple' && (
-            <div className="grid grid-cols-2 gap-4">
-              <TextQuestion
-                id="es-total-pv-size"
-                label="Gesamte Größe der PV-Anlagen in kW"
-                type="number"
-                value={data.esTotalPvSizeKw}
-                onChange={(val) => updateData("esTotalPvSizeKw", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 500"
-                optional
-              />
-              <TextQuestion
-                id="es-total-wind-size"
-                label="Gesamte Größe der Windenergieanlagen in kW"
-                type="number"
-                value={data.esTotalWindSizeKw}
-                onChange={(val) => updateData("esTotalWindSizeKw", val ? parseFloat(val) : undefined)}
-                placeholder="z.B. 5000"
-                optional
-              />
-              <TextQuestion
-                id="es-party-count"
-                label="Gesamte Anzahl der belieferten Parteien"
-                type="number"
-                value={data.esPartyCount}
-                onChange={(val) => updateData("esPartyCount", val ? parseInt(val) : undefined)}
-                placeholder="z.B. 200"
-                optional
-              />
-            </div>
-          )}
+      <TextQuestion
+        id="es-party-count"
+        label={getLabelForQuestion("esPartyCount")}
+        type="number"
+        value={data.esPartyCount}
+        onChange={(val) => updateData("esPartyCount", val ? parseInt(val) : undefined)}
+        placeholder="z.B. 50"
+        optional
+      />
 
-          <MultiSelectQuestion
-            id="es-consumer-types"
-            label={getLabelForQuestion("esConsumerTypes")}
-            options={getOptionsForQuestion("esConsumerTypes")}
-            value={data.esConsumerTypes}
-            onChange={(val) => updateData("esConsumerTypes", val)}
-          />
+      <MultiSelectQuestion
+        id="es-consumer-types"
+        label={getLabelForQuestion("esConsumerTypes")}
+        options={getOptionsForQuestion("esConsumerTypes")}
+        value={data.esConsumerTypes}
+        onChange={(val) => updateData("esConsumerTypes", val)}
+      />
 
-          <TextQuestion
-            id="es-consumer-details"
-            label="Wie viele Stromverbraucher welchen Typs sollen eingebunden werden?"
-            type="textarea"
-            value={data.esConsumerDetails}
-            onChange={(val) => updateData("esConsumerDetails", val)}
-            placeholder="z.B. 30 Haushalte, 5 KMU..."
-            optional
-          />
+      <TextQuestion
+        id="es-consumer-details"
+        label="Wie viele Stromverbraucher welchen Typs sollen eingebunden werden?"
+        type="textarea"
+        value={data.esConsumerDetails}
+        onChange={(val) => updateData("esConsumerDetails", val)}
+        placeholder="z.B. 30 Haushalte, 5 KMU..."
+        optional
+      />
 
-          <SingleSelectQuestion
-            id="es-consumer-scope"
-            label={getLabelForQuestion("esConsumerScope")}
-            options={getOptionsForQuestion("esConsumerScope")}
-            value={data.esConsumerScope}
-            otherValue={data.esConsumerScopeOther}
-            onChange={(val) => updateData("esConsumerScope", val)}
-            onOtherChange={(val) => updateData("esConsumerScopeOther", val)}
-          />
+      <SingleSelectQuestion
+        id="es-consumer-scope"
+        label={getLabelForQuestion("esConsumerScope")}
+        options={getOptionsForQuestion("esConsumerScope")}
+        value={data.esConsumerScope}
+        otherValue={data.esConsumerScopeOther}
+        onChange={(val) => updateData("esConsumerScope", val)}
+        onOtherChange={(val) => updateData("esConsumerScopeOther", val)}
+      />
 
-          <TextQuestion
-            id="es-max-distance"
-            label={getLabelForQuestion("esMaxDistance")}
-            description="Eine ungefähre Schätzung reicht"
-            value={data.esMaxDistance}
-            onChange={(val) => updateData("esMaxDistance", val)}
-            placeholder="z.B. 5 km"
-            optional
-          />
-        </div>
-      )}
+      <TextQuestion
+        id="es-max-distance"
+        label={getLabelForQuestion("esMaxDistance")}
+        description="Eine ungefähre Schätzung reicht"
+        value={data.esMaxDistance}
+        onChange={(val) => updateData("esMaxDistance", val)}
+        placeholder="z.B. 5 km"
+        optional
+      />
 
       <div className="space-y-6 pt-4 border-t">
         <SingleSelectQuestion

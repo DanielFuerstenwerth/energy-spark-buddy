@@ -1,5 +1,6 @@
 import { SurveyData } from "@/types/survey";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
+import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
 import { getOptionsForQuestion, getLabelForQuestion } from "@/data/surveySchema";
 
@@ -41,6 +42,15 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         value={data.contactEmail}
         onChange={(val) => updateData("contactEmail", val)}
         placeholder="ihre@email.de"
+        optional
+      />
+
+      <SingleSelectQuestion
+        id="confirmation-for-update"
+        label={getLabelForQuestion("confirmationForUpdate")}
+        options={getOptionsForQuestion("confirmationForUpdate")}
+        value={data.confirmationForUpdate}
+        onChange={(val) => updateData("confirmationForUpdate", val)}
         optional
       />
     </div>

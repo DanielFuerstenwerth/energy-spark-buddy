@@ -21,15 +21,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         </p>
       </div>
 
-      <TextQuestion
-        id="helpful-info-sources"
-        label={getLabelForQuestion("helpfulInfoSources")}
-        type="textarea"
-        value={data.helpfulInfoSources}
-        onChange={(val) => updateData("helpfulInfoSources", val)}
-        placeholder="z.B. Webseiten, Beratungsstellen, Netzwerke, Verbände..."
-        optional
-      />
+      {/* Korrektur: helpfulInfoSources GELÖSCHT */}
 
       <TextQuestion
         id="additional-experiences"

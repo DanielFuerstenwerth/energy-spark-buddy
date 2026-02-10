@@ -22,6 +22,7 @@ export interface SurveyData {
   motivation: string[];
   motivationOther?: string;
   contactEmail?: string;
+  confirmationForUpdate?: string; // Korrektur: Neue Frage
 
   // Section 2: Projekt
   vnbName?: string;
@@ -61,6 +62,8 @@ export interface SurveyData {
   challengesVnbBlocking?: string;
   challengesCostsHigh?: string;
   challengesOther?: string;
+  vnbRejectionResponse?: string[]; // Korrektur: verschoben von Section 5 nach Section 3
+  vnbRejectionResponseOther?: string;
 
   // Section 4-GGV: Planung GGV
   vnbExistingProjects?: string;
@@ -71,7 +74,7 @@ export interface SurveyData {
   vnbResponseReasons?: string;
   vnbSupportMesskonzept?: string;
   vnbSupportFormulare?: string;
-  vnbSupportPortal?: boolean;
+  vnbSupportPortal?: boolean | string; // Korrektur: now text field but keep backward compat
   vnbSupportOther?: string;
   vnbInfoAvailable?: string;
   vnbInfoAvailableOther?: string;
@@ -98,6 +101,7 @@ export interface SurveyData {
   vnbRejectionTimeline?: string;
   vnbWandlermessung?: string;
   vnbWandlermessungComment?: string;
+  vnbWandlermessungDocuments?: string[]; // Korrektur: Neu
   vnbPlanningDuration?: string;
   vnbPlanningDurationReasons?: string;
 
@@ -125,13 +129,10 @@ export interface SurveyData {
   operationEsaCostAmount?: number;
   operationSatisfactionRating?: number;
   serviceProviderName?: string;
-  serviceProviderRating?: number;
   serviceProviderComments?: string;
   serviceProvider2Name?: string;
   serviceProvider2Rating?: number;
   serviceProvider2Comments?: string;
-  vnbRejectionResponse?: string[];
-  vnbRejectionResponseOther?: string;
 
   // Section 4-MS: Planung Mieterstrom
   mieterstromSummenzaehler?: string;
@@ -140,16 +141,13 @@ export interface SurveyData {
   mieterstromVnbContact?: string;
   mieterstromVnbContactOther?: string;
   mieterstromVirtuellAllowed?: string;
+  mieterstromVirtuellDeniedReason?: string; // Korrektur: Neu
+  mieterstromVirtuellDeniedDocuments?: string[]; // Korrektur: Neu
   mieterstromVirtuellWandlermessung?: string;
   mieterstromVirtuellWandlermessungComment?: string;
+  mieterstromVirtuellWandlermessungDocuments?: string[]; // Korrektur: Neu
   mieterstromVnbResponse?: string[];
   mieterstromVnbResponseReasons?: string;
-  mieterstromVnbSupport?: string[];
-  mieterstromVnbSupportOther?: string;
-  mieterstromVnbHelpful?: string;
-  mieterstromVnbHelpfulOther?: string;
-  mieterstromPersonalContacts?: string;
-  mieterstromPersonalContactsOther?: string;
   mieterstromSupportRating?: number;
   mieterstromFullService?: string;
   mieterstromMsbCosts?: string;
@@ -165,25 +163,14 @@ export interface SurveyData {
   mieterstromVnbDurationReasons?: string;
   mieterstromWandlermessung?: string;
   mieterstromWandlermessungComment?: string;
-  mieterstromMsbProvider?: string;
-  mieterstromDataProvider?: string;
-  mieterstromDataProviderOther?: string;
   mieterstromMsbInstallDuration?: string;
   mieterstromOperationCosts?: string;
   mieterstromOperationCostsOneTime?: number;
   mieterstromOperationCostsYearly?: number;
-  mieterstromOperationSatisfaction?: number;
   mieterstromRejectionResponse?: string[];
   mieterstromRejectionResponseOther?: string;
   mieterstromInfoSources?: string;
   mieterstromExperiences?: string;
-  // mieterstromSurveyImprovements removed (duplicate of surveyImprovements)
-  mieterstromChallenges?: string[];
-  mieterstromChallengesOpposition?: string;
-  mieterstromChallengesPv?: string;
-  mieterstromChallengesVnb?: string;
-  mieterstromChallengesCosts?: string;
-  mieterstromChallengesOther?: string;
 
   // Section 4-ES: Energy Sharing
   esStatus: string[];
@@ -192,8 +179,7 @@ export interface SurveyData {
   esOperatorDetails?: string;
   esPlantType: string[];
   esPlantTypeDetails?: string[];
-  esPvSizeKw?: number;
-  esWindSizeKw?: number;
+  esCapacitySizeKw?: number; // Korrektur: renamed from esPvSizeKw
   esProjectScope?: string;
   esTotalPvSizeKw?: number;
   esTotalWindSizeKw?: number;
@@ -212,7 +198,6 @@ export interface SurveyData {
   esInfoSources?: string;
 
   // Section 6: Abschluss
-  helpfulInfoSources?: string;
   additionalExperiences?: string;
   surveyImprovements?: string;
   npsScore?: number;

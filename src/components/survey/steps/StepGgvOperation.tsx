@@ -50,15 +50,18 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         onChange={(val) => updateData("operationWandlermessung", val)}
       />
 
-      <TextQuestion
-        id="operation-wandlermessung-comment"
-        label={getLabelForQuestion("operationWandlermessungComment")}
-        type="textarea"
-        value={data.operationWandlermessungComment}
-        onChange={(val) => updateData("operationWandlermessungComment", val)}
-        placeholder="Weitere Details..."
-        optional
-      />
+      {/* Korrektur: operationWandlermessungComment only when = 'ja' */}
+      {data.operationWandlermessung === 'ja' && (
+        <TextQuestion
+          id="operation-wandlermessung-comment"
+          label={getLabelForQuestion("operationWandlermessungComment")}
+          type="textarea"
+          value={data.operationWandlermessungComment}
+          onChange={(val) => updateData("operationWandlermessungComment", val)}
+          placeholder="Weitere Details..."
+          optional
+        />
+      )}
 
       <div className="space-y-4 pt-4 border-t">
         <h4 className="font-medium">D2. Wer ist der Messstellenbetreiber und wie erhalten Sie die Daten?</h4>
@@ -90,6 +93,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         />
       </div>
 
+      {/* Korrektur: D3 only when operationMsbProvider = 'gmsb' */}
       {data.operationMsbProvider === 'gmsb' && (
         <div className="space-y-4 pt-4 border-t">
           <h4 className="font-medium">D3. Details zum gMSB (Grundzuständiger Messstellenbetreiber)</h4>
@@ -156,60 +160,63 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         />
       )}
 
-      <div className="space-y-4 pt-4 border-t">
-        <h4 className="font-medium">D5. Datenübermittlung</h4>
-        
-        <SingleSelectQuestion
-          id="operation-data-format"
-          label={getLabelForQuestion("operationDataFormat")}
-          options={getOptionsForQuestion("operationDataFormat")}
-          value={data.operationDataFormat}
-          otherValue={data.operationDataFormatOther}
-          onChange={(val) => updateData("operationDataFormat", val)}
-          onOtherChange={(val) => updateData("operationDataFormatOther", val)}
-        />
-
-        <SingleSelectQuestion
-          id="operation-data-cost"
-          label={getLabelForQuestion("operationDataCost")}
-          description={getQuestionById("operationDataCost")?.description}
-          options={getOptionsForQuestion("operationDataCost")}
-          value={data.operationDataCost}
-          onChange={(val) => updateData("operationDataCost", val)}
-        />
-
-        {data.operationDataCost === 'mehr_3_eur' && (
-          <TextQuestion
-            id="operation-data-cost-amount"
-            label="Betrag in EUR/Messstelle/Jahr"
-            type="number"
-            value={data.operationDataCostAmount}
-            onChange={(val) => updateData("operationDataCostAmount", val ? parseFloat(val) : undefined)}
-            placeholder="z.B. 5"
-            optional
+      {/* Korrektur: D5/D6 only when operationDataProvider = 'gmsb' */}
+      {data.operationDataProvider === 'gmsb' && (
+        <div className="space-y-4 pt-4 border-t">
+          <h4 className="font-medium">D5. Datenübermittlung</h4>
+          
+          <SingleSelectQuestion
+            id="operation-data-format"
+            label={getLabelForQuestion("operationDataFormat")}
+            options={getOptionsForQuestion("operationDataFormat")}
+            value={data.operationDataFormat}
+            otherValue={data.operationDataFormatOther}
+            onChange={(val) => updateData("operationDataFormat", val)}
+            onOtherChange={(val) => updateData("operationDataFormatOther", val)}
           />
-        )}
 
-        <SingleSelectQuestion
-          id="operation-esa-cost"
-          label={getLabelForQuestion("operationEsaCost")}
-          options={getOptionsForQuestion("operationEsaCost")}
-          value={data.operationEsaCost}
-          onChange={(val) => updateData("operationEsaCost", val)}
-        />
-
-        {data.operationEsaCost === 'mehr_3_eur' && (
-          <TextQuestion
-            id="operation-esa-cost-amount"
-            label="Betrag in EUR/Messstelle/Jahr"
-            type="number"
-            value={data.operationEsaCostAmount}
-            onChange={(val) => updateData("operationEsaCostAmount", val ? parseFloat(val) : undefined)}
-            placeholder="z.B. 5"
-            optional
+          <SingleSelectQuestion
+            id="operation-data-cost"
+            label={getLabelForQuestion("operationDataCost")}
+            description={getQuestionById("operationDataCost")?.description}
+            options={getOptionsForQuestion("operationDataCost")}
+            value={data.operationDataCost}
+            onChange={(val) => updateData("operationDataCost", val)}
           />
-        )}
-      </div>
+
+          {data.operationDataCost === 'mehr_3_eur' && (
+            <TextQuestion
+              id="operation-data-cost-amount"
+              label="Betrag in EUR/Messstelle/Jahr"
+              type="number"
+              value={data.operationDataCostAmount}
+              onChange={(val) => updateData("operationDataCostAmount", val ? parseFloat(val) : undefined)}
+              placeholder="z.B. 5"
+              optional
+            />
+          )}
+
+          <SingleSelectQuestion
+            id="operation-esa-cost"
+            label={getLabelForQuestion("operationEsaCost")}
+            options={getOptionsForQuestion("operationEsaCost")}
+            value={data.operationEsaCost}
+            onChange={(val) => updateData("operationEsaCost", val)}
+          />
+
+          {data.operationEsaCost === 'mehr_3_eur' && (
+            <TextQuestion
+              id="operation-esa-cost-amount"
+              label="Betrag in EUR/Messstelle/Jahr"
+              type="number"
+              value={data.operationEsaCostAmount}
+              onChange={(val) => updateData("operationEsaCostAmount", val ? parseFloat(val) : undefined)}
+              placeholder="z.B. 5"
+              optional
+            />
+          )}
+        </div>
+      )}
 
       <RatingQuestion
         id="operation-satisfaction-rating"
