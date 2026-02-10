@@ -94,6 +94,38 @@ Du bleibst streng quellenbasiert und verlinkst, wo immer möglich.`;
 // Rate limiting constants
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 const MAX_MESSAGES_PER_SESSION = 30; // Max messages per session per hour
+const MAX_MESSAGES_PER_IP = 60; // Max messages per IP per hour
+
+// IP-based rate limiting (in-memory, supplements session-based DB checks)
+const ipRateLimitStore = new Map<string, number[]>();
+
+function cleanupIpEntries() {
+  const now = Date.now();
+  for (const [ip, timestamps] of ipRateLimitStore.entries()) {
+    const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+    if (recent.length === 0) {
+      ipRateLimitStore.delete(ip);
+    } else {
+      ipRateLimitStore.set(ip, recent);
+    }
+  }
+}
+
+function checkIpRateLimit(clientIp: string): boolean {
+  cleanupIpEntries();
+  const now = Date.now();
+  const timestamps = ipRateLimitStore.get(clientIp) || [];
+  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+  return recent.length < MAX_MESSAGES_PER_IP;
+}
+
+function recordIpRequest(clientIp: string) {
+  const now = Date.now();
+  const timestamps = ipRateLimitStore.get(clientIp) || [];
+  const recent = timestamps.filter(t => now - t < RATE_LIMIT_WINDOW_MS);
+  recent.push(now);
+  ipRateLimitStore.set(clientIp, recent);
+}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -116,6 +148,22 @@ serve(async (req) => {
     }
 
     const { sessionId, userMessage } = validationResult.data;
+
+    // IP-based rate limiting (prevents session ID abuse)
+    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
+                     req.headers.get('x-real-ip') || 
+                     'unknown';
+
+    if (!checkIpRateLimit(clientIp)) {
+      console.warn("[chat] IP rate limit exceeded for:", clientIp);
+      return new Response(
+        JSON.stringify({ 
+          error: 'Rate limit exceeded. Please try again later.',
+          retryAfter: 3600
+        }),
+        { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     console.log("[chat] Received request for session:", sessionId);
 
@@ -301,6 +349,9 @@ serve(async (req) => {
     }
 
     console.log("[chat] Saved messages to database");
+
+    // Record successful request for IP rate limiting
+    recordIpRequest(clientIp);
 
     return new Response(
       JSON.stringify({
