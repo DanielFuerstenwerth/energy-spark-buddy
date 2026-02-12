@@ -185,7 +185,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Gesamtzahl der Projekte - GGV", // Korrektur
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #6 = 'multiple'",
+      visibilityLogic: "Nur wenn in #5 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #7 = 'multiple'",
     },
     {
       id: "ggvAdditionalInfo",
