@@ -1201,7 +1201,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       description: "Mehrfachauswahl möglich",
       options: [
         { value: "wind", label: "Bürgerwindanlage" },
-        { value: "buergerwind", label: "Windenergieanlage - Bürgerwindanlage" },
         { value: "pv_freiflaeche", label: "PV-Freiflächenanlage" },
         { value: "buergersolar", label: "Bürgersolaranlage" },
         { value: "pv_efh", label: "PV-Dachanlage auf Einfamilienhaus" },
