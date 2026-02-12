@@ -1,5 +1,6 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
+import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
 import { FileUpload } from "../questions/FileUpload";
 import { ConditionalCostFields } from "../questions/ConditionalCostFields";
@@ -60,11 +61,12 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             onChange={(val) => updateData("vnbFullService", val)}
           />
 
-          <SingleSelectQuestion
+          <MultiSelectQuestion
             id="vnb-data-provision"
             label={getLabelForQuestion("vnbDataProvision")}
+            description="Mehrfachauswahl möglich"
             options={getOptionsForQuestion("vnbDataProvision")}
-            value={data.vnbDataProvision}
+            value={data.vnbDataProvision || []}
             otherValue={data.vnbDataProvisionOther}
             onChange={(val) => updateData("vnbDataProvision", val)}
             onOtherChange={(val) => updateData("vnbDataProvisionOther", val)}
