@@ -90,7 +90,7 @@ export interface SurveyData {
   vnbAdditionalCostsOneTime?: number;
   vnbAdditionalCostsYearly?: number;
   vnbFullService?: string;
-  vnbDataProvision?: string;
+  vnbDataProvision?: string[];
   vnbDataProvisionOther?: string;
   vnbDataFormat?: string;
   vnbDataCost?: string;
