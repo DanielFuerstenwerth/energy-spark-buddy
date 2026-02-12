@@ -1200,7 +1200,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       label: "E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen (oder nutzen sie bereits)?", // Korrektur: Label
       description: "Mehrfachauswahl möglich",
       options: [
-        { value: "wind", label: "Bürgerwindanlage" },
+        { value: "wind", label: "Windenergieanlage" },
+        { value: "buergerwind", label: "Bürgerwindanlage" },
         { value: "pv_freiflaeche", label: "PV-Freiflächenanlage" },
         { value: "buergersolar", label: "Bürgersolaranlage" },
         { value: "pv_efh", label: "PV-Dachanlage auf Einfamilienhaus" },
