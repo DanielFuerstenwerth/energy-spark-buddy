@@ -48,7 +48,12 @@ export function SingleSelectQuestion({
                 <Label htmlFor={`${id}-${option.value}`} className="text-sm cursor-pointer flex-1">{option.label}</Label>
               </div>
               {option.hasTextField && isSelected && onOtherChange && (
-                <Input placeholder="Bitte angeben..." value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className="ml-8" />
+                <div className="ml-8 space-y-1">
+                  <Input placeholder="Bitte angeben..." value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className={cn(!otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")} />
+                  {!otherValue?.trim() && (
+                    <p className="text-xs text-emerald-600">Gerne können Sie hier Details ergänzen</p>
+                  )}
+                </div>
               )}
             </div>
           );
