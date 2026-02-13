@@ -96,7 +96,6 @@ export function MultiSelectQuestion({
                   className={cn("text-sm flex-1", isDisabled ? "cursor-not-allowed" : "cursor-pointer")}
                 >
                   {option.label}
-                  {option.exclusive && <span className="text-muted-foreground ml-1">(exklusiv)</span>}
                 </Label>
               </div>
               {option.hasTextField && isChecked && (
