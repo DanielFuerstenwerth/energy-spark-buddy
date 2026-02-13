@@ -123,16 +123,17 @@ function renderOptionsHtml(options: SurveyOption[]): string {
   return html;
 }
 
-function renderQuestionHtml(q: SurveyQuestion, questionNumber: number): string {
+function renderQuestionHtml(q: SurveyQuestion): string {
   const regEntry = QUESTION_REGISTRY[q.id];
   const displayId = regEntry?.displayId || q.id;
   const dbColumn = regEntry?.dbColumn || "—";
+  const uiNumber = regEntry?.uiNumber || "";
 
   let html = `
   <div style="margin:12pt 0;padding:10pt;background:#f9fafb;border:1pt solid #e5e7eb;border-radius:4pt;">
     <p style="margin:0 0 4pt;">
       <span style="color:#2563eb;font-size:9pt;font-weight:bold;font-family:monospace;background:#eff6ff;padding:1pt 4pt;border-radius:2pt;">${esc(displayId)}</span>
-      <span style="color:#999;font-size:8pt;margin-left:6pt;">#${questionNumber}</span>
+      ${uiNumber ? `<span style="color:#999;font-size:8pt;margin-left:6pt;">${esc(uiNumber)}</span>` : ""}
     </p>
     <p style="margin:2pt 0 4pt;"><strong style="font-size:11pt;">${esc(cleanLabel(q.label))}</strong></p>
     <p style="margin:0 0 4pt;font-size:9pt;color:#666;">
@@ -174,7 +175,6 @@ function generateWordDocHtml(): string {
   const totalAnnotations = Object.values(REVIEW_ANNOTATIONS).reduce((acc, arr) => acc + arr.length, 0);
 
   let body = "";
-  let questionNumber = 0;
 
   for (const section of schema.sections) {
     body += `
@@ -184,8 +184,7 @@ function generateWordDocHtml(): string {
     if (section.visibilityLogic) body += `<p style="background:#fef3c7;padding:4pt 8pt;border-left:3pt solid #f59e0b;font-size:9pt;color:#92400e;">⚡ Sichtbarkeit: ${esc(section.visibilityLogic)}</p>`;
 
     for (const question of section.questions) {
-      questionNumber++;
-      body += renderQuestionHtml(question, questionNumber);
+      body += renderQuestionHtml(question);
     }
     body += "</div>";
   }
@@ -197,12 +196,14 @@ function generateWordDocHtml(): string {
     <table style="width:100%;border-collapse:collapse;font-size:9pt;">
       <tr style="background:#1a365d;color:white;">
         <th style="text-align:left;padding:4pt 6pt;border:1pt solid #ccc;">Display-ID</th>
+        <th style="text-align:left;padding:4pt 6pt;border:1pt solid #ccc;">Nr.</th>
         <th style="text-align:left;padding:4pt 6pt;border:1pt solid #ccc;">Interner Key</th>
         <th style="text-align:left;padding:4pt 6pt;border:1pt solid #ccc;">DB-Spalte</th>
       </tr>`;
   for (const [key, entry] of Object.entries(QUESTION_REGISTRY)) {
     registryTable += `<tr>
       <td style="padding:3pt 6pt;border:1pt solid #ccc;font-family:monospace;color:#2563eb;">${esc(entry.displayId)}</td>
+      <td style="padding:3pt 6pt;border:1pt solid #ccc;font-family:monospace;color:#999;">${esc(entry.uiNumber || "—")}</td>
       <td style="padding:3pt 6pt;border:1pt solid #ccc;font-family:monospace;">${esc(key)}</td>
       <td style="padding:3pt 6pt;border:1pt solid #ccc;font-family:monospace;color:#059669;">${esc(entry.dbColumn)}</td>
     </tr>`;
