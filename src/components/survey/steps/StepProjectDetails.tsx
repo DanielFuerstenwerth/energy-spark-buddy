@@ -81,7 +81,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
           otherValue={data.planningStatusOther}
           onChange={(val) => updateData("planningStatus", [val])}
           onOtherChange={(val) => updateData("planningStatusOther", val)}
-          questionNumber="3.1"
+          questionNumber="2.3"
         />
       )}
 
@@ -102,7 +102,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
               options={PROJECT_SCOPE_OPTIONS}
               value={data.ggvProjectType}
               onChange={(val) => updateData("ggvProjectType", val as 'single' | 'multiple')}
-              questionNumber="2.3"
+              questionNumber="2.4"
             />
           )}
 
@@ -113,7 +113,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
               options={PROJECT_SCOPE_OPTIONS}
               value={data.mieterstromProjectType}
               onChange={(val) => updateData("mieterstromProjectType", val)}
-              questionNumber="2.3"
+              questionNumber="2.4"
             />
           )}
 
@@ -127,7 +127,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
                 updateData("ggvProjectType", val as 'single' | 'multiple');
                 updateData("mieterstromProjectType", val);
               }}
-              questionNumber="2.3"
+              questionNumber="2.4"
             />
           )}
 
@@ -148,7 +148,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
           locations={currentLocations}
           onChange={handleLocationChange}
           multiple={isMultiple}
-          questionNumber="2.13"
+          questionNumber="2.14"
         />
       )}
     </div>
@@ -170,7 +170,7 @@ function GgvDetails({ data, updateData }: { data: SurveyData; updateData: StepPr
           onChange={(val) => updateData("ggvBuildingCount", val ? parseInt(val) : undefined)}
           placeholder="z.B. 5"
           optional
-          questionNumber="2.4"
+          questionNumber="2.5"
         />
       )}
 
@@ -182,7 +182,7 @@ function GgvDetails({ data, updateData }: { data: SurveyData; updateData: StepPr
         onChange={(val) => updateData("ggvPvSizeKw", val ? parseFloat(val) : undefined)}
         placeholder={data.ggvProjectType === 'multiple' ? "z.B. 150" : "z.B. 30"}
         optional
-        questionNumber="2.5"
+        questionNumber="2.6"
       />
 
       <TextQuestion
@@ -193,7 +193,7 @@ function GgvDetails({ data, updateData }: { data: SurveyData; updateData: StepPr
         onChange={(val) => updateData("ggvPartyCount", val ? parseInt(val) : undefined)}
         placeholder={data.ggvProjectType === 'multiple' ? "z.B. 60" : "z.B. 12"}
         optional
-        questionNumber="2.6"
+        questionNumber="2.7"
       />
 
       <SingleSelectQuestion
@@ -202,7 +202,7 @@ function GgvDetails({ data, updateData }: { data: SurveyData; updateData: StepPr
         options={BUILDING_TYPE_OPTIONS}
         value={data.ggvBuildingType}
         onChange={(val) => updateData("ggvBuildingType", val)}
-        questionNumber="2.7"
+        questionNumber="2.8"
       />
 
       <TextQuestion
@@ -213,7 +213,7 @@ function GgvDetails({ data, updateData }: { data: SurveyData; updateData: StepPr
         onChange={(val) => updateData("ggvAdditionalInfo", val)}
         placeholder="Weitere Details zu Ihrem Projekt..."
         optional
-        questionNumber="2.8"
+        questionNumber="2.9"
       />
     </div>
   );
@@ -233,7 +233,7 @@ function MieterstromDetails({ data, updateData }: { data: SurveyData; updateData
         onChange={(val) => updateData("mieterstromPvSizeKw", val ? parseFloat(val) : undefined)}
         placeholder="z.B. 50"
         optional
-        questionNumber="2.9"
+        questionNumber="2.10"
       />
 
       <TextQuestion
@@ -244,7 +244,7 @@ function MieterstromDetails({ data, updateData }: { data: SurveyData; updateData
         onChange={(val) => updateData("mieterstromPartyCount", val ? parseInt(val) : undefined)}
         placeholder="z.B. 24"
         optional
-        questionNumber="2.10"
+        questionNumber="2.11"
       />
 
       <SingleSelectQuestion
@@ -253,7 +253,7 @@ function MieterstromDetails({ data, updateData }: { data: SurveyData; updateData
         options={BUILDING_TYPE_OPTIONS}
         value={data.mieterstromBuildingType}
         onChange={(val) => updateData("mieterstromBuildingType", val)}
-        questionNumber="2.11"
+        questionNumber="2.12"
       />
 
       <TextQuestion
@@ -264,7 +264,7 @@ function MieterstromDetails({ data, updateData }: { data: SurveyData; updateData
         onChange={(val) => updateData("mieterstromAdditionalInfo", val)}
         placeholder="Weitere Details zu Ihrem Projekt..."
         optional
-        questionNumber="2.12"
+        questionNumber="2.13"
       />
     </div>
   );

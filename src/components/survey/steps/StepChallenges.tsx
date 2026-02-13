@@ -19,7 +19,7 @@ export function StepChallenges({ data, updateData }: StepChallengesProps) {
         optionTextValues={data.challengesDetails}
         onChange={(val) => updateData("challenges", val)}
         onOptionTextChange={(optVal, text) => updateData("challengesDetails", { ...data.challengesDetails, [optVal]: text })}
-        questionNumber="3.6"
+        questionNumber="3.5"
       />
 
       {/* Korrektur: vnbRejectionResponse moved here from ServiceProvider section */}
@@ -32,7 +32,7 @@ export function StepChallenges({ data, updateData }: StepChallengesProps) {
         onChange={(val) => updateData("vnbRejectionResponse", val)}
         onOtherChange={(val) => updateData("vnbRejectionResponseOther", val)}
         optional
-        questionNumber="3.7"
+        questionNumber="3.6"
       />
     </div>
   );
