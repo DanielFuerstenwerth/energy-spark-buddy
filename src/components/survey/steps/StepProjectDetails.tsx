@@ -64,7 +64,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
       <MultiSelectQuestion
         id="project-types"
         label={getLabelForQuestion("projectTypes")}
-        description="Mehrfachauswahl möglich"
+        description="Mehrfachauswahl möglich - Wahl beeinflusst spätere Auswahl der Fragen"
         options={getOptionsForQuestion("projectTypes")}
         value={data.projectTypes}
         onChange={(val) => updateData("projectTypes", val)}
