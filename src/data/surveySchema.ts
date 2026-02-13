@@ -148,7 +148,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Wie viele GGV-Projekte planen/betreiben Sie?",
       options: [
         { value: "single", label: "Ein einzelnes Projekt" },
-        { value: "multiple", label: "Mehrere Projekte" },
+        { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
       ],
       visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
     },
