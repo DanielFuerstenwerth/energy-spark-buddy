@@ -140,8 +140,6 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     mieterstromChallengesOther: z.string().max(MAX_LONG_TEXT).optional(),
     // ES companion fields
     esPlantTypeDetails: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
-    esTotalPvSizeKw: z.number().min(0).max(100000).optional(),
-    esTotalWindSizeKw: z.number().min(0).max(100000).optional(),
     esConsumerDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esVnbResponseDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esNetzentgelteDetails: z.string().max(MAX_LONG_TEXT).optional(),

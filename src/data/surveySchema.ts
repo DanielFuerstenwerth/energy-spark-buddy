@@ -1230,9 +1230,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   questions: [
     {
       id: "esStatus",
-      type: "multi-select",
+      type: "single-select",
       label: "E1. Wo stehen Sie aktuell mit dem Projekt?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "in_betrieb_vollversorgung", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell" },
         { value: "in_betrieb_42c", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
@@ -1240,7 +1239,23 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Infos" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      optional: true, // Korrektur: war required
+      optional: true,
+    },
+    {
+      id: "esInOperationDetails",
+      type: "textarea",
+      label: "E2a. Welche Erzeugungsanlagen sind eingebunden und wer wird beliefert?",
+      placeholder: "Beschreiben Sie Ihre Anlagen und Abnehmer...",
+      optional: true,
+      visibilityLogic: "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'",
+    },
+    {
+      id: "esOperatorDetails",
+      type: "textarea",
+      label: "E2b. Wer betreibt die Anlagen, wie erfolgt die Zuteilung der Strommengen, wer übernimmt die Abrechnung?",
+      placeholder: "Beschreiben Sie den Betrieb...",
+      optional: true,
+      visibilityLogic: "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'",
     },
     {
       id: "esPlantType",
@@ -1288,7 +1303,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
     {
       id: "esConsumerTypes",
       type: "multi-select",
-      label: "E5. Welche Stromverbraucher sollen eingebunden werden (oder sind schon eingebunden)?", // Korrektur: Label
+      label: "E5. Welche Stromverbraucher sollen eingebunden werden (oder sind schon eingebunden)?",
       options: [
         { value: "privat", label: "Private Haushalte" },
         { value: "kommune", label: "Kommune" },
@@ -1296,7 +1311,13 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "kmu", label: "KMU" },
         { value: "vereine", label: "Vereine" },
       ],
-      // Korrektur: Sichtbarkeit immer
+    },
+    {
+      id: "esConsumerDetails",
+      type: "textarea",
+      label: "E4b. Wie viele Stromverbraucher welchen Typs sollen eingebunden werden?",
+      placeholder: "z.B. 30 Haushalte, 5 KMU...",
+      optional: true,
     },
     {
       id: "esConsumerScope",
@@ -1606,6 +1627,9 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esVnbResponse": { displayId: "4-ES-VnbResponse", dbColumn: "es_vnb_response" },
   "esNetzentgelteDiscussion": { displayId: "4-ES-Netzentgelte", dbColumn: "es_netzentgelte_discussion" },
   "esInfoSources": { displayId: "4-ES-InfoSources", dbColumn: "es_info_sources" },
+  "esInOperationDetails": { displayId: "4-ES-InOperationDetails", dbColumn: "es_in_operation_details" },
+  "esOperatorDetails": { displayId: "4-ES-OperatorDetails", dbColumn: "es_operator_details" },
+  "esConsumerDetails": { displayId: "4-ES-ConsumerDetails", dbColumn: "es_consumer_details" },
   // Section 6: Abschluss
   // helpfulInfoSources GELÖSCHT
   "additionalExperiences": { displayId: "6-Experiences", dbColumn: "additional_experiences" },
