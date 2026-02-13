@@ -76,6 +76,7 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
         <SingleSelectQuestion
           id="planning-status"
           label={getLabelForQuestion("planningStatus")}
+          description="Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt"
           options={getOptionsForQuestion("planningStatus")}
           value={data.planningStatus[0] || undefined}
           otherValue={data.planningStatusOther}
