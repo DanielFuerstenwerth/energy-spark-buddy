@@ -82,21 +82,22 @@ export function MultiSelectQuestion({
                   isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
                   isChecked ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-muted/50"
                 )}
-                onClick={() => !isDisabled && handleToggle(option.value)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (!isDisabled) handleToggle(option.value);
+                }}
               >
                 <Checkbox 
                   id={`${id}-${option.value}`} 
                   checked={isChecked} 
-                  onCheckedChange={() => !isDisabled && handleToggle(option.value)} 
-                  className="mt-0.5"
+                  onCheckedChange={() => {}}
+                  onClick={(e) => e.stopPropagation()}
+                  className="mt-0.5 pointer-events-none"
                   disabled={isDisabled}
                 />
-                <Label 
-                  htmlFor={`${id}-${option.value}`} 
-                  className={cn("text-sm flex-1", isDisabled ? "cursor-not-allowed" : "cursor-pointer")}
-                >
+                <span className={cn("text-sm flex-1", isDisabled ? "cursor-not-allowed" : "cursor-pointer")}>
                   {option.label}
-                </Label>
+                </span>
               </div>
               {option.hasTextField && isChecked && (
                 onOptionTextChange ? (
