@@ -250,9 +250,8 @@ const SECTION_PLANNING: SurveySection = {
   questions: [
     {
       id: "planningStatus",
-      type: "multi-select",
+      type: "single-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
-      description: "Mehrfachauswahl möglich",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.", // Korrektur
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
