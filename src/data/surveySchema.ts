@@ -569,6 +569,14 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
     },
     {
+      id: "vnbDataCostAmount",
+      type: "number",
+      label: "Betrag in EUR/Messstelle/Jahr",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityLogic: "Wenn vnbDataCost = 'mehr_3_eur'",
+    },
+    {
       id: "vnbEsaCost",
       type: "single-select",
       label: "C8.1f Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der VNB/gMSB dafür Geld?",
@@ -579,6 +587,14 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "mehr_3_eur", label: "Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
       visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
+    },
+    {
+      id: "vnbEsaCostAmount",
+      type: "number",
+      label: "Betrag in EUR/Messstelle/Jahr",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityLogic: "Wenn vnbEsaCost = 'mehr_3_eur'",
     },
     {
       id: "vnbMsbTimeline",
@@ -878,6 +894,14 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       optional: true,
       visibilityLogic: "Wenn serviceProvider2Name ausgefüllt",
     },
+    {
+      id: "serviceProvider2Comments",
+      type: "textarea",
+      label: "Kommentare zu Dienstleister 2",
+      placeholder: "Was lief gut? Was könnte besser sein?",
+      optional: true,
+      visibilityLogic: "Wenn serviceProvider2Name ausgefüllt",
+    },
     // Korrektur: vnbRejectionResponse wurde nach Section 3 (Challenges) verschoben
   ],
 };
@@ -1111,6 +1135,13 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       ],
     },
     {
+      id: "mieterstromVnbDurationReasons",
+      type: "textarea",
+      label: "Falls es lange dauerte: Was war das große Problem?",
+      placeholder: "Beschreiben Sie die Gründe...",
+      optional: true,
+    },
+    {
       id: "mieterstromWandlermessung",
       type: "single-select",
       label: "MB3. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung >5.000 EUR)?",
@@ -1142,6 +1173,24 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
+    },
+    {
+      id: "mieterstromOperationCostsOneTime",
+      type: "number",
+      label: "Einmalbetrag (EUR)",
+      placeholder: "z.B. 500",
+      optional: true,
+      visibilityLogic: "Wenn mieterstromOperationCosts = 'ja'",
+      conditionalRequired: "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
+    },
+    {
+      id: "mieterstromOperationCostsYearly",
+      type: "number",
+      label: "Jährlicher Betrag (EUR)",
+      placeholder: "z.B. 100",
+      optional: true,
+      visibilityLogic: "Wenn mieterstromOperationCosts = 'ja'",
+      conditionalRequired: "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
     // Korrektur: mieterstromOperationSatisfaction (#97) GELÖSCHT
     {
@@ -1470,7 +1519,9 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "vnbFullService": { displayId: "4-GGV-FullService", dbColumn: "vnb_full_service" },
   "vnbDataProvision": { displayId: "4-GGV-DataProvision", dbColumn: "vnb_data_provision" },
   "vnbDataCost": { displayId: "4-GGV-DataCost", dbColumn: "vnb_data_cost" },
+  "vnbDataCostAmount": { displayId: "4-GGV-DataCostAmount", dbColumn: "vnb_data_cost_amount" },
   "vnbEsaCost": { displayId: "4-GGV-EsaCost", dbColumn: "vnb_esa_cost" },
+  "vnbEsaCostAmount": { displayId: "4-GGV-EsaCostAmount", dbColumn: "vnb_esa_cost_amount" },
   "vnbMsbTimeline": { displayId: "4-GGV-MsbTimeline", dbColumn: "vnb_msb_timeline" },
   "vnbRejectionTimeline": { displayId: "4-GGV-RejectionTimeline", dbColumn: "vnb_rejection_timeline" },
   "vnbWandlermessung": { displayId: "4-GGV-Wandlermessung", dbColumn: "vnb_wandlermessung" },
@@ -1503,6 +1554,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments" },
   "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name" },
   "serviceProvider2Rating": { displayId: "5-GGV-SP2-Rating", dbColumn: "service_provider_2_rating" },
+  "serviceProvider2Comments": { displayId: "5-GGV-SP2-Comments", dbColumn: "service_provider_2_comments" },
   // Section 4-MS: Planung Mieterstrom
   "mieterstromSummenzaehler": { displayId: "4-MS-Summenzaehler", dbColumn: "mieterstrom_summenzaehler" },
   // mieterstromChallenges GELÖSCHT
@@ -1529,11 +1581,14 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   // Section 5-MS: Betrieb Mieterstrom
   "mieterstromVnbRole": { displayId: "5-MS-VnbRole", dbColumn: "mieterstrom_vnb_role" },
   "mieterstromVnbDuration": { displayId: "5-MS-VnbDuration", dbColumn: "mieterstrom_vnb_duration" },
+  "mieterstromVnbDurationReasons": { displayId: "5-MS-VnbDurationReasons", dbColumn: "mieterstrom_vnb_duration_reasons" },
   "mieterstromWandlermessung": { displayId: "5-MS-Wandlermessung", dbColumn: "mieterstrom_wandlermessung" },
   // mieterstromMsbProvider GELÖSCHT
   // mieterstromDataProvider GELÖSCHT
   "mieterstromMsbInstallDuration": { displayId: "5-MS-MsbInstallDuration", dbColumn: "mieterstrom_msb_install_duration" },
   "mieterstromOperationCosts": { displayId: "5-MS-OperationCosts", dbColumn: "mieterstrom_operation_costs" },
+  "mieterstromOperationCostsOneTime": { displayId: "5-MS-OperationCostsOneTime", dbColumn: "mieterstrom_operation_costs_one_time" },
+  "mieterstromOperationCostsYearly": { displayId: "5-MS-OperationCostsYearly", dbColumn: "mieterstrom_operation_costs_yearly" },
   // mieterstromOperationSatisfaction GELÖSCHT
   "mieterstromRejectionResponse": { displayId: "5-MS-RejectionResponse", dbColumn: "mieterstrom_rejection_response" },
   "mieterstromInfoSources": { displayId: "5-MS-InfoSources", dbColumn: "mieterstrom_info_sources" },
