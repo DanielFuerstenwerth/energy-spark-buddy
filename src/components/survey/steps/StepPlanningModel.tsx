@@ -1,6 +1,7 @@
 import { SurveyData } from "@/types/survey";
 import { StepVnbPlanningGgv } from "./StepVnbPlanningGgv";
 import { StepVnbMsbDetails } from "./StepVnbMsbDetails";
+import { StepGgvSupport } from "./StepGgvSupport";
 import { StepMieterstromPlanning } from "./StepMieterstromPlanning";
 import { StepMieterstromVnbOffer } from "./StepMieterstromVnbOffer";
 import { StepEnergySharing } from "./StepEnergySharing";
@@ -42,6 +43,9 @@ export function StepPlanningModel({
               <StepVnbMsbDetails data={data} updateData={updateData} />
             </div>
           )}
+          <div className="mt-8">
+            <StepGgvSupport data={data} updateData={updateData} />
+          </div>
         </div>
       )}
 

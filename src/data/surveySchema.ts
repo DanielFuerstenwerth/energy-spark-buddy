@@ -403,7 +403,18 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       ],
       optional: true,
     },
-    // Korrektur #26-29: Gemeinsamer Einleitungstext als helpText, SupportPortal wird Textfeld
+    {
+      id: "vnbMsbOffer",
+      type: "single-select",
+      label: "C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?",
+      options: [
+        { value: "ja", label: "Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen" },
+        { value: "nein_wmsb", label: "Nein, wir brauchen dafür einen wettbewerblichen Messstellenbetreiber" },
+        { value: "nein_gar_nicht", label: "Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht" },
+      ],
+      skipLogic: "Je nach Auswahl werden unterschiedliche Folgefragen angezeigt",
+    },
+    // Korrektur: Support-Fragen (#28-#34) ans Ende des GGV-Abschnitts verschoben
     {
       id: "vnbSupportMesskonzept",
       type: "text",
@@ -422,7 +433,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
     },
     {
       id: "vnbSupportPortal",
-      type: "text", // Korrektur: war single-select, jetzt Textfeld
+      type: "text",
       label: "C4.3 Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel (Weblink)",
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       placeholder: "https://...",
@@ -466,17 +477,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       max: 10,
       minLabel: "bremst aktiv",
       maxLabel: "unterstützt aktiv",
-    },
-    {
-      id: "vnbMsbOffer",
-      type: "single-select",
-      label: "C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?",
-      options: [
-        { value: "ja", label: "Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen" },
-        { value: "nein_wmsb", label: "Nein, wir brauchen dafür einen wettbewerblichen Messstellenbetreiber" },
-        { value: "nein_gar_nicht", label: "Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht" },
-      ],
-      skipLogic: "Je nach Auswahl werden unterschiedliche Folgefragen angezeigt",
     },
   ],
 };
