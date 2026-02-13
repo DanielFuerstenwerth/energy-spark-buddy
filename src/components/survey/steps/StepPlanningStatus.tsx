@@ -24,7 +24,7 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
         value={data.ggvOrMieterstromDecision}
         onChange={(val) => updateData("ggvOrMieterstromDecision", val)}
         optional
-        questionNumber="3.2"
+        questionNumber="3.1"
       />
 
       {showGgvReasons && (
@@ -36,7 +36,7 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
           otherValue={data.ggvDecisionReasonsOther}
           onChange={(val) => updateData("ggvDecisionReasons", val)}
           onOtherChange={(val) => updateData("ggvDecisionReasonsOther", val)}
-          questionNumber="3.3"
+          questionNumber="3.2"
         />
       )}
 
@@ -49,7 +49,7 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
           otherValue={data.mieterstromDecisionReasonsOther}
           onChange={(val) => updateData("mieterstromDecisionReasons", val)}
           onOtherChange={(val) => updateData("mieterstromDecisionReasonsOther", val)}
-          questionNumber="3.4"
+          questionNumber="3.3"
         />
       )}
 
@@ -61,7 +61,7 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
         value={data.implementationApproach}
         onChange={(val) => updateData("implementationApproach", val)}
         optional
-        questionNumber="3.5"
+        questionNumber="3.4"
       />
     </div>
   );
