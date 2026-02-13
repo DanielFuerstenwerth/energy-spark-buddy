@@ -24,6 +24,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onChange={(val) => updateData("vnbSupportMesskonzept", val)}
           placeholder="https://..."
           optional
+          questionNumber="4.22"
         />
 
         <TextQuestion
@@ -33,6 +34,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onChange={(val) => updateData("vnbSupportFormulare", val)}
           placeholder="https://..."
           optional
+          questionNumber="4.23"
         />
 
         <TextQuestion
@@ -42,6 +44,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onChange={(val) => updateData("vnbSupportPortal", val as any)}
           placeholder="https://..."
           optional
+          questionNumber="4.24"
         />
 
         <TextQuestion
@@ -51,6 +54,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onChange={(val) => updateData("vnbSupportOther", val)}
           placeholder="Weitere Unterstützungsangebote..."
           optional
+          questionNumber="4.25"
         />
       </div>
 
@@ -62,6 +66,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
         otherValue={data.vnbContactHelpfulOther}
         onChange={(val) => updateData("vnbContactHelpful", val)}
         onOtherChange={(val) => updateData("vnbContactHelpfulOther", val)}
+        questionNumber="4.26"
       />
 
       <SingleSelectQuestion
@@ -72,6 +77,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
         otherValue={data.vnbPersonalContactsOther}
         onChange={(val) => updateData("vnbPersonalContacts", val)}
         onOtherChange={(val) => updateData("vnbPersonalContactsOther", val)}
+        questionNumber="4.27"
       />
 
       <RatingQuestion
@@ -83,6 +89,7 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
         maxLabel={supportRatingQ?.maxLabel || "unterstützt aktiv"}
         min={supportRatingQ?.min || 1}
         max={supportRatingQ?.max || 10}
+        questionNumber="4.28"
       />
     </div>
   );

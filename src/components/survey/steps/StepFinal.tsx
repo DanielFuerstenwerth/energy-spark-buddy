@@ -31,6 +31,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         onChange={(val) => updateData("additionalExperiences", val)}
         placeholder="Ihre Erfahrungen..."
         optional
+        questionNumber="8.1"
       />
 
       <FileUpload
@@ -39,6 +40,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         description="z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)"
         value={uploadedDocuments}
         onChange={setUploadedDocuments}
+        questionNumber="8.2"
       />
 
       <TextQuestion
@@ -49,6 +51,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         onChange={(val) => updateData("surveyImprovements", val)}
         placeholder="Ihr Feedback zur Umfrage..."
         optional
+        questionNumber="8.3"
       />
 
       <NpsQuestion
@@ -57,6 +60,7 @@ export function StepFinal({ data, updateData, uploadedDocuments, setUploadedDocu
         value={data.npsScore}
         onChange={(val) => updateData("npsScore", val)}
         optional
+        questionNumber="8.4"
       />
     </div>
   );

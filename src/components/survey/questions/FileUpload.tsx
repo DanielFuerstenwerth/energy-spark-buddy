@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { QuestionTag } from "./QuestionTag";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 interface FileUploadProps {
   id: string;
   label: string;
+  questionNumber?: string;
   description?: string;
   value: string[];
   onChange: (urls: string[]) => void;
@@ -18,7 +20,7 @@ interface FileUploadProps {
 }
 
 export function FileUpload({ 
-  id, label, description, value, onChange, optional = true, maxFiles = 5, accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+  id, label, description, value, onChange, optional = true, maxFiles = 5, accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx", questionNumber 
 }: FileUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -84,6 +86,7 @@ export function FileUpload({
       <div>
         <Label className="text-base font-semibold">
           {label}
+          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           {optional && <span className="text-muted-foreground font-normal ml-1">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

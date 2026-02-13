@@ -22,6 +22,7 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         onChange={(val) => updateData("actorTypes", val)}
         onOptionTextChange={(optVal, text) => updateData("actorTextFields", { ...data.actorTextFields, [optVal]: text })}
         optional
+        questionNumber="1.1"
       />
 
       <MultiSelectQuestion
@@ -33,6 +34,7 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         otherValue={data.motivationOther}
         onChange={(val) => updateData("motivation", val)}
         onOtherChange={(val) => updateData("motivationOther", val)}
+        questionNumber="1.2"
       />
 
       <TextQuestion
@@ -43,6 +45,7 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         onChange={(val) => updateData("contactEmail", val)}
         placeholder="ihre@email.de"
         optional
+        questionNumber="1.3"
       />
 
       <SingleSelectQuestion
@@ -52,6 +55,7 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         value={data.confirmationForUpdate}
         onChange={(val) => updateData("confirmationForUpdate", val)}
         optional
+        questionNumber="1.4"
       />
     </div>
   );

@@ -1,9 +1,11 @@
 import { Label } from "@/components/ui/label";
+import { QuestionTag } from "./QuestionTag";
 import { cn } from "@/lib/utils";
 
 interface RatingQuestionProps {
   id: string;
   label: string;
+  questionNumber?: string;
   description?: string;
   value?: number;
   onChange: (value: number) => void;
@@ -15,7 +17,7 @@ interface RatingQuestionProps {
 }
 
 export function RatingQuestion({
-  id, label, description, value, onChange, minLabel = "1", maxLabel = "10", min = 1, max = 10, optional,
+  id, label, description, value, onChange, minLabel = "1", maxLabel = "10", min = 1, max = 10, optional, questionNumber,
 }: RatingQuestionProps) {
   const ratings = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
@@ -24,6 +26,7 @@ export function RatingQuestion({
       <div>
         <Label className="text-base font-semibold text-foreground">
           {label}
+          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

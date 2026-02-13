@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { QuestionTag } from "./QuestionTag";
 import { cn } from "@/lib/utils";
 
 interface ConditionalCostFieldsProps {
@@ -8,6 +9,8 @@ interface ConditionalCostFieldsProps {
   onOneTimeChange: (value: number | undefined) => void;
   onYearlyChange: (value: number | undefined) => void;
   idPrefix: string;
+  oneTimeQuestionNumber?: string;
+  yearlyQuestionNumber?: string;
 }
 
 /**
@@ -20,6 +23,8 @@ export function ConditionalCostFields({
   onOneTimeChange,
   onYearlyChange,
   idPrefix,
+  oneTimeQuestionNumber,
+  yearlyQuestionNumber,
 }: ConditionalCostFieldsProps) {
   // Validation: at least one field must be filled
   const hasOneTimeValue = oneTimeValue !== undefined && oneTimeValue !== null;
@@ -44,6 +49,7 @@ export function ConditionalCostFields({
             )}
           >
             Einmalbetrag (EUR)
+            {oneTimeQuestionNumber && <QuestionTag questionNumber={oneTimeQuestionNumber} />}
             {showError && !hasOneTimeValue && !hasYearlyValue && (
               <span className="text-destructive ml-1">*</span>
             )}
@@ -67,6 +73,7 @@ export function ConditionalCostFields({
             )}
           >
             Jährlicher Betrag (EUR)
+            {yearlyQuestionNumber && <QuestionTag questionNumber={yearlyQuestionNumber} />}
             {showError && !hasOneTimeValue && !hasYearlyValue && (
               <span className="text-destructive ml-1">*</span>
             )}

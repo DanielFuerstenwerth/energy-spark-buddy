@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
+import { QuestionTag } from "./QuestionTag";
 
 interface VnbOption {
   id: string;
@@ -18,9 +19,10 @@ interface SurveyVnbComboboxProps {
   value?: string;
   onChange: (value: string) => void;
   optional?: boolean;
+  questionNumber?: string;
 }
 
-export function SurveyVnbCombobox({ id, label, description, value, onChange, optional }: SurveyVnbComboboxProps) {
+export function SurveyVnbCombobox({ id, label, description, value, onChange, optional, questionNumber }: SurveyVnbComboboxProps) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [vnbList, setVnbList] = useState<VnbOption[]>([]);
@@ -64,6 +66,7 @@ export function SurveyVnbCombobox({ id, label, description, value, onChange, opt
     <div className="space-y-2">
       <Label htmlFor={id} className="text-sm font-medium">
         {label}
+        {questionNumber && <QuestionTag questionNumber={questionNumber} />}
         {optional && <span className="text-muted-foreground ml-1">(optional)</span>}
       </Label>
       {description && <p className="text-sm text-muted-foreground">{description}</p>}

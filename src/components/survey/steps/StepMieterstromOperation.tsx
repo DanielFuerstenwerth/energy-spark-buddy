@@ -28,6 +28,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         options={getOptionsForQuestion("mieterstromVnbRole")}
         value={data.mieterstromVnbRole}
         onChange={(val) => updateData("mieterstromVnbRole", val)}
+        questionNumber="6.20"
       />
 
       <SingleSelectQuestion
@@ -36,6 +37,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         options={getOptionsForQuestion("mieterstromVnbDuration")}
         value={data.mieterstromVnbDuration}
         onChange={(val) => updateData("mieterstromVnbDuration", val)}
+        questionNumber="6.21"
       />
 
       <TextQuestion
@@ -46,6 +48,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onChange={(val) => updateData("mieterstromVnbDurationReasons", val)}
         placeholder="Beschreiben Sie die Gründe..."
         optional
+        questionNumber="6.22"
       />
 
       <SingleSelectQuestion
@@ -56,6 +59,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         otherValue={data.mieterstromWandlermessungComment}
         onChange={(val) => updateData("mieterstromWandlermessung", val)}
         onOtherChange={(val) => updateData("mieterstromWandlermessungComment", val)}
+        questionNumber="6.23"
       />
 
       {/* Korrektur: mieterstromMsbProvider and mieterstromDataProvider DELETED from schema */}
@@ -66,6 +70,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         options={getOptionsForQuestion("mieterstromMsbInstallDuration")}
         value={data.mieterstromMsbInstallDuration}
         onChange={(val) => updateData("mieterstromMsbInstallDuration", val)}
+        questionNumber="6.24"
       />
 
       <SingleSelectQuestion
@@ -74,6 +79,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         options={getOptionsForQuestion("mieterstromOperationCosts")}
         value={data.mieterstromOperationCosts}
         onChange={(val) => updateData("mieterstromOperationCosts", val)}
+        questionNumber="6.25"
       />
 
       {data.mieterstromOperationCosts === 'ja' && (
@@ -87,6 +93,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
               onChange={(val) => updateData("mieterstromOperationCostsOneTime", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 500"
               optional
+              questionNumber="6.26"
             />
             <TextQuestion
               id="mieterstrom-operation-costs-yearly"
@@ -96,6 +103,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
               onChange={(val) => updateData("mieterstromOperationCostsYearly", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 100"
               optional
+              questionNumber="6.27"
             />
           </div>
           <FileUpload
@@ -119,6 +127,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onChange={(val) => updateData("mieterstromRejectionResponse", val)}
         onOtherChange={(val) => updateData("mieterstromRejectionResponseOther", val)}
         optional
+        questionNumber="6.28"
       />
 
       <TextQuestion
@@ -129,6 +138,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onChange={(val) => updateData("mieterstromInfoSources", val)}
         placeholder="z.B. Webseiten, Beratungsstellen, Netzwerke..."
         optional
+        questionNumber="6.29"
       />
 
       <TextQuestion
@@ -139,6 +149,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         onChange={(val) => updateData("mieterstromExperiences", val)}
         placeholder="Ihre Erfahrungen..."
         optional
+        questionNumber="6.30"
       />
 
       <FileUpload
@@ -147,6 +158,7 @@ export function StepMieterstromOperation({ data, updateData, uploadedDocuments, 
         description="z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen"
         value={uploadedDocuments}
         onChange={setUploadedDocuments}
+        questionNumber="6.31"
       />
     </div>
   );

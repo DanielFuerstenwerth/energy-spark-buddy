@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Trash2 } from "lucide-react";
+import { QuestionTag } from "./QuestionTag";
 
 export interface ProjectLocation {
   plz?: string;
@@ -13,9 +14,10 @@ interface ProjectLocationRowsProps {
   locations: ProjectLocation[];
   onChange: (locations: ProjectLocation[]) => void;
   multiple?: boolean;
+  questionNumber?: string;
 }
 
-export function ProjectLocationRows({ locations, onChange, multiple = false }: ProjectLocationRowsProps) {
+export function ProjectLocationRows({ locations, onChange, multiple = false, questionNumber }: ProjectLocationRowsProps) {
   const rows = locations.length > 0 ? locations : [{}];
 
   const updateRow = (index: number, field: keyof ProjectLocation, value: string) => {
@@ -42,6 +44,7 @@ export function ProjectLocationRows({ locations, onChange, multiple = false }: P
       <div>
         <Label className="text-base font-semibold text-foreground">
           Standort{multiple ? 'e' : ''} des Projekts
+          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-2 text-sm">
             (optional – nur wenn Veröffentlichung der Adresse erwünscht ist)
           </span>

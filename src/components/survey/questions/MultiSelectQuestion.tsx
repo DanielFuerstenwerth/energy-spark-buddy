@@ -1,4 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { QuestionTag } from "./QuestionTag";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,7 @@ interface Option {
 interface MultiSelectQuestionProps {
   id: string;
   label: string;
+  questionNumber?: string;
   description?: string;
   options: Option[];
   value: string[];
@@ -27,7 +29,7 @@ interface MultiSelectQuestionProps {
 }
 
 export function MultiSelectQuestion({
-  id, label, description, options, value, otherValue, optionTextValues, onChange, onOtherChange, onOptionTextChange, optional,
+  id, label, description, options, value, otherValue, optionTextValues, onChange, onOtherChange, onOptionTextChange, optional, questionNumber,
 }: MultiSelectQuestionProps) {
   const handleToggle = (optionValue: string) => {
     const option = options.find(o => o.value === optionValue);
@@ -60,6 +62,7 @@ export function MultiSelectQuestion({
       <div>
         <Label className="text-base font-semibold text-foreground">
           {label}
+          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
