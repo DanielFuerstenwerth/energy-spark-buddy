@@ -46,7 +46,7 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
           Standort{multiple ? 'e' : ''} des Projekts
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-2 text-sm">
-            (optional – nur wenn Veröffentlichung der Adresse erwünscht ist)
+            (optional – nur wenn Anzeige auf einer Karte erwünscht ist)
           </span>
         </Label>
       </div>
