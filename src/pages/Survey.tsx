@@ -253,7 +253,7 @@ export default function Survey() {
           {showDraftBanner && savedDraftInfo && (
             <DraftRestorationBanner savedTime={formatSavedTime(savedDraftInfo.savedAt)} stepTitle={steps[savedDraftInfo.step]?.title || "Unbekannt"} onRestore={handleRestoreDraft} onDiscard={handleDiscardDraft} />
           )}
-          <SurveyProgress currentStep={currentStep} totalSteps={steps.length} steps={steps} />
+          <SurveyProgress currentStep={currentStep} totalSteps={steps.length} steps={steps} onStepClick={(step) => { setCurrentStep(step); window.scrollTo(0, 0); }} />
           
           {showEvaluationTabs && (
             <EvaluationTabs

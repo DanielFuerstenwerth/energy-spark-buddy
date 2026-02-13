@@ -5,9 +5,10 @@ interface SurveyProgressProps {
   currentStep: number;
   totalSteps: number;
   steps: { title: string; description: string }[];
+  onStepClick?: (step: number) => void;
 }
 
-export function SurveyProgress({ currentStep, totalSteps, steps }: SurveyProgressProps) {
+export function SurveyProgress({ currentStep, totalSteps, steps, onStepClick }: SurveyProgressProps) {
   const progress = ((currentStep) / totalSteps) * 100;
   return (
     <div className="mb-8">
@@ -20,10 +21,14 @@ export function SurveyProgress({ currentStep, totalSteps, steps }: SurveyProgres
           const isActive = index === currentStep;
           const isPending = index > currentStep;
           return (
-            <div key={index} className="flex flex-col items-center flex-1">
+            <div
+              key={index}
+              className={cn("flex flex-col items-center flex-1", (isComplete || isActive) && onStepClick && "cursor-pointer")}
+              onClick={() => (isComplete || isActive) && onStepClick?.(index)}
+            >
               <div className={cn(
                 "w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300",
-                isComplete && "bg-primary text-primary-foreground",
+                isComplete && "bg-primary text-primary-foreground hover:ring-4 hover:ring-primary/20",
                 isActive && "bg-primary text-primary-foreground ring-4 ring-primary/20",
                 isPending && "bg-muted text-muted-foreground"
               )}>
