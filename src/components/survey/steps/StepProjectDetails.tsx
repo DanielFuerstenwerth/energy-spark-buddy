@@ -71,6 +71,20 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
         questionNumber="2.2"
       />
 
+      {/* 3.1 Planungsstand – direkt nach Projektart */}
+      {projectTypes.length > 0 && !onlyEnergySharing && (
+        <SingleSelectQuestion
+          id="planning-status"
+          label={getLabelForQuestion("planningStatus")}
+          options={getOptionsForQuestion("planningStatus")}
+          value={data.planningStatus[0] || undefined}
+          otherValue={data.planningStatusOther}
+          onChange={(val) => updateData("planningStatus", [val])}
+          onOtherChange={(val) => updateData("planningStatusOther", val)}
+          questionNumber="3.1"
+        />
+      )}
+
       {/* Only Energy Sharing → skip rest */}
       {onlyEnergySharing && (
         <p className="text-muted-foreground">

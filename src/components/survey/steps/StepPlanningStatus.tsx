@@ -9,10 +9,6 @@ interface StepPlanningStatusProps {
 }
 
 export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps) {
-  const handlePlanningStatusChange = (val: string) => {
-    updateData("planningStatus", [val]);
-  };
-
   // Determine visibility of #19/#20 based on #5 (projectTypes) only, not #18
   const projectTypes = data.projectTypes || [];
   const showGgvReasons = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
@@ -20,16 +16,6 @@ export function StepPlanningStatus({ data, updateData }: StepPlanningStatusProps
 
   return (
     <div className="space-y-8">
-      <SingleSelectQuestion
-        id="planning-status"
-        label={getLabelForQuestion("planningStatus")}
-        options={getOptionsForQuestion("planningStatus")}
-        value={data.planningStatus[0] || undefined}
-        otherValue={data.planningStatusOther}
-        onChange={handlePlanningStatusChange}
-        onOtherChange={(val) => updateData("planningStatusOther", val)}
-        questionNumber="3.1"
-      />
 
       <SingleSelectQuestion
         id="ggv-decision"
