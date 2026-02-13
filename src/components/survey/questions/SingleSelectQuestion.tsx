@@ -1,4 +1,5 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { QuestionTag } from "./QuestionTag";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,7 @@ interface Option { value: string; label: string; hasTextField?: boolean; }
 interface SingleSelectQuestionProps {
   id: string;
   label: string;
+  questionNumber?: string;
   description?: string;
   options: Option[];
   value?: string;
@@ -18,13 +20,14 @@ interface SingleSelectQuestionProps {
 }
 
 export function SingleSelectQuestion({
-  id, label, description, options, value, otherValue, onChange, onOtherChange, optional,
+  id, label, description, options, value, otherValue, onChange, onOtherChange, optional, questionNumber,
 }: SingleSelectQuestionProps) {
   return (
     <div className="space-y-4">
       <div>
         <Label className="text-base font-semibold text-foreground">
           {label}
+          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

@@ -24,6 +24,7 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
         options={getOptionsForQuestion("mieterstromFullService")}
         value={data.mieterstromFullService}
         onChange={(val) => updateData("mieterstromFullService", val)}
+        questionNumber="6.14"
       />
 
       <SingleSelectQuestion
@@ -34,6 +35,7 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
         otherValue={data.mieterstromMsbCostsOther}
         onChange={(val) => updateData("mieterstromMsbCosts", val)}
         onOtherChange={(val) => updateData("mieterstromMsbCostsOther", val)}
+        questionNumber="6.15"
       />
 
       {data.mieterstromMsbCosts === 'ja' && (
@@ -43,6 +45,8 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
           onOneTimeChange={(val) => updateData("mieterstromMsbCostsOneTime", val)}
           onYearlyChange={(val) => updateData("mieterstromMsbCostsYearly", val)}
           idPrefix="mieterstrom-msb-costs"
+          oneTimeQuestionNumber="6.16"
+          yearlyQuestionNumber="6.17"
         />
       )}
 
@@ -52,6 +56,7 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
         options={getOptionsForQuestion("mieterstromModelChoice")}
         value={data.mieterstromModelChoice}
         onChange={(val) => updateData("mieterstromModelChoice", val)}
+        questionNumber="6.18"
       />
 
       <SingleSelectQuestion
@@ -60,6 +65,7 @@ export function StepMieterstromVnbOffer({ data, updateData }: StepMieterstromVnb
         options={getOptionsForQuestion("mieterstromDataProvision")}
         value={data.mieterstromDataProvision}
         onChange={(val) => updateData("mieterstromDataProvision", val)}
+        questionNumber="6.19"
       />
     </div>
   );

@@ -33,6 +33,7 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         otherValue={data.vnbExistingProjectsOther}
         onChange={(val) => updateData("vnbExistingProjects", val)}
         onOtherChange={(val) => updateData("vnbExistingProjectsOther", val)}
+        questionNumber="4.1"
       />
 
       {/* Korrektur: vnbContact is multi-select per schema */}
@@ -46,6 +47,7 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         onChange={(val) => updateData("vnbContact", val)}
         onOtherChange={(val) => updateData("vnbContactOther", val)}
         optional
+        questionNumber="4.2"
       />
 
       <MultiSelectQuestion
@@ -58,6 +60,7 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         onChange={(val) => updateData("vnbResponse", val)}
         onOptionTextChange={(optVal, text) => updateData("challengesDetails", { ...data.challengesDetails, [optVal]: text })}
         optional
+        questionNumber="4.3"
       />
 
       {data.vnbResponse?.includes('nicht_moeglich') && (
@@ -76,6 +79,7 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         options={getOptionsForQuestion("vnbMsbOffer")}
         value={data.vnbMsbOffer}
         onChange={(val) => updateData("vnbMsbOffer", val)}
+        questionNumber="4.4"
       />
     </div>
   );

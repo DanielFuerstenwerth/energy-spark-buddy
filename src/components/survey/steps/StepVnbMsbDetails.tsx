@@ -33,6 +33,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             otherValue={data.vnbStartTimelineOther}
             onChange={(val) => updateData("vnbStartTimeline", val)}
             onOtherChange={(val) => updateData("vnbStartTimelineOther", val)}
+            questionNumber="4.5"
           />
 
           <SingleSelectQuestion
@@ -41,6 +42,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbAdditionalCosts")}
             value={data.vnbAdditionalCosts}
             onChange={(val) => updateData("vnbAdditionalCosts", val)}
+            questionNumber="4.6"
           />
 
           {data.vnbAdditionalCosts === 'ja' && (
@@ -50,6 +52,8 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
               onOneTimeChange={(val) => updateData("vnbAdditionalCostsOneTime", val)}
               onYearlyChange={(val) => updateData("vnbAdditionalCostsYearly", val)}
               idPrefix="vnb-costs"
+              oneTimeQuestionNumber="4.7"
+              yearlyQuestionNumber="4.8"
             />
           )}
 
@@ -59,6 +63,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbFullService")}
             value={data.vnbFullService}
             onChange={(val) => updateData("vnbFullService", val)}
+            questionNumber="4.9"
           />
 
           <MultiSelectQuestion
@@ -70,6 +75,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             otherValue={data.vnbDataProvisionOther}
             onChange={(val) => updateData("vnbDataProvision", val)}
             onOtherChange={(val) => updateData("vnbDataProvisionOther", val)}
+            questionNumber="4.10"
           />
 
           <SingleSelectQuestion
@@ -78,6 +84,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbDataCost")}
             value={data.vnbDataCost}
             onChange={(val) => updateData("vnbDataCost", val)}
+            questionNumber="4.11"
           />
 
           {data.vnbDataCost === 'mehr_3_eur' && (
@@ -89,6 +96,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
               onChange={(val) => updateData("vnbDataCostAmount", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 5"
               optional
+              questionNumber="4.12"
             />
           )}
 
@@ -98,6 +106,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbEsaCost")}
             value={data.vnbEsaCost}
             onChange={(val) => updateData("vnbEsaCost", val)}
+            questionNumber="4.13"
           />
 
           {data.vnbEsaCost === 'mehr_3_eur' && (
@@ -109,6 +118,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
               onChange={(val) => updateData("vnbEsaCostAmount", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 5"
               optional
+              questionNumber="4.14"
             />
           )}
         </>
@@ -126,6 +136,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbMsbTimeline")}
             value={data.vnbMsbTimeline}
             onChange={(val) => updateData("vnbMsbTimeline", val)}
+            questionNumber="4.15"
           />
         </>
       )}
@@ -142,6 +153,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             options={getOptionsForQuestion("vnbRejectionTimeline")}
             value={data.vnbRejectionTimeline}
             onChange={(val) => updateData("vnbRejectionTimeline", val)}
+            questionNumber="4.16"
           />
         </>
       )}
@@ -153,6 +165,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
         options={getOptionsForQuestion("vnbWandlermessung")}
         value={data.vnbWandlermessung}
         onChange={(val) => updateData("vnbWandlermessung", val)}
+        questionNumber="4.17"
       />
 
       {/* Korrektur: Show comment only when vnbWandlermessung = 'ja' or 'wissen_nicht' */}
@@ -166,6 +179,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             onChange={(val) => updateData("vnbWandlermessungComment", val)}
             placeholder="Weitere Details..."
             optional
+            questionNumber="4.18"
           />
           {/* Korrektur: Upload for Wandlermessung documents */}
           <FileUpload
@@ -174,6 +188,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
             description="z.B. Messkonzept, Korrespondenz mit VNB"
             value={data.vnbWandlermessungDocuments || []}
             onChange={(docs) => updateData("vnbWandlermessungDocuments", docs)}
+            questionNumber="4.19"
           />
         </>
       )}
@@ -184,6 +199,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
         options={getOptionsForQuestion("vnbPlanningDuration")}
         value={data.vnbPlanningDuration}
         onChange={(val) => updateData("vnbPlanningDuration", val)}
+        questionNumber="4.20"
       />
 
       <TextQuestion
@@ -194,6 +210,7 @@ export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) 
         onChange={(val) => updateData("vnbPlanningDurationReasons", val)}
         placeholder="Beschreiben Sie die Gründe..."
         optional
+        questionNumber="4.21"
       />
     </div>
   );

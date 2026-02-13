@@ -31,6 +31,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
             onChange={(val) => updateData("serviceProviderName", val)}
             placeholder="Name des Dienstleisters"
             optional
+            questionNumber="5.18"
           />
 
           {/* Korrektur: serviceProviderRating GELÖSCHT - only show comments */}
@@ -43,6 +44,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
               onChange={(val) => updateData("serviceProviderComments", val)}
               placeholder="Was lief gut? Was könnte besser sein?"
               optional
+              questionNumber="5.19"
             />
           )}
         </div>
@@ -56,6 +58,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
               onChange={(val) => updateData("serviceProvider2Name", val)}
               placeholder="Name des zweiten Dienstleisters"
               optional
+              questionNumber="5.20"
             />
 
             {data.serviceProvider2Name && (
@@ -70,6 +73,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
                   min={sp2Q?.min || 1}
                   max={sp2Q?.max || 10}
                   optional
+                  questionNumber="5.21"
                 />
 
                 <TextQuestion
@@ -80,6 +84,7 @@ export function StepServiceProvider({ data, updateData }: StepServiceProviderPro
                   onChange={(val) => updateData("serviceProvider2Comments", val)}
                   placeholder="Was lief gut? Was könnte besser sein?"
                   optional
+                  questionNumber="5.22"
                 />
               </>
             )}

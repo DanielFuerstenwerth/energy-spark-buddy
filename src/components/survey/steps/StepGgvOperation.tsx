@@ -30,6 +30,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         options={getOptionsForQuestion("operationVnbDuration")}
         value={data.operationVnbDuration}
         onChange={(val) => updateData("operationVnbDuration", val)}
+        questionNumber="5.1"
       />
 
       <TextQuestion
@@ -40,6 +41,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         onChange={(val) => updateData("operationVnbDurationReasons", val)}
         placeholder="Beschreiben Sie die Gründe..."
         optional
+        questionNumber="5.2"
       />
 
       <SingleSelectQuestion
@@ -48,6 +50,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         options={getOptionsForQuestion("operationWandlermessung")}
         value={data.operationWandlermessung}
         onChange={(val) => updateData("operationWandlermessung", val)}
+        questionNumber="5.3"
       />
 
       {/* Korrektur: operationWandlermessungComment only when = 'ja' */}
@@ -60,6 +63,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
           onChange={(val) => updateData("operationWandlermessungComment", val)}
           placeholder="Weitere Details..."
           optional
+          questionNumber="5.4"
         />
       )}
 
@@ -72,6 +76,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
           options={getOptionsForQuestion("operationMsbProvider")}
           value={data.operationMsbProvider}
           onChange={(val) => updateData("operationMsbProvider", val)}
+          questionNumber="5.5"
         />
 
         <SingleSelectQuestion
@@ -82,6 +87,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
           otherValue={data.operationDataProviderOther}
           onChange={(val) => updateData("operationAllocationProvider", val)}
           onOtherChange={(val) => updateData("operationDataProviderOther", val)}
+          questionNumber="5.6"
         />
 
         <SingleSelectQuestion
@@ -90,6 +96,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
           options={getOptionsForQuestion("operationDataProvider")}
           value={data.operationDataProvider}
           onChange={(val) => updateData("operationDataProvider", val)}
+          questionNumber="5.7"
         />
       </div>
 
@@ -104,6 +111,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
             options={getOptionsForQuestion("operationMsbDuration")}
             value={data.operationMsbDuration}
             onChange={(val) => updateData("operationMsbDuration", val)}
+            questionNumber="5.8"
           />
 
           <SingleSelectQuestion
@@ -112,6 +120,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
             options={getOptionsForQuestion("operationMsbAdditionalCosts")}
             value={data.operationMsbAdditionalCosts}
             onChange={(val) => updateData("operationMsbAdditionalCosts", val)}
+            questionNumber="5.9"
           />
 
           {data.operationMsbAdditionalCosts === 'ja' && (
@@ -125,6 +134,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
                   onChange={(val) => updateData("operationMsbAdditionalCostsOneTime", val ? parseFloat(val) : undefined)}
                   placeholder="z.B. 500"
                   optional
+                  questionNumber="5.10"
                 />
                 <TextQuestion
                   id="operation-msb-costs-yearly"
@@ -134,6 +144,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
                   onChange={(val) => updateData("operationMsbAdditionalCostsYearly", val ? parseFloat(val) : undefined)}
                   placeholder="z.B. 100"
                   optional
+                  questionNumber="5.11"
                 />
               </div>
               <FileUpload
@@ -163,6 +174,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
             otherValue={data.operationDataFormatOther}
             onChange={(val) => updateData("operationDataFormat", val)}
             onOtherChange={(val) => updateData("operationDataFormatOther", val)}
+            questionNumber="5.12"
           />
 
           <SingleSelectQuestion
@@ -172,6 +184,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
             options={getOptionsForQuestion("operationDataCost")}
             value={data.operationDataCost}
             onChange={(val) => updateData("operationDataCost", val)}
+            questionNumber="5.13"
           />
 
           {data.operationDataCost === 'mehr_3_eur' && (
@@ -183,6 +196,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
               onChange={(val) => updateData("operationDataCostAmount", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 5"
               optional
+              questionNumber="5.14"
             />
           )}
 
@@ -192,6 +206,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
             options={getOptionsForQuestion("operationEsaCost")}
             value={data.operationEsaCost}
             onChange={(val) => updateData("operationEsaCost", val)}
+            questionNumber="5.15"
           />
 
           {data.operationEsaCost === 'mehr_3_eur' && (
@@ -203,6 +218,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
               onChange={(val) => updateData("operationEsaCostAmount", val ? parseFloat(val) : undefined)}
               placeholder="z.B. 5"
               optional
+              questionNumber="5.16"
             />
           )}
         </div>
@@ -217,6 +233,7 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
         maxLabel={satisfactionQ?.maxLabel || "Unser VNB möchte das wirklich mit uns umsetzen"}
         min={satisfactionQ?.min || 1}
         max={satisfactionQ?.max || 10}
+        questionNumber="5.17"
       />
     </div>
   );

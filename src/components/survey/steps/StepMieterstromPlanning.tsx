@@ -31,6 +31,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         options={getOptionsForQuestion("mieterstromSummenzaehler")}
         value={data.mieterstromSummenzaehler}
         onChange={(val) => updateData("mieterstromSummenzaehler", val)}
+        questionNumber="6.1"
       />
 
       <SingleSelectQuestion
@@ -39,6 +40,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         options={getOptionsForQuestion("mieterstromExistingProjects")}
         value={data.mieterstromExistingProjects}
         onChange={(val) => updateData("mieterstromExistingProjects", val)}
+        questionNumber="6.2"
       />
 
       <SingleSelectQuestion
@@ -47,6 +49,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         options={getOptionsForQuestion("mieterstromExistingProjectsVirtuell")}
         value={data.mieterstromExistingProjectsVirtuell}
         onChange={(val) => updateData("mieterstromExistingProjectsVirtuell", val)}
+        questionNumber="6.3"
       />
 
       <MultiSelectQuestion
@@ -59,6 +62,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         onChange={(val) => updateData("mieterstromVnbContact" as any, val)}
         onOtherChange={(val) => updateData("mieterstromVnbContactOther", val)}
         optional
+        questionNumber="6.4"
       />
 
       {/* Korrektur: mieterstromVirtuellAllowed always visible (not only when summenzaehler='virtuell') */}
@@ -68,6 +72,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         options={getOptionsForQuestion("mieterstromVirtuellAllowed")}
         value={data.mieterstromVirtuellAllowed}
         onChange={(val) => updateData("mieterstromVirtuellAllowed", val)}
+        questionNumber="6.5"
       />
 
       {/* Korrektur: Show denied reason when mieterstromVirtuellAllowed = 'nein' */}
@@ -81,6 +86,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
             onChange={(val) => updateData("mieterstromVirtuellDeniedReason", val)}
             placeholder="Bitte beschreiben Sie die Gründe..."
             optional
+            questionNumber="6.6"
           />
           <FileUpload
             id="mieterstrom-virtuell-denied-docs"
@@ -88,6 +94,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
             description="z.B. Korrespondenz mit VNB, Ablehnungsschreiben"
             value={data.mieterstromVirtuellDeniedDocuments || []}
             onChange={(docs) => updateData("mieterstromVirtuellDeniedDocuments", docs)}
+            questionNumber="6.7"
           />
         </>
       )}
@@ -103,6 +110,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
             otherValue={data.mieterstromVirtuellWandlermessungComment}
             onChange={(val) => updateData("mieterstromVirtuellWandlermessung", val)}
             onOtherChange={(val) => updateData("mieterstromVirtuellWandlermessungComment", val)}
+            questionNumber="6.8"
           />
           {data.mieterstromVirtuellWandlermessung === 'ja' && (
             <FileUpload
@@ -111,6 +119,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
               description="z.B. Messkonzept, Korrespondenz"
               value={data.mieterstromVirtuellWandlermessungDocuments || []}
               onChange={(docs) => updateData("mieterstromVirtuellWandlermessungDocuments", docs)}
+              questionNumber="6.9"
             />
           )}
         </>
@@ -123,6 +132,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         value={data.mieterstromVnbResponse || []}
         onChange={(val) => updateData("mieterstromVnbResponse", val)}
         optional
+        questionNumber="6.10"
       />
 
       {data.mieterstromVnbResponse?.includes('nicht_moeglich') && (
@@ -135,6 +145,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
             onChange={(val) => updateData("mieterstromVnbResponseReasons", val)}
             placeholder="Beschreiben Sie die Gründe..."
             optional
+            questionNumber="6.11"
           />
           <FileUpload
             id="mieterstrom-rejection-docs"
@@ -142,6 +153,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
             description="z.B. Korrespondenz mit dem VNB, Ablehnungsschreiben"
             value={uploadedDocuments}
             onChange={setUploadedDocuments}
+            questionNumber="6.12"
           />
         </>
       )}
@@ -155,6 +167,7 @@ export function StepMieterstromPlanning({ data, updateData, uploadedDocuments, s
         maxLabel={supportRatingQ?.maxLabel || "Unser VNB möchte das wirklich mit uns umsetzen"}
         min={supportRatingQ?.min || 1}
         max={supportRatingQ?.max || 10}
+        questionNumber="6.13"
       />
     </div>
   );

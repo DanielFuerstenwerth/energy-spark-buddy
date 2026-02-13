@@ -30,6 +30,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         otherValue={data.esStatusOther}
         onChange={(val) => updateData("esStatus", [val])}
         onOtherChange={(val) => updateData("esStatusOther", val)}
+        questionNumber="7.1"
       />
 
       {isInOperation && (
@@ -43,6 +44,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
             value={data.esInOperationDetails}
             onChange={(val) => updateData("esInOperationDetails", val)}
             placeholder="Beschreiben Sie Ihre Anlagen und Abnehmer..."
+            questionNumber="7.2"
           />
 
           <TextQuestion
@@ -52,6 +54,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
             value={data.esOperatorDetails}
             onChange={(val) => updateData("esOperatorDetails", val)}
             placeholder="Beschreiben Sie den Betrieb..."
+            questionNumber="7.3"
           />
         </div>
       )}
@@ -64,6 +67,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         options={getOptionsForQuestion("esPlantType")}
         value={data.esPlantType}
         onChange={(val) => updateData("esPlantType", val)}
+        questionNumber="7.4"
       />
 
       <SingleSelectQuestion
@@ -72,6 +76,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         options={getOptionsForQuestion("esProjectScope")}
         value={data.esProjectScope}
         onChange={(val) => updateData("esProjectScope", val)}
+        questionNumber="7.5"
       />
 
       {/* Korrektur: Consolidated to esCapacitySizeKw (was esPvSizeKw + esWindSizeKw) */}
@@ -83,6 +88,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         onChange={(val) => updateData("esCapacitySizeKw", val ? parseFloat(val) : undefined)}
         placeholder="z.B. 100"
         optional
+        questionNumber="7.6"
       />
 
       <TextQuestion
@@ -93,6 +99,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         onChange={(val) => updateData("esPartyCount", val ? parseInt(val) : undefined)}
         placeholder="z.B. 50"
         optional
+        questionNumber="7.7"
       />
 
       <MultiSelectQuestion
@@ -101,6 +108,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         options={getOptionsForQuestion("esConsumerTypes")}
         value={data.esConsumerTypes}
         onChange={(val) => updateData("esConsumerTypes", val)}
+        questionNumber="7.8"
       />
 
       <TextQuestion
@@ -111,6 +119,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         onChange={(val) => updateData("esConsumerDetails", val)}
         placeholder="z.B. 30 Haushalte, 5 KMU..."
         optional
+        questionNumber="7.9"
       />
 
       <SingleSelectQuestion
@@ -121,6 +130,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         otherValue={data.esConsumerScopeOther}
         onChange={(val) => updateData("esConsumerScope", val)}
         onOtherChange={(val) => updateData("esConsumerScopeOther", val)}
+        questionNumber="7.10"
       />
 
       <TextQuestion
@@ -131,6 +141,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         onChange={(val) => updateData("esMaxDistance", val)}
         placeholder="z.B. 5 km"
         optional
+        questionNumber="7.11"
       />
 
       <div className="space-y-6 pt-4 border-t">
@@ -140,6 +151,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
           options={getOptionsForQuestion("esVnbContact")}
           value={data.esVnbContact === true ? 'yes' : data.esVnbContact === false ? 'no' : undefined}
           onChange={(val) => updateData("esVnbContact", val === 'yes')}
+          questionNumber="7.12"
         />
 
         {data.esVnbContact && (
@@ -152,6 +164,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
               otherValue={data.esVnbResponseOther}
               onChange={(val) => updateData("esVnbResponse", val)}
               onOtherChange={(val) => updateData("esVnbResponseOther", val)}
+              questionNumber="7.13"
             />
 
             <SingleSelectQuestion
@@ -162,6 +175,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
               otherValue={data.esNetzentgelteDetails}
               onChange={(val) => updateData("esNetzentgelteDiscussion", val)}
               onOtherChange={(val) => updateData("esNetzentgelteDetails", val)}
+              questionNumber="7.14"
             />
           </>
         )}
@@ -175,6 +189,7 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         onChange={(val) => updateData("esInfoSources", val)}
         placeholder="z.B. Webseiten, Verbände, Beratungsstellen..."
         optional
+        questionNumber="7.15"
       />
     </div>
   );
