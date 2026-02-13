@@ -72,7 +72,7 @@ export function MultiSelectQuestion({
           const isChecked = value.includes(option.value);
           const isDisabled = exclusiveSelected && !option.exclusive && !isChecked;
           const textValue = optionTextValues?.[option.value] || "";
-          const showTextFieldError = option.hasTextField && isChecked && !textValue.trim();
+          const showTextFieldHint = option.hasTextField && isChecked && !textValue.trim();
           
           return (
             <div key={option.value} className="space-y-2">
@@ -103,18 +103,18 @@ export function MultiSelectQuestion({
                 onOptionTextChange ? (
                   <div className="ml-8 space-y-1">
                     {option.textFieldLabel && (
-                      <Label className={cn("text-sm", showTextFieldError ? "text-destructive" : "text-muted-foreground")}>
-                        {option.textFieldLabel} {showTextFieldError && <span className="text-destructive">*</span>}
+                      <Label className="text-sm text-muted-foreground">
+                        {option.textFieldLabel} <span className="text-muted-foreground/60 font-normal">(optional)</span>
                       </Label>
                     )}
                     <Input 
                       placeholder={option.textFieldPlaceholder || "Bitte angeben..."} 
                       value={textValue} 
                       onChange={(e) => onOptionTextChange(option.value, e.target.value)}
-                      className={cn(showTextFieldError && "border-destructive")}
+                      className={cn(showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
                     />
-                    {showTextFieldError && (
-                      <p className="text-xs text-destructive">Bitte füllen Sie dieses Feld aus</p>
+                    {showTextFieldHint && (
+                      <p className="text-xs text-emerald-600">Gerne können Sie hier Details ergänzen</p>
                     )}
                   </div>
                 ) : onOtherChange && (
