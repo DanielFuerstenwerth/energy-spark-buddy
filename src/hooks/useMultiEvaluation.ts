@@ -39,7 +39,7 @@ const GLOBAL_FIELDS: (keyof SurveyData)[] = [
 const ES_FIELDS: (keyof SurveyData)[] = [
   'esStatus', 'esStatusOther', 'esInOperationDetails', 'esOperatorDetails',
   'esPlantType', 'esPlantTypeDetails', 'esCapacitySizeKw',
-  'esProjectScope', 'esTotalPvSizeKw', 'esTotalWindSizeKw',
+  'esProjectScope',
   'esPartyCount', 'esConsumerTypes', 'esConsumerDetails',
   'esConsumerScope', 'esConsumerScopeOther', 'esMaxDistance',
   'esVnbContact', 'esVnbResponse', 'esVnbResponseOther',
