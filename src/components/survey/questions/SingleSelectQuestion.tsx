@@ -42,10 +42,13 @@ export function SingleSelectQuestion({
                   "flex items-center space-x-3 p-3 rounded-lg border transition-all cursor-pointer",
                   isSelected ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-muted/50"
                 )}
-                onClick={() => onChange(option.value)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onChange(option.value);
+                }}
               >
-                <RadioGroupItem value={option.value} id={`${id}-${option.value}`} />
-                <Label htmlFor={`${id}-${option.value}`} className="text-sm cursor-pointer flex-1">{option.label}</Label>
+                <RadioGroupItem value={option.value} id={`${id}-${option.value}`} className="pointer-events-none" />
+                <span className="text-sm cursor-pointer flex-1">{option.label}</span>
               </div>
               {option.hasTextField && isSelected && onOtherChange && (
                 <div className="ml-8 space-y-1">
