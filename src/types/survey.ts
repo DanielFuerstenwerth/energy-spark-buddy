@@ -64,6 +64,7 @@ export interface SurveyData {
   challengesOther?: string;
   vnbRejectionResponse?: string[]; // Korrektur: verschoben von Section 5 nach Section 3
   vnbRejectionResponseOther?: string;
+  vnbRejectionResponseDetails?: Record<string, string>;
 
   // Section 4-GGV: Planung GGV
   vnbExistingProjects?: string;

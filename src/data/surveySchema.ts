@@ -9,6 +9,7 @@ export interface SurveyOption {
   hasTextField?: boolean;
   textFieldLabel?: string;
   textFieldPlaceholder?: string;
+  textFieldHint?: string;
   exclusive?: boolean; // If true, selecting this option deselects all others
 }
 
@@ -347,7 +348,7 @@ const SECTION_CHALLENGES: SurveySection = {
       type: "multi-select",
       label: "Falls Ihr VNB die Umsetzung von GGV oder Mieterstrom nicht oder nur unzureichend unterstützt, wie haben Sie bislang reagiert?", // Korrektur: Label
       options: [
-        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet" }, // Korrektur: Label
+        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", hasTextField: true, textFieldHint: "Gerne können Sie hier ergänzen, wann Sie sich wohin gewendet haben und was Ihre Erfahrungen waren" }, // Korrektur: Label
         { value: "rechtliche_schritte", label: "Wir erwägen rechtliche Schritte gegen den VNB einzuleiten" },
         { value: "keine_schritte", label: "Wir sind / unser Dienstleister ist bei dem Anschluss anderer Projekte auf den VNB angewiesen, wir sehen daher von rechtlichen Schritten gegenüber dem VNB oder einer Anfrage bei der BNetzA ab" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },

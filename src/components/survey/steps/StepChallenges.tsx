@@ -28,9 +28,9 @@ export function StepChallenges({ data, updateData }: StepChallengesProps) {
         label={getLabelForQuestion("vnbRejectionResponse")}
         options={getOptionsForQuestion("vnbRejectionResponse")}
         value={data.vnbRejectionResponse || []}
-        otherValue={data.vnbRejectionResponseOther}
+        optionTextValues={data.vnbRejectionResponseDetails}
         onChange={(val) => updateData("vnbRejectionResponse", val)}
-        onOtherChange={(val) => updateData("vnbRejectionResponseOther", val)}
+        onOptionTextChange={(optVal, text) => updateData("vnbRejectionResponseDetails", { ...data.vnbRejectionResponseDetails, [optVal]: text })}
         optional
         questionNumber="3.6"
       />
