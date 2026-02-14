@@ -1,8 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { QuestionTag } from "./QuestionTag";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
+const HARD_LIMIT = 10000;
+const SOFT_LIMIT = 5000;
 
 interface Option {
   value: string;
@@ -107,18 +110,36 @@ export function MultiSelectQuestion({
                         {option.textFieldLabel} <span className="text-muted-foreground/60 font-normal">(optional)</span>
                       </Label>
                     )}
-                    <Input 
+                    <Textarea 
                       placeholder={option.textFieldPlaceholder || "Bitte angeben..."} 
                       value={textValue} 
-                      onChange={(e) => onOptionTextChange(option.value, e.target.value)}
-                      className={cn(showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
+                      onChange={(e) => {
+                        const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
+                        onOptionTextChange(option.value, val);
+                      }}
+                      className={cn("min-h-[60px] resize-y", showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
+                      rows={2}
                     />
                     {showTextFieldHint && (
                       <p className="text-xs text-emerald-600">Gerne können Sie hier Details ergänzen</p>
                     )}
+                    {(textValue?.length || 0) >= SOFT_LIMIT && (
+                      <p className={`text-xs text-right ${(textValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
+                        {(textValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen
+                      </p>
+                    )}
                   </div>
                 ) : onOtherChange && (
-                  <Input placeholder="Bitte angeben..." value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className="ml-8" />
+                  <Textarea 
+                    placeholder="Bitte angeben..." 
+                    value={otherValue || ""} 
+                    onChange={(e) => {
+                      const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
+                      onOtherChange(val);
+                    }}
+                    className="ml-8 min-h-[60px] resize-y" 
+                    rows={2}
+                  />
                 )
               )}
             </div>

@@ -1,8 +1,11 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { QuestionTag } from "./QuestionTag";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
+const HARD_LIMIT = 10000;
+const SOFT_LIMIT = 5000;
 
 interface Option { value: string; label: string; hasTextField?: boolean; }
 
@@ -54,9 +57,23 @@ export function SingleSelectQuestion({
               </div>
               {option.hasTextField && isSelected && onOtherChange && (
                 <div className="ml-8 space-y-1">
-                  <Input placeholder={otherPlaceholder || "Bitte angeben..."} value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className={cn(!otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")} />
+                  <Textarea
+                    placeholder={otherPlaceholder || "Bitte angeben..."}
+                    value={otherValue || ""}
+                    onChange={(e) => {
+                      const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
+                      onOtherChange(val);
+                    }}
+                    className={cn("min-h-[60px] resize-y", !otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")}
+                    rows={2}
+                  />
                   {!otherValue?.trim() && (
                     <p className="text-xs text-emerald-600">{otherHint || "Gerne können Sie hier Details ergänzen"}</p>
+                  )}
+                  {(otherValue?.length || 0) >= SOFT_LIMIT && (
+                    <p className={`text-xs text-right ${(otherValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
+                      {(otherValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen
+                    </p>
                   )}
                 </div>
               )}
