@@ -257,6 +257,7 @@ export type Database = {
           es_project_scope: string | null
           es_status: string[] | null
           es_status_other: string | null
+          es_technology_description: string | null
           es_total_pv_size_kw: number | null
           es_total_wind_size_kw: number | null
           es_vnb_contact: boolean | null
@@ -462,6 +463,7 @@ export type Database = {
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null
+          es_technology_description?: string | null
           es_total_pv_size_kw?: number | null
           es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null
@@ -667,6 +669,7 @@ export type Database = {
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null
+          es_technology_description?: string | null
           es_total_pv_size_kw?: number | null
           es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null

@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN IF NOT EXISTS es_technology_description text;
