@@ -95,7 +95,9 @@ export function StepGgvOperation({ data, updateData, uploadedDocuments, setUploa
           label={getLabelForQuestion("operationDataProvider")}
           options={getOptionsForQuestion("operationDataProvider")}
           value={data.operationDataProvider}
+          otherValue={data.operationDataProviderOther}
           onChange={(val) => updateData("operationDataProvider", val)}
+          onOtherChange={(val) => updateData("operationDataProviderOther", val)}
           questionNumber="5.7"
         />
       </div>
