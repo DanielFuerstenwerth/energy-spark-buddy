@@ -449,14 +449,11 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
     },
     {
       id: "vnbSupportOther",
-      type: "single-select",
+      type: "text",
       label: "Weiteres",
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+      placeholder: "Weitere Unterstützungsangebote...",
       optional: true,
-      options: [
-        { value: "ja", label: "Ja", hasTextField: true },
-        { value: "nein", label: "Nein" },
-      ],
     },
     {
       id: "vnbContactHelpful",

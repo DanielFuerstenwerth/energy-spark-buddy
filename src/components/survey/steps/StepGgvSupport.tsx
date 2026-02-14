@@ -1,5 +1,6 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
+import { TextQuestion } from "../questions/TextQuestion";
 import { RatingQuestion } from "../questions/RatingQuestion";
 import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
@@ -58,18 +59,14 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
 
-        <SingleSelectQuestion
+        <TextQuestion
           id="vnb-support-other"
           label={getLabelForQuestion("vnbSupportOther")}
-          options={getOptionsForQuestion("vnbSupportOther")}
           value={data.vnbSupportOther}
-          otherValue={data.vnbSupportOtherDetails}
           onChange={(val) => updateData("vnbSupportOther", val)}
-          onOtherChange={(val) => updateData("vnbSupportOtherDetails", val)}
+          placeholder="Weitere Unterstützungsangebote..."
           optional
           questionNumber="4.25"
-          otherPlaceholder="https://..."
-          otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
       </div>
 
