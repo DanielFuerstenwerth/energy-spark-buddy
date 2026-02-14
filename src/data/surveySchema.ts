@@ -137,7 +137,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       options: [
         { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
         { value: "mieterstrom", label: "Mieterstrom" },
-        { value: "ggv_oder_mieterstrom", label: "Entweder GGV oder Mieterstrom" },
+        { value: "ggv_oder_mieterstrom", label: "Entweder GGV oder Mieterstrom (nur für Projekte im Planungsstadium)" },
         { value: "energysharing", label: "Energy Sharing (in Zukunft möglich)" },
       ],
       required: true,
