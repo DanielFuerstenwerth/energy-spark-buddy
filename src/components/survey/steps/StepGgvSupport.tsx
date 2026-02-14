@@ -26,6 +26,8 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onOtherChange={(val) => updateData("vnbSupportMesskonzeptOther", val)}
           optional
           questionNumber="4.22"
+          otherPlaceholder="https://..."
+          otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
 
         <SingleSelectQuestion
@@ -38,6 +40,8 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onOtherChange={(val) => updateData("vnbSupportFormulareOther", val)}
           optional
           questionNumber="4.23"
+          otherPlaceholder="https://..."
+          otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
 
         <SingleSelectQuestion
@@ -50,6 +54,8 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onOtherChange={(val) => updateData("vnbSupportPortalOther", val)}
           optional
           questionNumber="4.24"
+          otherPlaceholder="https://..."
+          otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
 
         <SingleSelectQuestion
@@ -62,6 +68,8 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
           onOtherChange={(val) => updateData("vnbSupportOtherDetails", val)}
           optional
           questionNumber="4.25"
+          otherPlaceholder="https://..."
+          otherHint="Gerne können Sie hier die Links zu den betreffenden Informationen eintragen"
         />
       </div>
 

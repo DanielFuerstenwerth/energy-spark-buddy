@@ -17,10 +17,12 @@ interface SingleSelectQuestionProps {
   onChange: (value: string) => void;
   onOtherChange?: (value: string) => void;
   optional?: boolean;
+  otherPlaceholder?: string;
+  otherHint?: string;
 }
 
 export function SingleSelectQuestion({
-  id, label, description, options, value, otherValue, onChange, onOtherChange, optional, questionNumber,
+  id, label, description, options, value, otherValue, onChange, onOtherChange, optional, questionNumber, otherPlaceholder, otherHint,
 }: SingleSelectQuestionProps) {
   return (
     <div className="space-y-4">
@@ -52,9 +54,9 @@ export function SingleSelectQuestion({
               </div>
               {option.hasTextField && isSelected && onOtherChange && (
                 <div className="ml-8 space-y-1">
-                  <Input placeholder="Bitte angeben..." value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className={cn(!otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")} />
+                  <Input placeholder={otherPlaceholder || "Bitte angeben..."} value={otherValue || ""} onChange={(e) => onOtherChange(e.target.value)} className={cn(!otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")} />
                   {!otherValue?.trim() && (
-                    <p className="text-xs text-emerald-600">Gerne können Sie hier Details ergänzen</p>
+                    <p className="text-xs text-emerald-600">{otherHint || "Gerne können Sie hier Details ergänzen"}</p>
                   )}
                 </div>
               )}
