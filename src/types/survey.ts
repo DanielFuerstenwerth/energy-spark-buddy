@@ -201,6 +201,7 @@ export interface SurveyData {
   esNetzentgelteDiscussion?: string;
   esNetzentgelteDetails?: string;
   esInfoSources?: string;
+  esProjectLocations?: Array<{ plz?: string; address?: string }>;
 
   // Section 6: Abschluss
   additionalExperiences?: string;
