@@ -33,6 +33,7 @@ export default function Survey() {
   const [showDraftBanner, setShowDraftBanner] = useState(false);
   const [savedDraftInfo, setSavedDraftInfo] = useState<{ savedAt: string; step: number } | null>(null);
   const [uploadedDocuments, setUploadedDocuments] = useState<string[]>([]);
+  const [dataUsageConfirmed, setDataUsageConfirmed] = useState(false);
 
   const {
     globalData,
@@ -207,7 +208,7 @@ export default function Survey() {
           showMieterstromInOperation={isMieterstromInOperation}
         />
       );
-      case "final": return <StepFinal data={stepData} updateData={stepUpdateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} />;
+      case "final": return <StepFinal data={stepData} updateData={stepUpdateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} dataUsageConfirmed={dataUsageConfirmed} onDataUsageConfirmedChange={setDataUsageConfirmed} />;
       default: return null;
     }
   };
@@ -283,7 +284,7 @@ export default function Survey() {
                   <ChevronLeft className="w-4 h-4 mr-2" />Zurück
                 </Button>
                 {currentStep === steps.length - 1 ? (
-                  <Button onClick={handleSubmit} disabled={isSubmitting}>
+                  <Button onClick={handleSubmit} disabled={isSubmitting || !dataUsageConfirmed} title={!dataUsageConfirmed ? "Bitte bestätigen Sie die Datennutzung" : undefined}>
                     {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Wird gesendet...</>) : (<>Absenden<Send className="w-4 h-4 ml-2" /></>)}
                   </Button>
                 ) : (
