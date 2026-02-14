@@ -738,7 +738,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
         { value: "wmsb", label: "Ein wMSB" },
         { value: "dienstleister", label: "ESA-Dienstleister / Sonstiges", hasTextField: true }, // Korrektur: Neue Option
-        { value: "abrechnung_dienstleister", label: "Die Abrechnung mit den Teilnehmenden übernimmt ein Dienstleister" }, // Korrektur: Neue Option
+        { value: "abrechnung_dienstleister", label: "Wir benötigen keine detaillierten Werte - die Abrechnung wird direkt von einem Dienstleister durchgeführt." }, // Korrektur: Neue Option
       ],
     },
     {
