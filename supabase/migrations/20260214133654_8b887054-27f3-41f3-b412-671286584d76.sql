@@ -1,0 +1,2 @@
+ALTER TABLE public.survey_responses ADD COLUMN IF NOT EXISTS mieterstrom_planning_status text[] DEFAULT '{}'::text[];
+ALTER TABLE public.survey_responses ADD COLUMN IF NOT EXISTS mieterstrom_planning_status_other text DEFAULT NULL;

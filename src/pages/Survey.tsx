@@ -112,9 +112,14 @@ export default function Survey() {
   // For step logic, merge global projectTypes into evaluation context
   const effectiveProjectTypes = evalData.projectTypes;
   const isGgvInOperation = evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft');
-  const isMieterstromInOperation = evalData.mieterstromInOperation === true;
   const isGgv = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('ggv_oder_mieterstrom');
-  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom'); // Korrektur: ggv_oder_mieterstrom öffnet NUR GGV-Pfad
+  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom');
+  // Mieterstrom in Betrieb: aus separatem mieterstromPlanningStatus wenn GGV+MS, sonst aus planningStatus
+  const isMieterstromInOperation = isMieterstrom && (
+    isGgv
+      ? evalData.mieterstromPlanningStatus?.includes('pv_laeuft_ggv_laeuft')
+      : evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft')
+  );
   const isGgvOrMieterstrom = isGgv || isMieterstrom;
   const isEnergySharing = effectiveProjectTypes.includes('energysharing');
   const onlyEnergySharing = isEnergySharing && !isGgvOrMieterstrom;
@@ -128,14 +133,14 @@ export default function Survey() {
       { id: "planning-model", title: "Planung: Modellspezifisch", description: "Details zum gewählten Modell" },
     ];
 
-    if (!onlyEnergySharing) {
+    if (!onlyEnergySharing && (isGgvInOperation || isMieterstromInOperation)) {
       baseSteps.push({ id: "operation-model", title: "Betrieb: Modellspezifisch", description: "Erfahrungen im Betrieb" });
     }
 
     baseSteps.push({ id: "final", title: "Abschluss", description: "Letzte Informationen" });
 
     return baseSteps;
-  }, [onlyEnergySharing]);
+  }, [onlyEnergySharing, isGgvInOperation, isMieterstromInOperation]);
 
   const handleNext = () => { if (currentStep < steps.length - 1) { setCurrentStep(currentStep + 1); window.scrollTo(0, 0); } };
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };

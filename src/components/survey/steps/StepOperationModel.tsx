@@ -26,38 +26,28 @@ export function StepOperationModel({
 }: StepOperationModelProps) {
   return (
     <div className="space-y-10">
-      {showGgv && (
+      {showGgv && showGgvInOperation && (
         <div>
-          {showGgvInOperation && (
-            <StepGgvOperation
-              data={data}
-              updateData={updateData}
-              uploadedDocuments={uploadedDocuments}
-              setUploadedDocuments={setUploadedDocuments}
-            />
-          )}
-          <div className={showGgvInOperation ? "mt-8 border-t pt-8" : ""}>
+          <StepGgvOperation
+            data={data}
+            updateData={updateData}
+            uploadedDocuments={uploadedDocuments}
+            setUploadedDocuments={setUploadedDocuments}
+          />
+          <div className="mt-8 border-t pt-8">
             <StepServiceProvider data={data} updateData={updateData} />
           </div>
         </div>
       )}
 
       {showMieterstrom && showMieterstromInOperation && (
-        <div className={showGgv ? "border-t pt-8" : ""}>
+        <div className={(showGgv && showGgvInOperation) ? "border-t pt-8" : ""}>
           <StepMieterstromOperation
             data={data}
             updateData={updateData}
             uploadedDocuments={uploadedDocuments}
             setUploadedDocuments={setUploadedDocuments}
           />
-        </div>
-      )}
-
-      {!showGgv && !showMieterstromInOperation && showMieterstrom && (
-        <div className="bg-muted/50 p-4 rounded-lg">
-          <p className="text-sm text-muted-foreground">
-            Dieser Abschnitt wird relevant, sobald Ihr Mieterstrom-Projekt in Betrieb ist.
-          </p>
         </div>
       )}
     </div>
