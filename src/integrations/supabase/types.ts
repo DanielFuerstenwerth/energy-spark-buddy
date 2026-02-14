@@ -410,6 +410,7 @@ export type Database = {
           vnb_planning_duration_reasons: string | null
           vnb_rejection_future_timeline: string | null
           vnb_rejection_response: string[] | null
+          vnb_rejection_response_details: Json | null
           vnb_rejection_response_other: string | null
           vnb_rejection_timeline: string | null
           vnb_response: string[] | null
@@ -611,6 +612,7 @@ export type Database = {
           vnb_planning_duration_reasons?: string | null
           vnb_rejection_future_timeline?: string | null
           vnb_rejection_response?: string[] | null
+          vnb_rejection_response_details?: Json | null
           vnb_rejection_response_other?: string | null
           vnb_rejection_timeline?: string | null
           vnb_response?: string[] | null
@@ -812,6 +814,7 @@ export type Database = {
           vnb_planning_duration_reasons?: string | null
           vnb_rejection_future_timeline?: string | null
           vnb_rejection_response?: string[] | null
+          vnb_rejection_response_details?: Json | null
           vnb_rejection_response_other?: string | null
           vnb_rejection_timeline?: string | null
           vnb_response?: string[] | null

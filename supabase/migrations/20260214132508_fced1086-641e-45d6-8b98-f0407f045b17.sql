@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN IF NOT EXISTS vnb_rejection_response_details jsonb DEFAULT NULL;

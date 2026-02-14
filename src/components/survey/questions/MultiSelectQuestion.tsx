@@ -12,6 +12,7 @@ interface Option {
   label: string;
   hasTextField?: boolean;
   textFieldLabel?: string;
+  textFieldHint?: string;
   textFieldPlaceholder?: string;
   exclusive?: boolean; // If true, selecting this deselects all others
 }
@@ -121,7 +122,7 @@ export function MultiSelectQuestion({
                       rows={2}
                     />
                     {showTextFieldHint && (
-                      <p className="text-xs text-emerald-600">Gerne können Sie hier Details ergänzen</p>
+                      <p className="text-xs text-emerald-600">{option.textFieldHint || "Gerne können Sie hier Details ergänzen"}</p>
                     )}
                     {(textValue?.length || 0) >= SOFT_LIMIT && (
                       <p className={`text-xs text-right ${(textValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
