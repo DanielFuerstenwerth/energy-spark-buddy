@@ -1482,12 +1482,16 @@ export function buildDbData(
   sessionGroupId: string,
   uploadedDocuments: string[]
 ): Record<string, unknown> {
+  const DB_TEXT_LIMIT = 10000;
   const dbData: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === '') continue;
     const snakeKey = toSnakeCase(key);
-    dbData[snakeKey] = value;
+    // Truncate strings to hard limit for safety
+    dbData[snakeKey] = typeof value === 'string' && value.length > DB_TEXT_LIMIT
+      ? value.slice(0, DB_TEXT_LIMIT)
+      : value;
   }
 
   dbData.session_group_id = sessionGroupId;
