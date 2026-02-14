@@ -253,6 +253,7 @@ export type Database = {
           es_party_count: number | null
           es_plant_type: string[] | null
           es_plant_type_details: string[] | null
+          es_project_locations: Json | null
           es_project_scope: string | null
           es_status: string[] | null
           es_status_other: string | null
@@ -457,6 +458,7 @@ export type Database = {
           es_party_count?: number | null
           es_plant_type?: string[] | null
           es_plant_type_details?: string[] | null
+          es_project_locations?: Json | null
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null
@@ -661,6 +663,7 @@ export type Database = {
           es_party_count?: number | null
           es_plant_type?: string[] | null
           es_plant_type_details?: string[] | null
+          es_project_locations?: Json | null
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null

@@ -2,6 +2,7 @@ import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
 import { MultiSelectQuestion } from "../questions/MultiSelectQuestion";
 import { TextQuestion } from "../questions/TextQuestion";
+import { ProjectLocationRows, ProjectLocation } from "../questions/ProjectLocationRows";
 import { getOptionsForQuestion, getLabelForQuestion } from "@/data/surveySchema";
 
 interface StepEnergySharingProps {
@@ -12,6 +13,15 @@ interface StepEnergySharingProps {
 export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) {
   const esStatusValue = Array.isArray(data.esStatus) ? data.esStatus[0] : data.esStatus;
   const isInOperation = esStatusValue?.includes('in_betrieb') || false;
+  const isMultipleProjects = data.esProjectScope === 'multiple';
+
+  const esLocations: ProjectLocation[] = isMultipleProjects
+    ? (data.esProjectLocations?.length ? data.esProjectLocations : [{}])
+    : [{ plz: undefined, address: undefined }];
+
+  const handleEsLocationChange = (locations: ProjectLocation[]) => {
+    updateData("esProjectLocations", locations);
+  };
 
   return (
     <div className="space-y-8">
@@ -77,6 +87,15 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
         value={data.esProjectScope}
         onChange={(val) => updateData("esProjectScope", val)}
         questionNumber="7.5"
+      />
+
+      {/* Standorte der Erzeugungsanlagen */}
+      <ProjectLocationRows
+        locations={isMultipleProjects ? esLocations : [esLocations[0]]}
+        onChange={handleEsLocationChange}
+        multiple={isMultipleProjects}
+        label={isMultipleProjects ? "Standorte der Erzeugungsanlagen" : "Standort der Erzeugungsanlage"}
+        questionNumber="7.5b"
       />
 
       {/* Korrektur: Consolidated to esCapacitySizeKw (was esPvSizeKw + esWindSizeKw) */}

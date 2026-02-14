@@ -1658,6 +1658,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esVnbResponse": { displayId: "4-ES-VnbResponse", dbColumn: "es_vnb_response", uiNumber: "7.13" },
   "esNetzentgelteDiscussion": { displayId: "4-ES-Netzentgelte", dbColumn: "es_netzentgelte_discussion", uiNumber: "7.14" },
   "esInfoSources": { displayId: "4-ES-InfoSources", dbColumn: "es_info_sources", uiNumber: "7.15" },
+  "esProjectLocations": { displayId: "4-ES-ProjectLocations", dbColumn: "es_project_locations", uiNumber: "7.5b" },
   "esInOperationDetails": { displayId: "4-ES-InOperationDetails", dbColumn: "es_in_operation_details", uiNumber: "7.2" },
   "esOperatorDetails": { displayId: "4-ES-OperatorDetails", dbColumn: "es_operator_details", uiNumber: "7.3" },
   "esConsumerDetails": { displayId: "4-ES-ConsumerDetails", dbColumn: "es_consumer_details", uiNumber: "7.9" },

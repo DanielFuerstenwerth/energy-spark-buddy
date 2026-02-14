@@ -175,8 +175,8 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
         </>
       )}
 
-      {/* 5. PLZ + Adresse am Ende */}
-      {projectTypes.length > 0 && (
+      {/* 5. PLZ + Adresse am Ende – nur bei GGV/Mieterstrom (nicht bei nur-ES) */}
+      {projectTypes.length > 0 && !onlyEnergySharing && (
         <ProjectLocationRows
           locations={currentLocations}
           onChange={handleLocationChange}
