@@ -49,6 +49,8 @@ export interface SurveyData {
   // Section 3: Planung Allgemein
   planningStatus: string[];
   planningStatusOther?: string;
+  mieterstromPlanningStatus: string[];
+  mieterstromPlanningStatusOther?: string;
   ggvOrMieterstromDecision?: string;
   ggvDecisionReasons: string[];
   ggvDecisionReasonsOther?: string;
@@ -217,6 +219,7 @@ export const initialSurveyData: SurveyData = {
   motivation: [],
   projectTypes: [],
   planningStatus: [],
+  mieterstromPlanningStatus: [],
   ggvDecisionReasons: [],
   mieterstromDecisionReasons: [],
   implementationApproach: [],

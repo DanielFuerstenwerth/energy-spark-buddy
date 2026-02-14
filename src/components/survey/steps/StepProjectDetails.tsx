@@ -71,8 +71,40 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
         questionNumber="2.2"
       />
 
-      {/* 3.1 Planungsstand – direkt nach Projektart */}
-      {projectTypes.length > 0 && !onlyEnergySharing && (
+      {/* 3.1 Planungsstand – GGV (oder einziger Planungsstand wenn nur ein Modell) */}
+      {projectTypes.length > 0 && !onlyEnergySharing && (hasGgv || (!hasMieterstrom)) && (
+        <SingleSelectQuestion
+          id="planning-status"
+          label={hasGgv && hasMieterstrom
+            ? getLabelForQuestion("planningStatus").replace("mit dem Projekt", "mit dem GGV-Projekt")
+            : getLabelForQuestion("planningStatus")}
+          description="Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt"
+          options={getOptionsForQuestion("planningStatus")}
+          value={data.planningStatus[0] || undefined}
+          otherValue={data.planningStatusOther}
+          onChange={(val) => updateData("planningStatus", [val])}
+          onOtherChange={(val) => updateData("planningStatusOther", val)}
+          questionNumber="2.3"
+        />
+      )}
+
+      {/* 3.1b Planungsstand – Mieterstrom (nur wenn BEIDE gewählt) */}
+      {hasGgv && hasMieterstrom && (
+        <SingleSelectQuestion
+          id="mieterstrom-planning-status"
+          label={getLabelForQuestion("planningStatus").replace("mit dem Projekt", "mit dem Mieterstrom-Projekt")}
+          description="Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt"
+          options={getOptionsForQuestion("mieterstromPlanningStatus")}
+          value={data.mieterstromPlanningStatus?.[0] || undefined}
+          otherValue={data.mieterstromPlanningStatusOther}
+          onChange={(val) => updateData("mieterstromPlanningStatus", [val])}
+          onOtherChange={(val) => updateData("mieterstromPlanningStatusOther", val)}
+          questionNumber="2.3b"
+        />
+      )}
+
+      {/* Wenn NUR Mieterstrom (ohne GGV), nutze den regulären planningStatus */}
+      {hasMieterstrom && !hasGgv && projectTypes.length > 0 && (
         <SingleSelectQuestion
           id="planning-status"
           label={getLabelForQuestion("planningStatus")}

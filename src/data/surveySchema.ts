@@ -266,6 +266,23 @@ const SECTION_PLANNING: SurveySection = {
       required: true,
     },
     {
+      id: "mieterstromPlanningStatus",
+      type: "single-select",
+      label: "B1b. Wo stehen Sie aktuell mit dem Mieterstrom-Projekt?",
+      helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
+      options: [
+        { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
+        { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung des Mieterstroms" },
+        { value: "planung_stockt_pv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage" },
+        { value: "planung_fast_fertig", label: "Wir sind fast fertig mit der Planung" },
+        { value: "pv_laeuft_ggv_planung", label: "Die PV-Anlage läuft schon, aber Mieterstrom ist noch in Planung" },
+        { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit Mieterstrom" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+      ],
+      required: true,
+      visibilityLogic: "Nur wenn in #6 'Mieterstrom' ausgewählt UND gleichzeitig GGV ausgewählt",
+    },
+    {
       id: "ggvOrMieterstromDecision",
       type: "single-select",
       label: "B2. Sind Sie bereits festgelegt auf GGV oder Mieterstrom?",
@@ -1532,6 +1549,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "implementationApproach": { displayId: "3-ImplApproach", dbColumn: "implementation_approach", uiNumber: "3.4" },
   "challenges": { displayId: "3-Challenges", dbColumn: "challenges", uiNumber: "3.5" },
   "vnbRejectionResponse": { displayId: "3-RejectionResponse", dbColumn: "vnb_rejection_response", uiNumber: "3.6" },
+  "mieterstromPlanningStatus": { displayId: "2-MS-PlanningStatus", dbColumn: "mieterstrom_planning_status", uiNumber: "2.3b" },
   // Section 4-GGV: Planung GGV
   "vnbExistingProjects": { displayId: "4-GGV-ExistingProjects", dbColumn: "vnb_existing_projects", uiNumber: "4.1" },
   "vnbContact": { displayId: "4-GGV-VnbContact", dbColumn: "vnb_contact", uiNumber: "4.2" },
