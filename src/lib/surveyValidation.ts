@@ -6,9 +6,9 @@ import { z } from "zod";
 import { surveyDefinition, QUESTION_REGISTRY } from "@/data/surveySchema";
 import type { SurveyQuestion, SurveySection } from "@/data/surveySchema";
 
-const MAX_SHORT_TEXT = 200;
-const MAX_MEDIUM_TEXT = 500;
-const MAX_LONG_TEXT = 2000;
+const MAX_SHORT_TEXT = 500;
+const MAX_MEDIUM_TEXT = 10000;
+const MAX_LONG_TEXT = 10000;
 const MAX_ARRAY_ITEMS = 20;
 
 export const sanitizeText = (text: string | undefined): string | undefined => {
