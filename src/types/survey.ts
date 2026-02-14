@@ -73,9 +73,13 @@ export interface SurveyData {
   vnbResponse: string[];
   vnbResponseReasons?: string;
   vnbSupportMesskonzept?: string;
+  vnbSupportMesskonzeptOther?: string;
   vnbSupportFormulare?: string;
-  vnbSupportPortal?: boolean | string; // Korrektur: now text field but keep backward compat
+  vnbSupportFormulareOther?: string;
+  vnbSupportPortal?: boolean | string; // Korrektur: now single-select, backward compat
+  vnbSupportPortalOther?: string;
   vnbSupportOther?: string;
+  vnbSupportOtherDetails?: string;
   vnbInfoAvailable?: string;
   vnbInfoAvailableOther?: string;
   vnbContactHelpful?: string;
