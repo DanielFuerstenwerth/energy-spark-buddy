@@ -1,6 +1,5 @@
 import { SurveyData } from "@/types/survey";
 import { SingleSelectQuestion } from "../questions/SingleSelectQuestion";
-import { TextQuestion } from "../questions/TextQuestion";
 import { RatingQuestion } from "../questions/RatingQuestion";
 import { getOptionsForQuestion, getLabelForQuestion, getQuestionById } from "@/data/surveySchema";
 
@@ -14,45 +13,53 @@ export function StepGgvSupport({ data, updateData }: StepGgvSupportProps) {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4 pt-4 border-t">
+      <div className="space-y-6 pt-4 border-t">
         <h4 className="font-medium">C4. Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?</h4>
         
-        <TextQuestion
+        <SingleSelectQuestion
           id="vnb-support-messkonzept"
           label={getLabelForQuestion("vnbSupportMesskonzept")}
+          options={getOptionsForQuestion("vnbSupportMesskonzept")}
           value={data.vnbSupportMesskonzept}
+          otherValue={data.vnbSupportMesskonzeptOther}
           onChange={(val) => updateData("vnbSupportMesskonzept", val)}
-          placeholder="https://..."
+          onOtherChange={(val) => updateData("vnbSupportMesskonzeptOther", val)}
           optional
           questionNumber="4.22"
         />
 
-        <TextQuestion
+        <SingleSelectQuestion
           id="vnb-support-formulare"
           label={getLabelForQuestion("vnbSupportFormulare")}
+          options={getOptionsForQuestion("vnbSupportFormulare")}
           value={data.vnbSupportFormulare}
+          otherValue={data.vnbSupportFormulareOther}
           onChange={(val) => updateData("vnbSupportFormulare", val)}
-          placeholder="https://..."
+          onOtherChange={(val) => updateData("vnbSupportFormulareOther", val)}
           optional
           questionNumber="4.23"
         />
 
-        <TextQuestion
+        <SingleSelectQuestion
           id="vnb-support-portal"
           label={getLabelForQuestion("vnbSupportPortal")}
+          options={getOptionsForQuestion("vnbSupportPortal")}
           value={typeof data.vnbSupportPortal === 'string' ? data.vnbSupportPortal : ''}
+          otherValue={data.vnbSupportPortalOther}
           onChange={(val) => updateData("vnbSupportPortal", val as any)}
-          placeholder="https://..."
+          onOtherChange={(val) => updateData("vnbSupportPortalOther", val)}
           optional
           questionNumber="4.24"
         />
 
-        <TextQuestion
+        <SingleSelectQuestion
           id="vnb-support-other"
           label={getLabelForQuestion("vnbSupportOther")}
+          options={getOptionsForQuestion("vnbSupportOther")}
           value={data.vnbSupportOther}
+          otherValue={data.vnbSupportOtherDetails}
           onChange={(val) => updateData("vnbSupportOther", val)}
-          placeholder="Weitere Unterstützungsangebote..."
+          onOtherChange={(val) => updateData("vnbSupportOtherDetails", val)}
           optional
           questionNumber="4.25"
         />
