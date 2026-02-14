@@ -187,6 +187,7 @@ export interface SurveyData {
   esPlantType: string[];
   esPlantTypeDetails?: string[];
   esCapacitySizeKw?: number; // Korrektur: renamed from esPvSizeKw
+  esTechnologyDescription?: string;
   esProjectScope?: string;
   esPartyCount?: number;
   esConsumerTypes: string[];

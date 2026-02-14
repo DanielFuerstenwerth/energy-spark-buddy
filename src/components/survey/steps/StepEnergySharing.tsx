@@ -111,6 +111,17 @@ export function StepEnergySharing({ data, updateData }: StepEnergySharingProps) 
       />
 
       <TextQuestion
+        id="es-technology-description"
+        label={getLabelForQuestion("esTechnologyDescription")}
+        type="textarea"
+        value={data.esTechnologyDescription}
+        onChange={(val) => updateData("esTechnologyDescription", val)}
+        placeholder="z.B. PV-Dachanlage, Windkraftanlage, Biogas..."
+        optional
+        questionNumber="7.6b"
+      />
+
+      <TextQuestion
         id="es-party-count"
         label={getLabelForQuestion("esPartyCount")}
         type="number"

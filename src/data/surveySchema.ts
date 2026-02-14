@@ -1317,6 +1317,13 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       optional: true,
       // Korrektur: Sichtbarkeit immer (war: nur bei single)
     },
+    {
+      id: "esTechnologyDescription",
+      type: "textarea",
+      label: "Welche Erzeugungstechnologie(n) sind beteiligt?",
+      placeholder: "z.B. PV-Dachanlage, Windkraftanlage, Biogas...",
+      optional: true,
+    },
     // Korrektur: esWindSizeKw (#105) GELÖSCHT
     {
       id: "esPartyCount",
@@ -1658,6 +1665,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esVnbResponse": { displayId: "4-ES-VnbResponse", dbColumn: "es_vnb_response", uiNumber: "7.13" },
   "esNetzentgelteDiscussion": { displayId: "4-ES-Netzentgelte", dbColumn: "es_netzentgelte_discussion", uiNumber: "7.14" },
   "esInfoSources": { displayId: "4-ES-InfoSources", dbColumn: "es_info_sources", uiNumber: "7.15" },
+  "esTechnologyDescription": { displayId: "4-ES-TechnologyDescription", dbColumn: "es_technology_description", uiNumber: "7.6b" },
   "esProjectLocations": { displayId: "4-ES-ProjectLocations", dbColumn: "es_project_locations", uiNumber: "7.5b" },
   "esInOperationDetails": { displayId: "4-ES-InOperationDetails", dbColumn: "es_in_operation_details", uiNumber: "7.2" },
   "esOperatorDetails": { displayId: "4-ES-OperatorDetails", dbColumn: "es_operator_details", uiNumber: "7.3" },
