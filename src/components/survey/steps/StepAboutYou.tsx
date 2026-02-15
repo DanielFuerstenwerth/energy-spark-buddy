@@ -32,12 +32,12 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
             {detailsOpen ? "Weniger anzeigen" : "Mehr erfahren"}
           </CollapsibleTrigger>
           <CollapsibleContent className="mt-3 text-sm space-y-2 text-foreground">
-            <p>Das Bündnis Bürgerenergie (BBEn) wird die gesamten Antworten inkl. der Freitextfelder anonym (d.h. ohne E-Mail-Adressen) als Excel-Datenbank an berechtigte Anliegenträger (z.B. Wissenschaft, Energieagenturen) auf Anfrage zur Verfügung stellen.</p>
+            <p>Das Bündnis Bürgerenergie (BBEn) wird die gesamten Antworten inkl. der Freitextfelder anonym (d.h. ohne E-Mail-Adressen) als Excel-Datenbank an berechtigte Anliegenträger (z.B. Wissenschaft, Energieagenturen, Solarenergieverbände) auf Anfrage zur Verfügung stellen.</p>
             <p>Alle GGV-Projekte werden zusätzlich auf einer Deutschlandkarte auf der Seite{" "}
               <a href="https://www.ggv-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">ggv-transparenz.de</a>{" "}
               dargestellt.
             </p>
-            <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, wenden Sie sich bitte per E-Mail an{" "}
+            <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, schreiben Sie bitte an:{" "}
               <a href="mailto:vnb-transparenz@1000gw.de" className="underline font-medium">vnb-transparenz@1000gw.de</a>.
             </p>
           </CollapsibleContent>
