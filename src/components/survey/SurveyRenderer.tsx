@@ -32,119 +32,12 @@ interface SurveyRendererProps {
   setUploadedDocuments: (docs: string[]) => void;
 }
 
-/**
- * Evaluate whether a question should be visible based on its visibilityLogic.
- * This is a simple rule engine that checks data state.
- */
 function getFieldValue(data: SurveyData, field: string): unknown {
   return (data as unknown as Record<string, unknown>)[field];
 }
 
 function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
-  // Phase 1: Use structured rule if available
   if (q.visibilityRule) return evaluateRule(q.visibilityRule, data);
-  // Phase 2: Fallback to legacy string parser
-  if (!q.visibilityLogic) return true;
-  const logic = q.visibilityLogic;
-  const projectTypes = data.projectTypes || [];
-  const isGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
-  const isMieterstrom = projectTypes.includes('mieterstrom');
-  const isES = projectTypes.includes('energysharing');
-  
-  // Pattern: compound condition with "und" (must check BEFORE simple projectTypes)
-  // e.g. "Nur wenn in #6 'GGV' ... ausgewählt und #7 = 'multiple'"
-  if (logic.includes("und") && logic.includes("#7 = 'multiple'")) {
-    const projectCheck = isGgv;
-    const multipleCheck = data.ggvProjectType === 'multiple';
-    return projectCheck && multipleCheck;
-  }
-
-  // Pattern: "Nur wenn in #6 'GGV'..." or similar projectTypes references
-  if (logic.includes("'GGV'") || logic.includes("'ggv'") || logic.includes("GGV oder Mieterstrom")) {
-    if (logic.includes("Mieterstrom") && !logic.includes("nicht")) {
-      return isGgv || isMieterstrom;
-    }
-    return isGgv;
-  }
-  if (logic.includes("Mieterstrom ausgewählt") && !logic.includes("GGV")) {
-    return isMieterstrom;
-  }
-  if (logic.includes("Energy Sharing")) {
-    return isES;
-  }
-  
-  // Pattern: "Wenn fieldName = 'value1' oder 'value2'" (must check BEFORE simple equals)
-  const orMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'([^']+)'\s+oder\s+'([^']+)'/i);
-  if (orMatch) {
-    const fieldValue = getFieldValue(data, orMatch[1]);
-    if (typeof fieldValue === 'string') return fieldValue === orMatch[2] || fieldValue === orMatch[3];
-    if (Array.isArray(fieldValue)) return fieldValue.includes(orMatch[2]) || fieldValue.includes(orMatch[3]);
-    return false;
-  }
-
-  // Pattern: "Wenn fieldName = 'value'"
-  const equalsMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'([^']+)'/i) || logic.match(/Nur wenn #\d+\s*=\s*'(\w+)'/i);
-  if (equalsMatch) {
-    const fieldName = equalsMatch.length === 3 ? equalsMatch[1] : null;
-    const expectedValue = equalsMatch.length === 3 ? equalsMatch[2] : equalsMatch[1];
-    
-    if (fieldName) {
-      const fieldValue = getFieldValue(data, fieldName);
-      if (typeof fieldValue === 'string') return fieldValue === expectedValue;
-      if (Array.isArray(fieldValue)) return fieldValue.includes(expectedValue);
-      return false;
-    }
-  }
-
-  // Pattern: "Wenn fieldName ausgefüllt"
-  const filledMatch = logic.match(/Wenn\s+(\w+)\s+ausgefüllt/i);
-  if (filledMatch) {
-    const val = getFieldValue(data, filledMatch[1]);
-    return !!val && val !== '';
-  }
-
-  // Pattern: specific vnbMsbOffer conditions
-  if (logic.includes("vnbMsbOffer")) {
-    const msbOffer = data.vnbMsbOffer;
-    if (logic.includes("'ja'")) return msbOffer === 'ja';
-    if (logic.includes("'nein_wmsb'")) return msbOffer === 'nein_wmsb';
-    if (logic.includes("'nein_gar_nicht'")) return msbOffer === 'nein_gar_nicht';
-  }
-
-  // Pattern: specific cost visibility
-  if (logic.includes("vnbAdditionalCosts = 'ja'")) return data.vnbAdditionalCosts === 'ja';
-  if (logic.includes("operationMsbAdditionalCosts = 'ja'")) return getFieldValue(data, 'operationMsbAdditionalCosts') === 'ja';
-  if (logic.includes("mieterstromMsbCosts = 'ja'")) return data.mieterstromMsbCosts === 'ja';
-  if (logic.includes("mieterstromOperationCosts = 'ja'")) return data.mieterstromOperationCosts === 'ja';
-  if (logic.includes("vnbDataCost = 'mehr_3_eur'")) return data.vnbDataCost === 'mehr_3_eur';
-  if (logic.includes("vnbEsaCost = 'mehr_3_eur'")) return data.vnbEsaCost === 'mehr_3_eur';
-  if (logic.includes("operationDataCost = 'mehr_3_eur'")) return data.operationDataCost === 'mehr_3_eur';
-  if (logic.includes("operationEsaCost = 'mehr_3_eur'")) return data.operationEsaCost === 'mehr_3_eur';
-
-  // Pattern: Mieterstrom specific
-  if (logic.includes("mieterstromVirtuellAllowed = 'ja'")) return data.mieterstromVirtuellAllowed === 'ja';
-  if (logic.includes("mieterstromVirtuellAllowed = 'nein'")) return data.mieterstromVirtuellAllowed === 'nein';
-  if (logic.includes("mieterstromVirtuellWandlermessung = 'ja'")) return data.mieterstromVirtuellWandlermessung === 'ja';
-  if (logic.includes("vnbWandlermessung = 'ja'")) return data.vnbWandlermessung === 'ja' || data.vnbWandlermessung === 'wissen_nicht';
-  if (logic.includes("operationWandlermessung = 'ja'")) return data.operationWandlermessung === 'ja';
-
-  // ES VNB contact
-  if (logic.includes("esVnbContact = 'yes'")) return data.esVnbContact === true || getFieldValue(data, 'esVnbContact') === 'yes';
-  if (logic.includes("esStatus = 'in_betrieb")) {
-    const status = data.esStatus;
-    if (Array.isArray(status)) return status.some(s => s.startsWith('in_betrieb'));
-    return false;
-  }
-
-  // Pattern: Mieterstrom + GGV gleichzeitig
-  if (logic.includes("Mieterstrom") && logic.includes("gleichzeitig") && logic.includes("GGV")) {
-    return isMieterstrom && isGgv;
-  }
-
-  // operationDataProvider
-  if (logic.includes("operationDataProvider = 'gmsb'")) return data.operationDataProvider === 'gmsb';
-  
-  // Default: show
   return true;
 }
 
@@ -152,57 +45,7 @@ function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
  * Check if a section should be visible based on data state.
  */
 export function isSectionVisible(section: SurveySection, data: SurveyData): boolean {
-  // Phase 1: Use structured rule if available
   if (section.visibilityRule) return evaluateRule(section.visibilityRule, data);
-  // Phase 2: Fallback to legacy string parser
-  if (!section.visibilityLogic) return true;
-  const logic = section.visibilityLogic;
-  
-  const projectTypes = data.projectTypes || [];
-  const isGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
-  const isMieterstrom = projectTypes.includes('mieterstrom');
-  const isES = projectTypes.includes('energysharing');
-  const isGgvOrMieterstrom = isGgv || isMieterstrom;
-  const onlyEnergySharing = isES && !isGgvOrMieterstrom;
-  
-  const isGgvInOperation = data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false;
-  const isMieterstromInOperation = isMieterstrom && (
-    isGgv
-      ? data.mieterstromPlanningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false
-      : data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false
-  );
-
-  // Section-level rules
-  if (logic.includes("nicht nur Energy Sharing") || logic.includes("nicht nur Energy")) {
-    return !onlyEnergySharing;
-  }
-  if (logic.includes("GGV', 'Mieterstrom'") || logic.includes("GGV oder Mieterstrom")) {
-    return isGgvOrMieterstrom;
-  }
-  if (logic.includes("'GGV'") && !logic.includes("Mieterstrom")) {
-    return isGgv;
-  }
-  if (logic.includes("Mieterstrom ausgewählt") || (logic.includes("Mieterstrom") && !logic.includes("GGV") && !logic.includes("Betrieb"))) {
-    return isMieterstrom;
-  }
-  if (logic.includes("Energy Sharing")) {
-    return isES;
-  }
-  if (logic.includes("#18 = 'pv_laeuft_ggv_laeuft'") || logic.includes("GGV in Betrieb") || logic.includes("pv_laeuft_ggv_laeuft")) {
-    if (logic.includes("Mieterstrom")) {
-      return isMieterstromInOperation;
-    }
-    return isGgvInOperation;
-  }
-  if (logic.includes("moeglich_gmsb")) {
-    const response = data.mieterstromVnbResponse;
-    if (Array.isArray(response)) return response.includes('moeglich_gmsb');
-    return false;
-  }
-  if (logic.includes("#28 = 'ja'") || logic.includes("vnbMsbOffer = 'ja'")) {
-    return data.vnbMsbOffer === 'ja';
-  }
-
   return true;
 }
 
