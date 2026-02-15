@@ -226,6 +226,12 @@ export default function Survey() {
                 dataUsageConfirmed={dataUsageConfirmed}
                 onDataUsageConfirmedChange={setDataUsageConfirmed}
               />
+              {currentStepDef?.id === 'project' && (!stepData.projectTypes || stepData.projectTypes.length === 0) && (
+                <div className="mt-6 rounded-lg bg-muted p-4 text-sm text-muted-foreground">
+                  <p className="font-medium text-foreground mb-1">💡 Hinweis</p>
+                  <p>Sobald Sie oben eine Projektart auswählen (Frage 2.2), erscheinen weitere Abschnitte wie Planung, Modelldetails und ggf. Betrieb.</p>
+                </div>
+              )}
               <div className="flex justify-between mt-8 pt-6 border-t">
                 <Button variant="outline" onClick={handleBack} disabled={currentStep === 0}>
                   <ChevronLeft className="w-4 h-4 mr-2" />Zurück
