@@ -157,7 +157,7 @@ function renderQuestionHtml(q: SurveyQuestion): string {
     </p>`;
   }
 
-  if (q.visibilityLogic) html += `<p style="font-size:9pt;margin-top:4pt;padding:3pt 6pt;background:#fef3c7;border-left:3pt solid #f59e0b;color:#92400e;">⚡ Sichtbarkeit: ${esc(q.visibilityLogic)}</p>`;
+  if (q.visibilityRule) html += `<p style="font-size:9pt;margin-top:4pt;padding:3pt 6pt;background:#fef3c7;border-left:3pt solid #f59e0b;color:#92400e;">⚡ Sichtbarkeit: strukturierte Regel</p>`;
   if (q.skipLogic) html += `<p style="font-size:9pt;margin-top:4pt;padding:3pt 6pt;background:#fef3c7;border-left:3pt solid #f59e0b;color:#92400e;">➡️ Sprunglogik: ${esc(q.skipLogic)}</p>`;
   if (q.conditionalRequired) html += `<p style="font-size:9pt;margin-top:4pt;padding:3pt 6pt;background:#fee2e2;border-left:3pt solid #dc2626;color:#991b1b;">🔒 Bedingt Pflicht: ${esc(q.conditionalRequired)}</p>`;
 
@@ -181,7 +181,7 @@ function generateWordDocHtml(): string {
     <div style="page-break-before:auto;margin-top:24pt;">
       <h2 style="color:#1a365d;border-bottom:2pt solid #22c55e;padding-bottom:6pt;font-size:16pt;">${esc(cleanLabel(section.title))}</h2>`;
     if (section.description) body += `<p style="color:#666;font-style:italic;margin-bottom:6pt;">${esc(cleanLabel(section.description))}</p>`;
-    if (section.visibilityLogic) body += `<p style="background:#fef3c7;padding:4pt 8pt;border-left:3pt solid #f59e0b;font-size:9pt;color:#92400e;">⚡ Sichtbarkeit: ${esc(section.visibilityLogic)}</p>`;
+    if (section.visibilityRule) body += `<p style="background:#fef3c7;padding:4pt 8pt;border-left:3pt solid #f59e0b;font-size:9pt;color:#92400e;">⚡ Sichtbarkeit: strukturierte Regel</p>`;
 
     for (const question of section.questions) {
       body += renderQuestionHtml(question);
