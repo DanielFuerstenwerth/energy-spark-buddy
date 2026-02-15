@@ -448,6 +448,30 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       ],
       skipLogic: "Je nach Auswahl werden unterschiedliche Folgefragen angezeigt",
     },
+    {
+      id: "vnbMsbTimeline",
+      type: "single-select",
+      label: "Falls Ihr VNB nicht anbietet, den Messstellenbetrieb selber zu übernehmen: Hat er in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?",
+      options: [
+        { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
+        { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
+        { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
+        { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
+      ],
+      visibilityRule: eq('vnbMsbOffer', 'nein_wmsb'),
+    },
+    {
+      id: "vnbRejectionTimeline",
+      type: "single-select",
+      label: "Falls Ihr VNB die Umsetzung bislang vollständig ablehnt: Gibt es schon eine Aussage, ab wann die GGV möglich sein wird?",
+      options: [
+        { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
+        { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
+        { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
+        { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
+      ],
+      visibilityRule: eq('vnbMsbOffer', 'nein_gar_nicht'),
+    },
     // Korrektur: Support-Fragen (#29-#35) ans Ende des GGV-Abschnitts verschoben
     {
       id: "vnbSupportMesskonzept",
@@ -637,30 +661,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       placeholder: "z.B. 5",
       optional: true,
       visibilityRule: eq('vnbEsaCost', 'mehr_3_eur'),
-    },
-    {
-      id: "vnbMsbTimeline",
-      type: "single-select",
-      label: "Falls Ihr VNB nicht anbietet, den Messstellenbetrieb selber zu übernehmen: Hat er in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?",
-      options: [
-        { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
-        { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
-        { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
-        { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
-      ],
-      visibilityRule: eq('vnbMsbOffer', 'nein_wmsb'),
-    },
-    {
-      id: "vnbRejectionTimeline",
-      type: "single-select",
-      label: "Falls Ihr VNB die Umsetzung bislang vollständig ablehnt: Gibt es schon eine Aussage, ab wann die GGV möglich sein wird?",
-      options: [
-        { value: "ja_12_monate", label: "Ja, innerhalb der nächsten 12 Monate" },
-        { value: "ja_spaeter", label: "Ja, in über 12 Monaten" },
-        { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
-        { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
-      ],
-      visibilityRule: eq('vnbMsbOffer', 'nein_gar_nicht'),
     },
     {
       id: "vnbWandlermessung",
