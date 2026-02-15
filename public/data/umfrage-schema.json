@@ -1,0 +1,1300 @@
+{
+  "version": "3.2.0",
+  "lastUpdated": "2026-02-12",
+  "title": "Umfrage zu GGV, Mieterstrom & Energy Sharing",
+  "description": "Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.",
+  "sections": [
+    {
+      "id": "about",
+      "title": "1. Über Sie",
+      "description": "Einordnung & Motivation",
+      "questions": [
+        {
+          "id": "actorTypes",
+          "type": "multi-select",
+          "text": "In welche Akteursgruppe fallen Sie?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "buergerenergie", "label": "Bürgerenergiegenossenschaft", "hasTextField": true, "textFieldLabel": "Name der Genossenschaft (optional)" },
+            { "value": "weg", "label": "Wohnungseigentümergemeinschaft" },
+            { "value": "vermieter_privat", "label": "Vermieter/in - Privatperson" },
+            { "value": "vermieter_prof_klein", "label": "Vermieter/in - Professionell (<100 Einheiten)" },
+            { "value": "vermieter_wohnungsunternehmen", "label": "Vermieter/in - Wohnungsunternehmen (>100 Einheiten)" },
+            { "value": "kommune", "label": "Kommune / kommunales Unternehmen" },
+            { "value": "kmu", "label": "Kleine und Mittelständische Unternehmen (KMU)" },
+            { "value": "dienstleister", "label": "Dienstleister für GGV/Mieterstrom/Energy Sharing", "hasTextField": true, "textFieldLabel": "Welche Dienstleistung?" },
+            { "value": "installateur", "label": "Installateur von PV-Anlagen" },
+            { "value": "msb", "label": "Wettbewerblicher Messstellenbetreiber" },
+            { "value": "stadtwerk", "label": "Stadtwerk/EVU" },
+            { "value": "andere", "label": "Andere", "hasTextField": true, "textFieldLabel": "Bitte beschreiben" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "motivation",
+          "type": "multi-select",
+          "text": "Wie würden Sie Ihre Motivation einordnen?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "pv_nutzung", "label": "Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen" },
+            { "value": "energiewende", "label": "Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage" },
+            { "value": "geschaeft", "label": "Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "contactEmail",
+          "type": "email",
+          "text": "Falls wir Sie bei Rückfragen kontaktieren dürfen, lassen Sie gerne eine E-Mail da",
+          "optional": true
+        },
+        {
+          "id": "confirmationForUpdate",
+          "type": "single-select",
+          "text": "Falls Sie eine Info über die Ergebnisse der Umfrage per E-Mail erhalten möchten, lassen Sie uns das wissen:",
+          "options": [
+            { "value": "ja", "label": "Ja, ich möchte eine Info erhalten" },
+            { "value": "nein", "label": "Nein, ich schaue selber online nach Updates" }
+          ],
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "project",
+      "title": "2. Projekt",
+      "description": "VNB, Projektart und Dimensionen",
+      "questions": [
+        {
+          "id": "vnbName",
+          "type": "vnb-select",
+          "text": "Welcher Verteilnetzbetreiber ist für Ihr Projekt zuständig?",
+          "helpText": "Suchen oder geben Sie den Namen Ihres VNB ein",
+          "optional": true
+        },
+        {
+          "id": "projectTypes",
+          "type": "multi-select",
+          "text": "Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
+          "helpText": "Mehrfachauswahl möglich. Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
+          "options": [
+            { "value": "ggv", "label": "GGV (Gemeinschaftliche Gebäudeversorgung)" },
+            { "value": "mieterstrom", "label": "Mieterstrom" },
+            { "value": "ggv_oder_mieterstrom", "label": "Entweder GGV oder Mieterstrom (nur für Projekte im Planungsstadium)" },
+            { "value": "energysharing", "label": "Energy Sharing (in Zukunft möglich)" }
+          ],
+          "required": true
+        },
+        {
+          "id": "ggvProjectType",
+          "type": "single-select",
+          "text": "Wie viele GGV-Projekte planen/betreiben Sie?",
+          "options": [
+            { "value": "single", "label": "Ein einzelnes Projekt" },
+            { "value": "multiple", "label": "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" }
+          ],
+          "visibilityLogic": "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "ggvPvSizeKw",
+          "type": "number",
+          "text": "Größe der PV-Anlage in kW - GGV",
+          "optional": true,
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "ggvPartyCount",
+          "type": "number",
+          "text": "Anzahl der Parteien, die Strom abnehmen - GGV",
+          "optional": true,
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "ggvBuildingType",
+          "type": "single-select",
+          "text": "Art des Gebäudes - GGV",
+          "options": [
+            { "value": "wohngebaeude", "label": "Wohngebäude" },
+            { "value": "gewerbe", "label": "Gewerbegebäude" },
+            { "value": "gemischt", "label": "Gemischt" }
+          ],
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "ggvBuildingCount",
+          "type": "number",
+          "text": "Gesamtzahl der Projekte - GGV",
+          "optional": true,
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #7 = 'multiple'"
+        },
+        {
+          "id": "ggvAdditionalInfo",
+          "type": "textarea",
+          "text": "Zusätzliche Informationen - GGV",
+          "optional": true,
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "mieterstromPvSizeKw",
+          "type": "number",
+          "text": "Größe der PV-Anlage(n) in kW - Mieterstrom",
+          "optional": true,
+          "visibilityLogic": "Nur wenn Mieterstrom ausgewählt"
+        },
+        {
+          "id": "mieterstromPartyCount",
+          "type": "number",
+          "text": "Anzahl der Parteien, die Strom abnehmen - Mieterstrom",
+          "optional": true,
+          "visibilityLogic": "Nur wenn Mieterstrom ausgewählt"
+        },
+        {
+          "id": "mieterstromBuildingType",
+          "type": "single-select",
+          "text": "Art des Gebäudes - Mieterstrom",
+          "options": [
+            { "value": "wohngebaeude", "label": "Wohngebäude" },
+            { "value": "gewerbe", "label": "Gewerbegebäude" },
+            { "value": "gemischt", "label": "Gemischt" }
+          ],
+          "visibilityLogic": "Nur wenn Mieterstrom ausgewählt"
+        },
+        {
+          "id": "mieterstromAdditionalInfo",
+          "type": "textarea",
+          "text": "Zusätzliche Informationen - Mieterstrom",
+          "optional": true,
+          "visibilityLogic": "Nur wenn Mieterstrom ausgewählt"
+        },
+        {
+          "id": "projectLocations",
+          "type": "text",
+          "text": "Standort(e) des Projekts",
+          "helpText": "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+          "optional": true,
+          "visibilityLogic": "Immer am Ende der Projektdetails"
+        }
+      ]
+    },
+    {
+      "id": "planning",
+      "title": "3. Planung: Allgemeines – Planungsstand",
+      "description": "Aktueller Status Ihres Projekts",
+      "visibilityLogic": "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
+      "questions": [
+        {
+          "id": "planningStatus",
+          "type": "single-select",
+          "text": "Wo stehen Sie aktuell mit dem Projekt?",
+          "helpText": "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
+          "options": [
+            { "value": "info_sammeln", "label": "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
+            { "value": "planung_stockt_ggv", "label": "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
+            { "value": "planung_stockt_pv", "label": "Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage" },
+            { "value": "planung_fast_fertig", "label": "Wir sind fast fertig mit der Planung" },
+            { "value": "pv_laeuft_ggv_planung", "label": "Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung" },
+            { "value": "pv_laeuft_ggv_laeuft", "label": "Die PV-Anlage läuft bereits mit GGV/Mieterstrom" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "required": true
+        },
+        {
+          "id": "mieterstromPlanningStatus",
+          "type": "single-select",
+          "text": "Wo stehen Sie aktuell mit dem Mieterstrom-Projekt?",
+          "helpText": "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
+          "options": [
+            { "value": "info_sammeln", "label": "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
+            { "value": "planung_stockt_ggv", "label": "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung des Mieterstroms" },
+            { "value": "planung_stockt_pv", "label": "Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage" },
+            { "value": "planung_fast_fertig", "label": "Wir sind fast fertig mit der Planung" },
+            { "value": "pv_laeuft_ggv_planung", "label": "Die PV-Anlage läuft schon, aber Mieterstrom ist noch in Planung" },
+            { "value": "pv_laeuft_ggv_laeuft", "label": "Die PV-Anlage läuft bereits mit Mieterstrom" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "required": true,
+          "visibilityLogic": "Nur wenn in #6 'Mieterstrom' ausgewählt UND gleichzeitig GGV ausgewählt"
+        },
+        {
+          "id": "ggvOrMieterstromDecision",
+          "type": "single-select",
+          "text": "Sind Sie bereits festgelegt auf GGV oder Mieterstrom?",
+          "options": [
+            { "value": "sicher_ggv", "label": "Wir sind sicher: es wird/ist GGV" },
+            { "value": "unsicher", "label": "Wir sind unsicher: es fehlen noch Informationen für eine Entscheidung" },
+            { "value": "sicher_mieterstrom", "label": "Wir sind sicher: es wird/ist Mieterstrom" }
+          ],
+          "visibilityLogic": "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "ggvDecisionReasons",
+          "type": "multi-select",
+          "text": "Falls Sie derzeit eher zur GGV tendieren oder sich dafür entschlossen haben - warum?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "buerokratie_mieterstrom", "label": "Wegen der bürokratischen Herausforderungen bei Mieterstrom" },
+            { "value": "reststrom_pflicht", "label": "Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom" },
+            { "value": "ladesaeulen_waermepumpen", "label": "Weil die Einbindung von Ladesäulen/Wärmepumpen einfacher ist" },
+            { "value": "vnb_empfehlung", "label": "Weil unser VNB das empfiehlt" },
+            { "value": "finanziell_attraktiver", "label": "Weil das finanziell attraktiver ist" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "mieterstromDecisionReasons",
+          "type": "multi-select",
+          "text": "Falls Sie derzeit eher zu Mieterstrom tendieren oder sich dafür entschlossen haben - warum?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "einfacher_umsetzung", "label": "Weil das in der Umsetzung einfacher zu sein scheint" },
+            { "value": "kein_dienstleister_ggv", "label": "Weil wir für die GGV nicht den richtigen Dienstleister finden" },
+            { "value": "vnb_empfehlung", "label": "Weil unser VNB das empfiehlt" },
+            { "value": "vnb_kann_ggv_nicht", "label": "Weil der VNB die GGV nicht umsetzen kann" },
+            { "value": "finanziell_attraktiver", "label": "Weil das finanziell attraktiver ist" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Nur wenn in #6 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt"
+        },
+        {
+          "id": "implementationApproach",
+          "type": "multi-select",
+          "text": "Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?",
+          "helpText": "Über die Installation der PV-Anlage hinaus - Mehrfachauswahl möglich",
+          "options": [
+            { "value": "alleine", "label": "Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden" },
+            { "value": "dienstleister_ok", "label": "Dienstleister sind OK, solange das preislich attraktiv ist" },
+            { "value": "dienstleister_alles", "label": "Ideal wäre es, wenn sich ein Dienstleister um alles kümmert" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "challenges",
+      "title": "3. Planung: Allgemeines – Herausforderungen",
+      "description": "Erlebte Schwierigkeiten bei der Umsetzung",
+      "visibilityLogic": "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
+      "questions": [
+        {
+          "id": "challenges",
+          "type": "multi-select",
+          "text": "Gab oder gibt es wesentliche Herausforderungen?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "keine", "label": "Nein, alles läuft gut", "exclusive": true },
+            { "value": "opposition", "label": "Manche Parteien im Haus sind gegen das Projekt oder wollen nicht teilnehmen", "hasTextField": true, "textFieldLabel": "Details" },
+            { "value": "pv_installation", "label": "Technische Probleme mit der Installation der PV-Anlage", "hasTextField": true, "textFieldLabel": "Was war das Problem?" },
+            { "value": "vnb_blockiert", "label": "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", "hasTextField": true, "textFieldLabel": "Gründe des VNB" },
+            { "value": "kosten_zu_hoch", "label": "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", "hasTextField": true, "textFieldLabel": "Details zu den Kosten" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true, "textFieldLabel": "Andere Herausforderungen" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbRejectionResponse",
+          "type": "multi-select",
+          "text": "Falls Ihr VNB die Umsetzung von GGV oder Mieterstrom nicht oder nur unzureichend unterstützt, wie haben Sie bislang reagiert?",
+          "options": [
+            { "value": "bnetza", "label": "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", "hasTextField": true },
+            { "value": "rechtliche_schritte", "label": "Wir erwägen rechtliche Schritte gegen den VNB einzuleiten" },
+            { "value": "keine_schritte", "label": "Wir sind / unser Dienstleister ist bei dem Anschluss anderer Projekte auf den VNB angewiesen, wir sehen daher von rechtlichen Schritten gegenüber dem VNB oder einer Anfrage bei der BNetzA ab" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "vnb-planning",
+      "title": "4. Planung: Modellspezifisch – GGV",
+      "description": "Details zur GGV-Planung mit dem Verteilnetzbetreiber",
+      "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      "questions": [
+        {
+          "id": "vnbExistingProjects",
+          "type": "single-select",
+          "text": "Gibt es im Netzgebiet Ihres VNB schon GGV-Projekte?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, es gibt sicher noch keine" },
+            { "value": "ja_mindestens_eins", "label": "Ja, es gibt mindestens eins" },
+            { "value": "ja_viele", "label": "Ja, es gibt schon eine ganze Reihe" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "vnbContact",
+          "type": "multi-select",
+          "text": "Waren Sie schon im Kontakt mit Ihrem VNB?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "ja_direkt", "label": "Ja, wir hatten direkten Kontakt mit dem VNB" },
+            { "value": "ja_installateur", "label": "Ja, über den Installateur/Dienstleister" },
+            { "value": "nein", "label": "Nein, wir hatten noch kein Kontakt" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbResponse",
+          "type": "multi-select",
+          "text": "Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "moeglich_gmssb", "label": "Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen" },
+            { "value": "moeglich_wmsb", "label": "Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
+            { "value": "keine_antwort", "label": "Unser VNB hat die Anfrage bisher nicht beantwortet" },
+            { "value": "nicht_moeglich", "label": "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", "hasTextField": true, "textFieldLabel": "Gründe des VNB" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbMsbOffer",
+          "type": "single-select",
+          "text": "Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?",
+          "options": [
+            { "value": "ja", "label": "Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen" },
+            { "value": "nein_wmsb", "label": "Nein, wir brauchen dafür einen wettbewerblichen Messstellenbetreiber" },
+            { "value": "nein_gar_nicht", "label": "Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht" }
+          ],
+          "skipLogic": "Je nach Auswahl werden unterschiedliche Folgefragen angezeigt"
+        },
+        {
+          "id": "vnbSupportMesskonzept",
+          "type": "single-select",
+          "text": "Informationen zum Messkonzept für die GGV",
+          "helpText": "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+          "options": [
+            { "value": "ja", "label": "Ja", "hasTextField": true },
+            { "value": "nein", "label": "Nein" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbSupportFormulare",
+          "type": "single-select",
+          "text": "Formulare für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
+          "helpText": "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+          "options": [
+            { "value": "ja", "label": "Ja", "hasTextField": true },
+            { "value": "nein", "label": "Nein" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbSupportPortal",
+          "type": "single-select",
+          "text": "Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
+          "helpText": "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+          "options": [
+            { "value": "ja", "label": "Ja", "hasTextField": true },
+            { "value": "nein", "label": "Nein" }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbSupportOther",
+          "type": "text",
+          "text": "Weiteres",
+          "helpText": "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+          "optional": true
+        },
+        {
+          "id": "vnbContactHelpful",
+          "type": "single-select",
+          "text": "Empfinden Sie Ihren VNB als hilfreich bei der Planung der GGV?",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nein", "label": "Nein" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbPersonalContacts",
+          "type": "single-select",
+          "text": "Hat der VNB benannte Ansprechpartner für GGV?",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nein", "label": "Nein" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "vnbSupportRating",
+          "type": "rating",
+          "text": "Wie sehr fühlen Sie sich von Ihrem VNB in der Planung der GGV unterstützt?",
+          "scaleLabels": { "min": "bremst aktiv", "max": "unterstützt aktiv" }
+        },
+        {
+          "id": "vnbWandlermessung",
+          "type": "single-select",
+          "text": "Frage zum Detail der technischen Anforderungen des Messkonzeptes: Verlangt Ihr VNB einen neuen, zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?",
+          "helpText": "Erfordert die Installation einer 'Wandlermessung' für > 5.000 EUR",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nein", "label": "Nein" },
+            { "value": "wissen_nicht", "label": "Das wissen wir nicht" }
+          ]
+        },
+        {
+          "id": "vnbWandlermessungComment",
+          "type": "textarea",
+          "text": "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr VNB hierzu und womit werden die begründet?",
+          "optional": true,
+          "visibilityLogic": "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'"
+        },
+        {
+          "id": "vnbWandlermessungDocuments",
+          "type": "file",
+          "text": "Dokumente zur Wandlermessung hochladen",
+          "helpText": "z.B. Messkonzept, Korrespondenz mit VNB",
+          "optional": true,
+          "visibilityLogic": "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'"
+        },
+        {
+          "id": "vnbPlanningDuration",
+          "type": "single-select",
+          "text": "Wie lange sind Sie bereits in Diskussionen zur Umsetzung der GGV mit Ihrem VNB?",
+          "options": [
+            { "value": "unter_2_monate", "label": "Unter 2 Monaten" },
+            { "value": "2_bis_12_monate", "label": "Zwischen 2 und 12 Monaten" },
+            { "value": "ueber_12_monate", "label": "Über 12 Monate" }
+          ]
+        },
+        {
+          "id": "vnbPlanningDurationReasons",
+          "type": "textarea",
+          "text": "Woran scheitert die Umsetzung bislang?",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "vnb-msb",
+      "title": "4. Planung: Modellspezifisch – GGV - MSB Details",
+      "description": "Wenn der VNB anbietet, den Messstellenbetrieb in der GGV zu übernehmen:",
+      "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'",
+      "questions": [
+        {
+          "id": "vnbStartTimeline",
+          "type": "single-select",
+          "text": "Ab wann kann der VNB den Messbetrieb (über gMSB) starten?",
+          "options": [
+            { "value": "sofort", "label": "Sofort, wir sind in der Planung und das sieht gut aus" },
+            { "value": "zeitnah", "label": "Zeitnah, wir warten auf den Start" },
+            { "value": "12_monate", "label": "In den nächsten 12 Monaten" },
+            { "value": "spaeter", "label": "In mehr als 12 Monaten" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbAdditionalCosts",
+          "type": "single-select",
+          "text": "Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
+            { "value": "ja", "label": "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbAdditionalCostsOneTime",
+          "type": "number",
+          "text": "Einmalbetrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Nur wenn vnbAdditionalCosts = 'ja'",
+          "conditionalRequired": "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "vnbAdditionalCostsYearly",
+          "type": "number",
+          "text": "Jährlicher Betrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Nur wenn vnbAdditionalCosts = 'ja'",
+          "conditionalRequired": "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "vnbFullService",
+          "type": "single-select",
+          "text": "Einschränkende Bedingung Full-Service-Angebot",
+          "options": [
+            { "value": "nur_full_service", "label": "Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
+            { "value": "auch_ohne", "label": "Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen" }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbDataProvision",
+          "type": "multi-select",
+          "text": "Wie beabsichtigt Ihr VNB, Ihnen die für die Abrechnung benötigten Daten bereitzustellen?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "mail_excel", "label": "Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
+            { "value": "portal_verrechnete_werte", "label": "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
+            { "value": "dienstleister_marktkommunikation", "label": "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB oder Energie-Service-Anbieter (ESA) abruft" },
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbDataCost",
+          "type": "single-select",
+          "text": "Falls Ihr VNB/gMSB die Daten direkt an Sie übermittelt, was wird es kosten?",
+          "options": [
+            { "value": "kostenlos", "label": "Kostenlos" },
+            { "value": "weniger_3_eur", "label": "Weniger als 3 EUR/Messstelle/Jahr" },
+            { "value": "mehr_3_eur", "label": "Mehr als 3 EUR/Messstelle/Jahr" },
+            { "value": "keine_auskunft", "label": "Dazu gibt es noch keine Auskunft" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbDataCostAmount",
+          "type": "number",
+          "text": "Betrag in EUR/Messstelle/Jahr",
+          "optional": true,
+          "visibilityLogic": "Wenn vnbDataCost = 'mehr_3_eur'"
+        },
+        {
+          "id": "vnbEsaCost",
+          "type": "single-select",
+          "text": "Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der VNB/gMSB dafür Geld?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "kostenlos", "label": "Nein, das ist kostenlos." },
+            { "value": "weniger_3_eur", "label": "Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
+            { "value": "mehr_3_eur", "label": "Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'ja'"
+        },
+        {
+          "id": "vnbEsaCostAmount",
+          "type": "number",
+          "text": "Betrag in EUR/Messstelle/Jahr",
+          "optional": true,
+          "visibilityLogic": "Wenn vnbEsaCost = 'mehr_3_eur'"
+        },
+        {
+          "id": "vnbMsbTimeline",
+          "type": "single-select",
+          "text": "Falls Ihr VNB nicht anbietet, den Messstellenbetrieb selber zu übernehmen: Hat er in Aussicht gestellt, ab wann der grundzuständige Messstellenbetreiber die Verrechnung durchführen kann?",
+          "options": [
+            { "value": "ja_12_monate", "label": "Ja, innerhalb der nächsten 12 Monate" },
+            { "value": "ja_spaeter", "label": "Ja, in über 12 Monaten" },
+            { "value": "nicht_gefragt", "label": "Nein, das haben wir nicht gefragt" },
+            { "value": "keine_aussage", "label": "Nein, dazu gab es keine Aussage" }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'nein_wmsb'"
+        },
+        {
+          "id": "vnbRejectionTimeline",
+          "type": "single-select",
+          "text": "Falls Ihr VNB die Umsetzung bislang vollständig ablehnt: Gibt es schon eine Aussage, ab wann die GGV möglich sein wird?",
+          "options": [
+            { "value": "ja_12_monate", "label": "Ja, innerhalb der nächsten 12 Monate" },
+            { "value": "ja_spaeter", "label": "Ja, in über 12 Monaten" },
+            { "value": "nicht_gefragt", "label": "Nein, das haben wir nicht gefragt" },
+            { "value": "keine_aussage", "label": "Nein, dazu gab es keine Aussage" }
+          ],
+          "visibilityLogic": "Nur wenn vnbMsbOffer = 'nein_gar_nicht'"
+        }
+      ]
+    },
+    {
+      "id": "ggv-operation",
+      "title": "5. Betrieb: Modellspezifisch – GGV",
+      "description": "Erfahrungen im laufenden GGV-Betrieb",
+      "visibilityLogic": "Nur wenn planningStatus = 'pv_laeuft_ggv_laeuft'",
+      "questions": [
+        {
+          "id": "operationVnbDuration",
+          "type": "single-select",
+          "text": "Wie lange hat die Abstimmung mit dem VNB zur GGV gedauert, von der ersten Kontaktaufnahme bis zur Klärung aller Fragen bzw. Start der Belieferung?",
+          "options": [
+            { "value": "unter_2_monate", "label": "Unter 2 Monaten" },
+            { "value": "2_bis_12_monate", "label": "Zwischen 2 und 12 Monaten" },
+            { "value": "ueber_12_monate", "label": "Über 12 Monate" }
+          ]
+        },
+        {
+          "id": "operationVnbDurationReasons",
+          "type": "textarea",
+          "text": "Falls es lange dauerte: Was war das größte Problem?",
+          "optional": true
+        },
+        {
+          "id": "operationWandlermessung",
+          "type": "single-select",
+          "text": "Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung > 5.000 EUR)?",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nein", "label": "Nein" },
+            { "value": "nein_freiwillig", "label": "Nein, aber wir haben das freiwillig eingebaut", "hasTextField": true, "textFieldLabel": "Erläuterung" },
+            { "value": "wissen_nicht", "label": "Das wissen wir nicht" }
+          ]
+        },
+        {
+          "id": "operationWandlermessungComment",
+          "type": "textarea",
+          "text": "Ergänzende Informationen zur Wandlermessung",
+          "optional": true,
+          "visibilityLogic": "Wenn operationWandlermessung = 'ja'"
+        },
+        {
+          "id": "operationMsbProvider",
+          "type": "single-select",
+          "text": "Messstellenbetrieb: Wer baut die Smart Meter ein und betreibt sie?",
+          "helpText": "Wer ist in dem Projekt der Messstellenbetreiber, wer führt die Aufteilung der PV-Stromerzeugung durch und von wem erhalten Sie die für die Abrechnung mit den Teilnehmenden erforderlichen Daten?",
+          "options": [
+            { "value": "gmsb", "label": "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
+            { "value": "wmsb", "label": "Ein wMSB" }
+          ]
+        },
+        {
+          "id": "operationAllocationProvider",
+          "type": "single-select",
+          "text": "Aufteilung der PV-Stromerzeugung auf die Teilnehmenden: Wer verrechnet die Messwerte und ordnet die Erzeugung je 15-Minuten-Intervall auf die Teilnehmenden zu?",
+          "options": [
+            { "value": "gmsb", "label": "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
+            { "value": "wmsb", "label": "Ein wMSB" },
+            { "value": "sonstiges", "label": "Ein Dienstleister / Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "operationDataProvider",
+          "type": "single-select",
+          "text": "Übermittlung der errechneten Strommengen je Teilnehmer: Wer stellt Ihnen die errechneten Werte (zugeordneten Erzeugungsmengen) zur Verfügung, damit Sie eine Abrechnung machen können?",
+          "options": [
+            { "value": "gmsb", "label": "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
+            { "value": "wmsb", "label": "Ein wMSB" },
+            { "value": "dienstleister", "label": "ESA-Dienstleister / Sonstiges", "hasTextField": true },
+            { "value": "abrechnung_dienstleister", "label": "Wir benötigen keine detaillierten Werte - die Abrechnung wird direkt von einem Dienstleister durchgeführt." }
+          ]
+        },
+        {
+          "id": "operationMsbDuration",
+          "type": "single-select",
+          "text": "Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter durch den VNB/gMSB?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Weiß ich nicht" },
+            { "value": "schnell", "label": "Das ging problemlos und schnell" },
+            { "value": "4_monate", "label": "Ca. 4 Monate (gesetzlich vorgegebene Frist)" },
+            { "value": "laenger", "label": "Deutlich länger als 4 Monate" }
+          ],
+          "visibilityLogic": "Wenn operationMsbProvider = 'gmsb'"
+        },
+        {
+          "id": "operationMsbAdditionalCosts",
+          "type": "single-select",
+          "text": "Stellt der VNB/gMSB zusätzliche Kosten für den 'Einbau auf Kundenwunsch' in Rechnung?",
+          "options": [
+            { "value": "nein", "label": "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
+            { "value": "ja", "label": "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" }
+          ],
+          "visibilityLogic": "Wenn operationMsbProvider = 'gmsb'"
+        },
+        {
+          "id": "operationMsbAdditionalCostsOneTime",
+          "type": "number",
+          "text": "Einmalbetrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn operationMsbAdditionalCosts = 'ja'",
+          "conditionalRequired": "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "operationMsbAdditionalCostsYearly",
+          "type": "number",
+          "text": "Jährlicher Betrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn operationMsbAdditionalCosts = 'ja'",
+          "conditionalRequired": "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "operationDataFormat",
+          "type": "single-select",
+          "text": "Wie erhalten Sie die errechneten Daten von Ihrem VNB/gMSB?",
+          "options": [
+            { "value": "mail_excel", "label": "Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
+            { "value": "portal_verrechnete_werte", "label": "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
+            { "value": "portal_alle_messwerte", "label": "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können, um diese selber zu verrechnen" },
+            { "value": "dienstleister_marktkommunikation", "label": "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft" },
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "operationDataCost",
+          "type": "single-select",
+          "text": "Wie viel kostet die direkte Bereitstellung der verrechneten Werte durch Ihren VNB/gMSB?",
+          "helpText": "Dabei sind die jährlichen Kosten für die Bereitstellung der Smart Meter nicht zu berücksichtigen.",
+          "options": [
+            { "value": "kostenlos", "label": "Kostenlos" },
+            { "value": "weniger_3_eur", "label": "Dauerhaft weniger (oder gleich) 3 EUR/Messstelle pro Jahr" },
+            { "value": "mehr_3_eur", "label": "Dauerhaft mehr als 3 EUR/Messstelle pro Jahr" },
+            { "value": "aktuell_kostenlos", "label": "Aktuell kostenlos, das wird sich aber ändern" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Wenn operationDataProvider = 'gmsb'"
+        },
+        {
+          "id": "operationDataCostAmount",
+          "type": "number",
+          "text": "Betrag in EUR/Messstelle/Jahr",
+          "optional": true,
+          "visibilityLogic": "Wenn operationDataCost = 'mehr_3_eur'"
+        },
+        {
+          "id": "operationEsaCost",
+          "type": "single-select",
+          "text": "Falls Ihr Dienstleister die Werte vom VNB/gMSB für Sie abruft (ESA-Marktrolle), verlangt der VNB/gMSB dafür Geld?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "kostenlos", "label": "Nein, das macht er umsonst" },
+            { "value": "weniger_3_eur", "label": "Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
+            { "value": "mehr_3_eur", "label": "Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" }
+          ],
+          "visibilityLogic": "Wenn operationDataProvider = 'gmsb'"
+        },
+        {
+          "id": "operationEsaCostAmount",
+          "type": "number",
+          "text": "Betrag in EUR/Messstelle/Jahr",
+          "optional": true,
+          "visibilityLogic": "Wenn operationEsaCost = 'mehr_3_eur'"
+        },
+        {
+          "id": "operationSatisfactionRating",
+          "type": "rating",
+          "text": "Wie zufrieden sind Sie mit Ihrem VNB bei der Umsetzung des Projektes?",
+          "scaleLabels": { "min": "Unser VNB will das eigentlich lieber verhindern", "max": "Unser VNB möchte das wirklich mit uns umsetzen" }
+        }
+      ]
+    },
+    {
+      "id": "service-provider",
+      "title": "5. Betrieb: Modellspezifisch – Dienstleister (GGV)",
+      "description": "Feedback zu Dienstleistern & Reaktionen",
+      "visibilityLogic": "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      "questions": [
+        {
+          "id": "serviceProviderName",
+          "type": "text",
+          "text": "Mit welchem Dienstleister arbeiten Sie zusammen?",
+          "optional": true
+        },
+        {
+          "id": "serviceProviderComments",
+          "type": "textarea",
+          "text": "Kommentare zu Dienstleister 1",
+          "optional": true,
+          "visibilityLogic": "Wenn serviceProviderName ausgefüllt"
+        },
+        {
+          "id": "serviceProvider2Name",
+          "type": "text",
+          "text": "Dienstleister 2 (optional)",
+          "optional": true,
+          "visibilityLogic": "Wenn serviceProviderName ausgefüllt"
+        },
+        {
+          "id": "serviceProvider2Rating",
+          "type": "rating",
+          "text": "Zufriedenheit mit Dienstleister 2",
+          "scaleLabels": { "min": "Sehr unzufrieden", "max": "Sehr zufrieden" },
+          "optional": true,
+          "visibilityLogic": "Wenn serviceProvider2Name ausgefüllt"
+        },
+        {
+          "id": "serviceProvider2Comments",
+          "type": "textarea",
+          "text": "Kommentare zu Dienstleister 2",
+          "optional": true,
+          "visibilityLogic": "Wenn serviceProvider2Name ausgefüllt"
+        }
+      ]
+    },
+    {
+      "id": "mieterstrom-planning",
+      "title": "4. Planung: Modellspezifisch – Mieterstrom",
+      "description": "Details zu Mieterstrom-Projekten",
+      "visibilityLogic": "Nur wenn in #6 'Mieterstrom' ausgewählt",
+      "questions": [
+        {
+          "id": "mieterstromSummenzaehler",
+          "type": "single-select",
+          "text": "Möchten Sie Mieterstrom mit virtuellem oder mit physikalischem Summenzähler umsetzen?",
+          "options": [
+            { "value": "virtuell", "label": "Mit virtuellem Summenzähler" },
+            { "value": "physikalisch", "label": "Mit physikalischem Summenzähler" },
+            { "value": "kein_unterschied", "label": "Wir kennen den Unterschied nicht" },
+            { "value": "keine_praeferenz", "label": "Wir haben keine Präferenz" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "mieterstromExistingProjects",
+          "type": "single-select",
+          "text": "Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, es gibt sicher noch keine" },
+            { "value": "ja_mindestens_eins", "label": "Ja, es gibt mindestens eins" },
+            { "value": "ja_viele", "label": "Ja, es gibt schon eine ganze Reihe" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "mieterstromExistingProjectsVirtuell",
+          "type": "single-select",
+          "text": "Gibt es im Netzgebiet Ihres VNB schon Mieterstrom-Projekte mit virtuellem Summenzähler?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, es gibt sicher noch keine" },
+            { "value": "ja_mindestens_eins", "label": "Ja, es gibt mindestens eins" },
+            { "value": "ja_viele", "label": "Ja, es gibt schon eine ganze Reihe" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "mieterstromVnbContact",
+          "type": "multi-select",
+          "text": "Waren Sie schon im Kontakt mit Ihrem VNB?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "ja_direkt", "label": "Ja, wir hatten direkten Kontakt mit dem VNB" },
+            { "value": "ja_installateur", "label": "Ja, über den Installateur/Dienstleister" },
+            { "value": "nein", "label": "Nein, noch kein Kontakt" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "mieterstromVirtuellAllowed",
+          "type": "single-select",
+          "text": "Lässt Ihr VNB die Umsetzung des sogenannten 'virtuellen Summenzählers' durch einen wettbewerblichen MSB zu?",
+          "options": [
+            { "value": "ja", "label": "Ja" },
+            { "value": "nein", "label": "Nein" },
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" }
+          ]
+        },
+        {
+          "id": "mieterstromVirtuellDeniedReason",
+          "type": "textarea",
+          "text": "Warum lässt Ihr VNB den virtuellen Summenzähler nicht zu?",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromVirtuellAllowed = 'nein'"
+        },
+        {
+          "id": "mieterstromVirtuellDeniedDocuments",
+          "type": "file",
+          "text": "Dokumente zum virtuellen Summenzähler hochladen",
+          "helpText": "z.B. Korrespondenz mit VNB, Ablehnungsschreiben",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromVirtuellAllowed = 'nein'"
+        },
+        {
+          "id": "mieterstromVirtuellWandlermessung",
+          "type": "single-select",
+          "text": "Wenn Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten >5.000 EUR)?",
+          "options": [
+            { "value": "nein", "label": "Nein" },
+            { "value": "ja", "label": "Ja", "hasTextField": true }
+          ],
+          "visibilityLogic": "Wenn mieterstromVirtuellAllowed = 'ja'"
+        },
+        {
+          "id": "mieterstromVirtuellWandlermessungDocuments",
+          "type": "file",
+          "text": "Dokumente zur Wandlermessung hochladen",
+          "helpText": "z.B. Messkonzept, Korrespondenz",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromVirtuellWandlermessung = 'ja'"
+        },
+        {
+          "id": "mieterstromVnbResponse",
+          "type": "multi-select",
+          "text": "Welche Aussage zur Rückmeldung vom VNB trifft zu?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "moeglich_gmsb", "label": "Wir können Mieterstrom umsetzen, der VNB/gMSB bietet an, dies als Messstellenbetreiber zu unterstützen" },
+            { "value": "moeglich_wmsb", "label": "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
+            { "value": "keine_antwort", "label": "Unser VNB hat die Anfrage bisher nicht beantwortet" },
+            { "value": "nicht_moeglich", "label": "Unser VNB sagt, dass eine Umsetzung in seinem Netzgebiet bislang nicht möglich ist", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "mieterstromSupportRating",
+          "type": "rating",
+          "text": "Wie sehr fühlen Sie sich von Ihrem VNB in der Planung von Mieterstrom unterstützt?",
+          "scaleLabels": { "min": "Unser VNB will das eigentlich lieber verhindern", "max": "Unser VNB möchte das wirklich mit uns umsetzen" }
+        }
+      ]
+    },
+    {
+      "id": "mieterstrom-vnb-offer",
+      "title": "4. Planung: Modellspezifisch – Mieterstrom - VNB Angebot",
+      "description": "Details zum MSB-Angebot des VNB für Mieterstrom",
+      "visibilityLogic": "Nur wenn mieterstromVnbResponse 'moeglich_gmsb' enthält",
+      "questions": [
+        {
+          "id": "mieterstromFullService",
+          "type": "single-select",
+          "text": "Bietet der VNB/gMSB den Messstellenbetrieb im Mieterstrom grundsätzlich immer an, oder nur in Kombination mit einem Full-Service-Angebot?",
+          "options": [
+            { "value": "nur_full_service", "label": "Unser Stadtwerk/VNB bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk." },
+            { "value": "auch_ohne", "label": "Unser Stadtwerk/VNB bietet dies auch an, ohne selber Strom zu liefern." }
+          ]
+        },
+        {
+          "id": "mieterstromMsbCosts",
+          "type": "single-select",
+          "text": "Stellt Ihr VNB/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
+            { "value": "ja", "label": "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "mieterstromMsbCostsOneTime",
+          "type": "number",
+          "text": "Einmalbetrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromMsbCosts = 'ja'",
+          "conditionalRequired": "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "mieterstromMsbCostsYearly",
+          "type": "number",
+          "text": "Jährlicher Betrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromMsbCosts = 'ja'",
+          "conditionalRequired": "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "mieterstromModelChoice",
+          "type": "single-select",
+          "text": "Welche Umsetzungsmodelle bietet Ihr VNB/gMSB als Messstellenbetreiber an?",
+          "options": [
+            { "value": "virtuell", "label": "Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für >5.000 EUR) bleibt uns damit erspart" },
+            { "value": "physikalisch", "label": "Nur das sogenannte 'physikalische Summenzählermodell' (erfordert einen 'physikalischen Summenzähler' für >5.000 EUR)" },
+            { "value": "beide", "label": "Beide Modelle" }
+          ]
+        },
+        {
+          "id": "mieterstromDataProvision",
+          "type": "single-select",
+          "text": "Wie stellt der VNB/gMSB Ihnen die Daten zur Verfügung wenn er den Messstellenbetrieb durchführt?",
+          "options": [
+            { "value": "direkt_guenstig", "label": "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) – kostenlos oder für weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
+            { "value": "direkt_teuer", "label": "Der VNB/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr" },
+            { "value": "marktkommunikation", "label": "Der VNB/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mieterstrom-operation",
+      "title": "5. Betrieb: Modellspezifisch – Mieterstrom",
+      "description": "Erfahrungen im laufenden Mieterstrom-Betrieb",
+      "visibilityLogic": "Nur wenn Mieterstrom in Betrieb (mieterstromPlanningStatus = 'pv_laeuft_ggv_laeuft')",
+      "questions": [
+        {
+          "id": "mieterstromVnbRole",
+          "type": "single-select",
+          "text": "Welche Rolle übernimmt der VNB in Ihrem Mieterstrom-Projekt?",
+          "options": [
+            { "value": "keine", "label": "Gar keine, wir machen das mit einem wettbewerblichen Messstellenbetreiber" },
+            { "value": "msb_dienstleister", "label": "Der VNB/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung" },
+            { "value": "msb_direkt", "label": "Der VNB/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung" },
+            { "value": "full_service", "label": "Das Stadtwerk (oder ein mit dem VNB verbundenes Unternehmen) übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden" }
+          ]
+        },
+        {
+          "id": "mieterstromVnbDuration",
+          "type": "single-select",
+          "text": "Wie lange hat die Abstimmung mit dem VNB zum Mieterstrom gedauert?",
+          "options": [
+            { "value": "unter_2_monate", "label": "Unter 2 Monaten" },
+            { "value": "2_bis_12_monate", "label": "Zwischen 2 und 12 Monaten" },
+            { "value": "ueber_12_monate", "label": "Über 12 Monate" }
+          ]
+        },
+        {
+          "id": "mieterstromVnbDurationReasons",
+          "type": "textarea",
+          "text": "Falls es lange dauerte: Was war das große Problem?",
+          "optional": true
+        },
+        {
+          "id": "mieterstromWandlermessung",
+          "type": "single-select",
+          "text": "Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung >5.000 EUR)?",
+          "options": [
+            { "value": "nein", "label": "Nein" },
+            { "value": "ja", "label": "Ja", "hasTextField": true },
+            { "value": "wissen_nicht", "label": "Das wissen wir nicht" }
+          ]
+        },
+        {
+          "id": "mieterstromMsbInstallDuration",
+          "type": "single-select",
+          "text": "Wie lange hat es gedauert von Bestellung bis zum Einbau der Smart Meter?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Weiß ich nicht" },
+            { "value": "schnell", "label": "Das ging problemlos und schnell" },
+            { "value": "4_monate", "label": "Die 4 Monate gesetzliche Frist wurden gerade so eingehalten" },
+            { "value": "laenger", "label": "Die Frist von 4 Monaten wurde deutlich überschritten" }
+          ]
+        },
+        {
+          "id": "mieterstromOperationCosts",
+          "type": "single-select",
+          "text": "Stellt der VNB/gMSB Ihnen für den Betrieb der Smart Meter zusätzliche Kosten in Rechnung?",
+          "options": [
+            { "value": "wissen_nicht", "label": "Wissen wir nicht" },
+            { "value": "nein", "label": "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
+            { "value": "ja", "label": "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" }
+          ]
+        },
+        {
+          "id": "mieterstromOperationCostsOneTime",
+          "type": "number",
+          "text": "Einmalbetrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromOperationCosts = 'ja'",
+          "conditionalRequired": "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "mieterstromOperationCostsYearly",
+          "type": "number",
+          "text": "Jährlicher Betrag (EUR)",
+          "optional": true,
+          "visibilityLogic": "Wenn mieterstromOperationCosts = 'ja'",
+          "conditionalRequired": "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich"
+        },
+        {
+          "id": "mieterstromRejectionResponse",
+          "type": "multi-select",
+          "text": "Falls Ihr VNB die Umsetzung von Mieterstrom nicht oder nur unzureichend anbietet/durchführt, wie haben Sie bislang reagiert?",
+          "options": [
+            { "value": "bnetza", "label": "Wir haben uns bereits an die BNetzA gewendet" },
+            { "value": "rechtliche_schritte", "label": "Wir erwägen, rechtliche Schritte einzuleiten" },
+            { "value": "keine_schritte", "label": "Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "mieterstromInfoSources",
+          "type": "textarea",
+          "text": "Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Mieterstrom?",
+          "optional": true
+        },
+        {
+          "id": "mieterstromExperiences",
+          "type": "textarea",
+          "text": "Welche Erfahrungen möchten Sie noch teilen?",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "energy-sharing",
+      "title": "4. Planung: Modellspezifisch – Energy Sharing",
+      "description": "Details zu Energy Sharing",
+      "visibilityLogic": "Nur wenn Energy Sharing ausgewählt",
+      "questions": [
+        {
+          "id": "esStatus",
+          "type": "single-select",
+          "text": "Wo stehen Sie aktuell mit dem Projekt?",
+          "options": [
+            { "value": "in_betrieb_vollversorgung", "label": "Unser Energy-Sharing Projekt ist schon in Betrieb - Vollversorgungsmodell" },
+            { "value": "in_betrieb_42c", "label": "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
+            { "value": "planung_bereit", "label": "Wir sind in der Planung und wollen loslegen sobald es geht" },
+            { "value": "info_sammeln", "label": "Wir haben grundsätzliches Interesse, sammeln derzeit Infos" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "optional": true
+        },
+        {
+          "id": "esInOperationDetails",
+          "type": "textarea",
+          "text": "Welche Erzeugungsanlagen sind eingebunden und wer wird beliefert?",
+          "optional": true,
+          "visibilityLogic": "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'"
+        },
+        {
+          "id": "esOperatorDetails",
+          "type": "textarea",
+          "text": "Wer betreibt die Anlagen, wie erfolgt die Zuteilung der Strommengen, wer übernimmt die Abrechnung?",
+          "optional": true,
+          "visibilityLogic": "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'"
+        },
+        {
+          "id": "esPlantType",
+          "type": "multi-select",
+          "text": "Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen (oder nutzen sie bereits)?",
+          "helpText": "Mehrfachauswahl möglich",
+          "options": [
+            { "value": "wind", "label": "Windenergieanlage" },
+            { "value": "buergerwind", "label": "Bürgerwindanlage" },
+            { "value": "pv_freiflaeche", "label": "PV-Freiflächenanlage" },
+            { "value": "buergersolar", "label": "Bürgersolaranlage" },
+            { "value": "pv_efh", "label": "PV-Dachanlage auf Einfamilienhaus" },
+            { "value": "pv_mfh", "label": "PV-Dachanlage auf Mehrfamilienhaus" },
+            { "value": "pv_nichtwohn", "label": "PV-Dachanlage auf einem Nicht-Wohngebäude" }
+          ]
+        },
+        {
+          "id": "esProjectScope",
+          "type": "single-select",
+          "text": "Planen Sie eine einzelne Anlage zu nutzen oder mehrere Anlagen einzubinden (oder tun Sie dies bereits)?",
+          "options": [
+            { "value": "single", "label": "Eine einzelne Anlage" },
+            { "value": "multiple", "label": "Mehrere Anlagen" }
+          ]
+        },
+        {
+          "id": "esCapacitySizeKw",
+          "type": "number",
+          "text": "Welche Größe hat die / haben die betroffene(n) EE-Anlage(n) in kW? (1000 kW = 1 MW)",
+          "optional": true
+        },
+        {
+          "id": "esTechnologyDescription",
+          "type": "textarea",
+          "text": "Welche Erzeugungstechnologie(n) sind beteiligt?",
+          "optional": true
+        },
+        {
+          "id": "esPartyCount",
+          "type": "number",
+          "text": "Wie viele Parteien sollen beliefert werden (oder werden schon beliefert)?",
+          "optional": true
+        },
+        {
+          "id": "esConsumerTypes",
+          "type": "multi-select",
+          "text": "Welche Stromverbraucher sollen eingebunden werden (oder sind schon eingebunden)?",
+          "options": [
+            { "value": "privat", "label": "Private Haushalte" },
+            { "value": "kommune", "label": "Kommune" },
+            { "value": "kommunal_unternehmen", "label": "Kommunale Unternehmen" },
+            { "value": "kmu", "label": "KMU" },
+            { "value": "vereine", "label": "Vereine" }
+          ]
+        },
+        {
+          "id": "esConsumerDetails",
+          "type": "textarea",
+          "text": "Wie viele Stromverbraucher welchen Typs sollen eingebunden werden?",
+          "optional": true
+        },
+        {
+          "id": "esConsumerScope",
+          "type": "single-select",
+          "text": "An wen soll der Strom geliefert werden (oder wird der Strom geliefert)?",
+          "options": [
+            { "value": "alle", "label": "An jeden, der Interesse hat" },
+            { "value": "primaer_bestimmte", "label": "Primär an bestimmte Abnehmer, aber gerne auch an weitere" },
+            { "value": "nur_bestimmte", "label": "Nur an bestimmte Abnehmer", "hasTextField": true },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ]
+        },
+        {
+          "id": "esMaxDistance",
+          "type": "text",
+          "text": "Wie groß ist der maximale geografische Abstand zwischen Anlagen und Verbrauchern (geplant oder realisiert)?",
+          "helpText": "Eine ungefähre Schätzung reicht",
+          "optional": true
+        },
+        {
+          "id": "esVnbContact",
+          "type": "single-select",
+          "text": "Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?",
+          "options": [
+            { "value": "yes", "label": "Ja" },
+            { "value": "no", "label": "Nein" }
+          ]
+        },
+        {
+          "id": "esVnbResponse",
+          "type": "single-select",
+          "text": "Was war die Rückmeldung des VNB?",
+          "options": [
+            { "value": "bereit_06_2026", "label": "Der VNB bereitet sich schon darauf vor - ab dem 01.06.2026 können wir starten!" },
+            { "value": "bereit_12_monate", "label": "Der VNB bereitet sich schon darauf vor - in den nächsten 12 Monaten soll die Umsetzung möglich sein" },
+            { "value": "moeglich_keine_zeit", "label": "Der VNB hat angekündigt, dass das möglich sein wird - aber noch keine genaue Zeit genannt" },
+            { "value": "vertroestet", "label": "Der VNB hat uns auf später vertröstet" },
+            { "value": "weiss_nicht", "label": "Der VNB weiß nicht, was Energy Sharing ist" },
+            { "value": "sonstiges", "label": "Sonstiges", "hasTextField": true }
+          ],
+          "visibilityLogic": "Wenn esVnbContact = 'yes'"
+        },
+        {
+          "id": "esNetzentgelteDiscussion",
+          "type": "single-select",
+          "text": "Haben Sie mit Ihrem VNB bereits über die Abrechnung der Netzentgelte gesprochen?",
+          "options": [
+            { "value": "ja_vorschlag", "label": "Ja - und der VNB hatte schon einen Vorschlag wie das geht", "hasTextField": true },
+            { "value": "ja_unklar", "label": "Ja - aber der VNB weiß auch nicht wie das gehen soll", "hasTextField": true },
+            { "value": "nein", "label": "Nein" }
+          ],
+          "visibilityLogic": "Wenn esVnbContact = 'yes'"
+        },
+        {
+          "id": "esInfoSources",
+          "type": "textarea",
+          "text": "Welche Informationsquellen fanden Sie besonders hilfreich bei der Suche nach Informationen zu Energy Sharing?",
+          "optional": true
+        }
+      ]
+    },
+    {
+      "id": "final",
+      "title": "6. Abschluss",
+      "description": "Letzte Informationen",
+      "questions": [
+        {
+          "id": "additionalExperiences",
+          "type": "textarea",
+          "text": "Welche Erfahrungen möchten Sie noch teilen?",
+          "optional": true
+        },
+        {
+          "id": "documentUpload",
+          "type": "file",
+          "text": "Möglichkeit zum Hochladen von Dokumenten",
+          "helpText": "z.B. Korrespondenz mit VNB, Messkonzepte, Rechnungen (max. 5 Dateien)",
+          "optional": true
+        },
+        {
+          "id": "surveyImprovements",
+          "type": "textarea",
+          "text": "Haben Sie Verbesserungsvorschläge für diese Umfrage?",
+          "optional": true
+        },
+        {
+          "id": "npsScore",
+          "type": "rating",
+          "text": "Wie wahrscheinlich ist es, dass Sie anderen die Umsetzung von GGV/Mieterstrom empfehlen würden?",
+          "scaleLabels": { "min": "Sehr unwahrscheinlich", "max": "Sehr wahrscheinlich" },
+          "optional": true
+        }
+      ]
+    }
+  ]
+}
