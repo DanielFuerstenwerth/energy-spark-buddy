@@ -18,10 +18,10 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
 
   return (
     <div className="space-y-8">
-      {/* === OPTION B: Linker Akzentstrich === */}
-      <div className="border-l-2 border-muted-foreground/30 pl-4 py-1">
-        <p className="font-semibold text-sm text-foreground mb-1">Hinweis zur Datennutzung</p>
-        <p className="text-xs text-muted-foreground">
+      {/* === OPTION C: Kompakter Callout === */}
+      <div className="rounded-md border border-border bg-muted/50 px-4 py-3">
+        <p className="font-semibold text-foreground mb-1">Hinweis zur Datennutzung</p>
+        <p className="text-sm text-foreground/80">
           Ihre Antworten werden für eine Bewertung der Verteilnetzbetreiber auf{" "}
           <a href="https://www.vnb-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">vnb-transparenz.de</a>{" "}
           genutzt. Freitextantworten werden nicht veröffentlicht, können aber anonymisiert als Excel an berechtigte Anliegenträger weitergegeben werden.
