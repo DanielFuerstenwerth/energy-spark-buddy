@@ -155,20 +155,28 @@ function renderQuestion(
         }
       };
 
+      const showUndecidedWarning = q.id === 'planningStatus' && isUndecided && OPERATION_VALUES.includes(currentValue || '');
+
       return (
-        <SingleSelectQuestion
-          key={q.id}
-          id={q.id}
-          label={dynamicLabel}
-          description={q.description || q.helpText}
-          options={dynamicOptions}
-          value={currentValue}
-          otherValue={getValue<string>(`${q.id}Other`)}
-          onChange={handleChange}
-          onOtherChange={(v) => setValue(`${q.id}Other`, v)}
-          optional={q.optional}
-          questionNumber={uiNumber}
-        />
+        <div key={q.id} className={showUndecidedWarning ? "rounded-lg border-2 border-destructive/60 p-4 -m-4 transition-all" : ""}>
+          <SingleSelectQuestion
+            id={q.id}
+            label={dynamicLabel}
+            description={q.description || q.helpText}
+            options={dynamicOptions}
+            value={currentValue}
+            otherValue={getValue<string>(`${q.id}Other`)}
+            onChange={handleChange}
+            onOtherChange={(v) => setValue(`${q.id}Other`, v)}
+            optional={q.optional}
+            questionNumber={uiNumber}
+          />
+          {showUndecidedWarning && (
+            <p className="mt-3 text-sm text-destructive font-medium">
+              ⚠️ Hinweis: Wenn Ihr Projekt bereits im Betrieb ist, wählen Sie bitte oben bei Projektart „GGV" und/oder „Mieterstrom" statt „GGV oder Mieterstrom (unentschieden)".
+            </p>
+          )}
+        </div>
       );
     }
 
