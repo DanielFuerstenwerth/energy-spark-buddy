@@ -17,10 +17,6 @@
     {
       "source": "/umfrage/audit/",
       "destination": "/umfrage/audit/index.html"
-    },
-    {
-      "source": "/data/:path*",
-      "destination": "/data/:path*"
     }
   ],
   "fallback": {
