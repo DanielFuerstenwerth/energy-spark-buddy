@@ -49,9 +49,12 @@ export interface SurveySchema {
   sections: SurveySection[];
 }
 
-// Helper function to clean Lxx: artifacts from labels
+// Helper function to clean Lxx: artifacts and letter-number prefixes (e.g. "B5.", "C8.1c") from labels
 export function cleanLabel(text: string): string {
-  return text.replace(/\n?L\d+:\s*/g, '').trim();
+  return text
+    .replace(/\n?L\d+:\s*/g, '')
+    .replace(/^[A-Z]\d+(?:\.\d+)*[a-z]?\.?\s+/i, '')
+    .trim();
 }
 
 // === SECTION 1: Über Sie ===
@@ -1493,7 +1496,8 @@ export function getOptionsForQuestion(questionId: string): SurveyOption[] {
 }
 
 export function getLabelForQuestion(questionId: string): string {
-  return getQuestionById(questionId)?.label || '';
+  const label = getQuestionById(questionId)?.label || '';
+  return cleanLabel(label);
 }
 
 // Convert camelCase to snake_case
