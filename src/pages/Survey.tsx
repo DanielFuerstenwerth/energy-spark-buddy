@@ -221,13 +221,17 @@ export default function Survey() {
                 updateData={stepUpdateData}
                 uploadedDocuments={uploadedDocuments}
                 setUploadedDocuments={setUploadedDocuments}
+                showPrivacyNotice={currentStepDef?.id === 'about'}
+                showDataUsageCheckbox={currentStepDef?.id === 'final'}
+                dataUsageConfirmed={dataUsageConfirmed}
+                onDataUsageConfirmedChange={setDataUsageConfirmed}
               />
               <div className="flex justify-between mt-8 pt-6 border-t">
                 <Button variant="outline" onClick={handleBack} disabled={currentStep === 0}>
                   <ChevronLeft className="w-4 h-4 mr-2" />Zurück
                 </Button>
                 {currentStep === steps.length - 1 ? (
-                  <Button onClick={handleSubmit} disabled={isSubmitting}>
+                  <Button onClick={handleSubmit} disabled={isSubmitting || !dataUsageConfirmed} title={!dataUsageConfirmed ? "Bitte bestätigen Sie die Datennutzung" : undefined}>
                     {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Wird gesendet...</>) : (<>Absenden<Send className="w-4 h-4 ml-2" /></>)}
                   </Button>
                 ) : (

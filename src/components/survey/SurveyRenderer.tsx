@@ -17,8 +17,11 @@ import { SurveyVnbCombobox } from "./questions/SurveyVnbCombobox";
 import { ProjectLocationRows, ProjectLocation } from "./questions/ProjectLocationRows";
 import { ConditionalCostFields } from "./questions/ConditionalCostFields";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Info } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Info, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 interface SurveyRendererProps {
   sections: SurveySection[];
@@ -424,9 +427,50 @@ function renderQuestion(
   }
 }
 
-export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, setUploadedDocuments }: SurveyRendererProps) {
+interface SurveyRendererFullProps extends SurveyRendererProps {
+  /** Show data usage notice at top of about section */
+  showPrivacyNotice?: boolean;
+  /** Data usage confirmation checkbox state */
+  dataUsageConfirmed?: boolean;
+  onDataUsageConfirmedChange?: (val: boolean) => void;
+  /** Show the final confirmation checkbox */
+  showDataUsageCheckbox?: boolean;
+}
+
+function PrivacyNotice() {
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  return (
+    <div className="rounded-lg bg-muted p-4 mb-6">
+      <p className="font-semibold text-sm text-foreground mb-1">Hinweis zur Datennutzung</p>
+      <p className="text-xs text-muted-foreground">
+        Ihre Antworten werden für eine Bewertung der Verteilnetzbetreiber auf{" "}
+        <a href="https://www.vnb-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">vnb-transparenz.de</a>{" "}
+        genutzt. Freitextantworten werden nicht veröffentlicht, können aber anonymisiert als Excel an berechtigte Anliegenträger weitergegeben werden.
+      </p>
+      <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <CollapsibleTrigger className="flex items-center gap-1 text-xs mt-2 text-muted-foreground hover:text-foreground hover:underline cursor-pointer">
+          <ChevronDown className={`h-3 w-3 transition-transform ${detailsOpen ? "rotate-180" : ""}`} />
+          {detailsOpen ? "Weniger anzeigen" : "Mehr erfahren"}
+        </CollapsibleTrigger>
+        <CollapsibleContent className="mt-3 text-sm space-y-2 text-foreground">
+          <p>Das Bündnis Bürgerenergie (BBEn) wird die gesamten Antworten inkl. der Freitextfelder anonym (d.h. ohne E-Mail-Adressen) als Excel-Datenbank an berechtigte Anliegenträger (z.B. Wissenschaft, Energieagenturen, Solarenergieverbände) auf Anfrage zur Verfügung stellen.</p>
+          <p>Alle GGV-Projekte werden zusätzlich auf einer Deutschlandkarte auf der Seite{" "}
+            <a href="https://www.ggv-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">ggv-transparenz.de</a>{" "}
+            dargestellt.
+          </p>
+          <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, schreiben Sie bitte an:{" "}
+            <a href="mailto:vnb-transparenz@1000gw.de" className="underline font-medium">vnb-transparenz@1000gw.de</a>.
+          </p>
+        </CollapsibleContent>
+      </Collapsible>
+    </div>
+  );
+}
+
+export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, setUploadedDocuments, showPrivacyNotice, dataUsageConfirmed, onDataUsageConfirmedChange, showDataUsageCheckbox }: SurveyRendererFullProps) {
   return (
     <div className="space-y-8">
+      {showPrivacyNotice && <PrivacyNotice />}
       {sections.map((section) => {
         const visibleQuestions = section.questions.filter(q => isQuestionVisible(q, data));
         if (visibleQuestions.length === 0) return null;
@@ -458,6 +502,21 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
           </div>
         );
       })}
+      {showDataUsageCheckbox && (
+        <div className="border-t pt-6 mt-8">
+          <div className="flex items-start gap-3">
+            <Checkbox
+              id="data-usage-confirmed"
+              checked={dataUsageConfirmed}
+              onCheckedChange={(checked) => onDataUsageConfirmedChange?.(checked === true)}
+              className="mt-0.5"
+            />
+            <Label htmlFor="data-usage-confirmed" className="text-sm leading-relaxed cursor-pointer">
+              Ich habe zur Kenntnis genommen, dass meine Antworten für die Bewertung von Verteilnetzbetreibern genutzt und als Excel-Daten an berechtigte Anliegenträger weitergegeben werden können.
+            </Label>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -242,21 +242,12 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       optional: true,
       visibilityLogic: "Immer am Ende der Projektdetails",
     },
-  ],
-};
-
-// === SECTION 3: Planung Allgemeines - Planungsstatus ===
-const SECTION_PLANNING: SurveySection = {
-  id: "planning",
-  title: "3. Planung: Allgemeines – Planungsstand",
-  description: "Aktueller Status Ihres Projekts",
-  visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
-  questions: [
+    // planningStatus moved here from SECTION_PLANNING (was Step 3, now Step 2)
     {
       id: "planningStatus",
       type: "single-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
-      helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.", // Korrektur
+      helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
         { value: "planung_stockt_ggv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Umsetzung GGV/Mieterstrom" },
@@ -267,6 +258,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       required: true,
+      visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
     },
     {
       id: "mieterstromPlanningStatus",
@@ -285,6 +277,17 @@ const SECTION_PLANNING: SurveySection = {
       required: true,
       visibilityLogic: "Nur wenn in #6 'Mieterstrom' ausgewählt UND gleichzeitig GGV ausgewählt",
     },
+  ],
+};
+
+// === SECTION 3: Planung Allgemeines - Planungsstatus ===
+// NOTE: planningStatus and mieterstromPlanningStatus are now in SECTION_PROJECT_DETAILS (Step 2)
+const SECTION_PLANNING: SurveySection = {
+  id: "planning",
+  title: "3. Planung: Allgemeines – Planungsstand",
+  description: "Aktueller Status Ihres Projekts",
+  visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
+  questions: [
     {
       id: "ggvOrMieterstromDecision",
       type: "single-select",
