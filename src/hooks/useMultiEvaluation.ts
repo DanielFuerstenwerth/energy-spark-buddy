@@ -5,8 +5,8 @@ import { SurveyData, initialSurveyData } from "@/types/survey";
  * Manages multiple VNB evaluations within a single survey session.
  * 
  * Architecture:
- * - `globalData`: Shared "Über Sie" (A1-A3) + Energy Sharing + Abschluss fields
- * - `evaluations`: Array of per-VNB/project-type data sets
+ * - `globalData`: Shared "Über Sie" + "Abschluss" fields
+ * - `evaluations`: Array of per-VNB/project-type data sets (incl. Energy Sharing)
  * - Each evaluation becomes a separate row in survey_responses on submit
  */
 
@@ -32,19 +32,7 @@ function createDefaultEvaluation(index: number): Evaluation {
 const GLOBAL_FIELDS: (keyof SurveyData)[] = [
   'actorTypes', 'actorTextFields', 'actorOther',
   'motivation', 'motivationOther',
-  'contactEmail',
-];
-
-// Fields that belong to Energy Sharing (global)
-const ES_FIELDS: (keyof SurveyData)[] = [
-  'esStatus', 'esStatusOther', 'esInOperationDetails', 'esOperatorDetails',
-  'esPlantType', 'esPlantTypeDetails', 'esCapacitySizeKw',
-  'esProjectScope',
-  'esPartyCount', 'esConsumerTypes', 'esConsumerDetails',
-  'esConsumerScope', 'esConsumerScopeOther', 'esMaxDistance',
-  'esVnbContact', 'esVnbResponse', 'esVnbResponseOther',
-  'esVnbResponseDetails', 'esNetzentgelteDiscussion', 'esNetzentgelteDetails',
-  'esInfoSources',
+  'contactEmail', 'confirmationForUpdate',
 ];
 
 // Fields that belong to "Abschluss" (global)
@@ -52,11 +40,7 @@ const FINAL_FIELDS: (keyof SurveyData)[] = [
   'additionalExperiences', 'surveyImprovements', 'npsScore',
 ];
 
-export const GLOBAL_STEP_IDS = new Set(['about', 'final']);
-
-export function isGlobalStep(stepId: string): boolean {
-  return GLOBAL_STEP_IDS.has(stepId);
-}
+// Energy Sharing is now PER EVALUATION (not global)
 
 export function useMultiEvaluation() {
   const [globalData, setGlobalData] = useState<SurveyData>({ ...initialSurveyData });
@@ -105,25 +89,15 @@ export function useMultiEvaluation() {
       ...initialSurveyData,
       // Global fields
       ...Object.fromEntries(
-        [...GLOBAL_FIELDS, ...ES_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
+        [...GLOBAL_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
       ),
-      // Evaluation-specific fields (overrides)
+      // Evaluation-specific fields (overrides) — includes ES data now
       ...ev.data,
       // Meta
       evaluationLabel: ev.label,
       sessionGroupId,
     }));
   }, [evaluations, globalData, sessionGroupId]);
-
-  /**
-   * Get the appropriate data and updater for a given step.
-   */
-  const getDataForStep = useCallback((stepId: string) => {
-    if (isGlobalStep(stepId)) {
-      return { data: globalData, updateData: updateGlobalData };
-    }
-    return { data: activeEvaluation.data, updateData: updateEvaluationData };
-  }, [globalData, updateGlobalData, activeEvaluation, updateEvaluationData]);
 
   /**
    * Restore all state from autosave
@@ -151,7 +125,6 @@ export function useMultiEvaluation() {
     removeEvaluation,
     renameEvaluation,
     getMergedSubmissions,
-    getDataForStep,
     restoreState,
   };
 }
