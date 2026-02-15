@@ -34,8 +34,6 @@ export interface SurveyQuestion {
   minLabel?: string;
   maxLabel?: string;
   placeholder?: string;
-  /** @deprecated Use visibilityRule instead. Kept as fallback during migration. */
-  visibilityLogic?: string;
   /** Structured visibility rule - evaluated by evaluateRule() engine */
   visibilityRule?: VisibilityRule;
   skipLogic?: string;
@@ -47,8 +45,6 @@ export interface SurveySection {
   title: string;
   description?: string;
   questions: SurveyQuestion[];
-  /** @deprecated Use visibilityRule instead. Kept as fallback during migration. */
-  visibilityLogic?: string;
   /** Structured visibility rule - evaluated by evaluateRule() engine */
   visibilityRule?: VisibilityRule;
 }
@@ -166,7 +162,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
       ],
-      visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV_OR_MS(),
     },
     {
@@ -175,7 +170,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Größe der PV-Anlage in kW - GGV", // Korrektur
       placeholder: "z.B. 30",
       optional: true,
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV(),
     },
     {
@@ -184,7 +178,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Anzahl der Parteien, die Strom abnehmen - GGV", // Korrektur
       placeholder: "z.B. 12",
       optional: true,
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV(),
     },
     {
@@ -196,7 +189,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gewerbe", label: "Gewerbegebäude" },
         { value: "gemischt", label: "Gemischt" },
       ],
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV(),
     },
     {
@@ -205,7 +197,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Gesamtzahl der Projekte - GGV", // Korrektur
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #7 = 'multiple'",
       visibilityRule: and(PT_GGV(), eq('ggvProjectType', 'multiple')),
     },
     {
@@ -214,7 +205,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Zusätzliche Informationen - GGV", // Korrektur
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV(),
     },
     {
@@ -223,7 +213,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Größe der PV-Anlage(n) in kW - Mieterstrom", // Korrektur
       placeholder: "z.B. 50",
       optional: true,
-      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
       visibilityRule: PT_MS(),
     },
     {
@@ -232,7 +221,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Anzahl der Parteien, die Strom abnehmen - Mieterstrom", // Korrektur
       placeholder: "z.B. 24",
       optional: true,
-      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
       visibilityRule: PT_MS(),
     },
     {
@@ -244,7 +232,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gewerbe", label: "Gewerbegebäude" },
         { value: "gemischt", label: "Gemischt" },
       ],
-      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
       visibilityRule: PT_MS(),
     },
     {
@@ -253,7 +240,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Zusätzliche Informationen - Mieterstrom", // Korrektur
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
-      visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
       visibilityRule: PT_MS(),
     },
     {
@@ -262,7 +248,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Standort(e) des Projekts",
       description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
       optional: true,
-      visibilityLogic: "Immer am Ende der Projektdetails",
     },
     // planningStatus moved here from SECTION_PLANNING (was Step 3, now Step 2)
     {
@@ -280,7 +265,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       required: true,
-      visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV_OR_MS(),
     },
     {
@@ -298,7 +282,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       required: true,
-      visibilityLogic: "Nur wenn in #6 'Mieterstrom' ausgewählt UND gleichzeitig GGV ausgewählt",
       visibilityRule: and(PT_MS(), PT_GGV()),
     },
   ],
@@ -310,7 +293,6 @@ const SECTION_PLANNING: SurveySection = {
   id: "planning",
   title: "3. Planung: Allgemeines – Planungsstand",
   description: "Aktueller Status Ihres Projekts",
-  visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
   visibilityRule: PT_GGV_OR_MS(),
   questions: [
     {
@@ -322,7 +304,6 @@ const SECTION_PLANNING: SurveySection = {
         { value: "unsicher", label: "Wir sind unsicher: es fehlen noch Informationen für eine Entscheidung" },
         { value: "sicher_mieterstrom", label: "Wir sind sicher: es wird/ist Mieterstrom" },
       ],
-      visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
       visibilityRule: PT_GGV_OR_MS(),
     },
     {
@@ -338,7 +319,6 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt", // Korrektur
       visibilityRule: PT_GGV(),
     },
     {
@@ -354,7 +334,6 @@ const SECTION_PLANNING: SurveySection = {
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn in #6 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt", // Korrektur
       visibilityRule: PT_MS_OR_BOTH(),
     },
     {
@@ -376,7 +355,6 @@ const SECTION_CHALLENGES: SurveySection = {
   id: "challenges",
   title: "3. Planung: Allgemeines – Herausforderungen",
   description: "Erlebte Schwierigkeiten bei der Umsetzung",
-  visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
   visibilityRule: PT_GGV_OR_MS(),
   questions: [
     {
@@ -415,7 +393,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
   id: "vnb-planning",
   title: "4. Planung: Modellspezifisch – GGV",
   description: "Details zur GGV-Planung mit dem Verteilnetzbetreiber",
-  visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
   visibilityRule: PT_GGV(),
   questions: [
     {
@@ -548,7 +525,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   id: "vnb-msb",
   title: "4. Planung: Modellspezifisch – GGV - MSB Details",
   description: "Wenn der VNB anbietet, den Messstellenbetrieb in der GGV zu übernehmen:", // Korrektur: Neue Überschrift
-  visibilityLogic: "Nur wenn #28 = 'ja'",
   visibilityRule: eq('vnbMsbOffer', 'ja'),
   questions: [
     {
@@ -562,7 +538,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "spaeter", label: "In mehr als 12 Monaten" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn #28 = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -574,7 +549,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
-      visibilityLogic: "Nur wenn #28 = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -583,7 +557,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Einmalbetrag (EUR)",
       placeholder: "z.B. 500",
       optional: true,
-      visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
       visibilityRule: eq('vnbAdditionalCosts', 'ja'),
       conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -593,7 +566,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Jährlicher Betrag (EUR)",
       placeholder: "z.B. 100",
       optional: true,
-      visibilityLogic: "Nur wenn vnbAdditionalCosts = 'ja'",
       visibilityRule: eq('vnbAdditionalCosts', 'ja'),
       conditionalRequired: "vnbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -605,7 +577,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
         { value: "auch_ohne", label: "Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen" },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -620,7 +591,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -634,7 +604,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "keine_auskunft", label: "Dazu gibt es noch keine Auskunft" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -643,7 +612,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Betrag in EUR/Messstelle/Jahr",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Wenn vnbDataCost = 'mehr_3_eur'",
       visibilityRule: eq('vnbDataCost', 'mehr_3_eur'),
     },
     {
@@ -656,7 +624,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "weniger_3_eur", label: "Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'ja'",
       visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
@@ -665,7 +632,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Betrag in EUR/Messstelle/Jahr",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Wenn vnbEsaCost = 'mehr_3_eur'",
       visibilityRule: eq('vnbEsaCost', 'mehr_3_eur'),
     },
     {
@@ -678,7 +644,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
         { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'nein_wmsb'",
       visibilityRule: eq('vnbMsbOffer', 'nein_wmsb'),
     },
     {
@@ -691,7 +656,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
         { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
       ],
-      visibilityLogic: "Nur wenn vnbMsbOffer = 'nein_gar_nicht'",
       visibilityRule: eq('vnbMsbOffer', 'nein_gar_nicht'),
     },
     {
@@ -711,7 +675,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr VNB hierzu und womit werden die begründet?", // Korrektur: Label
       placeholder: "Weitere Details...",
       optional: true,
-      visibilityLogic: "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'", // Korrektur
       visibilityRule: eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']),
     },
     // Korrektur: Upload-Option für Wandlermessung-Dokumente
@@ -721,7 +684,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Dokumente zur Wandlermessung hochladen",
       description: "z.B. Messkonzept, Korrespondenz mit VNB",
       optional: true,
-      visibilityLogic: "Wenn vnbWandlermessung = 'ja' oder 'wissen_nicht'",
       visibilityRule: eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']),
     },
     {
@@ -749,7 +711,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
   id: "ggv-operation",
   title: "5. Betrieb: Modellspezifisch – GGV",
   description: "Erfahrungen im laufenden GGV-Betrieb",
-  visibilityLogic: "Nur wenn #18 = 'pv_laeuft_ggv_laeuft'",
   visibilityRule: GGV_IN_OPERATION(),
   questions: [
     {
@@ -786,7 +747,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Ergänzende Informationen zur Wandlermessung",
       placeholder: "Weitere Details...",
       optional: true,
-      visibilityLogic: "Wenn operationWandlermessung = 'ja'", // Korrektur: nur bei ja
       visibilityRule: eq('operationWandlermessung', 'ja'),
     },
     // Korrektur: Sammelüberfrage vor #52-54
@@ -831,7 +791,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "4_monate", label: "Ca. 4 Monate (gesetzlich vorgegebene Frist)" },
         { value: "laenger", label: "Deutlich länger als 4 Monate" },
       ],
-      visibilityLogic: "Wenn operationMsbProvider = 'gmsb'",
       visibilityRule: eq('operationMsbProvider', 'gmsb'),
     },
     {
@@ -843,7 +802,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
       ],
-      visibilityLogic: "Wenn operationMsbProvider = 'gmsb'",
       visibilityRule: eq('operationMsbProvider', 'gmsb'),
     },
     {
@@ -852,7 +810,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Einmalbetrag (EUR)",
       placeholder: "z.B. 500",
       optional: true,
-      visibilityLogic: "Wenn operationMsbAdditionalCosts = 'ja'",
       visibilityRule: eq('operationMsbAdditionalCosts', 'ja'),
       conditionalRequired: "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -862,7 +819,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Jährlicher Betrag (EUR)",
       placeholder: "z.B. 100",
       optional: true,
-      visibilityLogic: "Wenn operationMsbAdditionalCosts = 'ja'",
       visibilityRule: eq('operationMsbAdditionalCosts', 'ja'),
       conditionalRequired: "operationMsbAdditionalCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -892,7 +848,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "aktuell_kostenlos", label: "Aktuell kostenlos, das wird sich aber ändern" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Wenn operationDataProvider = 'gmsb'", // Korrektur: Sichtbarkeit
       visibilityRule: eq('operationDataProvider', 'gmsb'),
     },
     {
@@ -901,7 +856,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Betrag in EUR/Messstelle/Jahr",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Wenn operationDataCost = 'mehr_3_eur'",
       visibilityRule: eq('operationDataCost', 'mehr_3_eur'),
     },
     {
@@ -914,7 +868,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "weniger_3_eur", label: "Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
-      visibilityLogic: "Wenn operationDataProvider = 'gmsb'", // Korrektur: Sichtbarkeit
       visibilityRule: eq('operationDataProvider', 'gmsb'),
     },
     {
@@ -923,7 +876,6 @@ const SECTION_GGV_OPERATION: SurveySection = {
       label: "Betrag in EUR/Messstelle/Jahr",
       placeholder: "z.B. 5",
       optional: true,
-      visibilityLogic: "Wenn operationEsaCost = 'mehr_3_eur'",
       visibilityRule: eq('operationEsaCost', 'mehr_3_eur'),
     },
     {
@@ -943,7 +895,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
   title: "5. Betrieb: Modellspezifisch – Dienstleister (GGV)",
   description: "Feedback zu Dienstleistern & Reaktionen",
-  visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
   visibilityRule: PT_GGV(),
   questions: [
     {
@@ -960,7 +911,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       label: "Kommentare zu Dienstleister 1",
       placeholder: "Was lief gut? Was könnte besser sein?",
       optional: true,
-      visibilityLogic: "Wenn serviceProviderName ausgefüllt",
       visibilityRule: filled('serviceProviderName'),
     },
     {
@@ -969,7 +919,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       label: "Dienstleister 2 (optional)",
       placeholder: "Name des zweiten Dienstleisters",
       optional: true,
-      visibilityLogic: "Wenn serviceProviderName ausgefüllt",
       visibilityRule: filled('serviceProviderName'),
     },
     {
@@ -981,7 +930,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       minLabel: "Sehr unzufrieden",
       maxLabel: "Sehr zufrieden",
       optional: true,
-      visibilityLogic: "Wenn serviceProvider2Name ausgefüllt",
       visibilityRule: filled('serviceProvider2Name'),
     },
     {
@@ -990,7 +938,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       label: "Kommentare zu Dienstleister 2",
       placeholder: "Was lief gut? Was könnte besser sein?",
       optional: true,
-      visibilityLogic: "Wenn serviceProvider2Name ausgefüllt",
       visibilityRule: filled('serviceProvider2Name'),
     },
     // Korrektur: vnbRejectionResponse wurde nach Section 3 (Challenges) verschoben
@@ -1002,7 +949,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
   id: "mieterstrom-planning",
   title: "4. Planung: Modellspezifisch – Mieterstrom",
   description: "Details zu Mieterstrom-Projekten",
-  visibilityLogic: "Nur wenn in #6 'Mieterstrom' ausgewählt", // Korrektur: ggv_oder_mieterstrom öffnet nur GGV-Pfad
   visibilityRule: PT_MS(),
   questions: [
     {
@@ -1073,7 +1019,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Warum lässt Ihr VNB den virtuellen Summenzähler nicht zu?",
       placeholder: "Bitte beschreiben Sie die Gründe...",
       optional: true,
-      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'nein'",
       visibilityRule: eq('mieterstromVirtuellAllowed', 'nein'),
     },
     {
@@ -1082,7 +1027,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Dokumente zum virtuellen Summenzähler hochladen",
       description: "z.B. Korrespondenz mit VNB, Ablehnungsschreiben",
       optional: true,
-      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'nein'",
       visibilityRule: eq('mieterstromVirtuellAllowed', 'nein'),
     },
     {
@@ -1093,7 +1037,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "nein", label: "Nein" },
         { value: "ja", label: "Ja", hasTextField: true },
       ],
-      visibilityLogic: "Wenn mieterstromVirtuellAllowed = 'ja'",
       visibilityRule: eq('mieterstromVirtuellAllowed', 'ja'),
     },
     // Korrektur: Upload bei ja
@@ -1103,7 +1046,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Dokumente zur Wandlermessung hochladen",
       description: "z.B. Messkonzept, Korrespondenz",
       optional: true,
-      visibilityLogic: "Wenn mieterstromVirtuellWandlermessung = 'ja'",
       visibilityRule: eq('mieterstromVirtuellWandlermessung', 'ja'),
     },
     {
@@ -1139,7 +1081,6 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
   id: "mieterstrom-vnb-offer",
   title: "4. Planung: Modellspezifisch – Mieterstrom - VNB Angebot",
   description: "Details zum MSB-Angebot des VNB für Mieterstrom",
-  visibilityLogic: "Nur wenn in #81 'moeglich_gmsb' ausgewählt",
   visibilityRule: inc('mieterstromVnbResponse', 'moeglich_gmsb'),
   questions: [
     {
@@ -1168,7 +1109,6 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       label: "Einmalbetrag (EUR)",
       placeholder: "z.B. 500",
       optional: true,
-      visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
       visibilityRule: eq('mieterstromMsbCosts', 'ja'),
       conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -1178,7 +1118,6 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       label: "Jährlicher Betrag (EUR)",
       placeholder: "z.B. 100",
       optional: true,
-      visibilityLogic: "Wenn mieterstromMsbCosts = 'ja'",
       visibilityRule: eq('mieterstromMsbCosts', 'ja'),
       conditionalRequired: "mieterstromMsbCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -1210,7 +1149,6 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
   id: "mieterstrom-operation",
   title: "5. Betrieb: Modellspezifisch – Mieterstrom",
   description: "Erfahrungen im laufenden Mieterstrom-Betrieb",
-  visibilityLogic: "Nur wenn Mieterstrom in Betrieb",
   visibilityRule: MS_IN_OPERATION(),
   questions: [
     {
@@ -1280,7 +1218,6 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       label: "Einmalbetrag (EUR)",
       placeholder: "z.B. 500",
       optional: true,
-      visibilityLogic: "Wenn mieterstromOperationCosts = 'ja'",
       visibilityRule: eq('mieterstromOperationCosts', 'ja'),
       conditionalRequired: "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -1290,7 +1227,6 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       label: "Jährlicher Betrag (EUR)",
       placeholder: "z.B. 100",
       optional: true,
-      visibilityLogic: "Wenn mieterstromOperationCosts = 'ja'",
       visibilityRule: eq('mieterstromOperationCosts', 'ja'),
       conditionalRequired: "mieterstromOperationCosts='ja' - mindestens Einmalbetrag oder Jährlicher Betrag erforderlich",
     },
@@ -1329,7 +1265,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   id: "energy-sharing",
   title: "4. Planung: Modellspezifisch – Energy Sharing",
   description: "Details zu Energy Sharing",
-  visibilityLogic: "Nur wenn Energy Sharing ausgewählt",
   visibilityRule: PT_ES(),
   questions: [
     {
@@ -1351,7 +1286,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       label: "E2a. Welche Erzeugungsanlagen sind eingebunden und wer wird beliefert?",
       placeholder: "Beschreiben Sie Ihre Anlagen und Abnehmer...",
       optional: true,
-      visibilityLogic: "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'",
       visibilityRule: ES_IN_OPERATION(),
     },
     {
@@ -1360,7 +1294,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       label: "E2b. Wer betreibt die Anlagen, wie erfolgt die Zuteilung der Strommengen, wer übernimmt die Abrechnung?",
       placeholder: "Beschreiben Sie den Betrieb...",
       optional: true,
-      visibilityLogic: "Wenn esStatus = 'in_betrieb_vollversorgung' oder 'in_betrieb_42c'",
       visibilityRule: ES_IN_OPERATION(),
     },
     {
@@ -1472,7 +1405,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "weiss_nicht", label: "Der VNB weiß nicht, was Energy Sharing ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityLogic: "Wenn esVnbContact = 'yes'",
       visibilityRule: eq('esVnbContact', 'yes'),
     },
     {
@@ -1484,7 +1416,6 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "ja_unklar", label: "Ja - aber der VNB weiß auch nicht wie das gehen soll", hasTextField: true },
         { value: "nein", label: "Nein" },
       ],
-      visibilityLogic: "Wenn esVnbContact = 'yes'",
       visibilityRule: eq('esVnbContact', 'yes'),
     },
     {
@@ -1782,7 +1713,7 @@ export function getSurveySchemaAsJson() {
       id: section.id,
       title: cleanLabel(section.title),
       description: section.description ? cleanLabel(section.description) : undefined,
-      visibilityLogic: section.visibilityLogic,
+      hasVisibilityRule: !!section.visibilityRule,
       questions: section.questions.map(q => ({
         id: q.id,
         type: q.type,
@@ -1798,7 +1729,7 @@ export function getSurveySchemaAsJson() {
         scaleLabels: q.type === 'rating' ? { min: q.minLabel, max: q.maxLabel } : undefined,
         required: q.required,
         optional: q.optional,
-        visibilityLogic: q.visibilityLogic,
+        hasVisibilityRule: !!q.visibilityRule,
         skipLogic: q.skipLogic,
         conditionalRequired: q.conditionalRequired,
       })),
