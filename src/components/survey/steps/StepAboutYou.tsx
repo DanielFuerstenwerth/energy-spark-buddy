@@ -18,8 +18,8 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
 
   return (
     <div className="space-y-8">
-      {/* === OPTION A: Dezent grau === */}
-      <div className="rounded-lg bg-muted p-4">
+      {/* === OPTION B: Linker Akzentstrich === */}
+      <div className="border-l-2 border-muted-foreground/30 pl-4 py-1">
         <p className="font-semibold text-sm text-foreground mb-1">Hinweis zur Datennutzung</p>
         <p className="text-xs text-muted-foreground">
           Ihre Antworten werden für eine Bewertung der Verteilnetzbetreiber auf{" "}
