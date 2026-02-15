@@ -29,8 +29,10 @@ export function StepProjectDetails({ data, updateData }: StepProjectDetailsProps
   const hasEnergySharing = projectTypes.includes('energysharing');
   const onlyEnergySharing = hasEnergySharing && !hasGgv && !hasMieterstrom;
 
-  // Determine if any focus is "multiple"
-  const isMultiple = data.ggvProjectType === 'multiple' || data.mieterstromProjectType === 'multiple';
+  // Determine if any focus is "multiple" – only consider active project types
+  const isMultiple =
+    (hasGgv && data.ggvProjectType === 'multiple') ||
+    (hasMieterstrom && data.mieterstromProjectType === 'multiple');
 
   // Location handling
   const handleLocationChange = (locations: ProjectLocation[]) => {
