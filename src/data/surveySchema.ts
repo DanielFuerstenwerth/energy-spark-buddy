@@ -1469,6 +1469,7 @@ const SECTION_FINAL: SurveySection = {
       minLabel: "Sehr unwahrscheinlich",
       maxLabel: "Sehr wahrscheinlich",
       optional: true,
+      visibilityRule: PT_GGV_OR_MS(),
     },
   ],
 };
