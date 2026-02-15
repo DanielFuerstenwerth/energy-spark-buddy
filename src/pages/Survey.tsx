@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
 import { validateSurveyData } from "@/lib/surveyValidation";
-import { buildDbData } from "@/data/surveySchema";
+import { buildDbData, surveyDefinition } from "@/data/surveySchema";
+import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
+import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Send, Loader2, Zap } from "lucide-react";
@@ -15,14 +17,7 @@ import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-import { StepAboutYou } from "@/components/survey/steps/StepAboutYou";
-import { StepProjectDetails } from "@/components/survey/steps/StepProjectDetails";
-import { StepPlanningGeneral } from "@/components/survey/steps/StepPlanningGeneral";
-import { StepPlanningModel } from "@/components/survey/steps/StepPlanningModel";
-import { StepOperationModel } from "@/components/survey/steps/StepOperationModel";
-import { StepFinal } from "@/components/survey/steps/StepFinal";
-
-import { useMultiEvaluation, isGlobalStep } from "@/hooks/useMultiEvaluation";
+import { useMultiEvaluation } from "@/hooks/useMultiEvaluation";
 
 const DRAFT_KEY = "vnb-survey-draft-v2";
 const MAX_AGE_DAYS = 7;
@@ -48,7 +43,6 @@ export default function Survey() {
     removeEvaluation,
     renameEvaluation,
     getMergedSubmissions,
-    getDataForStep,
     restoreState,
   } = useMultiEvaluation();
 
@@ -109,39 +103,9 @@ export default function Survey() {
 
   // Use the active evaluation's data for determining step visibility
   const evalData = activeEvaluation.data;
-  
-  // For step logic, merge global projectTypes into evaluation context
-  const effectiveProjectTypes = evalData.projectTypes;
-  const isGgvInOperation = evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft');
-  const isGgv = effectiveProjectTypes.includes('ggv') || effectiveProjectTypes.includes('ggv_oder_mieterstrom');
-  const isMieterstrom = effectiveProjectTypes.includes('mieterstrom');
-  // Mieterstrom in Betrieb: aus separatem mieterstromPlanningStatus wenn GGV+MS, sonst aus planningStatus
-  const isMieterstromInOperation = isMieterstrom && (
-    isGgv
-      ? evalData.mieterstromPlanningStatus?.includes('pv_laeuft_ggv_laeuft')
-      : evalData.planningStatus?.includes('pv_laeuft_ggv_laeuft')
-  );
-  const isGgvOrMieterstrom = isGgv || isMieterstrom;
-  const isEnergySharing = effectiveProjectTypes.includes('energysharing');
-  const onlyEnergySharing = isEnergySharing && !isGgvOrMieterstrom;
-  const hasAnyModel = isGgvOrMieterstrom || isEnergySharing;
 
-  const steps = useMemo(() => {
-    const baseSteps = [
-      { id: "about", title: "Über Sie", description: "Einordnung & Motivation" },
-      { id: "project", title: "Projekt", description: "Projektdetails & VNB" },
-      { id: "planning-general", title: "Planung: Allgemeines", description: "Planungsstand & Herausforderungen" },
-      { id: "planning-model", title: "Planung: Modellspezifisch", description: "Details zum gewählten Modell" },
-    ];
-
-    if (!onlyEnergySharing && (isGgvInOperation || isMieterstromInOperation)) {
-      baseSteps.push({ id: "operation-model", title: "Betrieb: Modellspezifisch", description: "Erfahrungen im Betrieb" });
-    }
-
-    baseSteps.push({ id: "final", title: "Abschluss", description: "Letzte Informationen" });
-
-    return baseSteps;
-  }, [onlyEnergySharing, isGgvInOperation, isMieterstromInOperation]);
+  // Get visible steps based on evaluation data
+  const steps = useMemo(() => getVisibleSteps(evalData), [evalData]);
 
   const handleNext = () => { if (currentStep < steps.length - 1) { setCurrentStep(currentStep + 1); window.scrollTo(0, 0); } };
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
@@ -175,46 +139,20 @@ export default function Survey() {
     }
   };
 
-  const renderStep = () => {
-    const stepId = steps[currentStep]?.id;
-    const isGlobal = isGlobalStep(stepId);
-    const stepData = isGlobal ? globalData : evalData;
-    const stepUpdateData = isGlobal ? updateGlobalData : updateEvaluationData;
+  // Get sections for current step, filtered by visibility
+  const currentStepDef = steps[currentStep];
+  const currentSections = useMemo(() => {
+    if (!currentStepDef) return [];
+    return surveyDefinition.sections
+      .filter(s => currentStepDef.sectionIds.includes(s.id))
+      .filter(s => isSectionVisible(s, evalData));
+  }, [currentStepDef, evalData]);
 
-    switch (stepId) {
-      case "about": return <StepAboutYou data={stepData} updateData={stepUpdateData} />;
-      case "project": return <StepProjectDetails data={evalData} updateData={updateEvaluationData} />;
-      case "planning-general": return <StepPlanningGeneral data={evalData} updateData={updateEvaluationData} />;
-      case "planning-model": return (
-        <StepPlanningModel
-          data={evalData}
-          updateData={updateEvaluationData}
-          uploadedDocuments={uploadedDocuments}
-          setUploadedDocuments={setUploadedDocuments}
-          showGgv={isGgv}
-          showMieterstrom={isMieterstrom}
-          showEnergySharing={isEnergySharing}
-        />
-      );
-      case "operation-model": return (
-        <StepOperationModel
-          data={evalData}
-          updateData={updateEvaluationData}
-          uploadedDocuments={uploadedDocuments}
-          setUploadedDocuments={setUploadedDocuments}
-          showGgv={isGgv}
-          showGgvInOperation={isGgvInOperation}
-          showMieterstrom={isMieterstrom}
-          showMieterstromInOperation={isMieterstromInOperation}
-        />
-      );
-      case "final": return <StepFinal data={stepData} updateData={stepUpdateData} uploadedDocuments={uploadedDocuments} setUploadedDocuments={setUploadedDocuments} dataUsageConfirmed={dataUsageConfirmed} onDataUsageConfirmedChange={setDataUsageConfirmed} />;
-      default: return null;
-    }
-  };
+  const isGlobal = currentStepDef ? isGlobalStep(currentStepDef.id) : false;
+  const stepData = isGlobal ? globalData : evalData;
+  const stepUpdateData = isGlobal ? updateGlobalData : updateEvaluationData;
 
-  const currentStepId = steps[currentStep]?.id;
-  const showEvaluationTabs = currentStepId && !isGlobalStep(currentStepId) && currentStepId !== 'about';
+  const showEvaluationTabs = currentStepDef && !isGlobal && currentStepDef.id !== 'about';
 
   if (currentStep >= steps.length) {
     return (
@@ -253,7 +191,6 @@ export default function Survey() {
       <Header />
       <SurveyHeader />
       
-      
       <main className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
           {showDraftBanner && savedDraftInfo && (
@@ -274,17 +211,23 @@ export default function Survey() {
           
           <Card>
             <CardHeader>
-              <CardTitle>{steps[currentStep]?.title}</CardTitle>
-              <CardDescription>{steps[currentStep]?.description}</CardDescription>
+              <CardTitle>{currentStepDef?.title}</CardTitle>
+              <CardDescription>{currentStepDef?.description}</CardDescription>
             </CardHeader>
             <CardContent>
-              {renderStep()}
+              <SurveyRenderer
+                sections={currentSections}
+                data={stepData}
+                updateData={stepUpdateData}
+                uploadedDocuments={uploadedDocuments}
+                setUploadedDocuments={setUploadedDocuments}
+              />
               <div className="flex justify-between mt-8 pt-6 border-t">
                 <Button variant="outline" onClick={handleBack} disabled={currentStep === 0}>
                   <ChevronLeft className="w-4 h-4 mr-2" />Zurück
                 </Button>
                 {currentStep === steps.length - 1 ? (
-                  <Button onClick={handleSubmit} disabled={isSubmitting || !dataUsageConfirmed} title={!dataUsageConfirmed ? "Bitte bestätigen Sie die Datennutzung" : undefined}>
+                  <Button onClick={handleSubmit} disabled={isSubmitting}>
                     {isSubmitting ? (<><Loader2 className="w-4 h-4 mr-2 animate-spin" />Wird gesendet...</>) : (<>Absenden<Send className="w-4 h-4 ml-2" /></>)}
                   </Button>
                 ) : (
@@ -299,4 +242,3 @@ export default function Survey() {
     </div>
   );
 }
-
