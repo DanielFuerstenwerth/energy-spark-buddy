@@ -8,6 +8,7 @@
 import { SurveyData } from "@/types/survey";
 import { SurveyQuestion, SurveySection, cleanLabel, QUESTION_REGISTRY } from "@/data/surveySchema";
 import { evaluateRule } from "@/lib/visibilityRules";
+import { toast } from "@/hooks/use-toast";
 import { MultiSelectQuestion } from "./questions/MultiSelectQuestion";
 import { SingleSelectQuestion } from "./questions/SingleSelectQuestion";
 import { TextQuestion } from "./questions/TextQuestion";
@@ -117,18 +118,42 @@ function renderQuestion(
       const currentValue = isArrayWrapped
         ? (getValue<string[]>(q.id)?.[0] || undefined)
         : getValue<string>(q.id);
-      const handleChange = isArrayWrapped
-        ? (v: string) => setValue(q.id, [v])
-        : (v: string) => setValue(q.id, v);
 
       // Context-dependent label (Legacy compat)
       let dynamicLabel = label;
       const projectTypes = (data as unknown as Record<string, unknown>).projectTypes as string[] | undefined;
       const hasGgv = projectTypes?.some(t => t === 'ggv' || t === 'ggv_oder_mieterstrom') || false;
       const hasMs = projectTypes?.includes('mieterstrom') || false;
+      const isUndecided = projectTypes?.includes('ggv_oder_mieterstrom') || false;
       if (q.id === 'planningStatus' && hasGgv && hasMs) {
         dynamicLabel = label.replace('mit dem Projekt', 'mit dem GGV-Projekt');
       }
+
+      // Dynamic option labels: replace 'GGV/Mieterstrom' with 'GGV' in B1 when both are selected
+      let dynamicOptions = q.options || [];
+      if (q.id === 'planningStatus' && hasGgv && hasMs) {
+        dynamicOptions = dynamicOptions.map(opt => ({
+          ...opt,
+          label: opt.label.replace('GGV/Mieterstrom', 'GGV'),
+        }));
+      }
+
+      // Validation: warn if ggv_oder_mieterstrom + Betriebsstatus
+      const OPERATION_VALUES = ['pv_laeuft_ggv_laeuft', 'pv_laeuft_ggv_planung'];
+      const handleChange = (v: string) => {
+        if (q.id === 'planningStatus' && isUndecided && OPERATION_VALUES.includes(v)) {
+          toast({
+            title: "Hinweis",
+            description: "Wenn Ihr Projekt bereits im Betrieb ist, wählen Sie bitte oben bei Projektart 'GGV' und/oder 'Mieterstrom' statt 'GGV oder Mieterstrom (unentschieden)'.",
+            duration: 8000,
+          });
+        }
+        if (isArrayWrapped) {
+          setValue(q.id, [v]);
+        } else {
+          setValue(q.id, v);
+        }
+      };
 
       return (
         <SingleSelectQuestion
@@ -136,7 +161,7 @@ function renderQuestion(
           id={q.id}
           label={dynamicLabel}
           description={q.description || q.helpText}
-          options={q.options || []}
+          options={dynamicOptions}
           value={currentValue}
           otherValue={getValue<string>(`${q.id}Other`)}
           onChange={handleChange}
