@@ -7,6 +7,7 @@
 
 import { SurveyData } from "@/types/survey";
 import { SurveyQuestion, SurveySection, cleanLabel, QUESTION_REGISTRY } from "@/data/surveySchema";
+import { evaluateRule } from "@/lib/visibilityRules";
 import { MultiSelectQuestion } from "./questions/MultiSelectQuestion";
 import { SingleSelectQuestion } from "./questions/SingleSelectQuestion";
 import { TextQuestion } from "./questions/TextQuestion";
@@ -40,10 +41,11 @@ function getFieldValue(data: SurveyData, field: string): unknown {
 }
 
 function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
+  // Phase 1: Use structured rule if available
+  if (q.visibilityRule) return evaluateRule(q.visibilityRule, data);
+  // Phase 2: Fallback to legacy string parser
   if (!q.visibilityLogic) return true;
   const logic = q.visibilityLogic;
-  
-  // Simple pattern matching for common visibility rules
   const projectTypes = data.projectTypes || [];
   const isGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
   const isMieterstrom = projectTypes.includes('mieterstrom');
@@ -150,6 +152,9 @@ function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
  * Check if a section should be visible based on data state.
  */
 export function isSectionVisible(section: SurveySection, data: SurveyData): boolean {
+  // Phase 1: Use structured rule if available
+  if (section.visibilityRule) return evaluateRule(section.visibilityRule, data);
+  // Phase 2: Fallback to legacy string parser
   if (!section.visibilityLogic) return true;
   const logic = section.visibilityLogic;
   
