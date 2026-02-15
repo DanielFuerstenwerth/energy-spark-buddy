@@ -3,7 +3,7 @@
 
 import type { SurveyData } from '@/types/survey';
 import {
-  VisibilityRule,
+  VisibilityRule, evaluateRule,
   PT_GGV, PT_MS, PT_MS_OR_BOTH, PT_GGV_OR_MS, PT_ES,
   eq, eqAny, inc, filled, and, or, not,
   GGV_IN_OPERATION, MS_IN_OPERATION, ES_IN_OPERATION,
@@ -1520,7 +1520,30 @@ function toSnakeCase(str: string): string {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }
 
+/**
+ * Compute the set of question IDs that are currently visible,
+ * taking into account both section-level and question-level visibility rules.
+ */
+export function getVisibleQuestionIds(data: SurveyData): Set<string> {
+  const visible = new Set<string>();
+  for (const section of surveyDefinition.sections) {
+    // Section-level gate
+    if (section.visibilityRule && !evaluateRule(section.visibilityRule, data)) continue;
+    for (const q of section.questions) {
+      if (q.visibilityRule && !evaluateRule(q.visibilityRule, data)) continue;
+      visible.add(q.id);
+      // Always allow common companion patterns for any visible question
+      visible.add(`${q.id}Other`);           // e.g. planningStatusOther
+      visible.add(`${q.id}Details`);          // e.g. challengesDetails
+      visible.add(`${q.id}Reasons`);          // e.g. vnbResponseReasons
+      visible.add(`${q.id}Comment`);          // e.g. wandlermessungComment
+    }
+  }
+  return visible;
+}
+
 // Build database-ready object from SurveyData
+// Only includes fields whose questions are currently visible (defensive filtering).
 export function buildDbData(
   data: SurveyData,
   sessionGroupId: string,
@@ -1529,10 +1552,21 @@ export function buildDbData(
   const DB_TEXT_LIMIT = 10000;
   const dbData: Record<string, unknown> = {};
 
+  // Fields that are always saved regardless of visibility
+  const META_FIELDS = new Set([
+    'evaluationLabel', 'projectTypes', 'projectFocus',
+    'actorTextFields', // Special companion for actorTypes with irregular name
+  ]);
+
+  const visibleIds = getVisibleQuestionIds(data);
+
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === '') continue;
+
+    // Always include meta fields; for others, check visibility
+    if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
+
     const snakeKey = toSnakeCase(key);
-    // Truncate strings to hard limit for safety
     dbData[snakeKey] = typeof value === 'string' && value.length > DB_TEXT_LIMIT
       ? value.slice(0, DB_TEXT_LIMIT)
       : value;
