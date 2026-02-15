@@ -46,6 +46,14 @@ function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
   const isMieterstrom = projectTypes.includes('mieterstrom');
   const isES = projectTypes.includes('energysharing');
   
+  // Pattern: compound condition with "und" (must check BEFORE simple projectTypes)
+  // e.g. "Nur wenn in #6 'GGV' ... ausgewählt und #7 = 'multiple'"
+  if (logic.includes("und") && logic.includes("#7 = 'multiple'")) {
+    const projectCheck = isGgv;
+    const multipleCheck = data.ggvProjectType === 'multiple';
+    return projectCheck && multipleCheck;
+  }
+
   // Pattern: "Nur wenn in #6 'GGV'..." or similar projectTypes references
   if (logic.includes("'GGV'") || logic.includes("'ggv'") || logic.includes("GGV oder Mieterstrom")) {
     if (logic.includes("Mieterstrom") && !logic.includes("nicht")) {
@@ -60,8 +68,17 @@ function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
     return isES;
   }
   
+  // Pattern: "Wenn fieldName = 'value1' oder 'value2'" (must check BEFORE simple equals)
+  const orMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'([^']+)'\s+oder\s+'([^']+)'/i);
+  if (orMatch) {
+    const fieldValue = getFieldValue(data, orMatch[1]);
+    if (typeof fieldValue === 'string') return fieldValue === orMatch[2] || fieldValue === orMatch[3];
+    if (Array.isArray(fieldValue)) return fieldValue.includes(orMatch[2]) || fieldValue.includes(orMatch[3]);
+    return false;
+  }
+
   // Pattern: "Wenn fieldName = 'value'"
-  const equalsMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'(\w+)'/i) || logic.match(/Nur wenn #\d+\s*=\s*'(\w+)'/i);
+  const equalsMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'([^']+)'/i) || logic.match(/Nur wenn #\d+\s*=\s*'(\w+)'/i);
   if (equalsMatch) {
     const fieldName = equalsMatch.length === 3 ? equalsMatch[1] : null;
     const expectedValue = equalsMatch.length === 3 ? equalsMatch[2] : equalsMatch[1];
@@ -72,14 +89,6 @@ function isQuestionVisible(q: SurveyQuestion, data: SurveyData): boolean {
       if (Array.isArray(fieldValue)) return fieldValue.includes(expectedValue);
       return false;
     }
-  }
-
-  // Pattern: "Wenn fieldName = 'value1' oder 'value2'"
-  const orMatch = logic.match(/Wenn\s+(\w+)\s*=\s*'(\w+)'\s+oder\s+'(\w+)'/i);
-  if (orMatch) {
-    const fieldValue = getFieldValue(data, orMatch[1]);
-    if (typeof fieldValue === 'string') return fieldValue === orMatch[2] || fieldValue === orMatch[3];
-    return false;
   }
 
   // Pattern: "Wenn fieldName ausgefüllt"
