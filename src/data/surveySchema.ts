@@ -286,6 +286,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Standort(e) des Projekts",
       description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
       optional: true,
+      visibilityRule: PT_GGV_OR_MS(),
     },
   ],
 };
