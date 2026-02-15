@@ -46,7 +46,10 @@ export const SURVEY_STEPS: SurveyStep[] = [
     description: 'Planungsstand & Herausforderungen',
     type: 'questions',
     sectionIds: ['planning', 'challenges'],
-    isVisible: (data) => !getProjectFlags(data).onlyEnergySharing,
+    isVisible: (data) => {
+      const flags = getProjectFlags(data);
+      return flags.isGgvOrMieterstrom;
+    },
   },
   {
     id: 'planning-model',
@@ -54,6 +57,10 @@ export const SURVEY_STEPS: SurveyStep[] = [
     description: 'Details zum gewählten Modell',
     type: 'questions',
     sectionIds: ['vnb-planning', 'vnb-msb', 'mieterstrom-planning', 'mieterstrom-vnb-offer', 'energy-sharing'],
+    isVisible: (data) => {
+      const projectTypes = data.projectTypes || [];
+      return projectTypes.length > 0;
+    },
   },
   {
     id: 'operation-model',
@@ -63,7 +70,7 @@ export const SURVEY_STEPS: SurveyStep[] = [
     sectionIds: ['ggv-operation', 'service-provider', 'mieterstrom-operation'],
     isVisible: (data) => {
       const flags = getProjectFlags(data);
-      return !flags.onlyEnergySharing && (flags.isGgvInOperation || flags.isMieterstromInOperation);
+      return flags.isGgvOrMieterstrom && (flags.isGgvInOperation || flags.isMieterstromInOperation);
     },
   },
   {
