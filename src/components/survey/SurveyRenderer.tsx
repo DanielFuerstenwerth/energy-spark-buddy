@@ -110,22 +110,42 @@ function renderQuestion(
         />
       );
 
-    case 'single-select':
+    case 'single-select': {
+      // Fields that are stored as string[] (Legacy compat) but rendered as single-select
+      const ARRAY_WRAPPED_FIELDS = ['planningStatus', 'mieterstromPlanningStatus'];
+      const isArrayWrapped = ARRAY_WRAPPED_FIELDS.includes(q.id);
+      const currentValue = isArrayWrapped
+        ? (getValue<string[]>(q.id)?.[0] || undefined)
+        : getValue<string>(q.id);
+      const handleChange = isArrayWrapped
+        ? (v: string) => setValue(q.id, [v])
+        : (v: string) => setValue(q.id, v);
+
+      // Context-dependent label (Legacy compat)
+      let dynamicLabel = label;
+      const projectTypes = (data as unknown as Record<string, unknown>).projectTypes as string[] | undefined;
+      const hasGgv = projectTypes?.some(t => t === 'ggv' || t === 'ggv_oder_mieterstrom') || false;
+      const hasMs = projectTypes?.includes('mieterstrom') || false;
+      if (q.id === 'planningStatus' && hasGgv && hasMs) {
+        dynamicLabel = label.replace('mit dem Projekt', 'mit dem GGV-Projekt');
+      }
+
       return (
         <SingleSelectQuestion
           key={q.id}
           id={q.id}
-          label={label}
+          label={dynamicLabel}
           description={q.description || q.helpText}
           options={q.options || []}
-          value={getValue<string>(q.id)}
+          value={currentValue}
           otherValue={getValue<string>(`${q.id}Other`)}
-          onChange={(v) => setValue(q.id, v)}
+          onChange={handleChange}
           onOtherChange={(v) => setValue(`${q.id}Other`, v)}
           optional={q.optional}
           questionNumber={uiNumber}
         />
       );
+    }
 
     case 'text':
       // Special case: projectLocations

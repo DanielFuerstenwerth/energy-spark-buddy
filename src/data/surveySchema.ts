@@ -154,106 +154,12 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       ],
       required: true,
     },
-    {
-      id: "ggvProjectType",
-      type: "single-select",
-      label: "Wie viele GGV-Projekte planen/betreiben Sie?",
-      options: [
-        { value: "single", label: "Ein einzelnes Projekt" },
-        { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
-      ],
-      visibilityRule: PT_GGV_OR_MS(),
-    },
-    {
-      id: "ggvPvSizeKw",
-      type: "number",
-      label: "Größe der PV-Anlage in kW - GGV", // Korrektur
-      placeholder: "z.B. 30",
-      optional: true,
-      visibilityRule: PT_GGV(),
-    },
-    {
-      id: "ggvPartyCount",
-      type: "number",
-      label: "Anzahl der Parteien, die Strom abnehmen - GGV", // Korrektur
-      placeholder: "z.B. 12",
-      optional: true,
-      visibilityRule: PT_GGV(),
-    },
-    {
-      id: "ggvBuildingType",
-      type: "single-select",
-      label: "Art des Gebäudes - GGV", // Korrektur
-      options: [
-        { value: "wohngebaeude", label: "Wohngebäude" },
-        { value: "gewerbe", label: "Gewerbegebäude" },
-        { value: "gemischt", label: "Gemischt" },
-      ],
-      visibilityRule: PT_GGV(),
-    },
-    {
-      id: "ggvBuildingCount",
-      type: "number",
-      label: "Gesamtzahl der Projekte - GGV", // Korrektur
-      placeholder: "z.B. 5",
-      optional: true,
-      visibilityRule: and(PT_GGV(), eq('ggvProjectType', 'multiple')),
-    },
-    {
-      id: "ggvAdditionalInfo",
-      type: "textarea",
-      label: "Zusätzliche Informationen - GGV", // Korrektur
-      placeholder: "Weitere Details zu Ihrem Projekt...",
-      optional: true,
-      visibilityRule: PT_GGV(),
-    },
-    {
-      id: "mieterstromPvSizeKw",
-      type: "number",
-      label: "Größe der PV-Anlage(n) in kW - Mieterstrom", // Korrektur
-      placeholder: "z.B. 50",
-      optional: true,
-      visibilityRule: PT_MS(),
-    },
-    {
-      id: "mieterstromPartyCount",
-      type: "number",
-      label: "Anzahl der Parteien, die Strom abnehmen - Mieterstrom", // Korrektur
-      placeholder: "z.B. 24",
-      optional: true,
-      visibilityRule: PT_MS(),
-    },
-    {
-      id: "mieterstromBuildingType",
-      type: "single-select",
-      label: "Art des Gebäudes - Mieterstrom", // Korrektur
-      options: [
-        { value: "wohngebaeude", label: "Wohngebäude" },
-        { value: "gewerbe", label: "Gewerbegebäude" },
-        { value: "gemischt", label: "Gemischt" },
-      ],
-      visibilityRule: PT_MS(),
-    },
-    {
-      id: "mieterstromAdditionalInfo",
-      type: "textarea",
-      label: "Zusätzliche Informationen - Mieterstrom", // Korrektur
-      placeholder: "Weitere Details zu Ihrem Projekt...",
-      optional: true,
-      visibilityRule: PT_MS(),
-    },
-    {
-      id: "projectLocations",
-      type: "text",
-      label: "Standort(e) des Projekts",
-      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
-      optional: true,
-    },
-    // planningStatus moved here from SECTION_PLANNING (was Step 3, now Step 2)
+    // planningStatus kommt direkt nach projectTypes (Legacy-Reihenfolge)
     {
       id: "planningStatus",
       type: "single-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
+      description: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
@@ -271,6 +177,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "mieterstromPlanningStatus",
       type: "single-select",
       label: "B1b. Wo stehen Sie aktuell mit dem Mieterstrom-Projekt?",
+      description: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
@@ -283,6 +190,102 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       ],
       required: true,
       visibilityRule: and(PT_MS(), PT_GGV()),
+    },
+    // Projektumfang (2.4) kommt nach planningStatus (Legacy-Reihenfolge)
+    {
+      id: "ggvProjectType",
+      type: "single-select",
+      label: "Wie viele GGV-Projekte planen/betreiben Sie?",
+      options: [
+        { value: "single", label: "Ein einzelnes Projekt" },
+        { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
+      ],
+      visibilityRule: PT_GGV_OR_MS(),
+    },
+    {
+      id: "ggvPvSizeKw",
+      type: "number",
+      label: "Größe der PV-Anlage in kW - GGV",
+      placeholder: "z.B. 30",
+      optional: true,
+      visibilityRule: PT_GGV(),
+    },
+    {
+      id: "ggvPartyCount",
+      type: "number",
+      label: "Anzahl der Parteien, die Strom abnehmen - GGV",
+      placeholder: "z.B. 12",
+      optional: true,
+      visibilityRule: PT_GGV(),
+    },
+    {
+      id: "ggvBuildingType",
+      type: "single-select",
+      label: "Art des Gebäudes - GGV",
+      options: [
+        { value: "wohngebaeude", label: "Wohngebäude" },
+        { value: "gewerbe", label: "Gewerbegebäude" },
+        { value: "gemischt", label: "Gemischt" },
+      ],
+      visibilityRule: PT_GGV(),
+    },
+    {
+      id: "ggvBuildingCount",
+      type: "number",
+      label: "Gesamtzahl der Projekte - GGV",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityRule: and(PT_GGV(), eq('ggvProjectType', 'multiple')),
+    },
+    {
+      id: "ggvAdditionalInfo",
+      type: "textarea",
+      label: "Zusätzliche Informationen - GGV",
+      placeholder: "Weitere Details zu Ihrem Projekt...",
+      optional: true,
+      visibilityRule: PT_GGV(),
+    },
+    {
+      id: "mieterstromPvSizeKw",
+      type: "number",
+      label: "Größe der PV-Anlage(n) in kW - Mieterstrom",
+      placeholder: "z.B. 50",
+      optional: true,
+      visibilityRule: PT_MS(),
+    },
+    {
+      id: "mieterstromPartyCount",
+      type: "number",
+      label: "Anzahl der Parteien, die Strom abnehmen - Mieterstrom",
+      placeholder: "z.B. 24",
+      optional: true,
+      visibilityRule: PT_MS(),
+    },
+    {
+      id: "mieterstromBuildingType",
+      type: "single-select",
+      label: "Art des Gebäudes - Mieterstrom",
+      options: [
+        { value: "wohngebaeude", label: "Wohngebäude" },
+        { value: "gewerbe", label: "Gewerbegebäude" },
+        { value: "gemischt", label: "Gemischt" },
+      ],
+      visibilityRule: PT_MS(),
+    },
+    {
+      id: "mieterstromAdditionalInfo",
+      type: "textarea",
+      label: "Zusätzliche Informationen - Mieterstrom",
+      placeholder: "Weitere Details zu Ihrem Projekt...",
+      optional: true,
+      visibilityRule: PT_MS(),
+    },
+    {
+      id: "projectLocations",
+      type: "text",
+      label: "Standort(e) des Projekts",
+      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      optional: true,
     },
   ],
 };
