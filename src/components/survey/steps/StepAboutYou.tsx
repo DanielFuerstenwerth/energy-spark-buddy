@@ -18,28 +18,31 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
 
   return (
     <div className="space-y-8">
-      <Callout variant="info">
-        <p className="font-medium mb-1">Hinweis zur Datennutzung</p>
-        <p>
-          Ihre Antworten werden für eine Bewertung und den Vergleich der Verteilnetzbetreiber auf{" "}
+      {/* === OPTION A: Dezent grau === */}
+      <div className="rounded-lg bg-muted p-4">
+        <p className="font-semibold text-sm text-foreground mb-1">Hinweis zur Datennutzung</p>
+        <p className="text-xs text-muted-foreground">
+          Ihre Antworten werden für eine Bewertung der Verteilnetzbetreiber auf{" "}
           <a href="https://www.vnb-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">vnb-transparenz.de</a>{" "}
-          genutzt. <strong>Freitextantworten werden nicht veröffentlicht</strong>, können aber anonymisiert als Excel an berechtigte Anliegenträger weitergegeben werden.
+          genutzt. Freitextantworten werden nicht veröffentlicht, können aber anonymisiert als Excel an berechtigte Anliegenträger weitergegeben werden.
         </p>
         <Collapsible open={detailsOpen} onOpenChange={setDetailsOpen}>
-          <CollapsibleTrigger className="flex items-center gap-1 text-xs mt-2 text-accent hover:underline cursor-pointer">
+          <CollapsibleTrigger className="flex items-center gap-1 text-xs mt-2 text-muted-foreground hover:text-foreground hover:underline cursor-pointer">
             <ChevronDown className={`h-3 w-3 transition-transform ${detailsOpen ? "rotate-180" : ""}`} />
-            {detailsOpen ? "Weniger anzeigen" : "Alle Details anzeigen"}
+            {detailsOpen ? "Weniger anzeigen" : "Mehr erfahren"}
           </CollapsibleTrigger>
-          <CollapsibleContent className="mt-2 text-xs space-y-1.5 text-muted-foreground">
-            <p>Die Plattform wird frei verfügbar sein und die Option eines Excel-Downloads beinhalten.</p>
-            <p>Die Antworten in den Freitextfeldern werden nicht veröffentlicht, werden aber anonym (d.h. ohne E-Mail-Adressen) als Excel-Datenbank vom BBEn berechtigten Anliegenträgern (z.B. Wissenschaft, Energieagenturen) auf Anfrage zur Verfügung gestellt.</p>
-            <p>GGV-Projekte werden zusätzlich auf der Plattform <a href="https://www.ggv-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline">ggv-transparenz.de</a> dargestellt.</p>
-            <p>Sollten Sie Feedback geben wollen, welches nicht veröffentlicht werden soll, wenden Sie sich bitte per E-Mail an{" "}
-              <a href="mailto:vnb-transparenz@1000gw.de" className="underline">vnb-transparenz@1000gw.de</a>.
+          <CollapsibleContent className="mt-3 text-sm space-y-2 text-foreground">
+            <p>Das Bündnis Bürgerenergie (BBEn) wird die gesamten Antworten inkl. der Freitextfelder anonym (d.h. ohne E-Mail-Adressen) als Excel-Datenbank an berechtigte Anliegenträger (z.B. Wissenschaft, Energieagenturen) auf Anfrage zur Verfügung stellen.</p>
+            <p>Alle GGV-Projekte werden zusätzlich auf einer Deutschlandkarte auf der Seite{" "}
+              <a href="https://www.ggv-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline font-medium">ggv-transparenz.de</a>{" "}
+              dargestellt.
+            </p>
+            <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, wenden Sie sich bitte per E-Mail an{" "}
+              <a href="mailto:vnb-transparenz@1000gw.de" className="underline font-medium">vnb-transparenz@1000gw.de</a>.
             </p>
           </CollapsibleContent>
         </Collapsible>
-      </Callout>
+      </div>
 
       <MultiSelectQuestion
         id="actor-types"
