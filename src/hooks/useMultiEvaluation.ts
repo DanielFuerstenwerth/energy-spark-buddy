@@ -46,7 +46,7 @@ export function useMultiEvaluation() {
   const [globalData, setGlobalData] = useState<SurveyData>({ ...initialSurveyData });
   const [evaluations, setEvaluations] = useState<Evaluation[]>([createDefaultEvaluation(0)]);
   const [activeEvaluationIndex, setActiveEvaluationIndex] = useState(0);
-  const [sessionGroupId] = useState(() => generateId());
+  const [sessionGroupId] = useState(() => crypto.randomUUID());
 
   const activeEvaluation = evaluations[activeEvaluationIndex] ?? evaluations[0];
 
