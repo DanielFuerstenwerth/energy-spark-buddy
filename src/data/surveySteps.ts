@@ -12,6 +12,7 @@
  */
 
 import { SurveyData } from "@/types/survey";
+import { getProjectFlags } from "@/lib/visibilityRules";
 
 export interface SurveyStep {
   id: string;
@@ -19,28 +20,8 @@ export interface SurveyStep {
   description: string;
   type: 'intro' | 'questions';
   sectionIds: string[];
-  /** If defined, step is only shown when this returns true */
   isVisible?: (data: SurveyData) => boolean;
-  /** If true, this step shows global data (shared across evaluations) */
   isGlobal?: boolean;
-}
-
-function getProjectFlags(data: SurveyData) {
-  const projectTypes = data.projectTypes || [];
-  const isGgv = projectTypes.includes('ggv') || projectTypes.includes('ggv_oder_mieterstrom');
-  const isMieterstrom = projectTypes.includes('mieterstrom');
-  const isES = projectTypes.includes('energysharing');
-  const isGgvOrMieterstrom = isGgv || isMieterstrom;
-  const onlyEnergySharing = isES && !isGgvOrMieterstrom;
-
-  const isGgvInOperation = data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false;
-  const isMieterstromInOperation = isMieterstrom && (
-    isGgv
-      ? data.mieterstromPlanningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false
-      : data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false
-  );
-
-  return { isGgv, isMieterstrom, isES, isGgvOrMieterstrom, onlyEnergySharing, isGgvInOperation, isMieterstromInOperation };
 }
 
 export const SURVEY_STEPS: SurveyStep[] = [
