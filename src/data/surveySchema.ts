@@ -1,7 +1,13 @@
 // Zentrales Schema für die Umfrage - Single Source of Truth (SSOT)
-// Letzte Aktualisierung: 2026-02-10 (Korrektur-Runde aus Word-Review)
+// Letzte Aktualisierung: 2026-02-15 (Visibility Rules Refactoring)
 
 import type { SurveyData } from '@/types/survey';
+import {
+  VisibilityRule,
+  PT_GGV, PT_MS, PT_MS_OR_BOTH, PT_GGV_OR_MS, PT_ES,
+  eq, eqAny, inc, filled, and, or, not,
+  GGV_IN_OPERATION, MS_IN_OPERATION, ES_IN_OPERATION,
+} from '@/lib/visibilityRules';
 
 export interface SurveyOption {
   value: string;
@@ -28,7 +34,10 @@ export interface SurveyQuestion {
   minLabel?: string;
   maxLabel?: string;
   placeholder?: string;
+  /** @deprecated Use visibilityRule instead. Kept as fallback during migration. */
   visibilityLogic?: string;
+  /** Structured visibility rule - evaluated by evaluateRule() engine */
+  visibilityRule?: VisibilityRule;
   skipLogic?: string;
   conditionalRequired?: string;
 }
@@ -38,7 +47,10 @@ export interface SurveySection {
   title: string;
   description?: string;
   questions: SurveyQuestion[];
+  /** @deprecated Use visibilityRule instead. Kept as fallback during migration. */
   visibilityLogic?: string;
+  /** Structured visibility rule - evaluated by evaluateRule() engine */
+  visibilityRule?: VisibilityRule;
 }
 
 export interface SurveySchema {
@@ -155,6 +167,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
       ],
       visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV_OR_MS(),
     },
     {
       id: "ggvPvSizeKw",
@@ -163,6 +176,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "z.B. 30",
       optional: true,
       visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV(),
     },
     {
       id: "ggvPartyCount",
@@ -171,6 +185,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "z.B. 12",
       optional: true,
       visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV(),
     },
     {
       id: "ggvBuildingType",
@@ -182,6 +197,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gemischt", label: "Gemischt" },
       ],
       visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV(),
     },
     {
       id: "ggvBuildingCount",
@@ -190,6 +206,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "z.B. 5",
       optional: true,
       visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt und #7 = 'multiple'",
+      visibilityRule: and(PT_GGV(), eq('ggvProjectType', 'multiple')),
     },
     {
       id: "ggvAdditionalInfo",
@@ -198,6 +215,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
       visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV(),
     },
     {
       id: "mieterstromPvSizeKw",
@@ -206,6 +224,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "z.B. 50",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
+      visibilityRule: PT_MS(),
     },
     {
       id: "mieterstromPartyCount",
@@ -214,6 +233,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "z.B. 24",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
+      visibilityRule: PT_MS(),
     },
     {
       id: "mieterstromBuildingType",
@@ -225,6 +245,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gemischt", label: "Gemischt" },
       ],
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
+      visibilityRule: PT_MS(),
     },
     {
       id: "mieterstromAdditionalInfo",
@@ -233,6 +254,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       placeholder: "Weitere Details zu Ihrem Projekt...",
       optional: true,
       visibilityLogic: "Nur wenn Mieterstrom ausgewählt",
+      visibilityRule: PT_MS(),
     },
     {
       id: "projectLocations",
@@ -259,6 +281,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       ],
       required: true,
       visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
+      visibilityRule: PT_GGV_OR_MS(),
     },
     {
       id: "mieterstromPlanningStatus",
@@ -276,6 +299,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       ],
       required: true,
       visibilityLogic: "Nur wenn in #6 'Mieterstrom' ausgewählt UND gleichzeitig GGV ausgewählt",
+      visibilityRule: and(PT_MS(), PT_GGV()),
     },
   ],
 };
@@ -287,6 +311,7 @@ const SECTION_PLANNING: SurveySection = {
   title: "3. Planung: Allgemeines – Planungsstand",
   description: "Aktueller Status Ihres Projekts",
   visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt (nicht nur Energy Sharing)",
+  visibilityRule: PT_GGV_OR_MS(),
   questions: [
     {
       id: "ggvOrMieterstromDecision",
@@ -349,6 +374,7 @@ const SECTION_CHALLENGES: SurveySection = {
   title: "3. Planung: Allgemeines – Herausforderungen",
   description: "Erlebte Schwierigkeiten bei der Umsetzung",
   visibilityLogic: "Nur wenn in #6 'GGV', 'Mieterstrom' oder 'GGV oder Mieterstrom' ausgewählt",
+  visibilityRule: PT_GGV_OR_MS(),
   questions: [
     {
       id: "challenges",
@@ -387,6 +413,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
   title: "4. Planung: Modellspezifisch – GGV",
   description: "Details zur GGV-Planung mit dem Verteilnetzbetreiber",
   visibilityLogic: "Nur wenn in #6 'GGV' oder 'GGV oder Mieterstrom' ausgewählt",
+  visibilityRule: PT_GGV(),
   questions: [
     {
       id: "vnbExistingProjects",
@@ -519,6 +546,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   title: "4. Planung: Modellspezifisch – GGV - MSB Details",
   description: "Wenn der VNB anbietet, den Messstellenbetrieb in der GGV zu übernehmen:", // Korrektur: Neue Überschrift
   visibilityLogic: "Nur wenn #28 = 'ja'",
+  visibilityRule: eq('vnbMsbOffer', 'ja'),
   questions: [
     {
       id: "vnbStartTimeline",
@@ -705,6 +733,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
   title: "5. Betrieb: Modellspezifisch – GGV",
   description: "Erfahrungen im laufenden GGV-Betrieb",
   visibilityLogic: "Nur wenn #18 = 'pv_laeuft_ggv_laeuft'",
+  visibilityRule: GGV_IN_OPERATION(),
   questions: [
     {
       id: "operationVnbDuration",
