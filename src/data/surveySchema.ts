@@ -1716,7 +1716,7 @@ export function getSurveySchemaAsJson() {
       id: section.id,
       title: cleanLabel(section.title),
       description: section.description ? cleanLabel(section.description) : undefined,
-      hasVisibilityRule: !!section.visibilityRule,
+      visibilityRule: section.visibilityRule ?? null,
       questions: section.questions.map(q => ({
         id: q.id,
         type: q.type,
@@ -1732,7 +1732,7 @@ export function getSurveySchemaAsJson() {
         scaleLabels: q.type === 'rating' ? { min: q.minLabel, max: q.maxLabel } : undefined,
         required: q.required,
         optional: q.optional,
-        hasVisibilityRule: !!q.visibilityRule,
+        visibilityRule: q.visibilityRule ?? null,
         skipLogic: q.skipLogic,
         conditionalRequired: q.conditionalRequired,
       })),
