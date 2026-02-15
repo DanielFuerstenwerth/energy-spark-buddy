@@ -23,7 +23,7 @@ function generateId(): string {
 function createDefaultEvaluation(index: number): Evaluation {
   return {
     id: generateId(),
-    label: `Bewertung ${index + 1}`,
+    label: index === 0 ? 'Ihre VNB-Bewertung' : `VNB-Bewertung ${index + 1}`,
     data: { ...initialSurveyData },
   };
 }
@@ -85,18 +85,22 @@ export function useMultiEvaluation() {
    * Returns array of complete SurveyData objects ready for DB insert.
    */
   const getMergedSubmissions = useCallback((): SurveyData[] => {
-    return evaluations.map(ev => ({
-      ...initialSurveyData,
-      // Global fields
-      ...Object.fromEntries(
-        [...GLOBAL_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
-      ),
-      // Evaluation-specific fields (overrides) — includes ES data now
-      ...ev.data,
-      // Meta
-      evaluationLabel: ev.label,
-      sessionGroupId,
-    }));
+    return evaluations.map((ev, i) => {
+      // Use VNB name as label if available, otherwise fallback
+      const dynamicLabel = ev.data.vnbName || ev.label;
+      return {
+        ...initialSurveyData,
+        // Global fields
+        ...Object.fromEntries(
+          [...GLOBAL_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
+        ),
+        // Evaluation-specific fields (overrides) — includes ES data now
+        ...ev.data,
+        // Meta
+        evaluationLabel: dynamicLabel,
+        sessionGroupId,
+      };
+    });
   }, [evaluations, globalData, sessionGroupId]);
 
   /**
