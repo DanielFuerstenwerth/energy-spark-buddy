@@ -424,7 +424,7 @@ export type Database = {
           vnb_support_formulare: string | null
           vnb_support_messkonzept: string | null
           vnb_support_other: string | null
-          vnb_support_portal: boolean | null
+          vnb_support_portal: string | null
           vnb_support_rating: number | null
           vnb_wandlermessung: string | null
           vnb_wandlermessung_comment: string | null
@@ -630,7 +630,7 @@ export type Database = {
           vnb_support_formulare?: string | null
           vnb_support_messkonzept?: string | null
           vnb_support_other?: string | null
-          vnb_support_portal?: boolean | null
+          vnb_support_portal?: string | null
           vnb_support_rating?: number | null
           vnb_wandlermessung?: string | null
           vnb_wandlermessung_comment?: string | null
@@ -836,7 +836,7 @@ export type Database = {
           vnb_support_formulare?: string | null
           vnb_support_messkonzept?: string | null
           vnb_support_other?: string | null
-          vnb_support_portal?: boolean | null
+          vnb_support_portal?: string | null
           vnb_support_rating?: number | null
           vnb_wandlermessung?: string | null
           vnb_wandlermessung_comment?: string | null
