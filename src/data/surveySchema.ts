@@ -336,7 +336,7 @@ const SECTION_PLANNING: SurveySection = {
       label: "B2. Sind Sie bereits festgelegt auf GGV oder Mieterstrom?",
       options: [
         { value: "sicher_ggv", label: "Wir sind sicher: es wird/ist GGV" },
-        { value: "unsicher", label: "Wir sind unsicher: es fehlen noch Informationen für eine Entscheidung" },
+        { value: "unsicher", label: "Wir sind unsicher: es fehlen noch Informationen für eine finale Entscheidung" },
         { value: "sicher_mieterstrom", label: "Wir sind sicher: es wird/ist Mieterstrom" },
       ],
       visibilityRule: PT_GGV_OR_MS(),
