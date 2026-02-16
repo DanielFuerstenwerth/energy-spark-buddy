@@ -14,10 +14,11 @@ interface RatingQuestionProps {
   min?: number;
   max?: number;
   optional?: boolean;
+  tooltipNode?: React.ReactNode;
 }
 
 export function RatingQuestion({
-  id, label, description, value, onChange, minLabel = "1", maxLabel = "10", min = 1, max = 10, optional, questionNumber,
+  id, label, description, value, onChange, minLabel = "1", maxLabel = "10", min = 1, max = 10, optional, questionNumber, tooltipNode,
 }: RatingQuestionProps) {
   const ratings = Array.from({ length: max - min + 1 }, (_, i) => min + i);
 
@@ -27,6 +28,7 @@ export function RatingQuestion({
         <Label className="text-base font-semibold text-foreground">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

@@ -17,10 +17,11 @@ interface FileUploadProps {
   optional?: boolean;
   maxFiles?: number;
   accept?: string;
+  tooltipNode?: React.ReactNode;
 }
 
 export function FileUpload({ 
-  id, label, description, value, onChange, optional = true, maxFiles = 5, accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx", questionNumber 
+  id, label, description, value, onChange, optional = true, maxFiles = 5, accept = ".pdf,.jpg,.jpeg,.png,.doc,.docx", questionNumber, tooltipNode
 }: FileUploadProps) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -87,6 +88,7 @@ export function FileUpload({
         <Label className="text-base font-semibold">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground font-normal ml-1">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

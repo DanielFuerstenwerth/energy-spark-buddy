@@ -25,6 +25,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Info, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { InlineHint } from "./InlineHint";
+import { InlineHintTrigger } from "./InlineHint";
 
 interface SurveyRendererProps {
   sections: SurveySection[];
@@ -61,6 +62,7 @@ function renderQuestion(
   updateData: <K extends keyof SurveyData>(field: K, value: SurveyData[K]) => void,
   uploadedDocuments: string[],
   setUploadedDocuments: (docs: string[]) => void,
+  tooltipNode?: React.ReactNode,
 ): React.ReactNode {
   const qId = q.id as keyof SurveyData;
   const uiNumber = getUiNumber(q.id);
@@ -92,6 +94,7 @@ function renderQuestion(
           onChange={(v) => setValue(q.id, v)}
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -134,6 +137,7 @@ function renderQuestion(
           }}
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -211,6 +215,7 @@ function renderQuestion(
             onOtherChange={(v) => setValue(`${q.id}Other`, v)}
             optional={q.optional}
             questionNumber={uiNumber}
+            tooltipNode={tooltipNode}
           />
           {showUndecidedWarning && (
             <p className="mt-3 text-sm text-destructive font-medium">
@@ -247,6 +252,7 @@ function renderQuestion(
           type="text"
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -263,6 +269,7 @@ function renderQuestion(
           type="textarea"
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -279,6 +286,7 @@ function renderQuestion(
           type="email"
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -298,6 +306,7 @@ function renderQuestion(
           type="number"
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -314,6 +323,7 @@ function renderQuestion(
             onChange={(v) => setValue(q.id, v)}
             optional={q.optional}
             questionNumber={uiNumber}
+            tooltipNode={tooltipNode}
           />
         );
       }
@@ -331,6 +341,7 @@ function renderQuestion(
           maxLabel={q.maxLabel}
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -345,6 +356,7 @@ function renderQuestion(
           onChange={setUploadedDocuments}
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
 
@@ -364,6 +376,7 @@ function renderQuestion(
           placeholder={q.placeholder}
           optional={q.optional}
           questionNumber={uiNumber}
+          tooltipNode={tooltipNode}
         />
       );
   }
@@ -437,8 +450,7 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
                       <span>{cleanLabel(q.helpText)}</span>
                     </div>
                   )}
-                  {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments)}
-                  {q.tooltip && <InlineHint text={q.tooltip} />}
+                  {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, q.tooltip ? <InlineHintTrigger text={q.tooltip} /> : undefined)}
                 </div>
               ))}
             </div>
