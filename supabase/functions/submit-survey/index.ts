@@ -114,7 +114,17 @@ Deno.serve(async (req) => {
 
     // Parse body
     const body = await req.json();
-    const { submissions } = body;
+    const { submissions, website } = body;
+
+    // Maßnahme 11: Honeypot check - bots fill the hidden "website" field
+    if (website && typeof website === "string" && website.trim().length > 0) {
+      // Silently reject - return success to not reveal detection
+      console.log("Honeypot triggered, rejecting submission from IP:", clientIp);
+      return new Response(
+        JSON.stringify({ success: true, count: 0 }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
 
     if (!Array.isArray(submissions) || submissions.length === 0 || submissions.length > 10) {
       return new Response(
