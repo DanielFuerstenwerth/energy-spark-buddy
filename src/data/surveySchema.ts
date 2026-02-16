@@ -84,18 +84,18 @@ const SECTION_ABOUT_YOU: SurveySection = {
       type: "multi-select",
       label: "A1. In welche Akteursgruppe fallen Sie?",
       options: [
-        { value: "buergerenergie", label: "Bürgerenergiegenossenschaft", hasTextField: true, textFieldLabel: "Name der Genossenschaft (optional)" },
+        { value: "buergerenergie", label: "Bürgerenergiegenossenschaft", hasTextField: true, textFieldLabel: "Name der Genossenschaft (optional)", textFieldPlaceholder: "z.B. Bürgerenergie Musterdorf eG" },
         { value: "weg", label: "Wohnungseigentümergemeinschaft" },
         { value: "vermieter_privat", label: "Vermieter/in - Privatperson" },
         { value: "vermieter_prof_klein", label: "Vermieter/in - Professionell (<100 Einheiten)" },
         { value: "vermieter_wohnungsunternehmen", label: "Vermieter/in - Wohnungsunternehmen (>100 Einheiten)" },
         { value: "kommune", label: "Kommune / kommunales Unternehmen" },
         { value: "kmu", label: "Kleine und Mittelständische Unternehmen (KMU)" },
-        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", hasTextField: true, textFieldLabel: "Welche Dienstleistung?" },
+        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", hasTextField: true, textFieldLabel: "Welche Dienstleistung?", textFieldPlaceholder: "z.B. Messstellenbetrieb, Abrechnung, Beratung..." },
         { value: "installateur", label: "Installateur von PV-Anlagen" },
         { value: "msb", label: "Wettbewerblicher Messstellenbetreiber" },
         { value: "stadtwerk", label: "Stadtwerk/EVU" },
-        { value: "andere", label: "Andere", hasTextField: true, textFieldLabel: "Bitte beschreiben" },
+        { value: "andere", label: "Andere", hasTextField: true, textFieldLabel: "Bitte beschreiben", textFieldPlaceholder: "z.B. Forschungsinstitut, Verband, Energieagentur..." },
       ],
       optional: true,
     },
@@ -107,7 +107,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
         { value: "pv_nutzung", label: "Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen" },
         { value: "energiewende", label: "Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage" },
         { value: "geschaeft", label: "Der Bau und Betrieb von PV-Anlagen ist ein wesentliches Anliegen von unserem Unternehmen/Verein" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Klimaschutz, Autarkie, Nachbarschaftsprojekt..." },
       ],
       optional: true,
     },
@@ -172,7 +172,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "planung_fast_fertig", label: "Wir sind fast fertig mit der Planung" },
         { value: "pv_laeuft_ggv_planung", label: "Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung" },
         { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit GGV/Mieterstrom", hint: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl dieser Option gestellt" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Projekt pausiert, Standortwechsel..." },
       ],
       required: true,
       visibilityRule: PT_GGV_OR_MS(),
@@ -189,7 +189,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "planung_fast_fertig", label: "Wir sind fast fertig mit der Planung" },
         { value: "pv_laeuft_ggv_planung", label: "Die PV-Anlage läuft schon, aber Mieterstrom ist noch in Planung" },
         { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit Mieterstrom", hint: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl dieser Option gestellt" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Projekt pausiert, Standortwechsel..." },
       ],
       required: true,
       visibilityRule: and(PT_MS(), PT_GGV()),
@@ -245,7 +245,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "ggvAdditionalInfo",
       type: "textarea",
       label: "Zusätzliche Informationen - GGV",
-      placeholder: "Weitere Details zu Ihrem Projekt...",
+      placeholder: "z.B. Besonderheiten des Gebäudes, geplanter Zeitrahmen, beteiligte Akteure...",
       optional: true,
       visibilityRule: PT_GGV(),
     },
@@ -298,7 +298,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "mieterstromAdditionalInfo",
       type: "textarea",
       label: "Zusätzliche Informationen - Mieterstrom",
-      placeholder: "Weitere Details zu Ihrem Projekt...",
+      placeholder: "z.B. Besonderheiten des Gebäudes, geplanter Zeitrahmen, beteiligte Akteure...",
       optional: true,
       visibilityRule: PT_MS(),
     },
@@ -342,7 +342,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "ladesaeulen_waermepumpen", label: "Weil die Einbindung von Ladesäulen/Wärmepumpen einfacher ist" },
         { value: "vnb_empfehlung", label: "Weil unser VNB das empfiehlt" },
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. rechtliche Beratung empfiehlt GGV, Erfahrungen Dritter..." },
       ],
       visibilityRule: PT_GGV(),
     },
@@ -356,7 +356,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "vnb_empfehlung", label: "Weil unser VNB das empfiehlt" },
         { value: "vnb_kann_ggv_nicht", label: "Weil der VNB die GGV nicht umsetzen kann" },
         { value: "finanziell_attraktiver", label: "Weil das finanziell attraktiver ist" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. bestehende Verträge, Erfahrungswerte von Nachbarn..." },
       ],
       visibilityRule: PT_MS_OR_BOTH(),
     },
@@ -387,11 +387,11 @@ const SECTION_CHALLENGES: SurveySection = {
       label: "Gab oder gibt es wesentliche Herausforderungen?",
       options: [
         { value: "keine", label: "Nein, alles läuft gut", exclusive: true },
-        { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt oder wollen nicht teilnehmen", hasTextField: true, textFieldLabel: "Details" },
-        { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true, textFieldLabel: "Was war das Problem?" },
-        { value: "vnb_blockiert", label: "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", hasTextField: true, textFieldLabel: "Gründe des VNB" },
-        { value: "kosten_zu_hoch", label: "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", hasTextField: true, textFieldLabel: "Details zu den Kosten" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldLabel: "Andere Herausforderungen" },
+        { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt oder wollen nicht teilnehmen", hasTextField: true, textFieldLabel: "Details", textFieldPlaceholder: "z.B. Bedenken wegen Kosten, Lärm, Optik..." },
+        { value: "pv_installation", label: "Technische Probleme mit der Installation der PV-Anlage", hasTextField: true, textFieldLabel: "Was war das Problem?", textFieldPlaceholder: "z.B. Statik, Denkmalschutz, Netzanschluss..." },
+        { value: "vnb_blockiert", label: "Der VNB lässt die Umsetzung von GGV / Mieterstrom nicht zu", hasTextField: true, textFieldLabel: "Gründe des VNB", textFieldPlaceholder: "z.B. fehlende IT-Systeme, unklare Zuständigkeiten..." },
+        { value: "kosten_zu_hoch", label: "Die Kosten für die Umsetzung der GGV / Mieterstrom sind zu hoch", hasTextField: true, textFieldLabel: "Details zu den Kosten", textFieldPlaceholder: "z.B. Wandlermessung, MSB-Kosten, Abrechnungskosten..." },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldLabel: "Andere Herausforderungen", textFieldPlaceholder: "z.B. rechtliche Unsicherheiten, fehlende Fördermittel..." },
       ],
       optional: true, // Korrektur: optional
     },
@@ -401,10 +401,10 @@ const SECTION_CHALLENGES: SurveySection = {
       type: "multi-select",
       label: "Falls Ihr VNB die Umsetzung von GGV oder Mieterstrom nicht oder nur unzureichend unterstützt, wie haben Sie bislang reagiert?", // Korrektur: Label
       options: [
-        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", hasTextField: true, textFieldHint: "Gerne können Sie hier ergänzen, wann Sie sich wohin gewendet haben und was Ihre Erfahrungen waren" }, // Korrektur: Label
+        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", hasTextField: true, textFieldPlaceholder: "z.B. BNetzA kontaktiert im Jan. 2025, Antwort ausstehend..." }, // Korrektur: Label
         { value: "rechtliche_schritte", label: "Wir erwägen rechtliche Schritte gegen den VNB einzuleiten" },
         { value: "keine_schritte", label: "Wir sind / unser Dienstleister ist bei dem Anschluss anderer Projekte auf den VNB angewiesen, wir sehen daher von rechtlichen Schritten gegenüber dem VNB oder einer Anfrage bei der BNetzA ab" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Wechsel zu anderem VNB, politische Kontakte..." },
       ],
       optional: true,
     },
@@ -427,7 +427,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "nein", label: "Nein, es gibt sicher noch keine" },
         { value: "ja_mindestens_eins", label: "Ja, es gibt mindestens eins" },
         { value: "ja_viele", label: "Ja, es gibt schon eine ganze Reihe" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Pilotprojekt in Nachbargemeinde..." },
       ],
     },
     {
@@ -438,7 +438,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
         { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
         { value: "nein", label: "Nein, wir hatten noch kein Kontakt" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. über Energieagentur, Verband..." },
       ],
       optional: true,
     },
@@ -450,7 +450,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "moeglich_gmssb", label: "Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen" },
         { value: "moeglich_wmsb", label: "Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
         { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
-        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true, textFieldLabel: "Gründe des VNB" },
+        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true, textFieldLabel: "Gründe des VNB", textFieldPlaceholder: "z.B. IT-Systeme nicht bereit, Summenzähler nicht unterstützt..." },
       ],
       optional: true,
     },
@@ -497,7 +497,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zur VNB-Webseite mit Messkonzept..." },
         { value: "nein", label: "Nein" },
       ],
     },
@@ -508,7 +508,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Formular oder Beschreibung..." },
         { value: "nein", label: "Nein" },
       ],
     },
@@ -519,7 +519,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Portal oder Beschreibung..." },
         { value: "nein", label: "Nein" },
       ],
     },
@@ -528,7 +528,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       type: "text",
       label: "Weiteres",
       helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
-      placeholder: "Weitere Unterstützungsangebote...",
+      placeholder: "z.B. persönliche Beratung, Webinare, Infomaterial...",
       optional: true,
     },
     {
@@ -539,7 +539,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "ja_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit (Mailadresse/Telefonnummer) und da wurde uns geholfen" },
         { value: "ja_nicht_hilfreich", label: "Ja, es gibt eine Kontaktmöglichkeit. Die Informationen waren aber wenig hilfreich" },
         { value: "nein", label: "Nein, es gibt keine Kontaktmöglichkeit" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Webseite mit FAQ, aber veraltet..." },
       ],
     },
     {
@@ -550,7 +550,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "ja_bestanden", label: "Ja, es bestanden schon persönliche Kontakte zum VNB" },
         { value: "ja_entstanden", label: "Ja, persönliche Kontakte sind bei der Umsetzung der GGV entstanden" },
         { value: "nein", label: "Nein, es bestehen keine persönlichen Kontakte" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Kontakt über lokale Politik, Veranstaltung..." },
       ],
     },
     {
@@ -581,7 +581,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "zeitnah", label: "Zeitnah, wir warten auf den Start" },
         { value: "12_monate", label: "In den nächsten 12 Monaten" },
         { value: "spaeter", label: "In mehr als 12 Monaten" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. abhängig von IT-Umstellung des VNB..." },
       ],
       // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
@@ -632,7 +632,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "portal_verrechnete_werte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
         { value: "dienstleister_marktkommunikation", label: "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB oder Energie-Service-Anbieter (ESA) abruft" },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. API-Schnittstelle geplant..." },
       ],
     },
     {
@@ -644,7 +644,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "weniger_3_eur", label: "Weniger als 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Mehr als 3 EUR/Messstelle/Jahr" },
         { value: "keine_auskunft", label: "Dazu gibt es noch keine Auskunft" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Staffelpreise je nach Anzahl Messstellen..." },
       ],
       // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
@@ -691,7 +691,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       id: "vnbWandlermessungComment",
       type: "textarea",
       label: "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr VNB hierzu und womit werden die begründet?", // Korrektur: Label
-      placeholder: "Weitere Details...",
+      placeholder: "z.B. Ansprüche des VNB, Begründung, geschätzte Kosten...",
       optional: true,
       visibilityRule: eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']),
     },
@@ -718,7 +718,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       id: "vnbPlanningDurationReasons",
       type: "textarea",
       label: "Woran scheitert die Umsetzung bislang?",
-      placeholder: "Beschreiben Sie die Gründe...",
+      placeholder: "z.B. fehlende IT-Systeme, unklare Zuständigkeiten, lange Wartezeiten...",
       optional: true,
     },
   ],
@@ -745,7 +745,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       id: "operationVnbDurationReasons",
       type: "textarea",
       label: "Falls es lange dauerte: Was war das größte Problem?", // Korrektur: Label
-      placeholder: "Beschreiben Sie die Gründe...",
+      placeholder: "z.B. langwierige Abstimmung, fehlende Prozesse beim VNB...",
       optional: true,
     },
     {
@@ -755,7 +755,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
-        { value: "nein_freiwillig", label: "Nein, aber wir haben das freiwillig eingebaut", hasTextField: true, textFieldLabel: "Erläuterung" }, // Korrektur: Neue Option
+        { value: "nein_freiwillig", label: "Nein, aber wir haben das freiwillig eingebaut", hasTextField: true, textFieldLabel: "Erläuterung", textFieldPlaceholder: "z.B. für bessere Datenqualität, Zukunftssicherheit..." }, // Korrektur: Neue Option
         { value: "wissen_nicht", label: "Das wissen wir nicht" },
       ],
     },
@@ -763,7 +763,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       id: "operationWandlermessungComment",
       type: "textarea",
       label: "Ergänzende Informationen zur Wandlermessung",
-      placeholder: "Weitere Details...",
+      placeholder: "z.B. Kosten, Begründung des VNB, technische Details...",
       optional: true,
       visibilityRule: eq('operationWandlermessung', 'ja'),
     },
@@ -785,7 +785,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" }, // Korrektur: Label
         { value: "wmsb", label: "Ein wMSB" },
-        { value: "sonstiges", label: "Ein Dienstleister / Sonstiges", hasTextField: true }, // Korrektur: Label
+        { value: "sonstiges", label: "Ein Dienstleister / Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Name des Dienstleisters..." }, // Korrektur: Label
       ],
     },
     {
@@ -795,7 +795,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der VNB)" },
         { value: "wmsb", label: "Ein wMSB" },
-        { value: "dienstleister", label: "ESA-Dienstleister / Sonstiges", hasTextField: true }, // Korrektur: Neue Option
+        { value: "dienstleister", label: "ESA-Dienstleister / Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Name des ESA-Dienstleisters..." }, // Korrektur: Neue Option
         { value: "abrechnung_dienstleister", label: "Wir benötigen keine detaillierten Werte - die Abrechnung wird direkt von einem Dienstleister durchgeführt." }, // Korrektur: Neue Option
       ],
     },
@@ -851,7 +851,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "portal_alle_messwerte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir auf alle Messwerte der Teilnehmer zugreifen können, um diese selber zu verrechnen" },
         { value: "dienstleister_marktkommunikation", label: "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom VNB/gMSB abruft" },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. API-Schnittstelle, manuelle Übermittlung..." },
       ],
     },
     {
@@ -864,7 +864,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "weniger_3_eur", label: "Dauerhaft weniger (oder gleich) 3 EUR/Messstelle pro Jahr" },
         { value: "mehr_3_eur", label: "Dauerhaft mehr als 3 EUR/Messstelle pro Jahr" },
         { value: "aktuell_kostenlos", label: "Aktuell kostenlos, das wird sich aber ändern" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Staffelpreise, Einmalkosten..." },
       ],
       visibilityRule: eq('operationDataProvider', 'gmsb'),
     },
@@ -967,7 +967,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "physikalisch", label: "Mit physikalischem Summenzähler" },
         { value: "kein_unterschied", label: "Wir kennen den Unterschied nicht" },
         { value: "keine_praeferenz", label: "Wir haben keine Präferenz" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Kombination beider Modelle..." },
       ],
     },
     // Korrektur: mieterstromChallenges (#73) GELÖSCHT
@@ -980,7 +980,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "nein", label: "Nein, es gibt sicher noch keine" },
         { value: "ja_mindestens_eins", label: "Ja, es gibt mindestens eins" },
         { value: "ja_viele", label: "Ja, es gibt schon eine ganze Reihe" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Pilotprojekt in Nachbarschaft..." },
       ],
     },
     {
@@ -992,7 +992,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "nein", label: "Nein, es gibt sicher noch keine" },
         { value: "ja_mindestens_eins", label: "Ja, es gibt mindestens eins" },
         { value: "ja_viele", label: "Ja, es gibt schon eine ganze Reihe" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Pilotprojekt mit wMSB bekannt..." },
       ],
     },
     {
@@ -1003,7 +1003,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
         { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
         { value: "nein", label: "Nein, noch kein Kontakt" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. über Energieagentur, Verband..." },
       ],
       optional: true,
     },
@@ -1023,7 +1023,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       id: "mieterstromVirtuellDeniedReason",
       type: "textarea",
       label: "Warum lässt Ihr VNB den virtuellen Summenzähler nicht zu?",
-      placeholder: "Bitte beschreiben Sie die Gründe...",
+      placeholder: "z.B. technische Einschränkungen, fehlende IT-Systeme beim VNB...",
       optional: true,
       visibilityRule: eq('mieterstromVirtuellAllowed', 'nein'),
     },
@@ -1041,7 +1041,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "M7. Wenn Ihr VNB/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten >5.000 EUR)?",
       options: [
         { value: "nein", label: "Nein" },
-        { value: "ja", label: "Ja", hasTextField: true },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. VNB verlangt Wandlermessung trotz virtuellem Modell..." },
       ],
       visibilityRule: eq('mieterstromVirtuellAllowed', 'ja'),
     },
@@ -1062,7 +1062,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
         { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB bietet an, dies als Messstellenbetreiber zu unterstützen" }, // Korrektur: Label
         { value: "moeglich_wmsb", label: "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
         { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
-        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung in seinem Netzgebiet bislang nicht möglich ist", hasTextField: true }, // Korrektur: Label + Textfeld
+        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung in seinem Netzgebiet bislang nicht möglich ist", hasTextField: true, textFieldPlaceholder: "z.B. IT-Systeme nicht bereit, keine Erfahrung..." }, // Korrektur: Label + Textfeld
       ],
       optional: true,
     },
@@ -1105,7 +1105,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Pauschalangebot, Staffelpreise..." },
       ],
     },
     {
@@ -1181,7 +1181,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       id: "mieterstromVnbDurationReasons",
       type: "textarea",
       label: "Falls es lange dauerte: Was war das große Problem?",
-      placeholder: "Beschreiben Sie die Gründe...",
+      placeholder: "z.B. langwierige Abstimmung, fehlende Prozesse beim VNB...",
       optional: true,
     },
     {
@@ -1190,7 +1190,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       label: "MB3. Hat Ihr VNB einen neuen zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes verlangt (Wandlermessung >5.000 EUR)?",
       options: [
         { value: "nein", label: "Nein" },
-        { value: "ja", label: "Ja", hasTextField: true },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Kosten, Begründung des VNB..." },
         { value: "wissen_nicht", label: "Das wissen wir nicht" },
       ],
     },
@@ -1244,7 +1244,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "bnetza", label: "Wir haben uns bereits an die BNetzA gewendet" },
         { value: "rechtliche_schritte", label: "Wir erwägen, rechtliche Schritte einzuleiten" },
         { value: "keine_schritte", label: "Wir sind bei dem Anschluss anderer Projekte auf den VNB angewiesen und sehen von rechtlichen Schritten gegenüber dem VNB ab" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Wechsel des Dienstleisters, alternative Lösungen..." },
       ],
       optional: true,
     },
@@ -1259,7 +1259,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
       id: "mieterstromExperiences",
       type: "textarea",
       label: "MD3. Welche Erfahrungen möchten Sie noch teilen?",
-      placeholder: "Ihre Erfahrungen...",
+      placeholder: "z.B. Tipps für andere Projektinitiatoren, Lessons Learned...",
       optional: true,
     },
   ],
@@ -1281,7 +1281,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "in_betrieb_42c", label: "Unser Energy-Sharing Projekt ist schon in Betrieb - nach §42c EnWG" },
         { value: "planung_bereit", label: "Wir sind in der Planung und wollen loslegen sobald es geht" },
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Infos" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Genehmigungsverfahren läuft, Pilotprojekt..." },
       ],
       optional: true,
     },
@@ -1289,7 +1289,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       id: "esInOperationDetails",
       type: "textarea",
       label: "E2a. Welche Erzeugungsanlagen sind eingebunden und wer wird beliefert?",
-      placeholder: "Beschreiben Sie Ihre Anlagen und Abnehmer...",
+      placeholder: "z.B. 30 kWp PV-Dachanlage, 20 Haushalte, seit März 2025...",
       optional: true,
       visibilityRule: ES_IN_OPERATION(),
     },
@@ -1297,7 +1297,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       id: "esOperatorDetails",
       type: "textarea",
       label: "E2b. Wer betreibt die Anlagen, wie erfolgt die Zuteilung der Strommengen, wer übernimmt die Abrechnung?",
-      placeholder: "Beschreiben Sie den Betrieb...",
+      placeholder: "z.B. Genossenschaft betreibt, Zuteilung über wMSB, Abrechnung durch Dienstleister...",
       optional: true,
       visibilityRule: ES_IN_OPERATION(),
     },
@@ -1385,8 +1385,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       options: [
         { value: "alle", label: "An jeden, der Interesse hat" }, // Korrektur: Label
         { value: "primaer_bestimmte", label: "Primär an bestimmte Abnehmer, aber gerne auch an weitere" }, // Korrektur: Label
-        { value: "nur_bestimmte", label: "Nur an bestimmte Abnehmer", hasTextField: true },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "nur_bestimmte", label: "Nur an bestimmte Abnehmer", hasTextField: true, textFieldPlaceholder: "z.B. nur Mitglieder der Genossenschaft..." },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. regionale Beschränkung, bestimmte Verbrauchsgruppen..." },
       ],
     },
     {
@@ -1416,7 +1416,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "moeglich_keine_zeit", label: "Der VNB hat angekündigt, dass das möglich sein wird - aber noch keine genaue Zeit genannt" },
         { value: "vertroestet", label: "Der VNB hat uns auf später vertröstet" },
         { value: "weiss_nicht", label: "Der VNB weiß nicht, was Energy Sharing ist" },
-        { value: "sonstiges", label: "Sonstiges", hasTextField: true },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. VNB verweist auf ausstehende Gesetzgebung..." },
       ],
       visibilityRule: eq('esVnbContact', 'ja'),
     },
@@ -1425,8 +1425,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       type: "single-select",
       label: "E8. Haben Sie mit Ihrem VNB bereits über die Abrechnung der Netzentgelte gesprochen?",
       options: [
-        { value: "ja_vorschlag", label: "Ja - und der VNB hatte schon einen Vorschlag wie das geht", hasTextField: true },
-        { value: "ja_unklar", label: "Ja - aber der VNB weiß auch nicht wie das gehen soll", hasTextField: true },
+        { value: "ja_vorschlag", label: "Ja - und der VNB hatte schon einen Vorschlag wie das geht", hasTextField: true, textFieldPlaceholder: "z.B. reduzierte Netzentgelte für Nahbereich vorgeschlagen..." },
+        { value: "ja_unklar", label: "Ja - aber der VNB weiß auch nicht wie das gehen soll", hasTextField: true, textFieldPlaceholder: "z.B. keine klare Regelung bekannt, warten auf Vorgaben..." },
         { value: "nein", label: "Nein" },
       ],
       visibilityRule: eq('esVnbContact', 'ja'),
@@ -1452,7 +1452,7 @@ const SECTION_FINAL: SurveySection = {
       id: "additionalExperiences",
       type: "textarea",
       label: "Welche Erfahrungen möchten Sie noch teilen?",
-      placeholder: "Ihre Erfahrungen...",
+      placeholder: "z.B. Tipps für andere, besondere Erlebnisse, Lessons Learned...",
       optional: true,
     },
     {
@@ -1466,7 +1466,7 @@ const SECTION_FINAL: SurveySection = {
       id: "surveyImprovements",
       type: "textarea",
       label: "Haben Sie Verbesserungsvorschläge für diese Umfrage?",
-      placeholder: "Ihr Feedback zur Umfrage...",
+      placeholder: "z.B. fehlende Fragen, unklare Formulierungen, technische Probleme...",
       optional: true,
     },
     {
