@@ -108,7 +108,25 @@ export default function Survey() {
   // Get visible steps based on evaluation data
   const steps = useMemo(() => getVisibleSteps(evalData), [evalData]);
 
-  const handleNext = () => { if (currentStep < steps.length - 1) { setCurrentStep(currentStep + 1); window.scrollTo(0, 0); } };
+  const hasVnbOrLocation = useMemo(() => {
+    const vnb = evalData.vnbName as string | undefined;
+    const locations = (evalData as unknown as Record<string, unknown>).projectLocations as Array<{plz?: string; address?: string}> | undefined;
+    const hasLoc = locations?.some(l => l.plz?.trim() || l.address?.trim()) || false;
+    return !!(vnb?.trim()) || hasLoc;
+  }, [evalData]);
+
+  const [showVnbWarning, setShowVnbWarning] = useState(false);
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      // Show warning when leaving "project" step without VNB or location
+      if (currentStepDef?.id === 'project' && !hasVnbOrLocation) {
+        setShowVnbWarning(true);
+      }
+      setCurrentStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+  };
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
 
   const handleSubmit = async () => {
@@ -263,6 +281,11 @@ export default function Survey() {
                 <div className="mt-6 rounded-lg bg-muted p-4 text-sm text-muted-foreground">
                   <p className="font-medium text-foreground mb-1">💡 Hinweis</p>
                   <p>Sobald Sie oben eine Projektart auswählen (Frage 2.2), erscheinen weitere Abschnitte wie Planung, Modelldetails und ggf. Betrieb.</p>
+                </div>
+              )}
+              {showVnbWarning && !hasVnbOrLocation && (currentStepDef?.id === 'project' || currentStepDef?.id === 'final') && (
+                <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 p-3 text-sm text-amber-700 dark:text-amber-400">
+                  ⚠ Ohne Angabe von VNB oder des Projektstandortes kann Ihre Bewertung nicht vollständig genutzt werden.
                 </div>
               )}
               {/* Maßnahme 11: Honeypot - unsichtbar für echte Nutzer */}
