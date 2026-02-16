@@ -71,20 +71,23 @@ export function MultiSelectQuestion({
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
       </div>
-      <div className="space-y-3">
-        {options.map((option) => {
+      <div className="rounded-lg border border-border overflow-hidden">
+        {options.map((option, index) => {
           const isChecked = value.includes(option.value);
           const isDisabled = exclusiveSelected && !option.exclusive && !isChecked;
           const textValue = optionTextValues?.[option.value] || "";
           const showTextFieldHint = option.hasTextField && isChecked && !textValue.trim();
+          const isLast = index === options.length - 1;
           
           return (
-            <div key={option.value} className="space-y-2">
+            <div key={option.value}>
               <div
                 className={cn(
-                  "flex items-start space-x-3 p-3 rounded-lg border transition-all",
+                  "flex items-start space-x-3 px-3 py-2.5 transition-all",
                   isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer",
-                  isChecked ? "border-primary bg-primary/5" : "border-border hover:border-primary/50 hover:bg-muted/50"
+                  isChecked ? "bg-primary/5" : "hover:bg-muted/50",
+                  !isLast && !isChecked && "border-b border-border",
+                  isChecked && "border-b border-border"
                 )}
                 onClick={(e) => {
                   e.preventDefault();
@@ -105,42 +108,46 @@ export function MultiSelectQuestion({
               </div>
               {option.hasTextField && isChecked && (
                 onOptionTextChange ? (
-                  <div className="ml-8 space-y-1">
-                    {option.textFieldLabel && (
-                      <Label className="text-sm text-muted-foreground">
-                        {option.textFieldLabel} <span className="text-muted-foreground/60 font-normal">(optional)</span>
-                      </Label>
-                    )}
-                    <Textarea 
-                      placeholder={option.textFieldPlaceholder || "Bitte angeben..."} 
-                      value={textValue} 
-                      onChange={(e) => {
-                        const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
-                        onOptionTextChange(option.value, val);
-                      }}
-                      className={cn("min-h-[60px] resize-y", showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
-                      rows={2}
-                    />
-                    {showTextFieldHint && (
-                      <p className="text-xs text-emerald-600">{option.textFieldHint || "Gerne können Sie hier Details ergänzen"}</p>
-                    )}
-                    {(textValue?.length || 0) >= SOFT_LIMIT && (
-                      <p className={`text-xs text-right ${(textValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
-                        {(textValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen
-                      </p>
-                    )}
+                  <div className="px-3 py-2 border-b border-border bg-muted/20">
+                    <div className="ml-7 space-y-1">
+                      {option.textFieldLabel && (
+                        <Label className="text-sm text-muted-foreground">
+                          {option.textFieldLabel} <span className="text-muted-foreground/60 font-normal">(optional)</span>
+                        </Label>
+                      )}
+                      <Textarea 
+                        placeholder={option.textFieldPlaceholder || "Bitte angeben..."} 
+                        value={textValue} 
+                        onChange={(e) => {
+                          const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
+                          onOptionTextChange(option.value, val);
+                        }}
+                        className={cn("min-h-[60px] resize-y", showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
+                        rows={2}
+                      />
+                      {showTextFieldHint && (
+                        <p className="text-xs text-emerald-600">{option.textFieldHint || "Gerne können Sie hier Details ergänzen"}</p>
+                      )}
+                      {(textValue?.length || 0) >= SOFT_LIMIT && (
+                        <p className={`text-xs text-right ${(textValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
+                          {(textValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen
+                        </p>
+                      )}
+                    </div>
                   </div>
                 ) : onOtherChange && (
-                  <Textarea 
-                    placeholder="Bitte angeben..." 
-                    value={otherValue || ""} 
-                    onChange={(e) => {
-                      const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
-                      onOtherChange(val);
-                    }}
-                    className="ml-8 min-h-[60px] resize-y" 
-                    rows={2}
-                  />
+                  <div className="px-3 py-2 border-b border-border bg-muted/20">
+                    <Textarea 
+                      placeholder="Bitte angeben..." 
+                      value={otherValue || ""} 
+                      onChange={(e) => {
+                        const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
+                        onOtherChange(val);
+                      }}
+                      className="ml-7 min-h-[60px] resize-y" 
+                      rows={2}
+                    />
+                  </div>
                 )
               )}
             </div>
