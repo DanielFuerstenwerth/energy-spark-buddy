@@ -12,9 +12,10 @@ interface StepVnbMsbDetailsProps {
 }
 
 export function StepVnbMsbDetails({ data, updateData }: StepVnbMsbDetailsProps) {
-  const vnbOffersMsb = data.vnbMsbOffer === 'ja';
-  const vnbDoesNotOfferMsb = data.vnbMsbOffer === 'nein_wmsb';
-  const vnbRejectsCompletely = data.vnbMsbOffer === 'nein_gar_nicht';
+  const vnbResponseVal = typeof data.vnbResponse === 'string' ? data.vnbResponse : data.vnbResponse?.[0];
+  const vnbOffersMsb = vnbResponseVal === 'moeglich_gmssb';
+  const vnbDoesNotOfferMsb = vnbResponseVal === 'moeglich_wmsb';
+  const vnbRejectsCompletely = vnbResponseVal === 'nicht_moeglich';
 
   return (
     <div className="space-y-8">

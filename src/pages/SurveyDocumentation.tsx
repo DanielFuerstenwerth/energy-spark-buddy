@@ -36,7 +36,7 @@ const REVIEW_ANNOTATIONS: Record<string, ReviewAnnotation[]> = {
   vnbContact: [{ type: "cto", text: "✅ ENTSCHIEDEN: Multi-Select behalten." }],
   esStatus: [{ type: "cto", text: "✅ ENTSCHIEDEN: Multi-Select behalten." }],
   vnbSupportMesskonzept: [{ type: "verständnis", text: '🔍 REVIEW: "Messkonzept" ist ein Fachbegriff. Erklärung hinzufügen.' }],
-  vnbMsbOffer: [{ type: "verständnis", text: '🔍 REVIEW: "gMSB" und "wMSB" sind Fachbegriffe. Bei erster Verwendung ausschreiben.' }],
+  vnbResponse: [{ type: "verständnis", text: '🔍 REVIEW: "gMSB" und "wMSB" sind Fachbegriffe. Bei erster Verwendung ausschreiben.' }],
   vnbDataProvision: [{ type: "verständnis", text: '🔍 REVIEW: "Marktkommunikation" und "ESA-Marktrolle" sind hochspezialisierte Begriffe.' }],
   vnbEsaCost: [{ type: "verständnis", text: '🔍 REVIEW: "ESA-Marktrolle" – Erklärung fehlt komplett.' }],
   vnbWandlermessung: [{ type: "verständnis", text: '🔍 REVIEW: "Wandlermessung" – technische Erklärung fehlt.' }],

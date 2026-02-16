@@ -50,20 +50,16 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
         questionNumber="4.2"
       />
 
-      <MultiSelectQuestion
+      <SingleSelectQuestion
         id="vnb-response"
         label={getLabelForQuestion("vnbResponse")}
-        description="Mehrfachauswahl möglich"
         options={getOptionsForQuestion("vnbResponse")}
-        value={data.vnbResponse}
-        optionTextValues={data.challengesDetails}
+        value={typeof data.vnbResponse === 'string' ? data.vnbResponse : data.vnbResponse?.[0]}
         onChange={(val) => updateData("vnbResponse", val)}
-        onOptionTextChange={(optVal, text) => updateData("challengesDetails", { ...data.challengesDetails, [optVal]: text })}
-        optional
         questionNumber="4.3"
       />
 
-      {data.vnbResponse?.includes('nicht_moeglich') && (
+      {(data.vnbResponse === 'nicht_moeglich' || (Array.isArray(data.vnbResponse) && data.vnbResponse.includes('nicht_moeglich'))) && (
         <FileUpload
           id="vnb-rejection-docs"
           label="Möglichkeit zum Hochladen von Dokumenten"
@@ -72,15 +68,6 @@ export function StepVnbPlanningGgv({ data, updateData, uploadedDocuments, setUpl
           onChange={setUploadedDocuments}
         />
       )}
-
-      <SingleSelectQuestion
-        id="vnb-msb-offer"
-        label={getLabelForQuestion("vnbMsbOffer")}
-        options={getOptionsForQuestion("vnbMsbOffer")}
-        value={data.vnbMsbOffer}
-        onChange={(val) => updateData("vnbMsbOffer", val)}
-        questionNumber="4.4"
-      />
     </div>
   );
 }
