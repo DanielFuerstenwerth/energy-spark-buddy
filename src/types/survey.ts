@@ -68,7 +68,7 @@ export interface SurveyData {
   vnbExistingProjectsOther?: string;
   vnbContact: string[];
   vnbContactOther?: string;
-  vnbResponse: string[];
+  vnbResponse?: string;
   vnbResponseReasons?: string;
   vnbSupportMesskonzept?: string;
   vnbSupportMesskonzeptOther?: string;
@@ -83,7 +83,7 @@ export interface SurveyData {
   vnbPersonalContacts?: string;
   vnbPersonalContactsOther?: string;
   vnbSupportRating?: number;
-  vnbMsbOffer?: string;
+  // vnbMsbOffer removed - consolidated into vnbResponse
   vnbStartTimeline?: string;
   vnbStartTimelineOther?: string;
   vnbAdditionalCosts?: string;
@@ -215,7 +215,7 @@ export const initialSurveyData: SurveyData = {
   challenges: [],
   challengesDetails: {},
   vnbContact: [],
-  vnbResponse: [],
+  
   esStatus: [],
   esPlantType: [],
   esConsumerTypes: [],

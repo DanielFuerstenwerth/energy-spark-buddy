@@ -453,26 +453,14 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
     },
     {
       id: "vnbResponse",
-      type: "multi-select",
-      label: "C3. Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?",
-      options: [
-        { value: "moeglich_gmssb", label: "Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen" },
-        { value: "moeglich_wmsb", label: "Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
-        { value: "keine_antwort", label: "Unser VNB hat die Anfrage bisher nicht beantwortet" },
-        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung bislang nicht möglich ist", hasTextField: true, textFieldLabel: "Gründe des VNB", textFieldPlaceholder: "z.B. IT-Systeme nicht bereit, Summenzähler nicht unterstützt..." },
-      ],
-      optional: true,
-    },
-    {
-      id: "vnbMsbOffer",
       type: "single-select",
-      label: "C8. Bietet Ihr VNB an, den Messstellenbetrieb in der GGV zu übernehmen?",
+      label: "C3. Wie ist der aktuelle Stand bezüglich der GGV-Umsetzung mit Ihrem VNB?",
       options: [
-        { value: "ja", label: "Ja, der VNB/gMSB bietet an, den Messstellenbetrieb zu übernehmen" },
-        { value: "nein_wmsb", label: "Nein, wir brauchen dafür einen wettbewerblichen Messstellenbetreiber" },
-        { value: "nein_gar_nicht", label: "Nein - und auch mit einem wettbewerblichen Messstellenbetreiber geht das nicht" },
+        { value: "moeglich_gmssb", label: "Die GGV ist umsetzbar – der VNB/gMSB bietet auch an, den Messstellenbetrieb als gMSB zu übernehmen" },
+        { value: "moeglich_wmsb", label: "Die GGV ist umsetzbar – dafür brauchen wir aber zwingend einen wettbewerblichen Messstellenbetreiber (wMSB), da der VNB dies als gMSB nicht umsetzen kann" },
+        { value: "nicht_moeglich", label: "Unser VNB sagt, dass eine Umsetzung derzeit nicht möglich ist - auch nicht mit einem wMSB", hasTextField: true, textFieldLabel: "Gründe des VNB", textFieldPlaceholder: "z.B. IT-Systeme nicht bereit, Summenzähler nicht unterstützt..." },
+        { value: "keine_antwort", label: "Unser VNB hat auf unsere Anfrage bisher nicht geantwortet", hasTextField: true, textFieldLabel: "Details zur Anfrage", textFieldPlaceholder: "z.B. seit wann, wie und an wen die Anfrage gestellt wurde..." },
       ],
-      skipLogic: "Je nach Auswahl werden unterschiedliche Folgefragen angezeigt",
     },
     {
       id: "vnbMsbTimeline",
@@ -484,7 +472,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
         { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'nein_wmsb'),
+      visibilityRule: inc('vnbResponse', 'moeglich_wmsb'),
     },
     {
       id: "vnbRejectionTimeline",
@@ -496,7 +484,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "nicht_gefragt", label: "Nein, das haben wir nicht gefragt" },
         { value: "keine_aussage", label: "Nein, dazu gab es keine Aussage" },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'nein_gar_nicht'),
+      visibilityRule: inc('vnbResponse', 'nicht_moeglich'),
     },
     // Korrektur: Support-Fragen (#29-#35) ans Ende des GGV-Abschnitts verschoben
     {
@@ -579,7 +567,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
   id: "vnb-msb",
   title: "4. Planung: Modellspezifisch – GGV - MSB Details",
   description: "Wenn der VNB anbietet, den Messstellenbetrieb in der GGV zu übernehmen:", // Korrektur: Neue Überschrift
-  visibilityRule: eq('vnbMsbOffer', 'ja'),
+  visibilityRule: inc('vnbResponse', 'moeglich_gmssb'),
   questions: [
     {
       id: "vnbStartTimeline",
@@ -592,7 +580,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "spaeter", label: "In mehr als 12 Monaten" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. abhängig von IT-Umstellung des VNB..." },
       ],
-      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
+      // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
     },
     {
       id: "vnbAdditionalCosts",
@@ -603,7 +591,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
-      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
+      // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
     },
     {
       id: "vnbAdditionalCostsOneTime",
@@ -655,7 +643,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "keine_auskunft", label: "Dazu gibt es noch keine Auskunft" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Staffelpreise je nach Anzahl Messstellen..." },
       ],
-      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
+      // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
     },
     {
       id: "vnbDataCostAmount",
@@ -675,7 +663,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "weniger_3_eur", label: "Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
-      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
+      // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
     },
     {
       id: "vnbEsaCostAmount",
@@ -1651,8 +1639,8 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "vnbContactHelpful": { displayId: "4-GGV-ContactHelpful", dbColumn: "vnb_contact_helpful", uiNumber: "4.26" },
   "vnbPersonalContacts": { displayId: "4-GGV-PersonalContacts", dbColumn: "vnb_personal_contacts", uiNumber: "4.27" },
   "vnbSupportRating": { displayId: "4-GGV-SupportRating", dbColumn: "vnb_support_rating", uiNumber: "4.28" },
-  "vnbMsbOffer": { displayId: "4-GGV-MsbOffer", dbColumn: "vnb_msb_offer", uiNumber: "4.4" },
-  // Section 4-GGV: MSB Details
+  "vnbMsbTimeline": { displayId: "4-GGV-MsbTimeline", dbColumn: "vnb_msb_timeline", uiNumber: "4.3a" },
+  "vnbRejectionTimeline": { displayId: "4-GGV-RejectionTimeline", dbColumn: "vnb_rejection_timeline", uiNumber: "4.3b" },
   "vnbStartTimeline": { displayId: "4-GGV-StartTimeline", dbColumn: "vnb_start_timeline", uiNumber: "4.5" },
   "vnbAdditionalCosts": { displayId: "4-GGV-AdditionalCosts", dbColumn: "vnb_additional_costs", uiNumber: "4.6" },
   "vnbAdditionalCostsOneTime": { displayId: "4-GGV-CostsOneTime", dbColumn: "vnb_additional_costs_one_time", uiNumber: "4.7" },
@@ -1663,8 +1651,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "vnbDataCostAmount": { displayId: "4-GGV-DataCostAmount", dbColumn: "vnb_data_cost_amount", uiNumber: "4.12" },
   "vnbEsaCost": { displayId: "4-GGV-EsaCost", dbColumn: "vnb_esa_cost", uiNumber: "4.13" },
   "vnbEsaCostAmount": { displayId: "4-GGV-EsaCostAmount", dbColumn: "vnb_esa_cost_amount", uiNumber: "4.14" },
-  "vnbMsbTimeline": { displayId: "4-GGV-MsbTimeline", dbColumn: "vnb_msb_timeline", uiNumber: "4.15" },
-  "vnbRejectionTimeline": { displayId: "4-GGV-RejectionTimeline", dbColumn: "vnb_rejection_timeline", uiNumber: "4.16" },
+  
   "vnbWandlermessung": { displayId: "4-GGV-Wandlermessung", dbColumn: "vnb_wandlermessung", uiNumber: "4.17" },
   "vnbWandlermessungComment": { displayId: "4-GGV-WandlermessungComment", dbColumn: "vnb_wandlermessung_comment", uiNumber: "4.18" },
   "vnbWandlermessungDocuments": { displayId: "4-GGV-WandlermessungDocuments", dbColumn: "vnb_wandlermessung_documents", uiNumber: "4.19" },

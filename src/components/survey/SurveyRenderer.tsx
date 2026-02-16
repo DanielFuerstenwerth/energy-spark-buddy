@@ -142,7 +142,7 @@ function renderQuestion(
 
     case 'single-select': {
       // Fields that are stored as string[] (Legacy compat) but rendered as single-select
-      const ARRAY_WRAPPED_FIELDS = ['planningStatus', 'mieterstromPlanningStatus', 'esStatus'];
+      const ARRAY_WRAPPED_FIELDS = ['planningStatus', 'mieterstromPlanningStatus', 'esStatus', 'vnbResponse'];
       const isArrayWrapped = ARRAY_WRAPPED_FIELDS.includes(q.id);
       const currentValue = isArrayWrapped
         ? (getValue<string[]>(q.id)?.[0] || undefined)
