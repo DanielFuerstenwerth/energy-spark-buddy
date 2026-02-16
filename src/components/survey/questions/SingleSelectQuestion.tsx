@@ -53,7 +53,12 @@ export function SingleSelectQuestion({
                 )}
                 onClick={(e) => {
                   e.preventDefault();
-                  onChange(option.value);
+                  // Allow deselection by clicking the same option again
+                  if (value === option.value) {
+                    onChange('');
+                  } else {
+                    onChange(option.value);
+                  }
                 }}
               >
                 <RadioGroupItem value={option.value} id={`${id}-${option.value}`} className="pointer-events-none mt-0.5" />

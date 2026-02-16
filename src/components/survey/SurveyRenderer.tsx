@@ -186,6 +186,15 @@ function renderQuestion(
       // Validation: warn if ggv_oder_mieterstrom + Betriebsstatus
       const OPERATION_VALUES = ['pv_laeuft_ggv_laeuft', 'pv_laeuft_ggv_planung'];
       const handleChange = (v: string) => {
+        // Allow deselection (empty string)
+        if (!v) {
+          if (isArrayWrapped) {
+            setValue(q.id, []);
+          } else {
+            setValue(q.id, undefined);
+          }
+          return;
+        }
         if (q.id === 'planningStatus' && isUndecided && OPERATION_VALUES.includes(v)) {
           toast({
             title: "Hinweis",
