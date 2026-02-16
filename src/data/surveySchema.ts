@@ -17,6 +17,7 @@ export interface SurveyOption {
   textFieldPlaceholder?: string;
   textFieldHint?: string;
   exclusive?: boolean; // If true, selecting this option deselects all others
+  hint?: string; // Small hint text shown below the option label
 }
 
 export interface SurveyQuestion {
@@ -163,7 +164,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "planningStatus",
       type: "single-select",
       label: "B1. Wo stehen Sie aktuell mit dem Projekt?",
-      description: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
@@ -171,7 +171,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "planung_stockt_pv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage" },
         { value: "planung_fast_fertig", label: "Wir sind fast fertig mit der Planung" },
         { value: "pv_laeuft_ggv_planung", label: "Die PV-Anlage läuft schon, aber die GGV/Mieterstrom ist noch in Planung" },
-        { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit GGV/Mieterstrom" },
+        { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit GGV/Mieterstrom", hint: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl dieser Option gestellt" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       required: true,
@@ -181,7 +181,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "mieterstromPlanningStatus",
       type: "single-select",
       label: "B1b. Wo stehen Sie aktuell mit dem Mieterstrom-Projekt?",
-      description: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl der vorletzten Antwortoption gestellt",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "info_sammeln", label: "Wir haben grundsätzliches Interesse, sammeln derzeit Informationen" },
@@ -189,7 +188,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "planung_stockt_pv", label: "Wir sind fortgeschritten in der Planung, aber es stockt mit der Installation der PV-Anlage" },
         { value: "planung_fast_fertig", label: "Wir sind fast fertig mit der Planung" },
         { value: "pv_laeuft_ggv_planung", label: "Die PV-Anlage läuft schon, aber Mieterstrom ist noch in Planung" },
-        { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit Mieterstrom" },
+        { value: "pv_laeuft_ggv_laeuft", label: "Die PV-Anlage läuft bereits mit Mieterstrom", hint: "Fragen zu Erfahrungen im Betrieb werden nur bei Wahl dieser Option gestellt" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
       required: true,

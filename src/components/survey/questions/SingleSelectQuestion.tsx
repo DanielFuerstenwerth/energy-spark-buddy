@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const HARD_LIMIT = 10000;
 const SOFT_LIMIT = 5000;
 
-interface Option { value: string; label: string; hasTextField?: boolean; }
+interface Option { value: string; label: string; hasTextField?: boolean; hint?: string; }
 
 interface SingleSelectQuestionProps {
   id: string;
@@ -56,8 +56,13 @@ export function SingleSelectQuestion({
                   onChange(option.value);
                 }}
               >
-                <RadioGroupItem value={option.value} id={`${id}-${option.value}`} className="pointer-events-none" />
-                <span className="text-sm cursor-pointer flex-1">{option.label}</span>
+                <RadioGroupItem value={option.value} id={`${id}-${option.value}`} className="pointer-events-none mt-0.5" />
+                <div className="flex-1">
+                  <span className="text-sm cursor-pointer">{option.label}</span>
+                  {option.hint && (
+                    <p className="text-xs text-muted-foreground mt-0.5">{option.hint}</p>
+                  )}
+                </div>
               </div>
               {option.hasTextField && isSelected && onOtherChange && (
                 <div className="px-3 py-2 border-b border-border bg-muted/20">
