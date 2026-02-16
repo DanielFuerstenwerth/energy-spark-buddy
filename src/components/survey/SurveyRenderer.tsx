@@ -83,20 +83,31 @@ function renderQuestion(
   const setValue = (field: string, value: unknown) => updateData(field as keyof SurveyData, value as SurveyData[keyof SurveyData]);
 
   switch (q.type) {
-    case 'vnb-select':
+    case 'vnb-select': {
+      const vnbValue = getValue<string>(q.id);
+      const locations = getValue<Array<{plz?: string; address?: string}>>('projectLocations') || [];
+      const hasLocation = locations.some(l => l.plz?.trim() || l.address?.trim());
+      const showVnbWarning = !vnbValue?.trim() && !hasLocation;
       return (
-        <SurveyVnbCombobox
-          key={q.id}
-          id={q.id}
-          label={label}
-          description={q.description}
-          value={getValue<string>(q.id)}
-          onChange={(v) => setValue(q.id, v)}
-          optional={q.optional}
-          questionNumber={uiNumber}
-          tooltipNode={tooltipNode}
-        />
+        <div key={q.id}>
+          <SurveyVnbCombobox
+            id={q.id}
+            label={label}
+            description={q.description}
+            value={vnbValue}
+            onChange={(v) => setValue(q.id, v)}
+            optional={q.optional}
+            questionNumber={uiNumber}
+            tooltipNode={tooltipNode}
+          />
+          {showVnbWarning && (
+            <p className="mt-2 text-sm text-amber-600 dark:text-amber-400">
+              ⚠ Ohne Angabe von VNB oder des Projektstandortes kann Ihre Bewertung nicht vollständig genutzt werden.
+            </p>
+          )}
+        </div>
       );
+    }
 
     case 'multi-select':
       // Dynamic option labels for multi-select
