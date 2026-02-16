@@ -56,7 +56,7 @@ export const SURVEY_STEPS: SurveyStep[] = [
     title: 'Planung: Modellspezifisch',
     description: 'Details zum gewählten Modell',
     type: 'questions',
-    sectionIds: ['vnb-planning', 'vnb-msb', 'vnb-support', 'mieterstrom-planning', 'mieterstrom-vnb-offer', 'energy-sharing'],
+    sectionIds: ['vnb-planning', 'vnb-msb', 'ggv-messkonzept', 'vnb-support', 'mieterstrom-planning', 'mieterstrom-vnb-offer', 'energy-sharing'],
     isVisible: (data) => {
       const projectTypes = data.projectTypes || [];
       return projectTypes.length > 0;
