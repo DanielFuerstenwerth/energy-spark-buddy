@@ -36,7 +36,7 @@ export const SURVEY_STEPS: SurveyStep[] = [
   {
     id: 'project',
     title: 'Projekt',
-    description: 'Projektdetails & VNB',
+    description: 'Projektdetails & Verteilnetzbetreiber',
     type: 'questions',
     sectionIds: ['project'],
   },
