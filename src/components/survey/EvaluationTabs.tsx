@@ -56,7 +56,7 @@ export function EvaluationTabs({
   return (
     <div className="mb-4">
       <div className="flex items-center gap-1 text-xs text-muted-foreground mb-2">
-        <span>VNB-Bewertungen</span>
+        <span>Verteilnetzbetreiber-Bewertungen</span>
         <Badge variant="secondary" className="text-xs px-1.5 py-0">
           {evaluations.length}
         </Badge>
@@ -142,7 +142,7 @@ export function EvaluationTabs({
           onClick={onAdd}
         >
           <Plus className="w-3.5 h-3.5" />
-          Weitere VNB-Bewertung
+          Weitere Verteilnetzbetreiber-Bewertung
         </Button>
       </div>
     </div>
