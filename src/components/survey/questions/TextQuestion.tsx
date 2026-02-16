@@ -19,10 +19,11 @@ interface TextQuestionProps {
   min?: number;
   max?: number;
   multiline?: boolean;
+  tooltipNode?: React.ReactNode;
 }
 
 export function TextQuestion({
-  id, label, description, value, onChange, placeholder, type = "text", optional, min, max, questionNumber, multiline,
+  id, label, description, value, onChange, placeholder, type = "text", optional, min, max, questionNumber, multiline, tooltipNode,
 }: TextQuestionProps) {
   const stringValue = String(value ?? "");
   const charCount = stringValue.length;
@@ -46,6 +47,7 @@ export function TextQuestion({
         <Label htmlFor={id} className="text-base font-semibold text-foreground">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

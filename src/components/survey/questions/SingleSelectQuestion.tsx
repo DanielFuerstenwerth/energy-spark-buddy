@@ -22,10 +22,11 @@ interface SingleSelectQuestionProps {
   optional?: boolean;
   otherPlaceholder?: string;
   otherHint?: string;
+  tooltipNode?: React.ReactNode;
 }
 
 export function SingleSelectQuestion({
-  id, label, description, options, value, otherValue, onChange, onOtherChange, optional, questionNumber, otherPlaceholder, otherHint,
+  id, label, description, options, value, otherValue, onChange, onOtherChange, optional, questionNumber, otherPlaceholder, otherHint, tooltipNode,
 }: SingleSelectQuestionProps) {
   return (
     <div className="space-y-4">
@@ -33,6 +34,7 @@ export function SingleSelectQuestion({
         <Label className="text-base font-semibold text-foreground">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

@@ -20,9 +20,10 @@ interface SurveyVnbComboboxProps {
   onChange: (value: string) => void;
   optional?: boolean;
   questionNumber?: string;
+  tooltipNode?: React.ReactNode;
 }
 
-export function SurveyVnbCombobox({ id, label, description, value, onChange, optional, questionNumber }: SurveyVnbComboboxProps) {
+export function SurveyVnbCombobox({ id, label, description, value, onChange, optional, questionNumber, tooltipNode }: SurveyVnbComboboxProps) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [vnbList, setVnbList] = useState<VnbOption[]>([]);
@@ -67,6 +68,7 @@ export function SurveyVnbCombobox({ id, label, description, value, onChange, opt
       <Label htmlFor={id} className="text-sm font-medium">
         {label}
         {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+        {tooltipNode}
         {optional && <span className="text-muted-foreground ml-1">(optional)</span>}
       </Label>
       {description && <p className="text-sm text-muted-foreground">{description}</p>}

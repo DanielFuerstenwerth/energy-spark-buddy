@@ -5,6 +5,36 @@ interface InlineHintProps {
   text: string;
 }
 
+/**
+ * Inline trigger (i) icon meant to sit next to a question label.
+ * Renders an expandable hint panel below when clicked.
+ */
+export function InlineHintTrigger({ text }: InlineHintProps) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <button
+        type="button"
+        className={`inline-flex items-center ml-1.5 align-middle transition-colors ${
+          open ? "text-primary" : "text-muted-foreground hover:text-foreground"
+        }`}
+        onClick={(e) => { e.preventDefault(); setOpen(!open); }}
+        aria-expanded={open}
+        aria-label="Hinweis anzeigen"
+      >
+        <Info className="w-4 h-4" />
+      </button>
+      {open && (
+        <div className="mt-2 rounded-md bg-muted/50 border border-border p-3 text-sm text-muted-foreground font-normal">
+          {text}
+        </div>
+      )}
+    </>
+  );
+}
+
+/** @deprecated Use InlineHintTrigger instead */
 export function InlineHint({ text }: InlineHintProps) {
   const [open, setOpen] = useState(false);
 

@@ -30,10 +30,11 @@ interface MultiSelectQuestionProps {
   onOtherChange?: (value: string) => void;
   onOptionTextChange?: (optionValue: string, text: string) => void;
   optional?: boolean;
+  tooltipNode?: React.ReactNode;
 }
 
 export function MultiSelectQuestion({
-  id, label, description, options, value, otherValue, optionTextValues, onChange, onOtherChange, onOptionTextChange, optional, questionNumber,
+  id, label, description, options, value, otherValue, optionTextValues, onChange, onOtherChange, onOptionTextChange, optional, questionNumber, tooltipNode,
 }: MultiSelectQuestionProps) {
   const handleToggle = (optionValue: string) => {
     const option = options.find(o => o.value === optionValue);
@@ -67,6 +68,7 @@ export function MultiSelectQuestion({
         <Label className="text-base font-semibold text-foreground">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}

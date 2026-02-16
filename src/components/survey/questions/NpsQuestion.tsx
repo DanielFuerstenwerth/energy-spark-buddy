@@ -10,9 +10,10 @@ interface NpsQuestionProps {
   value?: number;
   onChange: (value: number | undefined) => void;
   optional?: boolean;
+  tooltipNode?: React.ReactNode;
 }
 
-export function NpsQuestion({ id, label, description, value, onChange, optional, questionNumber }: NpsQuestionProps) {
+export function NpsQuestion({ id, label, description, value, onChange, optional, questionNumber, tooltipNode }: NpsQuestionProps) {
   const scores = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const getScoreColor = (score: number) => score <= 6 ? "detractor" : score <= 8 ? "passive" : "promoter";
   const handleClick = (score: number) => onChange(value === score ? undefined : score);
@@ -23,6 +24,7 @@ export function NpsQuestion({ id, label, description, value, onChange, optional,
         <Label htmlFor={id} className="text-sm font-medium flex items-center">
           {label}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+          {tooltipNode}
           {optional && <span className="text-muted-foreground ml-1">(optional)</span>}
         </Label>
         {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
