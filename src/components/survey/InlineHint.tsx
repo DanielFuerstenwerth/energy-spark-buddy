@@ -1,8 +1,29 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Info } from "lucide-react";
 
 interface InlineHintProps {
   text: string;
+}
+
+/** Turn URLs (www. or https://) in plain text into clickable links */
+function linkify(text: string): React.ReactNode[] {
+  const urlRegex = /(https?:\/\/[^\s]+|www\.[^\s]+)/g;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  while ((match = urlRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) parts.push(text.slice(lastIndex, match.index));
+    const url = match[0];
+    const href = url.startsWith("http") ? url : `https://${url}`;
+    parts.push(
+      <a key={match.index} href={href} target="_blank" rel="noopener noreferrer" className="underline font-medium hover:text-foreground">
+        {url}
+      </a>
+    );
+    lastIndex = match.index + url.length;
+  }
+  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  return parts;
 }
 
 /**
@@ -27,7 +48,7 @@ export function InlineHintTrigger({ text }: InlineHintProps) {
       </button>
       {open && (
         <div className="mt-2 rounded-md bg-muted/50 border border-border p-3 text-sm text-muted-foreground font-normal">
-          {text}
+          {linkify(text)}
         </div>
       )}
     </>
