@@ -200,7 +200,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
       ],
-      visibilityRule: PT_GGV_OR_MS(),
+      visibilityRule: PT_GGV(),
     },
     {
       id: "ggvPvSizeKw",
