@@ -487,12 +487,20 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       ],
       visibilityRule: inc('vnbResponse', 'nicht_moeglich'),
     },
-    // Korrektur: Support-Fragen (#29-#35) ans Ende des GGV-Abschnitts verschoben
+  ],
+};
+
+// === SECTION 4: GGV - VNB Online-Unterstützung & Kontakt ===
+const SECTION_VNB_SUPPORT: SurveySection = {
+  id: "vnb-support",
+  title: "Online-Unterstützung des VNB für die GGV",
+  description: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
+  visibilityRule: PT_GGV(),
+  questions: [
     {
       id: "vnbSupportMesskonzept",
       type: "single-select",
       label: "Informationen zum Messkonzept für die GGV",
-      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zur VNB-Webseite mit Messkonzept..." },
@@ -503,7 +511,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       id: "vnbSupportFormulare",
       type: "single-select",
       label: "Formulare für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
-      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Formular oder Beschreibung..." },
@@ -514,7 +521,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       id: "vnbSupportPortal",
       type: "single-select",
       label: "Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
-      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       optional: true,
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Portal oder Beschreibung..." },
@@ -525,7 +531,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       id: "vnbSupportOther",
       type: "text",
       label: "Weiteres",
-      helpText: "Stellt Ihr VNB konkrete Unterstützung für die massentaugliche Umsetzung der GGV online bereit?",
       placeholder: "z.B. persönliche Beratung, Webinare, Infomaterial...",
       optional: true,
     },
@@ -1494,6 +1499,7 @@ export const surveyDefinition: SurveySchema = {
     SECTION_CHALLENGES,
     SECTION_VNB_PLANNING_GGV,
     SECTION_VNB_MSB_DETAILS,
+    SECTION_VNB_SUPPORT,
     SECTION_GGV_OPERATION,
     SECTION_SERVICE_PROVIDER,
     SECTION_MIETERSTROM_PLANNING,
