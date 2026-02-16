@@ -1,473 +1,408 @@
-# Umfrage-Schema Audit v3.2.0
+# Umfrage-Audit
 
-**Datum:** 2026-02-15  
-**Basis:** `src/data/surveySchema.ts` (Code) + `visibilityRules.ts`  
-**Status:** Analysephase – keine Code-Änderungen
-
----
-
-## PHASE 1A — Struktur- & Logik-Inventory
-
-### Sections-Übersicht
-
-| # | Section ID | Title | visibilityRule (Klartext) | # Fragen |
-|---|-----------|-------|--------------------------|----------|
-| 1 | `about` | 1. Über Sie | — (immer) | 4 |
-| 2 | `project` | 2. Projekt | — (immer) | 13 |
-| 3 | `planning` | 3. Planung: Allgemeines – Planungsstand | projectTypes ∩ {ggv, mieterstrom, ggv_oder_mieterstrom} | 4 |
-| 4 | `challenges` | 3. Planung: Allgemeines – Herausforderungen | projectTypes ∩ {ggv, mieterstrom, ggv_oder_mieterstrom} | 2 |
-| 5 | `vnb-planning` | 4. Planung GGV | projectTypes ∩ {ggv, ggv_oder_mieterstrom} | 18 |
-| 6 | `vnb-msb` | 4. GGV – MSB Details | vnbMsbOffer = 'ja' | 14 |
-| 7 | `ggv-operation` | 5. Betrieb GGV | planningStatus ∋ 'pv_laeuft_ggv_laeuft' | 16 |
-| 8 | `service-provider` | 5. Dienstleister (GGV) | projectTypes ∩ {ggv, ggv_oder_mieterstrom} | 5 |
-| 9 | `mieterstrom-planning` | 4. Planung Mieterstrom | projectTypes ∋ 'mieterstrom' | 11 |
-| 10 | `mieterstrom-vnb-offer` | 4. MS – VNB Angebot | mieterstromVnbResponse ∋ 'moeglich_gmsb' | 6 |
-| 11 | `mieterstrom-operation` | 5. Betrieb Mieterstrom | MS_IN_OPERATION (komplex) | 13 |
-| 12 | `energy-sharing` | 4. Energy Sharing | projectTypes ∋ 'energysharing' | 16 |
-| 13 | `final` | 6. Abschluss | — (immer) | 4 |
-
-**Gesamt: 13 Sections, ~126 Fragen**
+**Datum:** 2026-02-16  
+**Basis:** `surveySchema.ts` v3.2.0, `visibilityRules.ts`, `surveySteps.ts`, `SurveyRenderer.tsx`, `Survey.tsx`  
+**Zweck:** Vollständige Dokumentation der Umfrage-Architektur, Sichtbarkeitslogik und bekannter Issues
 
 ---
 
-### Detailliertes Fragen-Inventory
+## 1. Architektur-Überblick
 
-#### Section 1: `about` (immer sichtbar)
+### Unidirektionaler Datenfluss
 
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| actorTypes | multi-select | optional | — | 12 | hasTextField bei 3 Optionen |
-| motivation | multi-select | optional | — | 4 | hasTextField bei 'sonstiges' |
-| contactEmail | email | optional | — | — | |
-| confirmationForUpdate | single-select | optional | — | 2 | |
+```
+surveySchema.ts (SSOT) → visibilityRules.ts (Rule Engine) → SurveyRenderer.tsx (UI)
+                                                               ↑
+surveySteps.ts (Step-Gruppierung) → Survey.tsx (Navigation) ───┘
+```
 
-#### Section 2: `project` (immer sichtbar)
+### Drei-Ebenen-Sichtbarkeit (Kaskadierende Gates)
 
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| vnbName | vnb-select | optional | — | — | Custom Combobox |
-| projectTypes | multi-select | **required** | — | 4 | ⚡ Hauptverzweigung |
-| planningStatus | single-select | **required** | PT_GGV_OR_MS | 7 | ⚡ Gate für Betrieb; hasTextField |
-| mieterstromPlanningStatus | single-select | **required** | PT_MS ∧ PT_GGV | 7 | Nur wenn GGV+MS gleichzeitig |
-| ggvProjectType | single-select | — | PT_GGV_OR_MS | 2 | ⚠️ **BUG**: auch bei reinem MS sichtbar |
-| ggvPvSizeKw | number | optional | PT_GGV | — | |
-| ggvPartyCount | number | optional | PT_GGV | — | |
-| ggvBuildingType | single-select | — | PT_GGV | 3 | |
-| ggvBuildingCount | number | optional | PT_GGV ∧ ggvProjectType='multiple' | — | |
-| ggvAdditionalInfo | textarea | optional | PT_GGV | — | |
-| mieterstromPvSizeKw | number | optional | PT_MS | — | |
-| mieterstromPartyCount | number | optional | PT_MS | — | |
-| mieterstromBuildingType | single-select | — | PT_MS | 3 | |
-| mieterstromAdditionalInfo | textarea | optional | PT_MS | — | |
-| projectLocations | text | optional | PT_GGV_OR_MS | — | |
+| Ebene | Definiert in | Mechanismus | Beschreibung |
+|-------|-------------|-------------|-------------|
+| **1. Schritt** | `surveySteps.ts` | `isVisible(data)` | Steuert Navigations-Tabs. Nutzt `getProjectFlags()` |
+| **2. Sektion** | `surveySchema.ts` | `visibilityRule` | Steuert Sektionsblöcke innerhalb eines Schritts |
+| **3. Frage** | `surveySchema.ts` | `visibilityRule` | Steuert einzelne Fragen innerhalb einer Sektion |
 
-#### Section 3: `planning` (PT_GGV_OR_MS)
+Ist eine übergeordnete Ebene unsichtbar, werden alle darin enthaltenen Elemente ebenfalls ausgeblendet, unabhängig von deren individuellen Regeln.
 
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| ggvOrMieterstromDecision | single-select | — | PT_GGV_OR_MS | 3 | Redundant mit Section-Gate |
-| ggvDecisionReasons | multi-select | — | PT_GGV | 6 | |
-| mieterstromDecisionReasons | multi-select | — | PT_MS_OR_BOTH | 6 | |
-| implementationApproach | multi-select | — | — | 3 | |
+### Multi-Evaluation-System
 
-#### Section 4: `challenges` (PT_GGV_OR_MS)
+Nutzer können mehrere VNB-Bewertungen (Tabs) innerhalb einer Sitzung anlegen. Schritte mit `isGlobal: true` (about, final) teilen Daten über alle Tabs. Jeder Tab erzeugt eine eigene Zeile in `survey_responses`, verknüpft über eine gemeinsame `session_group_id` (UUID).
 
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| challenges | multi-select | optional | — | 6 | exclusive bei 'keine'; hasTextField bei 4 |
-| vnbRejectionResponse | multi-select | optional | — | 4 | hasTextField bei 2 |
+### Datenfilterung beim Absenden
 
-#### Section 5: `vnb-planning` (PT_GGV)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| vnbExistingProjects | single-select | — | — | 5 | |
-| vnbContact | multi-select | optional | — | 4 | |
-| vnbResponse | multi-select | optional | — | 4 | |
-| vnbMsbOffer | single-select | — | — | 3 | ⚡ Gate für vnb-msb Section |
-| vnbMsbTimeline | single-select | — | vnbMsbOffer='nein_wmsb' | 4 | ✅ Fix: verschoben aus vnb-msb |
-| vnbRejectionTimeline | single-select | — | vnbMsbOffer='nein_gar_nicht' | 4 | ✅ Fix: verschoben aus vnb-msb |
-| vnbSupportMesskonzept | single-select | optional | — | 2 | |
-| vnbSupportFormulare | single-select | optional | — | 2 | |
-| vnbSupportPortal | single-select | optional | — | 2 | |
-| vnbSupportOther | text | optional | — | — | |
-| vnbContactHelpful | single-select | — | — | 4 | |
-| vnbPersonalContacts | single-select | — | — | 4 | |
-| vnbSupportRating | rating | — | — | 1–10 | |
-| vnbWandlermessung | single-select | — | — | 3 | |
-| vnbWandlermessungComment | textarea | optional | vnbWandlermessung ∈ {ja, wissen_nicht} | — | |
-| vnbWandlermessungDocuments | file | optional | vnbWandlermessung ∈ {ja, wissen_nicht} | — | |
-| vnbPlanningDuration | single-select | — | — | 3 | |
-| vnbPlanningDurationReasons | textarea | optional | — | — | |
-
-#### Section 6: `vnb-msb` (vnbMsbOffer='ja')
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| vnbStartTimeline | single-select | — | vnbMsbOffer='ja' | 5 | Redundant mit Section-Gate |
-| vnbAdditionalCosts | single-select | — | vnbMsbOffer='ja' | 3 | Redundant mit Section-Gate |
-| vnbAdditionalCostsOneTime | number | optional | vnbAdditionalCosts='ja' | — | conditionalRequired |
-| vnbAdditionalCostsYearly | number | optional | vnbAdditionalCosts='ja' | — | conditionalRequired |
-| vnbFullService | single-select | — | vnbMsbOffer='ja' | 2 | Redundant mit Section-Gate |
-| vnbDataProvision | multi-select | — | vnbMsbOffer='ja' | 5 | Redundant mit Section-Gate |
-| vnbDataCost | single-select | — | vnbMsbOffer='ja' | 5 | Redundant mit Section-Gate |
-| vnbDataCostAmount | number | optional | vnbDataCost='mehr_3_eur' | — | |
-| vnbEsaCost | single-select | — | vnbMsbOffer='ja' | 4 | Redundant mit Section-Gate |
-| vnbEsaCostAmount | number | optional | vnbEsaCost='mehr_3_eur' | — | |
-| vnbWandlermessung (Sect.) | — | — | — | — | ⬆ In vnb-planning, nicht hier |
-| vnbPlanningDuration (Sect.) | — | — | — | — | ⬆ In vnb-planning, nicht hier |
-
-**Hinweis:** Viele Fragen in vnb-msb haben `visibilityRule: eq('vnbMsbOffer', 'ja')` obwohl die Section selbst schon dieses Gate hat → redundant aber nicht schädlich.
-
-#### Section 7: `ggv-operation` (GGV_IN_OPERATION)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| operationVnbDuration | single-select | — | — | 3 | |
-| operationVnbDurationReasons | textarea | optional | — | — | |
-| operationWandlermessung | single-select | — | — | 4 | |
-| operationWandlermessungComment | textarea | optional | operationWandlermessung='ja' | — | |
-| operationMsbProvider | single-select | — | — | 2 | ⚡ Gate für Folgefragen |
-| operationAllocationProvider | single-select | — | — | 3 | |
-| operationDataProvider | single-select | — | — | 4 | ⚡ Gate für Datenkostenfragen |
-| operationMsbDuration | single-select | — | operationMsbProvider='gmsb' | 4 | |
-| operationMsbAdditionalCosts | single-select | — | operationMsbProvider='gmsb' | 3 | |
-| operationMsbAdditionalCostsOneTime | number | optional | operationMsbAdditionalCosts='ja' | — | |
-| operationMsbAdditionalCostsYearly | number | optional | operationMsbAdditionalCosts='ja' | — | |
-| operationDataFormat | single-select | — | — | 6 | |
-| operationDataCost | single-select | — | operationDataProvider='gmsb' | 5 | |
-| operationDataCostAmount | number | optional | operationDataCost='mehr_3_eur' | — | |
-| operationEsaCost | single-select | — | operationDataProvider='gmsb' | 4 | |
-| operationEsaCostAmount | number | optional | operationEsaCost='mehr_3_eur' | — | |
-| operationSatisfactionRating | rating | — | — | 1–10 | |
-
-⚠️ **BUG: Section hat KEIN projectTypes-Gate** → auch bei reinem Mieterstrom sichtbar, wenn planningStatus='pv_laeuft_ggv_laeuft'.
-
-#### Section 8: `service-provider` (PT_GGV)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| serviceProviderName | text | optional | — | — | |
-| serviceProviderComments | textarea | optional | serviceProviderName filled | — | |
-| serviceProvider2Name | text | optional | serviceProviderName filled | — | |
-| serviceProvider2Rating | rating | optional | serviceProvider2Name filled | 1–10 | |
-| serviceProvider2Comments | textarea | optional | serviceProvider2Name filled | — | |
-
-#### Section 9: `mieterstrom-planning` (PT_MS)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| mieterstromSummenzaehler | single-select | — | — | 5 | |
-| mieterstromExistingProjects | single-select | — | — | 5 | |
-| mieterstromExistingProjectsVirtuell | single-select | — | — | 5 | |
-| mieterstromVnbContact | multi-select | optional | — | 4 | |
-| mieterstromVirtuellAllowed | single-select | — | — | 3 | ⚡ Gate |
-| mieterstromVirtuellDeniedReason | textarea | optional | mieterstromVirtuellAllowed='nein' | — | |
-| mieterstromVirtuellDeniedDocuments | file | optional | mieterstromVirtuellAllowed='nein' | — | |
-| mieterstromVirtuellWandlermessung | single-select | — | mieterstromVirtuellAllowed='ja' | 2 | |
-| mieterstromVirtuellWandlermessungDocuments | file | optional | mieterstromVirtuellWandlermessung='ja' | — | |
-| mieterstromVnbResponse | multi-select | optional | — | 4 | ⚡ Gate für VNB-Angebot |
-| mieterstromSupportRating | rating | — | — | 1–10 | |
-
-#### Section 10: `mieterstrom-vnb-offer` (mieterstromVnbResponse ∋ 'moeglich_gmsb')
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| mieterstromFullService | single-select | — | — | 2 | |
-| mieterstromMsbCosts | single-select | — | — | 4 | |
-| mieterstromMsbCostsOneTime | number | optional | mieterstromMsbCosts='ja' | — | conditionalRequired |
-| mieterstromMsbCostsYearly | number | optional | mieterstromMsbCosts='ja' | — | conditionalRequired |
-| mieterstromModelChoice | single-select | — | — | 3 | |
-| mieterstromDataProvision | single-select | — | — | 3 | |
-
-#### Section 11: `mieterstrom-operation` (MS_IN_OPERATION)
-
-MS_IN_OPERATION = PT_MS ∧ (mieterstromPlanningStatus ∋ 'pv_laeuft_ggv_laeuft' ∨ (¬PT_GGV ∧ planningStatus ∋ 'pv_laeuft_ggv_laeuft'))
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| mieterstromVnbRole | single-select | — | — | 4 | |
-| mieterstromVnbDuration | single-select | — | — | 3 | |
-| mieterstromVnbDurationReasons | textarea | optional | — | — | |
-| mieterstromWandlermessung | single-select | — | — | 3 | |
-| mieterstromMsbInstallDuration | single-select | — | — | 4 | |
-| mieterstromOperationCosts | single-select | — | — | 3 | |
-| mieterstromOperationCostsOneTime | number | optional | mieterstromOperationCosts='ja' | — | |
-| mieterstromOperationCostsYearly | number | optional | mieterstromOperationCosts='ja' | — | |
-| mieterstromRejectionResponse | multi-select | optional | — | 4 | |
-| mieterstromInfoSources | textarea | optional | — | — | |
-| mieterstromExperiences | textarea | optional | — | — | |
-
-#### Section 12: `energy-sharing` (PT_ES)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| esStatus | single-select | optional | — | 5 | ⚠️ TypeScript-Typ ist string[] |
-| esInOperationDetails | textarea | optional | ES_IN_OPERATION | — | ⚠️ Möglicherweise unerreichbar |
-| esOperatorDetails | textarea | optional | ES_IN_OPERATION | — | ⚠️ Möglicherweise unerreichbar |
-| esPlantType | multi-select | — | — | 7 | |
-| esProjectScope | single-select | — | — | 2 | |
-| esCapacitySizeKw | number | optional | — | — | |
-| esTechnologyDescription | textarea | optional | — | — | |
-| esPartyCount | number | optional | — | — | |
-| esConsumerTypes | multi-select | — | — | 5 | |
-| esConsumerDetails | textarea | optional | — | — | |
-| esConsumerScope | single-select | — | — | 4 | |
-| esMaxDistance | text | optional | — | — | |
-| esVnbContact | single-select | — | — | 2 | ⚠️ Werte: yes/no statt ja/nein |
-| esVnbResponse | single-select | — | esVnbContact='yes' | 6 | |
-| esNetzentgelteDiscussion | single-select | — | esVnbContact='yes' | 3 | |
-| esInfoSources | textarea | optional | — | — | |
-
-#### Section 13: `final` (immer sichtbar)
-
-| ID | Type | Req/Opt | visibilityRule | Options | Notes |
-|----|------|---------|---------------|---------|-------|
-| additionalExperiences | textarea | optional | — | — | |
-| documentUpload | file | optional | — | — | |
-| surveyImprovements | textarea | optional | — | — | |
-| npsScore | rating | optional | PT_GGV_OR_MS | 0–10 | |
+`buildDbData()` ruft `getVisibleQuestionIds()` auf und filtert alle Antworten heraus, deren Fragen zum Zeitpunkt des Absendens nicht sichtbar sind. Verwaiste Daten bleiben im lokalen Draft erhalten.
 
 ---
 
-### Priorisierte Issues
+## 2. Schritt-Definitionen
 
-#### 🔴 Kritisch (Logikfehler, falsche Daten)
-
-| # | Issue | Section/Frage | Beschreibung | Status |
-|---|-------|-------------|-------------|--------|
-| C1 | **ggv-operation ohne GGV-Gate** | `ggv-operation` Section | Section-visibilityRule ist `GGV_IN_OPERATION()` = `inc('planningStatus', 'pv_laeuft_ggv_laeuft')`. Es fehlt ein `PT_GGV()` Gate. → Bei reinem Mieterstrom + planningStatus='pv_laeuft_ggv_laeuft' werden alle GGV-Betriebsfragen angezeigt. | 🐛 Offen |
-| C2 | **getProjectFlags.isGgvInOperation ohne GGV-Gate** | `visibilityRules.ts:147` | `isGgvInOperation` prüft nur planningStatus, nicht ob GGV ausgewählt ist. Gleicher Bug wie C1, betrifft auch die Step-Sichtbarkeit. | 🐛 Offen |
-| C3 | **ES_IN_OPERATION nutzt equalsAny auf Array-Feld** | `visibilityRules.ts:175-176` | `ES_IN_OPERATION()` nutzt `equalsAny` (prüft `typeof val === 'string'`), aber `esStatus` ist in DB `text[]` (bestätigt: ein Datensatz hat `['in_betrieb_vollversorgung', 'info_sammeln']`). `equalsAny` gibt **immer false** zurück → `esInOperationDetails` und `esOperatorDetails` sind **unerreichbar**. | 🔴 **Bestätigt** |
-| C4 | **esVnbContact: boolean vs string Typ-Konflikt** | `energy-sharing` | Schema: single-select mit Werten `yes`/`no`. DB: `boolean` (bestätigt: Wert ist `true`, nicht `'yes'`). `eq('esVnbContact', 'yes')` vergleicht `true === 'yes'` → **immer false** → `esVnbResponse` und `esNetzentgelteDiscussion` sind **unerreichbar**. | 🔴 **Bestätigt** |
-
-#### 🟡 Mittel (falsche Sichtbarkeit, UX-Problem)
-
-| # | Issue | Section/Frage | Beschreibung | Status |
-|---|-------|-------------|-------------|--------|
-| M1 | **ggvProjectType bei reinem Mieterstrom sichtbar** | `project.ggvProjectType` | visibilityRule: `PT_GGV_OR_MS()` – enthält 'mieterstrom'. Die Frage fragt nach "GGV-Projekten" und ist bei reinem MS irrelevant. Sollte `PT_GGV()` sein. | 🐛 Offen |
-| M2 | **Inkonsistente Werte: yes/no vs ja/nein** | `energy-sharing.esVnbContact` | Einzige Frage mit `yes`/`no` statt `ja`/`nein`. Inkonsistenz mit dem Rest der Umfrage. | 🟡 Offen |
-| M3 | **Redundante visibilityRules in vnb-msb** | `vnb-msb.*` | 7 Fragen haben `eq('vnbMsbOffer', 'ja')`, obwohl Section-Gate identisch ist. Nicht schädlich, aber unnötige Komplexität. | ℹ️ Low |
-
-#### 🟢 Gelöst (aus vorherigen Iterationen)
-
-| # | Issue | Beschreibung | Status |
-|---|-------|-------------|--------|
-| R1 | vnbMsbTimeline/vnbRejectionTimeline unerreichbar in vnb-msb | Verschoben nach vnb-planning | ✅ Gelöst |
-| R2 | vnbRejectionResponse in falscher Section | Verschoben nach challenges | ✅ Gelöst |
+| # | Step ID | Titel | Sections | isVisible | isGlobal |
+|---|---------|-------|----------|-----------|----------|
+| 1 | `about` | Über Sie | about | — (immer) | ✅ |
+| 2 | `project` | Projekt | project | — (immer) | — |
+| 3 | `planning-general` | Planung: Allgemeines | planning, challenges | `isGgvOrMieterstrom` | — |
+| 4 | `planning-model` | Planung: Modellspezifisch | vnb-planning, vnb-msb, mieterstrom-planning, mieterstrom-vnb-offer, energy-sharing | `projectTypes.length > 0` | — |
+| 5 | `operation-model` | Betrieb: Modellspezifisch | ggv-operation, service-provider, mieterstrom-operation | `isGgvOrMieterstrom && (isGgvInOperation \|\| isMieterstromInOperation)` | — |
+| 6 | `final` | Abschluss | final | — (immer) | ✅ |
 
 ---
 
-### High-Level Flow (Mermaid)
+## 3. Sections-Übersicht
+
+| # | Section ID | Titel | visibilityRule | Fragen |
+|---|-----------|-------|---------------|--------|
+| 1 | `about` | 1. Über Sie | — | 4 |
+| 2 | `project` | 2. Projekt | — | 15 |
+| 3 | `planning` | 3. Planung: Allgemeines – Planungsstand | PT_GGV_OR_MS | 4 |
+| 4 | `challenges` | 3. Planung: Allgemeines – Herausforderungen | PT_GGV_OR_MS | 2 |
+| 5 | `vnb-planning` | 4. Planung GGV | PT_GGV | 18 |
+| 6 | `vnb-msb` | 4. GGV – MSB Details | eq('vnbMsbOffer', 'ja') | 10 |
+| 7 | `ggv-operation` | 5. Betrieb GGV | GGV_IN_OPERATION ⚠️ | 17 |
+| 8 | `service-provider` | 5. Dienstleister (GGV) | PT_GGV | 5 |
+| 9 | `mieterstrom-planning` | 4. Planung Mieterstrom | PT_MS | 11 |
+| 10 | `mieterstrom-vnb-offer` | 4. MS – VNB Angebot | inc('mieterstromVnbResponse', 'moeglich_gmsb') | 6 |
+| 11 | `mieterstrom-operation` | 5. Betrieb Mieterstrom | MS_IN_OPERATION | 11 |
+| 12 | `energy-sharing` | 4. Energy Sharing | PT_ES | 16 |
+| 13 | `final` | 6. Abschluss | — | 4 |
+
+**Gesamt: 13 Sections, 123 Fragen**
+
+---
+
+## 4. Detailliertes Fragen-Inventar
+
+### 4.1 Section `about` (immer sichtbar)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 1.1 | actorTypes | multi-select | opt | — | 12 | hasTextField bei 3 Opts |
+| 1.2 | motivation | multi-select | opt | — | 4 | hasTextField bei 'sonstiges' |
+| 1.3 | contactEmail | email | opt | — | — | |
+| 1.4 | confirmationForUpdate | single-select | opt | — | 2 | |
+
+### 4.2 Section `project` (immer sichtbar)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 2.1 | vnbName | vnb-select | opt | — | — | Custom Combobox |
+| 2.2 | projectTypes | multi-select | **req** | — | 4 | ⚡ Hauptverzweigung |
+| 2.3 | planningStatus | single-select | **req** | PT_GGV_OR_MS | 7 | ⚡ Gate für Betrieb; array-wrapped |
+| 2.3b | mieterstromPlanningStatus | single-select | **req** | PT_MS ∧ PT_GGV | 7 | Nur wenn GGV+MS gleichzeitig; array-wrapped |
+| 2.4 | ggvProjectType | single-select | — | PT_GGV_OR_MS | 2 | ⚠️ **M1**: Sollte PT_GGV sein |
+| 2.6 | ggvPvSizeKw | number | opt | PT_GGV | — | |
+| 2.7 | ggvPartyCount | number | opt | PT_GGV | — | |
+| 2.8 | ggvBuildingType | single-select | — | PT_GGV | 3 | |
+| 2.5 | ggvBuildingCount | number | opt | PT_GGV ∧ eq('ggvProjectType', 'multiple') | — | |
+| 2.9 | ggvAdditionalInfo | textarea | opt | PT_GGV | — | |
+| 2.10 | mieterstromPvSizeKw | number | opt | PT_MS | — | |
+| 2.11 | mieterstromPartyCount | number | opt | PT_MS | — | |
+| 2.12 | mieterstromBuildingType | single-select | — | PT_MS | 3 | |
+| 2.13 | mieterstromAdditionalInfo | textarea | opt | PT_MS | — | |
+| 2.14 | projectLocations | text | opt | PT_GGV_OR_MS | — | ProjectLocationRows-Komponente |
+
+### 4.3 Section `planning` (PT_GGV_OR_MS)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 3.1 | ggvOrMieterstromDecision | single-select | — | PT_GGV_OR_MS | 3 | Redundant mit Section-Gate |
+| 3.2 | ggvDecisionReasons | multi-select | — | PT_GGV | 6 | |
+| 3.3 | mieterstromDecisionReasons | multi-select | — | PT_MS_OR_BOTH | 6 | |
+| 3.4 | implementationApproach | multi-select | — | — | 3 | |
+
+### 4.4 Section `challenges` (PT_GGV_OR_MS)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 3.5 | challenges | multi-select | opt | — | 6 | exclusive bei 'keine'; hasTextField bei 4 |
+| 3.6 | vnbRejectionResponse | multi-select | opt | — | 4 | hasTextField bei 2 |
+
+### 4.5 Section `vnb-planning` (PT_GGV)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 4.1 | vnbExistingProjects | single-select | — | — | 5 | |
+| 4.2 | vnbContact | multi-select | opt | — | 4 | |
+| 4.3 | vnbResponse | multi-select | opt | — | 4 | |
+| 4.4 | vnbMsbOffer | single-select | — | — | 3 | ⚡ Gate für vnb-msb Section |
+| 4.15 | vnbMsbTimeline | single-select | — | eq('vnbMsbOffer', 'nein_wmsb') | 4 | |
+| 4.16 | vnbRejectionTimeline | single-select | — | eq('vnbMsbOffer', 'nein_gar_nicht') | 4 | |
+| 4.22 | vnbSupportMesskonzept | single-select | opt | — | 2 | Ja/Nein + Textfeld |
+| 4.23 | vnbSupportFormulare | single-select | opt | — | 2 | Ja/Nein + Textfeld |
+| 4.24 | vnbSupportPortal | single-select | opt | — | 2 | Ja/Nein + Textfeld |
+| 4.25 | vnbSupportOther | text | opt | — | — | |
+| 4.26 | vnbContactHelpful | single-select | — | — | 4 | |
+| 4.27 | vnbPersonalContacts | single-select | — | — | 4 | |
+| 4.28 | vnbSupportRating | rating | — | — | 1–10 | |
+| 4.17 | vnbWandlermessung | single-select | — | — | 3 | |
+| 4.18 | vnbWandlermessungComment | textarea | opt | eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']) | — | |
+| 4.19 | vnbWandlermessungDocuments | file | opt | eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']) | — | |
+| 4.20 | vnbPlanningDuration | single-select | — | — | 3 | |
+| 4.21 | vnbPlanningDurationReasons | textarea | opt | — | — | |
+
+### 4.6 Section `vnb-msb` (eq('vnbMsbOffer', 'ja'))
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 4.5 | vnbStartTimeline | single-select | — | eq('vnbMsbOffer', 'ja') | 5 | Redundant mit Section-Gate |
+| 4.6 | vnbAdditionalCosts | single-select | — | eq('vnbMsbOffer', 'ja') | 3 | Redundant |
+| 4.7 | vnbAdditionalCostsOneTime | number | opt | eq('vnbAdditionalCosts', 'ja') | — | conditionalRequired |
+| 4.8 | vnbAdditionalCostsYearly | number | opt | eq('vnbAdditionalCosts', 'ja') | — | conditionalRequired |
+| 4.9 | vnbFullService | single-select | — | eq('vnbMsbOffer', 'ja') | 2 | Redundant |
+| 4.10 | vnbDataProvision | multi-select | — | eq('vnbMsbOffer', 'ja') | 5 | Redundant |
+| 4.11 | vnbDataCost | single-select | — | eq('vnbMsbOffer', 'ja') | 5 | Redundant |
+| 4.12 | vnbDataCostAmount | number | opt | eq('vnbDataCost', 'mehr_3_eur') | — | |
+| 4.13 | vnbEsaCost | single-select | — | eq('vnbMsbOffer', 'ja') | 4 | Redundant |
+| 4.14 | vnbEsaCostAmount | number | opt | eq('vnbEsaCost', 'mehr_3_eur') | — | |
+
+**Hinweis:** 7 Fragen haben `visibilityRule: eq('vnbMsbOffer', 'ja')`, obwohl die Section selbst dasselbe Gate hat → redundant aber nicht schädlich (M3).
+
+### 4.7 Section `ggv-operation` (GGV_IN_OPERATION ⚠️)
+
+**⚠️ Bug C1/C2: Section-Gate prüft nur `planningStatus ∋ 'pv_laeuft_ggv_laeuft'`, ohne PT_GGV-Gate.**
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 5.1 | operationVnbDuration | single-select | — | — | 3 | |
+| 5.2 | operationVnbDurationReasons | textarea | opt | — | — | |
+| 5.3 | operationWandlermessung | single-select | — | — | 4 | inkl. 'nein_freiwillig' |
+| 5.4 | operationWandlermessungComment | textarea | opt | eq('operationWandlermessung', 'ja') | — | |
+| 5.5 | operationMsbProvider | single-select | — | — | 2 | ⚡ Gate für MSB-Folgefragen |
+| 5.6 | operationAllocationProvider | single-select | — | — | 3 | |
+| 5.7 | operationDataProvider | single-select | — | — | 4 | ⚡ Gate für Datenkostenfragen |
+| 5.8 | operationMsbDuration | single-select | — | eq('operationMsbProvider', 'gmsb') | 4 | |
+| 5.9 | operationMsbAdditionalCosts | single-select | — | eq('operationMsbProvider', 'gmsb') | 3 | |
+| 5.10 | operationMsbAdditionalCostsOneTime | number | opt | eq('operationMsbAdditionalCosts', 'ja') | — | conditionalRequired |
+| 5.11 | operationMsbAdditionalCostsYearly | number | opt | eq('operationMsbAdditionalCosts', 'ja') | — | conditionalRequired |
+| 5.12 | operationDataFormat | single-select | — | — | 6 | |
+| 5.13 | operationDataCost | single-select | — | eq('operationDataProvider', 'gmsb') | 5 | |
+| 5.14 | operationDataCostAmount | number | opt | eq('operationDataCost', 'mehr_3_eur') | — | |
+| 5.15 | operationEsaCost | single-select | — | eq('operationDataProvider', 'gmsb') | 4 | |
+| 5.16 | operationEsaCostAmount | number | opt | eq('operationEsaCost', 'mehr_3_eur') | — | |
+| 5.17 | operationSatisfactionRating | rating | — | — | 1–10 | |
+
+### 4.8 Section `service-provider` (PT_GGV)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 5.18 | serviceProviderName | text | opt | — | — | |
+| 5.19 | serviceProviderComments | textarea | opt | filled('serviceProviderName') | — | |
+| 5.20 | serviceProvider2Name | text | opt | filled('serviceProviderName') | — | |
+| 5.21 | serviceProvider2Rating | rating | opt | filled('serviceProvider2Name') | 1–10 | |
+| 5.22 | serviceProvider2Comments | textarea | opt | filled('serviceProvider2Name') | — | |
+
+### 4.9 Section `mieterstrom-planning` (PT_MS)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 6.1 | mieterstromSummenzaehler | single-select | — | — | 5 | |
+| 6.2 | mieterstromExistingProjects | single-select | — | — | 5 | |
+| 6.3 | mieterstromExistingProjectsVirtuell | single-select | — | — | 5 | |
+| 6.4 | mieterstromVnbContact | multi-select | opt | — | 4 | |
+| 6.5 | mieterstromVirtuellAllowed | single-select | — | — | 3 | ⚡ Gate |
+| 6.6 | mieterstromVirtuellDeniedReason | textarea | opt | eq('…Allowed', 'nein') | — | |
+| 6.7 | mieterstromVirtuellDeniedDocuments | file | opt | eq('…Allowed', 'nein') | — | |
+| 6.8 | mieterstromVirtuellWandlermessung | single-select | — | eq('…Allowed', 'ja') | 2 | |
+| 6.9 | mieterstromVirtuellWandlermessungDocuments | file | opt | eq('…Wandlermessung', 'ja') | — | |
+| 6.10 | mieterstromVnbResponse | multi-select | opt | — | 4 | ⚡ Gate für VNB-Angebot |
+| 6.13 | mieterstromSupportRating | rating | — | — | 1–10 | |
+
+### 4.10 Section `mieterstrom-vnb-offer` (inc('mieterstromVnbResponse', 'moeglich_gmsb'))
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 6.14 | mieterstromFullService | single-select | — | — | 2 | |
+| 6.15 | mieterstromMsbCosts | single-select | — | — | 4 | |
+| 6.16 | mieterstromMsbCostsOneTime | number | opt | eq('…MsbCosts', 'ja') | — | conditionalRequired |
+| 6.17 | mieterstromMsbCostsYearly | number | opt | eq('…MsbCosts', 'ja') | — | conditionalRequired |
+| 6.18 | mieterstromModelChoice | single-select | — | — | 3 | |
+| 6.19 | mieterstromDataProvision | single-select | — | — | 3 | |
+
+### 4.11 Section `mieterstrom-operation` (MS_IN_OPERATION)
+
+**MS_IN_OPERATION** = `PT_MS ∧ (mieterstromPlanningStatus ∋ 'pv_laeuft_ggv_laeuft' ∨ (¬PT_GGV ∧ planningStatus ∋ 'pv_laeuft_ggv_laeuft'))`
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 6.20 | mieterstromVnbRole | single-select | — | — | 4 | |
+| 6.21 | mieterstromVnbDuration | single-select | — | — | 3 | |
+| 6.22 | mieterstromVnbDurationReasons | textarea | opt | — | — | |
+| 6.23 | mieterstromWandlermessung | single-select | — | — | 3 | |
+| 6.24 | mieterstromMsbInstallDuration | single-select | — | — | 4 | |
+| 6.25 | mieterstromOperationCosts | single-select | — | — | 3 | |
+| 6.26 | mieterstromOperationCostsOneTime | number | opt | eq('…OperationCosts', 'ja') | — | conditionalRequired |
+| 6.27 | mieterstromOperationCostsYearly | number | opt | eq('…OperationCosts', 'ja') | — | conditionalRequired |
+| 6.28 | mieterstromRejectionResponse | multi-select | opt | — | 4 | |
+| 6.29 | mieterstromInfoSources | textarea | opt | — | — | |
+| 6.30 | mieterstromExperiences | textarea | opt | — | — | |
+
+### 4.12 Section `energy-sharing` (PT_ES)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 7.1 | esStatus | single-select | opt | — | 5 | ⚠️ DB: text[], Schema: single-select |
+| 7.2 | esInOperationDetails | textarea | opt | ES_IN_OPERATION ⚠️ | — | **C3**: unerreichbar |
+| 7.3 | esOperatorDetails | textarea | opt | ES_IN_OPERATION ⚠️ | — | **C3**: unerreichbar |
+| 7.4 | esPlantType | multi-select | — | — | 7 | |
+| 7.5 | esProjectScope | single-select | — | — | 2 | |
+| 7.6 | esCapacitySizeKw | number | opt | — | — | |
+| 7.6b | esTechnologyDescription | textarea | opt | — | — | |
+| 7.7 | esPartyCount | number | opt | — | — | |
+| 7.8 | esConsumerTypes | multi-select | — | — | 5 | |
+| 7.9 | esConsumerDetails | textarea | opt | — | — | |
+| 7.10 | esConsumerScope | single-select | — | — | 4 | |
+| 7.11 | esMaxDistance | text | opt | — | — | |
+| 7.12 | esVnbContact | single-select | — | — | 2 | ⚠️ Werte: yes/no; DB: boolean (**C4**) |
+| 7.13 | esVnbResponse | single-select | — | eq('esVnbContact', 'yes') ⚠️ | 6 | **C4**: unerreichbar |
+| 7.14 | esNetzentgelteDiscussion | single-select | — | eq('esVnbContact', 'yes') ⚠️ | 3 | **C4**: unerreichbar |
+| 7.15 | esInfoSources | textarea | opt | — | — | |
+
+### 4.13 Section `final` (immer sichtbar)
+
+| UI# | ID | Type | Req/Opt | visibilityRule | Opts | Notes |
+|-----|-----|------|---------|---------------|------|-------|
+| 8.1 | additionalExperiences | textarea | opt | — | — | |
+| 8.2 | documentUpload | file | opt | — | — | |
+| 8.3 | surveyImprovements | textarea | opt | — | — | |
+| 8.4 | npsScore | rating | opt | PT_GGV_OR_MS | 0–10 | NPS-Komponente |
+
+---
+
+## 5. Regel-Referenz
+
+### Shorthand-Definitionen (visibilityRules.ts)
+
+| Shorthand | Expansion |
+|-----------|-----------|
+| `PT_GGV()` | projectTypes includesAny ['ggv', 'ggv_oder_mieterstrom'] |
+| `PT_MS()` | projectTypes includes 'mieterstrom' |
+| `PT_MS_OR_BOTH()` | projectTypes includesAny ['mieterstrom', 'ggv_oder_mieterstrom'] |
+| `PT_GGV_OR_MS()` | projectTypes includesAny ['ggv', 'mieterstrom', 'ggv_oder_mieterstrom'] |
+| `PT_ES()` | projectTypes includes 'energysharing' |
+| `GGV_IN_OPERATION()` | planningStatus includes 'pv_laeuft_ggv_laeuft' |
+| `MS_IN_OPERATION()` | PT_MS ∧ (mieterstromPlanningStatus ∋ 'pv_laeuft_ggv_laeuft' ∨ (¬PT_GGV ∧ planningStatus ∋ 'pv_laeuft_ggv_laeuft')) |
+| `ES_IN_OPERATION()` | esStatus equalsAny ['in_betrieb_vollversorgung', 'in_betrieb_42c'] |
+
+### Operatoren
+
+| Operator | Beschreibung |
+|----------|-------------|
+| `equals` | Feld === Wert (String) |
+| `equalsAny` | Feld ist String und in Werteliste enthalten |
+| `includes` | Array-Feld enthält Wert |
+| `includesAny` | Array-Feld enthält mindestens einen der Werte |
+| `filled` | Feld ist nicht leer/null/undefined |
+| `and`, `or`, `not` | Logische Verknüpfungen |
+
+---
+
+## 6. UI-Sonderlogik (SurveyRenderer.tsx)
+
+### Array-Wrapped Fields
+
+`planningStatus` und `mieterstromPlanningStatus` werden als `single-select` dargestellt, aber als `string[]` gespeichert (Legacy-Kompatibilität). Der Renderer extrahiert `value[0]` für die Anzeige und speichert als `[value]`.
+
+### Dynamische Labels
+
+Wenn sowohl GGV als auch Mieterstrom ausgewählt sind, wird in B1 (`planningStatus`):
+- Das Label „mit dem Projekt" → „mit dem GGV-Projekt"
+- Die Optionslabels „GGV/Mieterstrom" → „GGV"
+
+### Undecided-Warnung
+
+Wenn `ggv_oder_mieterstrom` ausgewählt ist und ein Betriebsstatus gewählt wird:
+- Toast-Hinweis
+- Roter Rahmen (`border-destructive/60`) um die Frage
+- Persistenter Warntext unterhalb
+
+---
+
+## 7. Bekannte Issues
+
+### 🔴 Kritisch
+
+| ID | Issue | Ort | Beschreibung |
+|----|-------|-----|-------------|
+| **C1** | ggv-operation ohne GGV-Gate | `surveySchema.ts` Section `ggv-operation` | `GGV_IN_OPERATION()` prüft nur `planningStatus`, nicht ob GGV ausgewählt ist. Bei reinem Mieterstrom + Betriebsstatus werden GGV-Betriebsfragen fälschlich angezeigt. |
+| **C2** | getProjectFlags.isGgvInOperation | `visibilityRules.ts:147` | `isGgvInOperation` prüft nur planningStatus, nicht ob GGV gewählt. Betrifft auch Step-Sichtbarkeit. |
+| **C3** | ES_IN_OPERATION nutzt equalsAny auf Array | `visibilityRules.ts:175` | `esStatus` ist DB-Typ `text[]`, aber `equalsAny` prüft `typeof val === 'string'` → gibt immer `false` zurück. `esInOperationDetails` und `esOperatorDetails` sind **unerreichbar**. |
+| **C4** | esVnbContact: boolean vs string | `energy-sharing` | Schema: single-select mit `yes`/`no`. DB: `boolean`. `eq('esVnbContact', 'yes')` vergleicht `true === 'yes'` → immer `false`. `esVnbResponse` und `esNetzentgelteDiscussion` sind **unerreichbar**. |
+
+### 🟡 Mittel
+
+| ID | Issue | Ort | Beschreibung |
+|----|-------|-----|-------------|
+| **M1** | ggvProjectType bei reinem MS sichtbar | `project.ggvProjectType` | visibilityRule ist `PT_GGV_OR_MS()`, fragt aber nach „GGV-Projekten". Sollte `PT_GGV()` sein. |
+| **M2** | Inkonsistente Werte yes/no vs ja/nein | `energy-sharing.esVnbContact` | Einzige Frage mit englischen Werten. |
+| **M3** | Redundante visibilityRules in vnb-msb | `vnb-msb.*` | 7 Fragen haben Section-Gate als eigene Rule wiederholt. Nicht schädlich, unnötige Komplexität. |
+
+### 🟢 Gelöst
+
+| ID | Beschreibung |
+|----|-------------|
+| **R1** | vnbMsbTimeline/vnbRejectionTimeline: verschoben von vnb-msb nach vnb-planning |
+| **R2** | vnbRejectionResponse: verschoben von service-provider nach challenges |
+
+---
+
+## 8. Flowchart
 
 ```mermaid
 graph TD
-    START([Start]) --> S_ABOUT[1. Über Sie]
-    S_ABOUT --> S_PROJECT[2. Projekt]
-    
-    S_PROJECT -->|"projectTypes ⚡"| GATE_PT{Projektart?}
-    
-    GATE_PT -->|"GGV oder MS"| S_PLANNING[3. Planung Allgemein]
-    GATE_PT -->|"nur ES"| S_ES[4. Energy Sharing]
-    GATE_PT -->|"nichts gewählt"| S_FINAL[6. Abschluss]
-    
-    S_PLANNING --> GATE_MODEL{Modelltyp?}
-    
-    GATE_MODEL -->|"inkl. GGV"| S_VNB_PLAN[4. GGV Planung]
-    GATE_MODEL -->|"inkl. MS"| S_MS_PLAN[4. MS Planung]
-    GATE_MODEL -->|"inkl. ES"| S_ES
-    
-    S_VNB_PLAN -->|"vnbMsbOffer ⚡"| GATE_MSB{MSB?}
-    GATE_MSB -->|"ja"| S_MSB[4. MSB Details]
-    GATE_MSB -->|"nein_wmsb"| Q_TIMELINE[vnbMsbTimeline]
-    GATE_MSB -->|"nein_gar_nicht"| Q_REJ[vnbRejectionTimeline]
-    
-    S_VNB_PLAN -->|"planningStatus ⚡"| GATE_OP{In Betrieb?}
-    GATE_OP -->|"⚠️ KEIN GGV-Gate"| S_GGV_OP[5. GGV Betrieb]
-    S_GGV_OP --> S_SP[5. Dienstleister]
-    
-    S_MS_PLAN -->|"vnbResponse ∋ gmsb"| S_MS_VNB[4. MS VNB Angebot]
-    S_MS_PLAN -->|"MS in Betrieb"| S_MS_OP[5. MS Betrieb]
-    
-    S_MSB --> S_FINAL
-    Q_TIMELINE --> S_FINAL
-    Q_REJ --> S_FINAL
-    S_SP --> S_FINAL
-    S_MS_VNB --> S_FINAL
-    S_MS_OP --> S_FINAL
-    S_ES --> S_FINAL
-    S_FINAL --> ENDE([Ende])
-    
-    style GATE_OP fill:#f44,color:#fff
-    style GATE_PT fill:#f90,color:#000
-    style GATE_MSB fill:#f90,color:#000
+    START([Start]) --> S1[1. Über Sie<br/><i>isGlobal</i>]
+    S1 --> S2[2. Projekt]
+
+    S2 -->|"projectTypes ⚡"| GATE{Projektart?}
+
+    GATE -->|"GGV/MS/Beides"| S3[3. Planung Allgemein<br/><small>planning + challenges</small>]
+    GATE -->|"nur ES"| S4_ES[4. Energy Sharing]
+    GATE -->|"nichts"| S6[6. Abschluss<br/><i>isGlobal</i>]
+
+    S3 --> S4[4. Planung Modellspezifisch]
+
+    S4 -->|"PT_GGV"| VNB[4a. GGV Planung]
+    S4 -->|"PT_MS"| MS[4b. MS Planung]
+    S4 -->|"PT_ES"| S4_ES
+
+    VNB -->|"vnbMsbOffer='ja'"| MSB[4a-MSB Details]
+    VNB -->|"nein_wmsb"| TL1[vnbMsbTimeline]
+    VNB -->|"nein_gar_nicht"| TL2[vnbRejectionTimeline]
+
+    MS -->|"vnbResponse ∋ gmsb"| MSO[4b-VNB Angebot]
+
+    subgraph "Betrieb (Step 5)"
+        direction TB
+        GGV_OP[5a. GGV Betrieb ⚠️]
+        SP[5a. Dienstleister]
+        MS_OP[5b. MS Betrieb]
+    end
+
+    VNB -->|"planningStatus ∋ 'pv_laeuft…'"| GGV_OP
+    GGV_OP --> SP
+    MS -->|"MS_IN_OPERATION"| MS_OP
+
+    MSB --> S6
+    TL1 --> S6
+    TL2 --> S6
+    MSO --> S6
+    SP --> S6
+    MS_OP --> S6
+    S4_ES --> S6
+
+    style GGV_OP fill:#f44,color:#fff
+    style GATE fill:#f90,color:#000
 ```
 
 ---
 
-## PHASE 1B — Testkonzepte (nicht ausgeführt)
-
-### Testmatrix: Happy Paths
-
-| Pfad | projectTypes | planningStatus | Erwartete Sections | Gate-Felder |
-|------|-------------|---------------|-------------------|-------------|
-| **GGV Planung** | ['ggv'] | 'info_sammeln' | about, project, planning, challenges, vnb-planning, final | projectTypes, vnbMsbOffer |
-| **GGV Betrieb** | ['ggv'] | 'pv_laeuft_ggv_laeuft' | + ggv-operation, service-provider | planningStatus |
-| **GGV + MSB ja** | ['ggv'] | any | + vnb-msb | vnbMsbOffer='ja' |
-| **MS Planung** | ['mieterstrom'] | 'info_sammeln' | about, project, planning, challenges, mieterstrom-planning, final | — |
-| **MS Betrieb** | ['mieterstrom'] | 'pv_laeuft_ggv_laeuft' | + mieterstrom-operation | planningStatus |
-| **GGV + MS** | ['ggv','mieterstrom'] | 'pv_laeuft_ggv_laeuft' | Alle GGV + MS Sections | mieterstromPlanningStatus |
-| **Nur ES** | ['energysharing'] | — | about, project, energy-sharing, final | — |
-| **GGV + ES** | ['ggv','energysharing'] | 'info_sammeln' | GGV + ES Sections | — |
-
-### Negative Tests
-
-| Test | Eingabe | Erwartetes Ergebnis |
-|------|---------|-------------------|
-| **N1: Required leer** | projectTypes=[], Submit | Validierungsfehler |
-| **N2: Wechsel MS→GGV** | MS ausfüllen, dann MS abwählen, GGV wählen | MS-Fragen ausgeblendet, Daten im Draft erhalten |
-| **N3: Reload** | Teilweise ausfüllen, Reload | Draft-Restoration Banner |
-| **N4: Back/Forward** | Mehrmals zwischen Steps wechseln | Daten bleiben erhalten |
-| **N5: ⚠️ Reiner MS + Betrieb** | ['mieterstrom'], planningStatus='pv_laeuft_ggv_laeuft' | ❌ BUG: GGV-Operation Section erscheint (C1) |
-| **N6: ES In-Betrieb** | ['energysharing'], esStatus='in_betrieb_vollversorgung' | ❌ Mögl. BUG: Details-Fragen nicht sichtbar (C3) |
-
-### UI/Accessibility Checks
-
-| Check | Beschreibung | Priorität |
-|-------|-------------|-----------|
-| Tab/Focus | Alle Fragen per Tab erreichbar | Mittel |
-| Labels | Alle Inputs haben zugehörige Labels | Mittel |
-| Mobile | Responsive ab 320px | Hoch |
-| Screenreader | aria-labels für Rating-Skalen | Niedrig |
-
----
-
-## PHASE 1C — Schema-Export Prüfung
-
-| Prüfpunkt | Ergebnis |
-|-----------|----------|
-| URL | `https://www.vnb-transparenz.de/data/umfrage-schema.json` |
-| lovable.json static paths | ✅ `/data/*` konfiguriert |
-| lovable.json fallback exclude | ✅ `/data/*` ausgeschlossen |
-| vercel.json routes | ✅ `/data/(.*)` → `/data/$1` |
-| _redirects | ✅ `/data/*` → `/data/:splat` 200 |
-| _headers Content-Type | ✅ `application/json; charset=utf-8` |
-| **Live-Test** | ⚠️ Fetch über Tool gab HTML zurück – vermutlich Preview-URL statt published Domain. **Manueller Test auf published Domain empfohlen.** |
-
----
-
-## PHASE 2 — Umsetzungsoptionen
-
-### Option 1: Minimal-Fix (nur visibilityRules)
-
-**Betroffene Stellen:**
-- `visibilityRules.ts`: `GGV_IN_OPERATION` um `PT_GGV()` erweitern
-- `visibilityRules.ts`: `getProjectFlags.isGgvInOperation` um GGV-Check erweitern
-- `visibilityRules.ts`: `ES_IN_OPERATION` von `equalsAny` auf `includesAny` ändern (falls esStatus als Array gespeichert)
-- `surveySchema.ts`: `ggvProjectType` visibilityRule von `PT_GGV_OR_MS()` auf `PT_GGV()` ändern
-
-| Merkmal | Bewertung |
-|---------|-----------|
-| **Aufwand** | S (klein, ~4 Zeilen) |
-| **Risiko** | Niedrig |
-| **Nutzen** | Fixt C1, C2, M1, evtl. C3 |
-| **Breaking Changes** | Nein (bestehende Daten unverändert) |
-
-### Option 2: Leichter Refactor + Wertevereinheitlichung
-
-**Alles aus Option 1, plus:**
-- `energy-sharing.esVnbContact`: Optionswerte `yes`/`no` → `ja`/`nein` ändern (M2)
-- `esVnbContact` TypeScript-Typ von `boolean` auf `string` (C4)
-- Redundante visibilityRules in `vnb-msb` Section entfernen (M3)
-- Ggf. `esStatus` TypeScript-Typ von `string[]` auf `string` korrigieren
-
-| Merkmal | Bewertung |
-|---------|-----------|
-| **Aufwand** | M (mittel, ~15 Zeilen + Typ-Änderungen) |
-| **Risiko** | Mittel – esVnbContact-Wertänderung betrifft bestehende DB-Einträge |
-| **Nutzen** | Fixt C1-C4, M1-M3, konsistentere Codebasis |
-| **Breaking Changes** | **Ja**: esVnbContact yes→ja erfordert DB-Migration ODER Dual-Check |
-
-### Option 3: Automatisierte Schema-Validierung
-
-**Neues Script `scripts/validate-schema.ts`:**
-- Prüft automatisch: Section-Gate vs. Question-visibilityRule Widersprüche
-- Prüft: equalsAny/equals auf Array-Felder (TypeScript-Typ-Prüfung)
-- Prüft: Alle Optionswerte konsistent (ja/nein, nicht yes/no)
-- Kann in CI (pre-commit hook oder Build-Step) laufen
-
-| Merkmal | Bewertung |
-|---------|-----------|
-| **Aufwand** | M (mittel, neues Script ~100 Zeilen) |
-| **Risiko** | Niedrig (additiv, ändert nichts Bestehendes) |
-| **Nutzen** | Verhindert zukünftige Logik-Bugs systematisch |
-| **Breaking Changes** | Nein |
-
-### Option 4: E2E-Tests (Playwright)
-
-**Nicht empfohlen im aktuellen Setup:** Das Projekt nutzt Vite + React ohne Playwright-Setup. Lovable Cloud unterstützt kein Playwright nativ. Alternative: Die Testmatrix aus Phase 1B kann manuell oder mit dem Browser-Tool validiert werden.
-
-| Merkmal | Bewertung |
-|---------|-----------|
-| **Aufwand** | L (groß, Playwright-Setup + Tests) |
-| **Risiko** | Mittel (neues Tooling) |
-| **Nutzen** | Langfristig wertvoll, kurzfristig Overkill |
-| **Breaking Changes** | Nein |
-
----
-
-## Offene Fragen
-
-Die folgenden Fragen müssen VOR der Umsetzung beantwortet werden:
-
-### Frage 1 (vom User bereits gestellt)
-> Soll `ggv_oder_mieterstrom` wie "beides anzeigen" funktionieren (GGV+Mieterstrom-Sections), oder nur eine Entscheidungsstrecke?
-
-**Aktueller Stand:** `ggv_oder_mieterstrom` wird von `PT_GGV()` und `PT_MS_OR_BOTH()` inkludiert, zeigt also **beide** Pfade an. Das scheint beabsichtigt.
-
-### Frage 2 (vom User bereits gestellt)
-> Soll `ggv-operation` strikt nur bei GGV-Pfaden sichtbar sein?
-
-**Empfehlung:** Ja, `GGV_IN_OPERATION` sollte `and(PT_GGV(), inc('planningStatus', 'pv_laeuft_ggv_laeuft'))` sein.
-
-### Frage 3 (vom User bereits gestellt)
-> Wo sollen vnbMsbTimeline/vnbRejectionTimeline hin?
-
-**Status:** ✅ Bereits nach `vnb-planning` verschoben (letzte Änderung).
-
-### Frage 4 (vom User bereits gestellt)
-> Dürfen Antwortwerte vereinheitlicht werden (yes/no → ja/nein)?
-
-**Kontext:** Betrifft nur `esVnbContact`. DB-Spalte ist `boolean`, nicht `string`. Frage ist, ob bestehende Daten mit `true`/`false` oder `'yes'`/`'no'` gespeichert sind.
-
-### Frage 5 (vom User bereits gestellt)
-> Ist es ok, questionIds zu ändern?
-
-**Default:** Nein.
-
-### Neue Frage 6
-> Wie wird `esStatus` tatsächlich gespeichert?
-
-**✅ Beantwortet durch DB-Prüfung:** `esStatus` ist `text[]` (Array). Ein Datensatz enthält sogar zwei Werte: `['in_betrieb_vollversorgung', 'info_sammeln']`. C3 ist ein **bestätigter Bug**. Fix: `ES_IN_OPERATION` von `equalsAny` auf `includesAny` ändern.
-
-### Neue Frage 7
-> Wie wird `esVnbContact` tatsächlich gespeichert?
-
-**✅ Beantwortet durch DB-Prüfung:** `esVnbContact` ist `boolean` (Wert: `true`). C4 ist ein **bestätigter Bug**. Fix: Entweder die visibilityRule auf boolean-Vergleich umstellen (neuer Operator nötig) oder das Schema auf `ja`/`nein` String-Werte umstellen.
-
-### Neue Frage 8 (aus DB-Prüfung)
-> `esStatus` hat in einem Datensatz **zwei Werte** (`['in_betrieb_vollversorgung', 'info_sammeln']`), obwohl das Schema `single-select` sagt. War `esStatus` früher `multi-select`? Soll es das bleiben oder auf echtes single-select umgestellt werden?
-
----
-
-## Zusammenfassung
+## 9. Zusammenfassung
 
 | Kategorie | Anzahl |
 |-----------|--------|
-| 🔴 Kritische Issues | 4 (C1-C4) |
-| 🟡 Mittlere Issues | 3 (M1-M3) |
-| 🟢 Bereits gelöst | 2 (R1-R2) |
-| Umsetzungsoptionen | 4 |
-| Offene Fragen | 7 |
-
-**Empfehlung:** Option 1 (Minimal-Fix) sofort, Option 3 (Validierung) mittelfristig. Option 2 nur nach Klärung der Datenlage (Fragen 6+7).
+| Sections | 13 |
+| Fragen gesamt | 123 |
+| 🔴 Kritische Issues | 4 (C1–C4) |
+| 🟡 Mittlere Issues | 3 (M1–M3) |
+| 🟢 Gelöste Issues | 2 (R1–R2) |
+| Unerreichbare Fragen | 4 (durch C3 + C4) |
