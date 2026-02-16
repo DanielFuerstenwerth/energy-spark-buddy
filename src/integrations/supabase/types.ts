@@ -403,7 +403,6 @@ export type Database = {
           vnb_msb_additional_costs: string | null
           vnb_msb_additional_costs_one_time: number | null
           vnb_msb_additional_costs_yearly: number | null
-          vnb_msb_offer: string | null
           vnb_msb_start_timeline: string | null
           vnb_msb_start_timeline_other: string | null
           vnb_msb_timeline: string | null
@@ -610,7 +609,6 @@ export type Database = {
           vnb_msb_additional_costs?: string | null
           vnb_msb_additional_costs_one_time?: number | null
           vnb_msb_additional_costs_yearly?: number | null
-          vnb_msb_offer?: string | null
           vnb_msb_start_timeline?: string | null
           vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null
@@ -817,7 +815,6 @@ export type Database = {
           vnb_msb_additional_costs?: string | null
           vnb_msb_additional_costs_one_time?: number | null
           vnb_msb_additional_costs_yearly?: number | null
-          vnb_msb_offer?: string | null
           vnb_msb_start_timeline?: string | null
           vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null

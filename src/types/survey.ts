@@ -68,7 +68,7 @@ export interface SurveyData {
   vnbExistingProjectsOther?: string;
   vnbContact: string[];
   vnbContactOther?: string;
-  vnbResponse?: string;
+  vnbResponse: string[];
   vnbResponseReasons?: string;
   vnbSupportMesskonzept?: string;
   vnbSupportMesskonzeptOther?: string;
@@ -215,6 +215,7 @@ export const initialSurveyData: SurveyData = {
   challenges: [],
   challengesDetails: {},
   vnbContact: [],
+  vnbResponse: [],
   
   esStatus: [],
   esPlantType: [],
