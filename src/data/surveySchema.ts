@@ -592,7 +592,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbAdditionalCosts",
       type: "single-select",
-      label: "C8.1b Stellt Ihr Verteilnetzbetreiber/gMSB zusätzliche Kosten für einen 'Einbau auf Kundenwunsch' in Rechnung?",
+      label: "Stellt Ihr Verteilnetzbetreiber Ihnen zusätzliche Kosten für Smart Meter aufgrund des 'Einbaus auf Kundenwunsch' in Rechnung?",
       options: [
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "nein", label: "Nein, unser Verteilnetzbetreiber/gMSB verlangt hier keine Zusatzkosten" },
