@@ -143,7 +143,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Welcher Verteilnetzbetreiber ist für Ihr Projekt zuständig?",
       description: "Suchen oder geben Sie den Namen Ihres VNB ein",
       tooltip: 'Wenn Sie den Namen Ihres Verteilnetzbetreibers nicht kennen, können Sie diesen über die Website www.vnb-digital.de identifizieren. Um Projekte im Netzgebiet von weiteren VNB einzutragen, wählen Sie oben bitte „+Weitere VNB-Bewertung" aus.',
-      optional: true,
+      optional: false,
     },
     {
       id: "projectTypes",
