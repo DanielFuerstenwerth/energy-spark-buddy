@@ -29,6 +29,7 @@ export default function Survey() {
   const [savedDraftInfo, setSavedDraftInfo] = useState<{ savedAt: string; step: number } | null>(null);
   const [uploadedDocuments, setUploadedDocuments] = useState<string[]>([]);
   const [dataUsageConfirmed, setDataUsageConfirmed] = useState(false);
+  const [honeypot, setHoneypot] = useState(""); // Maßnahme 11: Honeypot
 
   const {
     globalData,
@@ -138,7 +139,7 @@ export default function Survey() {
       );
 
       const response = await supabase.functions.invoke('submit-survey', {
-        body: { submissions: dbRows },
+        body: { submissions: dbRows, website: honeypot }, // honeypot field
       });
 
       if (response.error) {
@@ -264,6 +265,19 @@ export default function Survey() {
                   <p>Sobald Sie oben eine Projektart auswählen (Frage 2.2), erscheinen weitere Abschnitte wie Planung, Modelldetails und ggf. Betrieb.</p>
                 </div>
               )}
+              {/* Maßnahme 11: Honeypot - unsichtbar für echte Nutzer */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', opacity: 0, height: 0, overflow: 'hidden' }}>
+                <label htmlFor="website">Website</label>
+                <input
+                  type="text"
+                  id="website"
+                  name="website"
+                  autoComplete="off"
+                  tabIndex={-1}
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
               <div className="flex justify-between mt-8 pt-6 border-t">
                 <Button variant="outline" onClick={handleBack} disabled={currentStep === 0}>
                   <ChevronLeft className="w-4 h-4 mr-2" />Zurück
