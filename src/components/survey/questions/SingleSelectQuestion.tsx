@@ -74,12 +74,9 @@ export function SingleSelectQuestion({
                         const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
                         onOtherChange(val);
                       }}
-                      className={cn("min-h-[60px] resize-y", !otherValue?.trim() ? "border-emerald-300 focus-visible:ring-emerald-400/30" : "")}
+                      className="min-h-[60px] resize-y"
                       rows={2}
                     />
-                    {!otherValue?.trim() && (
-                      <p className="text-xs text-emerald-600">{otherHint || "Gerne können Sie hier Details ergänzen"}</p>
-                    )}
                     {(otherValue?.length || 0) >= SOFT_LIMIT && (
                       <p className={`text-xs text-right ${(otherValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
                         {(otherValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen

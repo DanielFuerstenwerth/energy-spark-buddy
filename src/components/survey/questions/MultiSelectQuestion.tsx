@@ -124,12 +124,9 @@ export function MultiSelectQuestion({
                           const val = e.target.value.length <= HARD_LIMIT ? e.target.value : e.target.value.slice(0, HARD_LIMIT);
                           onOptionTextChange(option.value, val);
                         }}
-                        className={cn("min-h-[60px] resize-y", showTextFieldHint && "border-emerald-300 focus-visible:ring-emerald-400/30")}
+                      className="min-h-[60px] resize-y"
                         rows={2}
                       />
-                      {showTextFieldHint && (
-                        <p className="text-xs text-emerald-600">{option.textFieldHint || "Gerne können Sie hier Details ergänzen"}</p>
-                      )}
                       {(textValue?.length || 0) >= SOFT_LIMIT && (
                         <p className={`text-xs text-right ${(textValue?.length || 0) >= HARD_LIMIT ? 'text-destructive font-medium' : 'text-amber-600'}`}>
                           {(textValue?.length || 0).toLocaleString('de-DE')}/{HARD_LIMIT.toLocaleString('de-DE')} Zeichen
