@@ -59,11 +59,15 @@ export interface SurveySchema {
   sections: SurveySection[];
 }
 
-// Helper function to clean Lxx: artifacts and letter-number prefixes (e.g. "B5.", "C8.1c") from labels
+// Helper function to clean Lxx: artifacts and legacy prefixes from labels
+// Handles: A1., B5., C8.1c, MP1d., MB5.1, MD1., C.8, D.1, E3. etc.
 export function cleanLabel(text: string): string {
   return text
     .replace(/\n?L\d+:\s*/g, '')
-    .replace(/^[A-Z]\d+(?:\.\d+)*[a-z]?\.?\s+/i, '')
+    // Pattern B: letter + dot + digits (C.8, D.1, D.1.2)
+    .replace(/^\s*[A-Z]{1,2}\.\d+(?:\.\d+)*\s+/, '')
+    // Pattern A: 1-4 uppercase letters + digits + optional sub-numbers + optional letter + dot (MP1d., MB5.1, C8.1c, A1., E3.)
+    .replace(/^\s*[A-Z]{1,4}\d+(?:\.\d+)*[a-z]?\.?\s+/, '')
     .trim();
 }
 
