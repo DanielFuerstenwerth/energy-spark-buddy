@@ -144,7 +144,7 @@ export function getProjectFlags(data: SurveyData): ProjectFlags {
   const isGgvOrMieterstrom = isGgv || isMieterstrom;
   const onlyEnergySharing = isES && !isGgvOrMieterstrom;
 
-  const isGgvInOperation = data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false;
+  const isGgvInOperation = isGgv && (data.planningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false);
   const isMieterstromInOperation = isMieterstrom && (
     isGgv
       ? data.mieterstromPlanningStatus?.includes?.('pv_laeuft_ggv_laeuft') || false
@@ -156,8 +156,8 @@ export function getProjectFlags(data: SurveyData): ProjectFlags {
 
 // === Pre-built complex rules for reuse ===
 
-/** GGV is in operation (planningStatus includes 'pv_laeuft_ggv_laeuft') */
-export const GGV_IN_OPERATION = (): VisibilityRule => inc('planningStatus', 'pv_laeuft_ggv_laeuft');
+/** GGV is in operation (planningStatus includes 'pv_laeuft_ggv_laeuft' AND project is GGV) */
+export const GGV_IN_OPERATION = (): VisibilityRule => and(PT_GGV(), inc('planningStatus', 'pv_laeuft_ggv_laeuft'));
 
 /** Mieterstrom is in operation - complex: depends on whether GGV is also selected */
 export const MS_IN_OPERATION = (): VisibilityRule => and(
@@ -171,7 +171,7 @@ export const MS_IN_OPERATION = (): VisibilityRule => and(
   )
 );
 
-/** esStatus starts with 'in_betrieb' (either variant) */
+/** esStatus includes 'in_betrieb' (either variant) - esStatus is stored as text[] */
 export const ES_IN_OPERATION = (): VisibilityRule => ({
-  field: 'esStatus', op: 'equalsAny', values: ['in_betrieb_vollversorgung', 'in_betrieb_42c']
+  field: 'esStatus', op: 'includesAny', values: ['in_betrieb_vollversorgung', 'in_betrieb_42c']
 });
