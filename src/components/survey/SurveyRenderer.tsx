@@ -24,6 +24,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Info, ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { InlineHint } from "./InlineHint";
 
 interface SurveyRendererProps {
   sections: SurveySection[];
@@ -437,6 +438,7 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
                     </div>
                   )}
                   {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments)}
+                  {q.tooltip && <InlineHint text={q.tooltip} />}
                 </div>
               ))}
             </div>
