@@ -237,12 +237,15 @@ function renderQuestion(
     case 'text':
       // Special case: projectLocations and mieterstromProjectLocations
       if (q.id === 'projectLocations' || q.id === 'mieterstromProjectLocations') {
+        const isMultipleLocations = q.id === 'projectLocations'
+          ? data.ggvProjectType === 'multiple'
+          : data.mieterstromProjectType === 'multiple';
         return (
           <ProjectLocationRows
             key={q.id}
             locations={getValue<ProjectLocation[]>(q.id) || [{}]}
             onChange={(locs) => setValue(q.id, locs)}
-            multiple={true}
+            multiple={isMultipleLocations}
             questionNumber={uiNumber}
             label={label}
           />
