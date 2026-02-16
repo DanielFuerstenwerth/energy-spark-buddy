@@ -373,7 +373,7 @@ const SECTION_PLANNING: SurveySection = {
       id: "implementationApproach",
       type: "multi-select",
       label: "B5. Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?",
-      description: "Über die Installation der PV-Anlage hinaus",
+      helpText: "Ein Installateur der PV-Anlage ist hierbei nicht als Dienstleister zu verstehen. Gemeint sind lediglich solche Dienstleister, welche die Umsetzung von GGV/Mieterstrom ermöglichen.",
       options: [
         { value: "alleine", label: "Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden" },
         { value: "dienstleister_ok", label: "Dienstleister sind OK, solange das preislich attraktiv ist" },
