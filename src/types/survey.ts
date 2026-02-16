@@ -104,7 +104,6 @@ export interface SurveyData {
   vnbPlanningDurationReasons?: string;
 
   // Section 5-GGV: Betrieb GGV
-  operationStartDate?: string;
   operationVnbDuration?: string;
   operationVnbDurationReasons?: string;
   operationWandlermessung?: string;
@@ -127,7 +126,6 @@ export interface SurveyData {
   serviceProviderName?: string;
   serviceProviderComments?: string;
   serviceProvider2Name?: string;
-  serviceProvider2Rating?: number;
   serviceProvider2Comments?: string;
 
   // Section 4-MS: Planung Mieterstrom
@@ -188,7 +186,6 @@ export interface SurveyData {
   esVnbContact?: string;
   esVnbResponse?: string;
   esVnbResponseOther?: string;
-  esVnbResponseDetails?: string;
   esNetzentgelteDiscussion?: string;
   esNetzentgelteDetails?: string;
   esInfoSources?: string;
