@@ -106,8 +106,6 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     })).optional(),
     projectAddress: z.string().max(MAX_MEDIUM_TEXT).optional(),
     projectPlz: z.string().max(10).optional(),
-    // Operation start date
-    operationStartDate: z.string().max(MAX_SHORT_TEXT).optional(),
     // Service provider 2 comments
     serviceProvider2Comments: z.string().max(MAX_LONG_TEXT).optional(),
     // Challenges companion fields
@@ -126,7 +124,6 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     // ES companion fields
     esPlantTypeDetails: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
     esConsumerDetails: z.string().max(MAX_LONG_TEXT).optional(),
-    esVnbResponseDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esNetzentgelteDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esInOperationDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esOperatorDetails: z.string().max(MAX_LONG_TEXT).optional(),

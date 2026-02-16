@@ -584,7 +584,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "spaeter", label: "In mehr als 12 Monaten" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
+      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
     {
       id: "vnbAdditionalCosts",
@@ -595,7 +595,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nein", label: "Nein, unser VNB/gMSB verlangt hier keine Zusatzkosten" },
         { value: "ja", label: "Ja, unser VNB/gMSB verlangt dafür Zusatzkosten" },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
+      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
     {
       id: "vnbAdditionalCostsOneTime",
@@ -623,7 +623,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "nur_full_service", label: "Unser Stadtwerk/VNB bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
         { value: "auch_ohne", label: "Unser Stadtwerk/VNB bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen" },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
       id: "vnbDataProvision",
@@ -637,7 +636,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
     },
     {
       id: "vnbDataCost",
@@ -650,7 +648,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "keine_auskunft", label: "Dazu gibt es noch keine Auskunft" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
+      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
     {
       id: "vnbDataCostAmount",
@@ -670,7 +668,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "weniger_3_eur", label: "Dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
-      visibilityRule: eq('vnbMsbOffer', 'ja'),
+      // Section-Gate (vnbMsbOffer='ja') macht individuelle Rule überflüssig
     },
     {
       id: "vnbEsaCostAmount",
@@ -917,7 +915,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
   title: "5. Betrieb: Modellspezifisch – Dienstleister (GGV)",
   description: "Feedback zu Dienstleistern & Reaktionen",
-  visibilityRule: GGV_IN_OPERATION(),
+  visibilityRule: or(GGV_IN_OPERATION(), MS_IN_OPERATION()),
   questions: [
     {
       id: "serviceProviderName",
@@ -942,17 +940,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       placeholder: "Name des zweiten Dienstleisters",
       optional: true,
       visibilityRule: filled('serviceProviderName'),
-    },
-    {
-      id: "serviceProvider2Rating",
-      type: "rating",
-      label: "Zufriedenheit mit Dienstleister 2",
-      min: 1,
-      max: 10,
-      minLabel: "Sehr unzufrieden",
-      maxLabel: "Sehr zufrieden",
-      optional: true,
-      visibilityRule: filled('serviceProvider2Name'),
     },
     {
       id: "serviceProvider2Comments",
