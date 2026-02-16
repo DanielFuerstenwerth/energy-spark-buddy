@@ -226,6 +226,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "ggvBuildingType",
       type: "single-select",
       label: "Art des Gebäudes - GGV",
+      optional: true,
       options: [
         { value: "wohngebaeude", label: "Wohngebäude" },
         { value: "gewerbe", label: "Gewerbegebäude" },
