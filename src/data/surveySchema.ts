@@ -306,10 +306,18 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "projectLocations",
       type: "text",
-      label: "Standort(e) des Projekts",
+      label: "Standort(e) des GGV-Projekts",
       description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
       optional: true,
-      visibilityRule: PT_GGV_OR_MS(),
+      visibilityRule: PT_GGV(),
+    },
+    {
+      id: "mieterstromProjectLocations",
+      type: "text",
+      label: "Standort(e) des Mieterstrom-Projekts",
+      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      optional: true,
+      visibilityRule: PT_MS_OR_BOTH(),
     },
   ],
 };
@@ -1622,7 +1630,8 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromBuildingType": { displayId: "2-MS-BuildingType", dbColumn: "mieterstrom_building_type", uiNumber: "2.12" },
   "mieterstromBuildingCount": { displayId: "2-MS-BuildingCount", dbColumn: "mieterstrom_building_count", uiNumber: "2.5b" },
   "mieterstromAdditionalInfo": { displayId: "2-MS-AdditionalInfo", dbColumn: "mieterstrom_additional_info", uiNumber: "2.13" },
-  "projectLocations": { displayId: "2-ProjectLocations", dbColumn: "project_locations", uiNumber: "2.14" },
+  "projectLocations": { displayId: "2-GGV-ProjectLocations", dbColumn: "project_locations", uiNumber: "2.14" },
+  "mieterstromProjectLocations": { displayId: "2-MS-ProjectLocations", dbColumn: "mieterstrom_project_locations", uiNumber: "2.14b" },
   // Section 3: Planung Allgemein
   "ggvOrMieterstromDecision": { displayId: "3-GgvOrMsDecision", dbColumn: "ggv_or_mieterstrom_decision", uiNumber: "3.1" },
   "ggvDecisionReasons": { displayId: "3-GGV-DecisionReasons", dbColumn: "ggv_decision_reasons", uiNumber: "3.2" },

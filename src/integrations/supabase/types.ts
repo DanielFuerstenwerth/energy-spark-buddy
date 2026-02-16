@@ -302,6 +302,7 @@ export type Database = {
           mieterstrom_party_count: number | null
           mieterstrom_planning_status: string[] | null
           mieterstrom_planning_status_other: string | null
+          mieterstrom_project_locations: Json | null
           mieterstrom_project_type: string | null
           mieterstrom_pv_size_kw: number | null
           mieterstrom_rejection_response: string[] | null
@@ -508,6 +509,7 @@ export type Database = {
           mieterstrom_party_count?: number | null
           mieterstrom_planning_status?: string[] | null
           mieterstrom_planning_status_other?: string | null
+          mieterstrom_project_locations?: Json | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
           mieterstrom_rejection_response?: string[] | null
@@ -714,6 +716,7 @@ export type Database = {
           mieterstrom_party_count?: number | null
           mieterstrom_planning_status?: string[] | null
           mieterstrom_planning_status_other?: string | null
+          mieterstrom_project_locations?: Json | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
           mieterstrom_rejection_response?: string[] | null
