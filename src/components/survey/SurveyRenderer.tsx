@@ -236,13 +236,13 @@ function renderQuestion(
     }
 
     case 'text':
-      // Special case: projectLocations
-      if (q.id === 'projectLocations') {
+      // Special case: projectLocations and mieterstromProjectLocations
+      if (q.id === 'projectLocations' || q.id === 'mieterstromProjectLocations') {
         return (
           <ProjectLocationRows
             key={q.id}
-            locations={getValue<ProjectLocation[]>('projectLocations') || [{}]}
-            onChange={(locs) => setValue('projectLocations', locs)}
+            locations={getValue<ProjectLocation[]>(q.id) || [{}]}
+            onChange={(locs) => setValue(q.id, locs)}
             multiple={true}
             questionNumber={uiNumber}
             label={label}

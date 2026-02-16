@@ -43,6 +43,7 @@ export interface SurveyData {
   projectAddress?: string;
   projectPlz?: string;
   projectLocations?: Array<{ plz?: string; address?: string; pvSizeKw?: number }>;
+  mieterstromProjectLocations?: Array<{ plz?: string; address?: string; pvSizeKw?: number }>;
 
   // Section 3: Planung Allgemein
   planningStatus: string[];

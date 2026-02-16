@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN mieterstrom_project_locations jsonb DEFAULT NULL;
