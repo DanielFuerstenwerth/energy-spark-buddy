@@ -111,21 +111,53 @@ export default function Survey() {
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return; // Maßnahme 1: Doppel-Submit-Guard
     setIsSubmitting(true);
     try {
       const mergedSubmissions = getMergedSubmissions();
       
+      // Maßnahme 8: Validierung blockiert Submit bei kritischen Fehlern
       for (const submission of mergedSubmissions) {
         const validation = validateSurveyData(submission);
         if (!validation.success) {
+          const requiredErrors = validation.errors.filter(e => 
+            e.message.includes('Required') || e.message.includes('invalid_type')
+          );
+          if (requiredErrors.length > 0) {
+            toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${requiredErrors.map(e => e.field).join(', ')}`);
+            setIsSubmitting(false);
+            return; // Block submit
+          }
           toast.warning(`Einige Eingaben in „${submission.evaluationLabel}" sind möglicherweise unvollständig - wird trotzdem abgeschickt`);
         }
       }
 
-      for (const sub of mergedSubmissions) {
-        const dbData = buildDbData(sub, sessionGroupId, uploadedDocuments);
-        const { error } = await supabase.from('survey_responses').insert(dbData);
-        if (error) throw error;
+      // Maßnahme 5+6: Serverseitige Validierung + atomare Transaktion via Edge Function
+      const dbRows = mergedSubmissions.map(sub => 
+        buildDbData(sub, sessionGroupId, uploadedDocuments)
+      );
+
+      const response = await supabase.functions.invoke('submit-survey', {
+        body: { submissions: dbRows },
+      });
+
+      if (response.error) {
+        console.error('Edge function error:', response.error);
+        throw new Error(response.error.message || 'Submission failed');
+      }
+
+      const result = response.data;
+      if (result?.error) {
+        console.error('Server validation error:', result.error, result.details);
+        if (result.error === 'Rate limit exceeded. Please try again later.') {
+          toast.error('Zu viele Einsendungen. Bitte versuchen Sie es später erneut.');
+        } else if (result.error === 'Validation failed') {
+          toast.error(`Validierungsfehler: ${result.details?.join('; ') || 'Unbekannt'}`);
+        } else {
+          throw new Error(result.error);
+        }
+        setIsSubmitting(false);
+        return;
       }
 
       localStorage.removeItem(DRAFT_KEY);

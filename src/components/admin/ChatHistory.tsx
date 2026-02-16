@@ -22,26 +22,39 @@ interface Conversation {
   messages?: Message[];
 }
 
+const PAGE_SIZE = 50;
+
 const ChatHistory = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    loadConversations();
+    loadConversations(0);
   }, []);
 
-  const loadConversations = async () => {
+  const loadConversations = async (pageNum: number) => {
     try {
-      const { data, error } = await supabase
+      setLoading(true);
+      const from = pageNum * PAGE_SIZE;
+      const to = from + PAGE_SIZE - 1;
+
+      const { data, error, count } = await supabase
         .from('conversations')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .select('*', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .range(from, to);
 
       if (error) throw error;
 
       setConversations(data || []);
+      setTotalCount(count || 0);
+      setHasMore((count || 0) > to + 1);
+      setPage(pageNum);
     } catch (error) {
       console.error('Error loading conversations:', error);
     } finally {
@@ -86,7 +99,7 @@ const ChatHistory = () => {
       {/* Conversations List */}
       <Card className="md:col-span-1">
         <CardHeader>
-          <CardTitle>Konversationen ({conversations.length})</CardTitle>
+          <CardTitle>Konversationen ({totalCount})</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <ScrollArea className="h-[600px]">
@@ -111,6 +124,19 @@ const ChatHistory = () => {
               ))}
             </div>
           </ScrollArea>
+          {totalCount > PAGE_SIZE && (
+            <div className="flex items-center justify-between p-4 border-t">
+              <Button variant="outline" size="sm" disabled={page === 0} onClick={() => loadConversations(page - 1)}>
+                Zurück
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                Seite {page + 1} von {Math.ceil(totalCount / PAGE_SIZE)}
+              </span>
+              <Button variant="outline" size="sm" disabled={!hasMore} onClick={() => loadConversations(page + 1)}>
+                Weiter
+              </Button>
+            </div>
+          )}
         </CardContent>
       </Card>
 
