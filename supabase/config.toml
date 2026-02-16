@@ -14,3 +14,6 @@ verify_jwt = false
 
 [functions.sync-sites-from-sheet]
 verify_jwt = true
+
+[functions.submit-survey]
+verify_jwt = false

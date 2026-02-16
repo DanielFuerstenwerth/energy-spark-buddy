@@ -1688,8 +1688,8 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   // serviceProviderRating GELÖSCHT
   "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments", uiNumber: "5.19" },
   "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name", uiNumber: "5.20" },
-  "serviceProvider2Rating": { displayId: "5-GGV-SP2-Rating", dbColumn: "service_provider_2_rating", uiNumber: "5.21" },
-  "serviceProvider2Comments": { displayId: "5-GGV-SP2-Comments", dbColumn: "service_provider_2_comments", uiNumber: "5.22" },
+  // serviceProvider2Rating GELÖSCHT (Maßnahme 2)
+  "serviceProvider2Comments": { displayId: "5-GGV-SP2-Comments", dbColumn: "service_provider_2_comments", uiNumber: "5.21" },
   // Section 4-MS: Planung Mieterstrom
   "mieterstromSummenzaehler": { displayId: "4-MS-Summenzaehler", dbColumn: "mieterstrom_summenzaehler", uiNumber: "6.1" },
   // mieterstromChallenges GELÖSCHT
