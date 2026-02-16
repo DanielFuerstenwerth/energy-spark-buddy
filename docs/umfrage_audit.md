@@ -318,31 +318,46 @@ Wenn `ggv_oder_mieterstrom` ausgewählt ist und ein Betriebsstatus gewählt wird
 
 ---
 
-## 7. Bekannte Issues
+## 7. Bekannte Issues – Alle gelöst ✅
 
-### 🔴 Kritisch
+### 🟢 Gelöst (ehemals 🔴 Kritisch)
 
-| ID | Issue | Ort | Beschreibung |
-|----|-------|-----|-------------|
-| **C1** | ggv-operation ohne GGV-Gate | `surveySchema.ts` Section `ggv-operation` | `GGV_IN_OPERATION()` prüft nur `planningStatus`, nicht ob GGV ausgewählt ist. Bei reinem Mieterstrom + Betriebsstatus werden GGV-Betriebsfragen fälschlich angezeigt. |
-| **C2** | getProjectFlags.isGgvInOperation | `visibilityRules.ts:147` | `isGgvInOperation` prüft nur planningStatus, nicht ob GGV gewählt. Betrifft auch Step-Sichtbarkeit. |
-| **C3** | ES_IN_OPERATION nutzt equalsAny auf Array | `visibilityRules.ts:175` | `esStatus` ist DB-Typ `text[]`, aber `equalsAny` prüft `typeof val === 'string'` → gibt immer `false` zurück. `esInOperationDetails` und `esOperatorDetails` sind **unerreichbar**. |
-| **C4** | esVnbContact: boolean vs string | `energy-sharing` | Schema: single-select mit `yes`/`no`. DB: `boolean`. `eq('esVnbContact', 'yes')` vergleicht `true === 'yes'` → immer `false`. `esVnbResponse` und `esNetzentgelteDiscussion` sind **unerreichbar**. |
+| ID | Issue | Lösung |
+|----|-------|--------|
+| **C1** | ggv-operation ohne GGV-Gate | `GGV_IN_OPERATION()` prüft jetzt `PT_GGV ∧ planningStatus ∋ 'pv_laeuft_ggv_laeuft'` |
+| **C2** | getProjectFlags.isGgvInOperation ohne PT_GGV | `isGgvInOperation` in `visibilityRules.ts` enthält jetzt PT_GGV-Prüfung |
+| **C3** | ES_IN_OPERATION nutzt equalsAny auf Array | `equalsAny`-Operator unterstützt jetzt sowohl String- als auch Array-Felder via `includesAny`-Fallback |
+| **C4** | esVnbContact: boolean vs string | Schema-Werte von `yes`/`no` auf `ja`/`nein` geändert; `evaluateRule` behandelt Boolean-Werte korrekt |
 
-### 🟡 Mittel
+### 🟢 Gelöst (ehemals 🟡 Mittel)
 
-| ID | Issue | Ort | Beschreibung |
-|----|-------|-----|-------------|
-| **M1** | ggvProjectType bei reinem MS sichtbar | `project.ggvProjectType` | visibilityRule ist `PT_GGV_OR_MS()`, fragt aber nach „GGV-Projekten". Sollte `PT_GGV()` sein. |
-| **M2** | Inkonsistente Werte yes/no vs ja/nein | `energy-sharing.esVnbContact` | Einzige Frage mit englischen Werten. |
-| **M3** | Redundante visibilityRules in vnb-msb | `vnb-msb.*` | 7 Fragen haben Section-Gate als eigene Rule wiederholt. Nicht schädlich, unnötige Komplexität. |
+| ID | Issue | Lösung |
+|----|-------|--------|
+| **M1** | ggvProjectType bei reinem MS sichtbar | visibilityRule von `PT_GGV_OR_MS()` auf `PT_GGV()` korrigiert |
+| **M2** | Inkonsistente Werte yes/no vs ja/nein | esVnbContact-Optionen auf `ja`/`nein` umgestellt (siehe C4) |
+| **M3** | Redundante visibilityRules in vnb-msb | 4 redundante Rules entfernt; Section-Gate `eq('vnbMsbOffer', 'ja')` reicht |
 
-### 🟢 Gelöst
+### 🟢 Gelöst (vorherige Runden)
 
-| ID | Beschreibung |
-|----|-------------|
+| ID | Lösung |
+|----|--------|
 | **R1** | vnbMsbTimeline/vnbRejectionTimeline: verschoben von vnb-msb nach vnb-planning |
 | **R2** | vnbRejectionResponse: verschoben von service-provider nach challenges |
+
+### 🟢 Weitere umgesetzte Änderungen
+
+| # | Änderung |
+|---|----------|
+| 1 | `MS_IN_OPERATION()` korrekt implementiert mit dualer Logik (mieterstromPlanningStatus / planningStatus) |
+| 2 | `service-provider` Sektion: Gate von `GGV_IN_OPERATION()` auf `or(GGV_IN_OPERATION(), MS_IN_OPERATION())` erweitert |
+| 3 | `operationStartDate` entfernt (Type, Validation, Schema) |
+| 4 | `esVnbResponseDetails` entfernt (hasTextField bei esVnbResponse reicht) |
+| 5 | `serviceProvider2Rating` entfernt; beide SPs nur noch Freitext |
+| 6 | Alle 123 Fragen gegen DB-Schema abgeglichen; fehlende Felder in `survey.ts` + `surveyValidation.ts` ergänzt |
+| 7 | Array-wrapped Fields (planningStatus, mieterstromPlanningStatus) korrekt dokumentiert |
+| 8 | Energy-Sharing-Fragen (esPlantType, esConsumerTypes, etc.) vollständig im Schema |
+| 9 | Dynamische Labels bei GGV+MS-Kombination verifiziert |
+| 10 | Undecided-Warnung bei `ggv_oder_mieterstrom` + Betriebsstatus verifiziert |
 
 ---
 
@@ -373,24 +388,23 @@ graph TD
 
     subgraph "Betrieb (Step 5)"
         direction TB
-        GGV_OP[5a. GGV Betrieb ⚠️]
-        SP[5a. Dienstleister]
+        GGV_OP[5a. GGV Betrieb]
+        SP[5a. Dienstleister ✅]
         MS_OP[5b. MS Betrieb]
     end
 
-    VNB -->|"planningStatus ∋ 'pv_laeuft…'"| GGV_OP
+    VNB -->|"GGV_IN_OPERATION"| GGV_OP
     GGV_OP --> SP
     MS -->|"MS_IN_OPERATION"| MS_OP
+    MS_OP --> SP
 
     MSB --> S6
     TL1 --> S6
     TL2 --> S6
     MSO --> S6
     SP --> S6
-    MS_OP --> S6
     S4_ES --> S6
 
-    style GGV_OP fill:#f44,color:#fff
     style GATE fill:#f90,color:#000
 ```
 
@@ -401,8 +415,7 @@ graph TD
 | Kategorie | Anzahl |
 |-----------|--------|
 | Sections | 13 |
-| Fragen gesamt | 123 |
-| 🔴 Kritische Issues | 4 (C1–C4) |
-| 🟡 Mittlere Issues | 3 (M1–M3) |
-| 🟢 Gelöste Issues | 2 (R1–R2) |
-| Unerreichbare Fragen | 4 (durch C3 + C4) |
+| Fragen gesamt | 120 (3 entfernt: operationStartDate, esVnbResponseDetails, serviceProvider2Rating) |
+| 🟢 Gelöste Issues | 9 (C1–C4, M1–M3, R1–R2) + 10 weitere Änderungen |
+| 🔴 Offene Issues | 0 |
+| Unerreichbare Fragen | 0 |
