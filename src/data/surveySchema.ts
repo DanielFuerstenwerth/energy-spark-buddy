@@ -246,6 +246,16 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       visibilityRule: PT_GGV(),
     },
     {
+      id: "mieterstromProjectType",
+      type: "single-select",
+      label: "Wie viele Mieterstrom-Projekte planen/betreiben Sie?",
+      options: [
+        { value: "single", label: "Ein einzelnes Projekt" },
+        { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
+      ],
+      visibilityRule: PT_MS(),
+    },
+    {
       id: "mieterstromPvSizeKw",
       type: "number",
       label: "Größe der PV-Anlage(n) in kW - Mieterstrom",
@@ -271,6 +281,14 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
         { value: "gemischt", label: "Gemischt" },
       ],
       visibilityRule: PT_MS(),
+    },
+    {
+      id: "mieterstromBuildingCount",
+      type: "number",
+      label: "Gesamtzahl der Projekte - Mieterstrom",
+      placeholder: "z.B. 5",
+      optional: true,
+      visibilityRule: and(PT_MS(), eq('mieterstromProjectType', 'multiple')),
     },
     {
       id: "mieterstromAdditionalInfo",
@@ -1597,9 +1615,11 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "ggvBuildingType": { displayId: "2-GGV-BuildingType", dbColumn: "ggv_building_type", uiNumber: "2.8" },
   "ggvBuildingCount": { displayId: "2-GGV-BuildingCount", dbColumn: "ggv_building_count", uiNumber: "2.5" },
   "ggvAdditionalInfo": { displayId: "2-GGV-AdditionalInfo", dbColumn: "ggv_additional_info", uiNumber: "2.9" },
+  "mieterstromProjectType": { displayId: "2-MS-ProjectType", dbColumn: "mieterstrom_project_type", uiNumber: "2.4b" },
   "mieterstromPvSizeKw": { displayId: "2-MS-PvSizeKw", dbColumn: "mieterstrom_pv_size_kw", uiNumber: "2.10" },
   "mieterstromPartyCount": { displayId: "2-MS-PartyCount", dbColumn: "mieterstrom_party_count", uiNumber: "2.11" },
   "mieterstromBuildingType": { displayId: "2-MS-BuildingType", dbColumn: "mieterstrom_building_type", uiNumber: "2.12" },
+  "mieterstromBuildingCount": { displayId: "2-MS-BuildingCount", dbColumn: "mieterstrom_building_count", uiNumber: "2.5b" },
   "mieterstromAdditionalInfo": { displayId: "2-MS-AdditionalInfo", dbColumn: "mieterstrom_additional_info", uiNumber: "2.13" },
   "projectLocations": { displayId: "2-ProjectLocations", dbColumn: "project_locations", uiNumber: "2.14" },
   // Section 3: Planung Allgemein
