@@ -410,7 +410,8 @@ const SECTION_CHALLENGES: SurveySection = {
       type: "multi-select",
       label: "Falls Ihr VNB die Umsetzung von GGV oder Mieterstrom nicht oder nur unzureichend unterstützt, wie haben Sie bislang reagiert?", // Korrektur: Label
       options: [
-        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", hasTextField: true, textFieldPlaceholder: "z.B. BNetzA kontaktiert im Jan. 2025, Antwort ausstehend..." }, // Korrektur: Label
+        { value: "kein_grund", label: "Wir haben keinen Grund zur Beschwerde", exclusive: true },
+        { value: "bnetza", label: "Wir haben uns / unser Dienstleister hat sich bereits an die BNetzA gewendet", hasTextField: true, textFieldPlaceholder: "z.B. BNetzA kontaktiert im Jan. 2025, Antwort ausstehend..." },
         { value: "rechtliche_schritte", label: "Wir erwägen rechtliche Schritte gegen den VNB einzuleiten" },
         { value: "keine_schritte", label: "Wir sind / unser Dienstleister ist bei dem Anschluss anderer Projekte auf den VNB angewiesen, wir sehen daher von rechtlichen Schritten gegenüber dem VNB oder einer Anfrage bei der BNetzA ab" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Wechsel zu anderem VNB, politische Kontakte..." },
