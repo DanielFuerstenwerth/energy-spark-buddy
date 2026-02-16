@@ -22,9 +22,8 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Info, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { InlineHint } from "./InlineHint";
 import { InlineHintTrigger } from "./InlineHint";
 
 interface SurveyRendererProps {
@@ -216,7 +215,7 @@ function renderQuestion(
           <SingleSelectQuestion
             id={q.id}
             label={dynamicLabel}
-            description={q.description || q.helpText}
+            description={q.description}
             options={dynamicOptions}
             value={currentValue}
             otherValue={getValue<string>(`${q.id}Other`)}
@@ -453,13 +452,8 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
             <div className="space-y-8">
               {visibleQuestions.map((q) => (
                 <div key={q.id}>
-                  {q.helpText && !q.description && (
-                    <div className="mb-2 flex items-start gap-2 text-sm text-muted-foreground bg-muted/50 rounded-lg p-3">
-                      <Info className="w-4 h-4 mt-0.5 shrink-0" />
-                      <span>{cleanLabel(q.helpText)}</span>
-                    </div>
-                  )}
-                  {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, q.tooltip ? <InlineHintTrigger text={q.tooltip} /> : undefined)}
+                  
+                  {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, (q.tooltip || q.helpText) ? <InlineHintTrigger text={q.tooltip || q.helpText!} /> : undefined)}
                 </div>
               ))}
             </div>
