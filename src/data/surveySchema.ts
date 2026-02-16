@@ -199,6 +199,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "ggvProjectType",
       type: "single-select",
       label: "Wie viele GGV-Projekte planen/betreiben Sie?",
+      optional: true,
       options: [
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen VNB bitte einen zusätzlichen VNB auswählen)" },
