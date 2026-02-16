@@ -22,7 +22,7 @@ export interface SurveyData {
   motivation: string[];
   motivationOther?: string;
   contactEmail?: string;
-  confirmationForUpdate?: string; // Korrektur: Neue Frage
+  confirmationForUpdate?: string;
 
   // Section 2: Projekt
   vnbName?: string;
@@ -34,14 +34,12 @@ export interface SurveyData {
   ggvBuildingType?: string;
   ggvBuildingCount?: number;
   ggvAdditionalInfo?: string;
-  ggvInOperation?: boolean;
   mieterstromProjectType?: string;
   mieterstromPvSizeKw?: number;
   mieterstromPartyCount?: number;
   mieterstromBuildingType?: string;
   mieterstromBuildingCount?: number;
   mieterstromAdditionalInfo?: string;
-  mieterstromInOperation?: boolean;
   projectAddress?: string;
   projectPlz?: string;
   projectLocations?: Array<{ plz?: string; address?: string; pvSizeKw?: number }>;
@@ -60,11 +58,7 @@ export interface SurveyData {
   implementationApproachOther?: string;
   challenges: string[];
   challengesDetails: Record<string, string>;
-  challengesPvInstallation?: string;
-  challengesVnbBlocking?: string;
-  challengesCostsHigh?: string;
-  challengesOther?: string;
-  vnbRejectionResponse?: string[]; // Korrektur: verschoben von Section 5 nach Section 3
+  vnbRejectionResponse?: string[];
   vnbRejectionResponseOther?: string;
   vnbRejectionResponseDetails?: Record<string, string>;
 
@@ -79,12 +73,10 @@ export interface SurveyData {
   vnbSupportMesskonzeptOther?: string;
   vnbSupportFormulare?: string;
   vnbSupportFormulareOther?: string;
-  vnbSupportPortal?: boolean | string; // Korrektur: now single-select, backward compat
+  vnbSupportPortal?: string;
   vnbSupportPortalOther?: string;
   vnbSupportOther?: string;
   vnbSupportOtherDetails?: string;
-  vnbInfoAvailable?: string;
-  vnbInfoAvailableOther?: string;
   vnbContactHelpful?: string;
   vnbContactHelpfulOther?: string;
   vnbPersonalContacts?: string;
@@ -99,7 +91,6 @@ export interface SurveyData {
   vnbFullService?: string;
   vnbDataProvision?: string[];
   vnbDataProvisionOther?: string;
-  vnbDataFormat?: string;
   vnbDataCost?: string;
   vnbDataCostAmount?: number;
   vnbEsaCost?: string;
@@ -108,7 +99,7 @@ export interface SurveyData {
   vnbRejectionTimeline?: string;
   vnbWandlermessung?: string;
   vnbWandlermessungComment?: string;
-  vnbWandlermessungDocuments?: string[]; // Korrektur: Neu
+  vnbWandlermessungDocuments?: string[];
   vnbPlanningDuration?: string;
   vnbPlanningDurationReasons?: string;
 
@@ -126,8 +117,6 @@ export interface SurveyData {
   operationMsbAdditionalCosts?: string;
   operationMsbAdditionalCostsOneTime?: number;
   operationMsbAdditionalCostsYearly?: number;
-  operationAllocationWho?: string;
-  operationAllocationWhoOther?: string;
   operationDataFormat?: string;
   operationDataFormatOther?: string;
   operationDataCost?: string;
@@ -145,14 +134,14 @@ export interface SurveyData {
   mieterstromSummenzaehler?: string;
   mieterstromExistingProjects?: string;
   mieterstromExistingProjectsVirtuell?: string;
-  mieterstromVnbContact?: string[] | string; // Korrektur: multi-select wie vnbContact, backward compat mit string
+  mieterstromVnbContact?: string[];
   mieterstromVnbContactOther?: string;
   mieterstromVirtuellAllowed?: string;
-  mieterstromVirtuellDeniedReason?: string; // Korrektur: Neu
-  mieterstromVirtuellDeniedDocuments?: string[]; // Korrektur: Neu
+  mieterstromVirtuellDeniedReason?: string;
+  mieterstromVirtuellDeniedDocuments?: string[];
   mieterstromVirtuellWandlermessung?: string;
   mieterstromVirtuellWandlermessungComment?: string;
-  mieterstromVirtuellWandlermessungDocuments?: string[]; // Korrektur: Neu
+  mieterstromVirtuellWandlermessungDocuments?: string[];
   mieterstromVnbResponse?: string[];
   mieterstromVnbResponseReasons?: string;
   mieterstromSupportRating?: number;
@@ -186,23 +175,23 @@ export interface SurveyData {
   esOperatorDetails?: string;
   esPlantType: string[];
   esPlantTypeDetails?: string[];
-  esCapacitySizeKw?: number; // Korrektur: renamed from esPvSizeKw
+  esCapacitySizeKw?: number;
   esTechnologyDescription?: string;
   esProjectScope?: string;
+  esProjectLocations?: Array<{ plz?: string; address?: string }>;
   esPartyCount?: number;
   esConsumerTypes: string[];
   esConsumerDetails?: string;
   esConsumerScope?: string;
   esConsumerScopeOther?: string;
   esMaxDistance?: string;
-  esVnbContact?: boolean;
+  esVnbContact?: string;
   esVnbResponse?: string;
   esVnbResponseOther?: string;
   esVnbResponseDetails?: string;
   esNetzentgelteDiscussion?: string;
   esNetzentgelteDetails?: string;
   esInfoSources?: string;
-  esProjectLocations?: Array<{ plz?: string; address?: string }>;
 
   // Section 6: Abschluss
   additionalExperiences?: string;

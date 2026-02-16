@@ -917,7 +917,7 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
   id: "service-provider",
   title: "5. Betrieb: Modellspezifisch – Dienstleister (GGV)",
   description: "Feedback zu Dienstleistern & Reaktionen",
-  visibilityRule: PT_GGV(),
+  visibilityRule: GGV_IN_OPERATION(),
   questions: [
     {
       id: "serviceProviderName",
@@ -1345,6 +1345,14 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       // Korrektur: Sichtbarkeit immer
     },
     {
+      id: "esProjectLocations",
+      type: "text",
+      label: "Standort(e) des Energy-Sharing-Projekts",
+      description: "PLZ und/oder Adresse der beteiligten Anlagen und Verbraucher. Bei mehreren Standorten bitte alle angeben.",
+      placeholder: "z.B. 10115 Berlin, Musterstraße 1",
+      optional: true,
+    },
+    {
       id: "esCapacitySizeKw", // Korrektur: ID umbenannt von esPvSizeKw
       type: "number",
       label: "Welche Größe hat die / haben die betroffene(n) EE-Anlage(n) in kW? (1000 kW = 1 MW)", // Korrektur: Label
@@ -1411,8 +1419,8 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       type: "single-select",
       label: "E6. Waren Sie bereits in Kontakt mit Ihrem VNB zu dem Thema Energy Sharing?",
       options: [
-        { value: "yes", label: "Ja" },
-        { value: "no", label: "Nein" },
+        { value: "ja", label: "Ja" },
+        { value: "nein", label: "Nein" },
       ],
     },
     {
@@ -1427,7 +1435,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "weiss_nicht", label: "Der VNB weiß nicht, was Energy Sharing ist" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true },
       ],
-      visibilityRule: eq('esVnbContact', 'yes'),
+      visibilityRule: eq('esVnbContact', 'ja'),
     },
     {
       id: "esNetzentgelteDiscussion",
@@ -1438,7 +1446,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
         { value: "ja_unklar", label: "Ja - aber der VNB weiß auch nicht wie das gehen soll", hasTextField: true },
         { value: "nein", label: "Nein" },
       ],
-      visibilityRule: eq('esVnbContact', 'yes'),
+      visibilityRule: eq('esVnbContact', 'ja'),
     },
     {
       id: "esInfoSources",
@@ -1585,9 +1593,18 @@ export function buildDbData(
     if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
 
     const snakeKey = toSnakeCase(key);
-    dbData[snakeKey] = typeof value === 'string' && value.length > DB_TEXT_LIMIT
-      ? value.slice(0, DB_TEXT_LIMIT)
-      : value;
+    
+    // Boolean conversion for fields stored as boolean in DB but string in UI
+    const BOOLEAN_DB_FIELDS: Record<string, Record<string, boolean>> = {
+      'esVnbContact': { 'ja': true, 'nein': false },
+    };
+    if (BOOLEAN_DB_FIELDS[key] && typeof value === 'string') {
+      dbData[snakeKey] = BOOLEAN_DB_FIELDS[key][value] ?? value;
+    } else {
+      dbData[snakeKey] = typeof value === 'string' && value.length > DB_TEXT_LIMIT
+        ? value.slice(0, DB_TEXT_LIMIT)
+        : value;
+    }
   }
 
   dbData.session_group_id = sessionGroupId;

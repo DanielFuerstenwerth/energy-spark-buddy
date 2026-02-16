@@ -95,12 +95,9 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     actorOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
     // Project focus (derived)
     projectFocus: z.enum(["ggv", "mieterstrom", "energysharing"]).optional(),
-    // GGV in operation flag (derived from planningStatus)
-    ggvInOperation: z.boolean().optional(),
     // Mieterstrom extras
     mieterstromProjectType: z.string().max(MAX_SHORT_TEXT).optional(),
     mieterstromBuildingCount: z.number().int().min(0).max(1000).optional(),
-    mieterstromInOperation: z.boolean().optional(),
     // Project locations (JSONB array)
     projectLocations: z.array(z.object({
       plz: z.string().max(10).optional(),
@@ -115,29 +112,17 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     serviceProvider2Comments: z.string().max(MAX_LONG_TEXT).optional(),
     // Challenges companion fields
     challengesDetails: z.record(z.string().max(MAX_LONG_TEXT)).default({}),
-    challengesPvInstallation: z.string().max(MAX_LONG_TEXT).optional(),
-    challengesVnbBlocking: z.string().max(MAX_LONG_TEXT).optional(),
-    challengesCostsHigh: z.string().max(MAX_LONG_TEXT).optional(),
-    challengesOther: z.string().max(MAX_LONG_TEXT).optional(),
     // VNB companion fields
     vnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
-    vnbInfoAvailable: z.string().max(MAX_MEDIUM_TEXT).optional(),
-    vnbInfoAvailableOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
     // Mieterstrom companion fields
     mieterstromVirtuellWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
     mieterstromVnbResponseReasons: z.string().max(MAX_LONG_TEXT).optional(),
     mieterstromMsbCostsOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
     mieterstromVnbDurationReasons: z.string().max(MAX_LONG_TEXT).optional(),
     mieterstromWandlermessungComment: z.string().max(MAX_LONG_TEXT).optional(),
-    mieterstromDataProviderOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
     mieterstromOperationCostsOneTime: z.number().min(0).max(10000000).optional(),
     mieterstromOperationCostsYearly: z.number().min(0).max(10000000).optional(),
     mieterstromRejectionResponseOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-    mieterstromChallengesOpposition: z.string().max(MAX_LONG_TEXT).optional(),
-    mieterstromChallengesPv: z.string().max(MAX_LONG_TEXT).optional(),
-    mieterstromChallengesVnb: z.string().max(MAX_LONG_TEXT).optional(),
-    mieterstromChallengesCosts: z.string().max(MAX_LONG_TEXT).optional(),
-    mieterstromChallengesOther: z.string().max(MAX_LONG_TEXT).optional(),
     // ES companion fields
     esPlantTypeDetails: z.array(z.string().max(MAX_SHORT_TEXT)).max(MAX_ARRAY_ITEMS).optional(),
     esConsumerDetails: z.string().max(MAX_LONG_TEXT).optional(),
@@ -145,6 +130,10 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     esNetzentgelteDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esInOperationDetails: z.string().max(MAX_LONG_TEXT).optional(),
     esOperatorDetails: z.string().max(MAX_LONG_TEXT).optional(),
+    esProjectLocations: z.array(z.object({
+      plz: z.string().max(10).optional(),
+      address: z.string().max(MAX_MEDIUM_TEXT).optional(),
+    })).optional(),
     // Multi-evaluation metadata
     evaluationLabel: z.string().max(MAX_SHORT_TEXT).optional(),
     sessionGroupId: z.string().uuid().optional(),

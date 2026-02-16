@@ -63,7 +63,17 @@ function renderQuestion(
 ): React.ReactNode {
   const qId = q.id as keyof SurveyData;
   const uiNumber = getUiNumber(q.id);
-  const label = cleanLabel(q.label);
+  let label = cleanLabel(q.label);
+
+  // Dynamic label replacement for project-type-specific context
+  const projectTypes = (data as unknown as Record<string, unknown>).projectTypes as string[] | undefined;
+  const hasGgv = projectTypes?.some(t => t === 'ggv' || t === 'ggv_oder_mieterstrom') || false;
+  const hasMs = projectTypes?.includes('mieterstrom') || false;
+  if (hasGgv && !hasMs) {
+    label = label.replace('GGV/Mieterstrom', 'GGV').replace('GGV / Mieterstrom', 'GGV');
+  } else if (hasMs && !hasGgv) {
+    label = label.replace('GGV/Mieterstrom', 'Mieterstrom').replace('GGV / Mieterstrom', 'Mieterstrom');
+  }
 
   // Helper to get value safely
   const getValue = <T,>(field: string): T => getFieldValue(data, field) as T;
@@ -85,13 +95,28 @@ function renderQuestion(
       );
 
     case 'multi-select':
+      // Dynamic option labels for multi-select
+      let dynamicMultiOptions = q.options || [];
+      if (q.id === 'challenges') {
+        if (hasGgv && !hasMs) {
+          dynamicMultiOptions = dynamicMultiOptions.map(opt => ({
+            ...opt,
+            label: opt.label.replace('GGV / Mieterstrom', 'GGV').replace('GGV/Mieterstrom', 'GGV'),
+          }));
+        } else if (hasMs && !hasGgv) {
+          dynamicMultiOptions = dynamicMultiOptions.map(opt => ({
+            ...opt,
+            label: opt.label.replace('GGV / Mieterstrom', 'Mieterstrom').replace('GGV/Mieterstrom', 'Mieterstrom'),
+          }));
+        }
+      }
       return (
         <MultiSelectQuestion
           key={q.id}
           id={q.id}
           label={label}
           description={q.description}
-          options={q.options || []}
+          options={dynamicMultiOptions}
           value={getValue<string[]>(q.id) || []}
           optionTextValues={getValue<Record<string, string>>(`${q.id}Details`) || getValue<Record<string, string>>('actorTextFields')}
           onChange={(v) => setValue(q.id, v)}
@@ -113,29 +138,44 @@ function renderQuestion(
 
     case 'single-select': {
       // Fields that are stored as string[] (Legacy compat) but rendered as single-select
-      const ARRAY_WRAPPED_FIELDS = ['planningStatus', 'mieterstromPlanningStatus'];
+      const ARRAY_WRAPPED_FIELDS = ['planningStatus', 'mieterstromPlanningStatus', 'esStatus'];
       const isArrayWrapped = ARRAY_WRAPPED_FIELDS.includes(q.id);
       const currentValue = isArrayWrapped
         ? (getValue<string[]>(q.id)?.[0] || undefined)
         : getValue<string>(q.id);
 
-      // Context-dependent label (Legacy compat)
+      // Context-dependent label for planningStatus
       let dynamicLabel = label;
-      const projectTypes = (data as unknown as Record<string, unknown>).projectTypes as string[] | undefined;
-      const hasGgv = projectTypes?.some(t => t === 'ggv' || t === 'ggv_oder_mieterstrom') || false;
-      const hasMs = projectTypes?.includes('mieterstrom') || false;
       const isUndecided = projectTypes?.includes('ggv_oder_mieterstrom') || false;
-      if (q.id === 'planningStatus' && hasGgv && hasMs) {
-        dynamicLabel = label.replace('mit dem Projekt', 'mit dem GGV-Projekt');
+      if (q.id === 'planningStatus') {
+        if (hasGgv && hasMs) {
+          dynamicLabel = label.replace('mit dem Projekt', 'mit dem GGV-Projekt');
+        } else if (hasGgv && !hasMs) {
+          dynamicLabel = label.replace('mit dem Projekt', 'mit dem GGV-Projekt');
+        } else if (hasMs && !hasGgv) {
+          dynamicLabel = label.replace('mit dem Projekt', 'mit dem Mieterstrom-Projekt');
+        }
       }
 
-      // Dynamic option labels: replace 'GGV/Mieterstrom' with 'GGV' in B1 when both are selected
+      // Dynamic option labels: replace 'GGV/Mieterstrom' based on project type context
       let dynamicOptions = q.options || [];
-      if (q.id === 'planningStatus' && hasGgv && hasMs) {
-        dynamicOptions = dynamicOptions.map(opt => ({
-          ...opt,
-          label: opt.label.replace('GGV/Mieterstrom', 'GGV'),
-        }));
+      if (q.id === 'planningStatus') {
+        if (hasGgv && hasMs) {
+          dynamicOptions = dynamicOptions.map(opt => ({
+            ...opt,
+            label: opt.label.replace('GGV/Mieterstrom', 'GGV'),
+          }));
+        } else if (hasGgv && !hasMs) {
+          dynamicOptions = dynamicOptions.map(opt => ({
+            ...opt,
+            label: opt.label.replace('GGV/Mieterstrom', 'GGV'),
+          }));
+        } else if (hasMs && !hasGgv) {
+          dynamicOptions = dynamicOptions.map(opt => ({
+            ...opt,
+            label: opt.label.replace('GGV/Mieterstrom', 'Mieterstrom'),
+          }));
+        }
       }
 
       // Validation: warn if ggv_oder_mieterstrom + Betriebsstatus
