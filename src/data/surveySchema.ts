@@ -78,7 +78,6 @@ const SECTION_ABOUT_YOU: SurveySection = {
       id: "actorTypes",
       type: "multi-select",
       label: "A1. In welche Akteursgruppe fallen Sie?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "buergerenergie", label: "Bürgerenergiegenossenschaft", hasTextField: true, textFieldLabel: "Name der Genossenschaft (optional)" },
         { value: "weg", label: "Wohnungseigentümergemeinschaft" },
@@ -99,7 +98,6 @@ const SECTION_ABOUT_YOU: SurveySection = {
       id: "motivation",
       type: "multi-select",
       label: "A2. Wie würden Sie Ihre Motivation einordnen?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "pv_nutzung", label: "Wir werden auf jeden Fall eine PV-Anlage bauen (oder haben diese schon gebaut) und möchten den Strom vor Ort nutzen" },
         { value: "energiewende", label: "Wir möchten gerne Energiewende vor Ort umsetzen - sobald die Nutzung geklärt ist, kommt die PV-Anlage" },
@@ -147,7 +145,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "projectTypes",
       type: "multi-select",
       label: "Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
-      description: "Mehrfachauswahl möglich",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
         { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
@@ -335,7 +332,6 @@ const SECTION_PLANNING: SurveySection = {
       id: "ggvDecisionReasons",
       type: "multi-select",
       label: "B3. Falls Sie derzeit eher zur GGV tendieren oder sich dafür entschlossen haben - warum?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "buerokratie_mieterstrom", label: "Wegen der bürokratischen Herausforderungen bei Mieterstrom" },
         { value: "reststrom_pflicht", label: "Wegen der Pflicht zum Einkauf von Reststrom bei Mieterstrom" },
@@ -350,7 +346,6 @@ const SECTION_PLANNING: SurveySection = {
       id: "mieterstromDecisionReasons",
       type: "multi-select",
       label: "B4. Falls Sie derzeit eher zu Mieterstrom tendieren oder sich dafür entschlossen haben - warum?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "einfacher_umsetzung", label: "Weil das in der Umsetzung einfacher zu sein scheint" },
         { value: "kein_dienstleister_ggv", label: "Weil wir für die GGV nicht den richtigen Dienstleister finden" },
@@ -365,7 +360,7 @@ const SECTION_PLANNING: SurveySection = {
       id: "implementationApproach",
       type: "multi-select",
       label: "B5. Wollen/wollten Sie das Projekt weitgehend alleine umsetzen, oder planen/planten Sie die Zusammenarbeit mit einem Dienstleister?",
-      description: "Über die Installation der PV-Anlage hinaus - Mehrfachauswahl möglich",
+      description: "Über die Installation der PV-Anlage hinaus",
       options: [
         { value: "alleine", label: "Wir möchten möglichst viel alleine machen - inkl. der Abrechnung mit den Teilnehmenden" },
         { value: "dienstleister_ok", label: "Dienstleister sind OK, solange das preislich attraktiv ist" },
@@ -386,7 +381,6 @@ const SECTION_CHALLENGES: SurveySection = {
       id: "challenges",
       type: "multi-select",
       label: "Gab oder gibt es wesentliche Herausforderungen?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "keine", label: "Nein, alles läuft gut", exclusive: true },
         { value: "opposition", label: "Manche Parteien im Haus sind gegen das Projekt oder wollen nicht teilnehmen", hasTextField: true, textFieldLabel: "Details" },
@@ -436,7 +430,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       id: "vnbContact",
       type: "multi-select",
       label: "C2. Waren Sie schon im Kontakt mit Ihrem VNB?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
         { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
@@ -449,7 +442,6 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
       id: "vnbResponse",
       type: "multi-select",
       label: "C3. Welche Aussage zur Rückmeldung vom VNB zur GGV trifft zu?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "moeglich_gmssb", label: "Umsetzung der GGV ist heute schon möglich, der VNB/gMSB kann dies auch als Messstellenbetreiber machen" },
         { value: "moeglich_wmsb", label: "Umsetzung der GGV ist heute schon möglich, wir müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
@@ -631,7 +623,6 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       id: "vnbDataProvision",
       type: "multi-select",
       label: "C8.1d Wie beabsichtigt Ihr VNB, Ihnen die für die Abrechnung benötigten Daten bereitzustellen?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "mail_excel", label: "Der VNB/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
         { value: "portal_verrechnete_werte", label: "Der VNB/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
@@ -1004,7 +995,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       id: "mieterstromVnbContact",
       type: "multi-select", // Korrektur: gleiche Optionen wie #26 (vnbContact)
       label: "M5. Waren Sie schon im Kontakt mit Ihrem VNB?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "ja_direkt", label: "Ja, wir hatten direkten Kontakt mit dem VNB" },
         { value: "ja_installateur", label: "Ja, über den Installateur/Dienstleister" },
@@ -1064,7 +1054,6 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       id: "mieterstromVnbResponse",
       type: "multi-select",
       label: "M8. Welche Aussage zur Rückmeldung vom VNB trifft zu?",
-      description: "Mehrfachauswahl möglich",
       options: [
         { value: "moeglich_gmsb", label: "Wir können Mieterstrom umsetzen, der VNB/gMSB bietet an, dies als Messstellenbetreiber zu unterstützen" }, // Korrektur: Label
         { value: "moeglich_wmsb", label: "Wir können Mieterstrom umsetzen, müssen aber einen wettbewerblichen Messstellenbetreiber beauftragen" },
@@ -1312,7 +1301,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
       id: "esPlantType",
       type: "multi-select",
       label: "E3. Welche Art von Anlage möchten Sie für das Energy Sharing Projekt nutzen (oder nutzen sie bereits)?", // Korrektur: Label
-      description: "Mehrfachauswahl möglich",
+      
       options: [
         { value: "wind", label: "Windenergieanlage" },
         { value: "buergerwind", label: "Bürgerwindanlage" },
