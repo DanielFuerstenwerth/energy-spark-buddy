@@ -680,10 +680,20 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       optional: true,
       visibilityRule: eq('vnbEsaCost', 'mehr_3_eur'),
     },
+  ],
+};
+
+// === SECTION 4: GGV-Messkonzept (sichtbar bei gMSB ODER wMSB) ===
+const SECTION_GGV_MESSKONZEPT: SurveySection = {
+  id: "ggv-messkonzept",
+  title: "GGV-Messkonzept",
+  description: "Fragen zum Messkonzept und zur Planungsdauer",
+  visibilityRule: eqAny('vnbResponse', ['moeglich_gmssb', 'moeglich_wmsb']),
+  questions: [
     {
       id: "vnbWandlermessung",
       type: "single-select",
-      label: "C9. Frage zum Detail der technischen Anforderungen des Messkonzeptes: Verlangt Ihr Verteilnetzbetreiber einen neuen, zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?", // Korrektur: ausführlicheres Label
+      label: "C9. Frage zum Detail der technischen Anforderungen des Messkonzeptes: Verlangt Ihr Verteilnetzbetreiber einen neuen, zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?",
       description: "Erfordert die Installation einer 'Wandlermessung' für > 5.000 EUR",
       options: [
         { value: "ja", label: "Ja" },
@@ -694,12 +704,11 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbWandlermessungComment",
       type: "textarea",
-      label: "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr Verteilnetzbetreiber hierzu und womit werden die begründet?", // Korrektur: Label
+      label: "Ergänzende Informationen zur Wandlermessung: welche Ansprüche stellt Ihr Verteilnetzbetreiber hierzu und womit werden die begründet?",
       placeholder: "z.B. Ansprüche des Verteilnetzbetreibers, Begründung, geschätzte Kosten...",
       optional: true,
       visibilityRule: eqAny('vnbWandlermessung', ['ja', 'wissen_nicht']),
     },
-    // Korrektur: Upload-Option für Wandlermessung-Dokumente
     {
       id: "vnbWandlermessungDocuments",
       type: "file",
@@ -1500,6 +1509,7 @@ export const surveyDefinition: SurveySchema = {
     SECTION_CHALLENGES,
     SECTION_VNB_PLANNING_GGV,
     SECTION_VNB_MSB_DETAILS,
+    SECTION_GGV_MESSKONZEPT,
     SECTION_VNB_SUPPORT,
     SECTION_GGV_OPERATION,
     SECTION_SERVICE_PROVIDER,
