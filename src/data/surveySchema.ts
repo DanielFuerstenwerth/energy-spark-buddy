@@ -595,7 +595,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       label: "Stellt Ihr Verteilnetzbetreiber Ihnen zusätzliche Kosten für Smart Meter aufgrund des 'Einbaus auf Kundenwunsch' in Rechnung?",
       options: [
         { value: "wissen_nicht", label: "Wissen wir nicht" },
-        { value: "nein", label: "Nein, unser Verteilnetzbetreiber/gMSB verlangt hier keine Zusatzkosten" },
+        { value: "nein", label: "Nein, unser Verteilnetzbetreiber/gMSB verlangt hier keine Zusatzkosten", hasTextField: true, textFieldPlaceholder: "Begründung oder sonstige Informationen falls bekannt..." },
         { value: "ja", label: "Ja, unser Verteilnetzbetreiber/gMSB verlangt dafür Zusatzkosten" },
       ],
       // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
