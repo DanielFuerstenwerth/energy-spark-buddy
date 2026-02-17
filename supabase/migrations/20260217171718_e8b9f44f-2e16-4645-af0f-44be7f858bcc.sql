@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses RENAME COLUMN mieterstrom_foerderung_nein_grund_text TO mieterstrom_foerderung_nein_grund_other;
