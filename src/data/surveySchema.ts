@@ -153,8 +153,8 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       label: "Welche Art von Projekt möchten Sie gerne umsetzen / haben Sie umgesetzt?",
       helpText: "Die Auswahl hier entscheidet darüber, welche Fragen im Weiteren angezeigt werden.",
       options: [
-        { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)" },
-        { value: "mieterstrom", label: "Mieterstrom" },
+        { value: "ggv", label: "GGV (Gemeinschaftliche Gebäudeversorgung)", tooltip: "Bei der GGV kann jede(r) Teilnehmer(in) den bestehenden Stromversorgungsvertrag beibehalten. Die Betreiberin verkauft hierbei ausschliesslich PV-Strom, der vor Ort erzeugt wurde." },
+        { value: "mieterstrom", label: "Mieterstrom", tooltip: "Bei Mieterstrom findet grundsätzlich eine Vollversorgung statt, d.h. jede(r)  Teilnehmer(in) beendet den bisherigen Stromversorgungsvertrag. Die Betreiberin verkauft sowohl PV-Strom, der vor Ort erzeugt wurde, als auch Reststrom aus dem Stromnetz an die Teilnehmenden. Dies kann sowohl ein gefördertes Mieterstrommodell (§19 Absatz 1 Nr. 3 EEG ) als auch ein Modell ohne Förderung sein." },
         { value: "ggv_oder_mieterstrom", label: "Entweder GGV oder Mieterstrom (nur für Projekte im Planungsstadium)" },
         { value: "energysharing", label: "Energy Sharing (in Zukunft möglich)" },
       ],
