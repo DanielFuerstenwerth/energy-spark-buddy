@@ -1088,8 +1088,8 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       label: "Wie sehr fühlen Sie sich von Ihrem Verteilnetzbetreiber in der Planung von Mieterstrom unterstützt?",
       min: 1,
       max: 10,
-      minLabel: "Unser Verteilnetzbetreiber will das eigentlich lieber verhindern",
-      maxLabel: "Unser Verteilnetzbetreiber möchte das wirklich mit uns umsetzen",
+      minLabel: "bremst aktiv",
+      maxLabel: "unterstützt aktiv",
     },
   ],
 };
