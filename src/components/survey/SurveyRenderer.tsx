@@ -476,6 +476,10 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
               Ich habe zur Kenntnis genommen, dass meine Antworten für die Bewertung von Verteilnetzbetreibern genutzt und als Excel-Daten an berechtigte Anliegenträger weitergegeben werden können.
             </Label>
           </div>
+          <p className="text-xs text-muted-foreground mt-4">
+            Falls bei der Übermittlung der Daten Probleme auftreten, senden Sie bitte eine E-Mail an:{" "}
+            <a href="mailto:vnb-transparenz@1000gw.de" className="underline text-primary hover:text-primary/80">vnb-transparenz@1000gw.de</a>
+          </p>
         </div>
       )}
     </div>
