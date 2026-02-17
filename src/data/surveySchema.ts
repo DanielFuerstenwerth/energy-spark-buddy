@@ -524,7 +524,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       label: "Online-Portal für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Portal oder Beschreibung..." },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls vorhanden bitte Weblink zu öffentlich verfügbaren Informationen hinzufügen" },
         { value: "nein", label: "Nein" },
       ],
     },
