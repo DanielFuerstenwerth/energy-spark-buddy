@@ -18,6 +18,7 @@ export interface SurveyOption {
   textFieldHint?: string;
   exclusive?: boolean; // If true, selecting this option deselects all others
   hint?: string; // Small hint text shown below the option label
+  tooltip?: string; // Click-toggle inline hint shown via info icon next to the option label
 }
 
 export interface SurveyQuestion {
@@ -634,7 +635,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       options: [
         { value: "mail_excel", label: "Der Verteilnetzbetreiber/gMSB stellt uns die Daten per Mail als Excel zur Verfügung" },
         { value: "portal_verrechnete_werte", label: "Der Verteilnetzbetreiber/gMSB stellt uns die Daten über ein Online-Portal zur Verfügung, in dem wir die verrechneten Werte runterladen können" },
-        { value: "dienstleister_marktkommunikation", label: "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom Verteilnetzbetreiber/gMSB abruft (Energie-Service-Anbieter / ESA-Dienstleister)" },
+        { value: "dienstleister_marktkommunikation", label: "Für das Abrufen der Daten brauchen wir einen eigenen Dienstleister, der die Daten über die Marktkommunikation vom Verteilnetzbetreiber/gMSB abruft (Energie-Service-Anbieter / ESA-Dienstleister)", tooltip: "Ein ESA-Dienstleister betreibt eine spezielle Software, die es ihm ermöglicht, Daten vom gMSB abzurufen. Gemäß aktueller gesetzlicher Vorgaben ist der gMSB nicht verpflichtet, die Daten direkt und ohne Zusatzkosten an die Betreiber von GGV-Modellen zu liefern." },
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. API-Schnittstelle geplant..." },
       ],
