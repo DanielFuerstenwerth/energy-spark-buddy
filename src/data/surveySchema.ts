@@ -665,6 +665,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       id: "vnbEsaCost",
       type: "single-select",
       label: "C8.1f Falls die Daten von einem Dienstleister über die 'ESA-Marktrolle' abgeholt werden müssen: Verlangt der Verteilnetzbetreiber/gMSB dafür Geld?",
+      tooltip: "Für die Bereitstellung der Daten an einen ESA-Dienstleister darf der gMSB dem ESA-Dienstleister derzeit bis zu 30 EUR/Messstelle pro Jahr in Rechnung stellen (§ 35 Absatz 1 Nr. 2 MSBG). Viele gMSB verzichten auf die Erhebung dieser Gebühr.",
       options: [
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "kostenlos", label: "Nein, das ist kostenlos." },
