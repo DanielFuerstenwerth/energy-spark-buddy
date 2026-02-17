@@ -504,7 +504,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       label: "Informationen zum Messkonzept für die GGV",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zur Webseite des Verteilnetzbetreibers mit Messkonzept..." },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls bekannt bitte Weblink zu Messkonzept angeben..." },
         { value: "nein", label: "Nein" },
       ],
     },
