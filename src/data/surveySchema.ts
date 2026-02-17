@@ -281,6 +281,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "mieterstromBuildingType",
       type: "single-select",
       label: "Art des Gebäudes - Mieterstrom",
+      optional: true,
       options: [
         { value: "wohngebaeude", label: "Wohngebäude" },
         { value: "gewerbe", label: "Gewerbegebäude" },
