@@ -175,3 +175,9 @@ export const MS_IN_OPERATION = (): VisibilityRule => and(
 export const ES_IN_OPERATION = (): VisibilityRule => ({
   field: 'esStatus', op: 'includesAny', values: ['in_betrieb_vollversorgung', 'in_betrieb_42c']
 });
+
+/** At least one selected GGV/MS model is still in planning (not in operation) */
+export const AT_LEAST_ONE_IN_PLANNING = (): VisibilityRule => or(
+  and(PT_GGV(), not(GGV_IN_OPERATION())),
+  and(PT_MS_OR_BOTH(), not(MS_IN_OPERATION()))
+);

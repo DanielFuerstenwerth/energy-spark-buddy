@@ -6,7 +6,7 @@ import {
   VisibilityRule, evaluateRule,
   PT_GGV, PT_MS, PT_MS_OR_BOTH, PT_GGV_OR_MS, PT_ES,
   eq, eqAny, inc, filled, and, or, not,
-  GGV_IN_OPERATION, MS_IN_OPERATION, ES_IN_OPERATION,
+  GGV_IN_OPERATION, MS_IN_OPERATION, ES_IN_OPERATION, AT_LEAST_ONE_IN_PLANNING,
 } from '@/lib/visibilityRules';
 
 export interface SurveyOption {
@@ -339,7 +339,7 @@ const SECTION_PLANNING: SurveySection = {
         { value: "unsicher", label: "Wir sind unsicher: es fehlen noch Informationen für eine finale Entscheidung" },
         { value: "sicher_mieterstrom", label: "Wir sind sicher: es wird/ist Mieterstrom" },
       ],
-      visibilityRule: PT_GGV_OR_MS(),
+      visibilityRule: AT_LEAST_ONE_IN_PLANNING(),
     },
     {
       id: "ggvDecisionReasons",
