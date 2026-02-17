@@ -3,6 +3,7 @@ import { QuestionTag } from "./QuestionTag";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { InlineHintTrigger } from "../InlineHint";
 
 const HARD_LIMIT = 10000;
 const SOFT_LIMIT = 5000;
@@ -14,7 +15,8 @@ interface Option {
   textFieldLabel?: string;
   textFieldHint?: string;
   textFieldPlaceholder?: string;
-  exclusive?: boolean; // If true, selecting this deselects all others
+  exclusive?: boolean;
+  tooltip?: string;
 }
 
 interface MultiSelectQuestionProps {
@@ -106,6 +108,11 @@ export function MultiSelectQuestion({
                 />
                 <span className={cn("text-sm flex-1", isDisabled ? "cursor-not-allowed" : "cursor-pointer")}>
                   {option.label}
+                  {option.tooltip && (
+                    <span onClick={(e) => e.stopPropagation()}>
+                      <InlineHintTrigger text={option.tooltip} />
+                    </span>
+                  )}
                 </span>
               </div>
               {option.hasTextField && isChecked && (
