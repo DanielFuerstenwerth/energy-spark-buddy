@@ -514,7 +514,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       label: "Formulare für die Übermittlung der Teilnehmenden & Aufteilungsschlüssel",
       optional: true,
       options: [
-        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Link zum Formular oder Beschreibung..." },
+        { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls bekannt bitte Weblink zu Formularen o.ä. einfügen..." },
         { value: "nein", label: "Nein" },
       ],
     },
