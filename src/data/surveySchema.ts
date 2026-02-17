@@ -768,7 +768,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
-        { value: "nein_freiwillig", label: "Nein, aber wir haben das freiwillig eingebaut", hasTextField: true, textFieldLabel: "Erläuterung", textFieldPlaceholder: "z.B. für bessere Datenqualität, Zukunftssicherheit..." }, // Korrektur: Neue Option
+        { value: "nein_freiwillig", label: "Nein, aber wir haben den freiwillig eingebaut", hasTextField: true, textFieldLabel: "Erläuterung", textFieldPlaceholder: "z.B. für bessere Datenqualität, Zukunftssicherheit..." }, // Korrektur: Neue Option
         { value: "wissen_nicht", label: "Das wissen wir nicht" },
       ],
     },
