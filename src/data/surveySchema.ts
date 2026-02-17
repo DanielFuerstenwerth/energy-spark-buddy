@@ -603,7 +603,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbAdditionalCostsOneTime",
       type: "number",
-      label: "Einmalbetrag (EUR)",
+      label: "Zusatzkosten 'Einbau auf Kundenwunsch': Einmalbetrag (EUR)",
       placeholder: "z.B. 500",
       optional: true,
       visibilityRule: eq('vnbAdditionalCosts', 'ja'),
@@ -612,7 +612,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
     {
       id: "vnbAdditionalCostsYearly",
       type: "number",
-      label: "Jährlicher Betrag (EUR)",
+      label: "Zusatzkosten 'Einbau auf Kundenwunsch': Jährlicher Betrag (EUR)",
       placeholder: "z.B. 100",
       optional: true,
       visibilityRule: eq('vnbAdditionalCosts', 'ja'),
