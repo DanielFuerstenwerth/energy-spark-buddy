@@ -253,7 +253,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
     {
       id: "mieterstromProjectType",
       type: "single-select",
-      label: "Wie viele Mieterstrom-Projekte planen/betreiben Sie?",
+      label: "Wie viele Mieterstrom-Projekte planen/betreiben Sie? (optional)",
       options: [
         { value: "single", label: "Ein einzelnes Projekt" },
         { value: "multiple", label: "Mehrere Projekte (im Fall von verschiedenen Verteilnetzbetreibern bitte einen zusätzlichen Verteilnetzbetreiber auswählen)" },
