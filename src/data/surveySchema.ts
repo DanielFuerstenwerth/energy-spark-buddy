@@ -688,7 +688,7 @@ const SECTION_GGV_MESSKONZEPT: SurveySection = {
   id: "ggv-messkonzept",
   title: "GGV-Messkonzept",
   description: "Fragen zum Messkonzept und zur Planungsdauer",
-  visibilityRule: eqAny('vnbResponse', ['moeglich_gmssb', 'moeglich_wmsb']),
+  visibilityRule: { field: 'vnbResponse', op: 'includesAny', values: ['moeglich_gmssb', 'moeglich_wmsb'] },
   questions: [
     {
       id: "vnbWandlermessung",
