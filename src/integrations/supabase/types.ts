@@ -287,6 +287,9 @@ export type Database = {
           mieterstrom_existing_projects: string | null
           mieterstrom_existing_projects_virtuell: string | null
           mieterstrom_experiences: string | null
+          mieterstrom_foerderung: string | null
+          mieterstrom_foerderung_nein_grund: string | null
+          mieterstrom_foerderung_nein_grund_other: string | null
           mieterstrom_full_service: string | null
           mieterstrom_in_operation: boolean | null
           mieterstrom_info_sources: string | null
@@ -493,6 +496,9 @@ export type Database = {
           mieterstrom_existing_projects?: string | null
           mieterstrom_existing_projects_virtuell?: string | null
           mieterstrom_experiences?: string | null
+          mieterstrom_foerderung?: string | null
+          mieterstrom_foerderung_nein_grund?: string | null
+          mieterstrom_foerderung_nein_grund_other?: string | null
           mieterstrom_full_service?: string | null
           mieterstrom_in_operation?: boolean | null
           mieterstrom_info_sources?: string | null
@@ -699,6 +705,9 @@ export type Database = {
           mieterstrom_existing_projects?: string | null
           mieterstrom_existing_projects_virtuell?: string | null
           mieterstrom_experiences?: string | null
+          mieterstrom_foerderung?: string | null
+          mieterstrom_foerderung_nein_grund?: string | null
+          mieterstrom_foerderung_nein_grund_other?: string | null
           mieterstrom_full_service?: string | null
           mieterstrom_in_operation?: boolean | null
           mieterstrom_info_sources?: string | null

@@ -151,6 +151,9 @@ export interface SurveyData {
   mieterstromMsbCostsOther?: string;
   mieterstromModelChoice?: string;
   mieterstromDataProvision?: string;
+  mieterstromFoerderung?: string;
+  mieterstromFoerderungNeinGrund?: string;
+  mieterstromFoerderungNeinGrundOther?: string;
 
   // Section 5-MS: Betrieb Mieterstrom
   mieterstromVnbRole?: string;
