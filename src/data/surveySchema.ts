@@ -866,6 +866,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "wissen_nicht", label: "Wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. API-Schnittstelle, manuelle Übermittlung..." },
       ],
+      visibilityRule: eq('operationMsbProvider', 'gmsb'), // Fix Issue 1: Nur sichtbar wenn gMSB gewählt
     },
     {
       id: "operationDataCost",
@@ -899,7 +900,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "weniger_3_eur", label: "Ja, dafür verlangt er weniger (oder gleich) 3 EUR/Messstelle/Jahr" },
         { value: "mehr_3_eur", label: "Ja, dafür verlangt er mehr als 3 EUR/Messstelle/Jahr" },
       ],
-      visibilityRule: eq('operationDataProvider', 'gmsb'),
+      visibilityRule: eq('operationMsbProvider', 'gmsb'), // Fix Issue 2: gMSB-Pfad korrekt an operationMsbProvider binden
     },
     {
       id: "operationEsaCostAmount",
