@@ -321,7 +321,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       type: "single-select",
       label: "Warum keine Förderung?",
       options: [
-        { value: "beantragt_nicht_geklappt", label: "Wir haben das beantragt, aber es hat nicht geklappt", hasTextField: true, textFieldLabel: "Begründung", textFieldPlaceholder: "Bitte beschreiben Sie die Gründe..." },
+        { value: "beantragt_nicht_geklappt", label: "Wir würden gerne, aber das war/ist nicht so einfach", hasTextField: true, textFieldLabel: "Begründung", textFieldPlaceholder: "Bitte beschreiben Sie die Gründe..." },
         { value: "bewusst_dagegen", label: "Wir haben uns bewusst dagegen entschieden", hasTextField: true, textFieldLabel: "Begründung", textFieldPlaceholder: "Bitte beschreiben Sie die Gründe..." },
       ],
       optional: true,
