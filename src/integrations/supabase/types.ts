@@ -234,6 +234,7 @@ export type Database = {
           confirmation_for_update: string | null
           contact_email: string | null
           created_at: string
+          draft_token: string | null
           es_capacity_size_kw: number | null
           es_consumer_details: string | null
           es_consumer_scope: string | null
@@ -352,6 +353,7 @@ export type Database = {
           service_provider_comments: string | null
           service_provider_name: string | null
           session_group_id: string | null
+          status: string
           survey_improvements: string | null
           uploaded_documents: string[] | null
           vnb_additional_costs: string | null
@@ -407,6 +409,7 @@ export type Database = {
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
+          draft_token?: string | null
           es_capacity_size_kw?: number | null
           es_consumer_details?: string | null
           es_consumer_scope?: string | null
@@ -525,6 +528,7 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
+          status?: string
           survey_improvements?: string | null
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
@@ -580,6 +584,7 @@ export type Database = {
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
+          draft_token?: string | null
           es_capacity_size_kw?: number | null
           es_consumer_details?: string | null
           es_consumer_scope?: string | null
@@ -698,6 +703,7 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
+          status?: string
           survey_improvements?: string | null
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
