@@ -136,14 +136,31 @@ export default function Survey() {
       const mergedSubmissions = getMergedSubmissions();
       
       // Maßnahme 8: Validierung blockiert Submit bei kritischen Fehlern
-      for (const submission of mergedSubmissions) {
+      for (let i = 0; i < mergedSubmissions.length; i++) {
+        const submission = mergedSubmissions[i];
         const validation = validateSurveyData(submission);
         if (!validation.success) {
           const requiredErrors = validation.errors.filter(e => 
             e.message.includes('Required') || e.message.includes('invalid_type')
           );
           if (requiredErrors.length > 0) {
-            toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${requiredErrors.map(e => e.field).join(', ')}`);
+            const evalIndex = i;
+            const fieldNames = requiredErrors.map(e => e.field).join(', ');
+            toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldNames}`, {
+              duration: 8000,
+              action: {
+                label: 'Zur Bewertung springen',
+                onClick: () => {
+                  setActiveEvaluationIndex(evalIndex);
+                  // Navigate to "project" step (index 1) as most required fields are there
+                  const projectStepIndex = steps.findIndex(s => s.id === 'project');
+                  if (projectStepIndex >= 0) {
+                    setCurrentStep(projectStepIndex);
+                    window.scrollTo(0, 0);
+                  }
+                },
+              },
+            });
             setIsSubmitting(false);
             return; // Block submit
           }
