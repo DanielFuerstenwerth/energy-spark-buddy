@@ -102,53 +102,79 @@ const Admin = () => {
             Zurück zur Startseite
           </Button>
           
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Shield className="w-6 h-6 text-primary" />
-                Sandra Chatbot - Admin Dashboard
-              </CardTitle>
-              <CardDescription>
-                Verwalte Chat-Statistiken und schaue dir die Konversationen an
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Button
-                onClick={handleExport}
-                disabled={exporting}
-                variant="outline"
-                className="gap-2"
-              >
-                {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
-              </Button>
-              <p className="text-xs text-muted-foreground mt-2">
-                CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel mit korrekten Umlauten.
-              </p>
-            </CardContent>
-          </Card>
+          <Tabs defaultValue="survey" className="space-y-6">
+            <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2">
+              <TabsTrigger value="survey" className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                Umfrage-Daten
+              </TabsTrigger>
+              <TabsTrigger value="chatbot" className="flex items-center gap-2">
+                <MessageSquare className="w-4 h-4" />
+                Sandra Chatbot
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="survey" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Umfrage GGV & Co – Datenexport</CardTitle>
+                  <CardDescription>
+                    Exportiere alle eingegangenen Umfrage-Antworten als CSV-Datei.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button
+                    onClick={handleExport}
+                    disabled={exporting}
+                    variant="outline"
+                    className="gap-2"
+                  >
+                    {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                    {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
+                  </Button>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel mit korrekten Umlauten.
+                  </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="chatbot" className="space-y-6">
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    Sandra Chatbot – Dashboard
+                  </CardTitle>
+                  <CardDescription>
+                    Chat-Statistiken und Konversationsverläufe
+                  </CardDescription>
+                </CardHeader>
+              </Card>
+
+              <Tabs defaultValue="stats" className="space-y-6">
+                <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2">
+                  <TabsTrigger value="stats" className="flex items-center gap-2">
+                    <BarChart3 className="w-4 h-4" />
+                    Statistiken
+                  </TabsTrigger>
+                  <TabsTrigger value="history" className="flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4" />
+                    Chat-Verläufe
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="stats" className="space-y-6">
+                  <FeedbackStats />
+                </TabsContent>
+
+                <TabsContent value="history" className="space-y-6">
+                  <ChatHistory />
+                </TabsContent>
+              </Tabs>
+            </TabsContent>
+          </Tabs>
         </div>
-
-        <Tabs defaultValue="stats" className="space-y-6">
-          <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2">
-            <TabsTrigger value="stats" className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Statistiken
-            </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" />
-              Chat-Verläufe
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="stats" className="space-y-6">
-            <FeedbackStats />
-          </TabsContent>
-
-          <TabsContent value="history" className="space-y-6">
-            <ChatHistory />
-          </TabsContent>
-        </Tabs>
       </main>
     </div>
   );
