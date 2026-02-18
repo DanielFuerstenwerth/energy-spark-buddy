@@ -111,6 +111,7 @@ export interface SurveyData {
   operationWandlermessungComment?: string;
   operationMsbProvider?: string;
   operationAllocationProvider?: string;
+  operationAllocationProviderOther?: string;
   operationDataProvider?: string;
   operationDataProviderOther?: string;
   operationMsbDuration?: string;
