@@ -149,6 +149,42 @@ export type Database = {
         }
         Relationships: []
       }
+      data_inputs: {
+        Row: {
+          category: string
+          category_other: string | null
+          contact_email: string | null
+          contact_name: string | null
+          created_at: string
+          description: string
+          id: string
+          status: string
+          uploaded_files: string[] | null
+        }
+        Insert: {
+          category: string
+          category_other?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          status?: string
+          uploaded_files?: string[] | null
+        }
+        Update: {
+          category?: string
+          category_other?: string | null
+          contact_email?: string | null
+          contact_name?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          status?: string
+          uploaded_files?: string[] | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           conversation_id: string

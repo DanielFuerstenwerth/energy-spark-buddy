@@ -3,6 +3,8 @@ import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { ClipboardList, Upload } from "lucide-react";
 
 const Mitmachen = () => {
   return (
@@ -40,10 +42,9 @@ const Mitmachen = () => {
                   1
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1">Umfrage ausfüllen</h3>
+                  <h3 className="font-semibold mb-1">Umfrage ausfüllen oder Daten einreichen</h3>
                   <p className="text-sm text-muted-foreground">
-                    Beantworten Sie Fragen zu Ihren Erfahrungen mit einem VNB (Anschlussdauer, Digitalisierung,
-                    Flexibilität).
+                    Beantworten Sie unsere strukturierte Umfrage oder reichen Sie Dokumente und Erfahrungsberichte direkt ein.
                   </p>
                 </div>
               </div>
@@ -55,8 +56,7 @@ const Mitmachen = () => {
                 <div>
                   <h3 className="font-semibold mb-1">Evidenzen hochladen</h3>
                   <p className="text-sm text-muted-foreground">
-                    Optional: Fügen Sie Belege hinzu (E-Mails, Screenshots, Dokumente) – natürlich ohne personenbezogene
-                    Daten.
+                    Optional: Fügen Sie Belege hinzu (E-Mails, Screenshots, Dokumente).
                   </p>
                 </div>
               </div>
@@ -79,14 +79,24 @@ const Mitmachen = () => {
             <CardHeader>
               <CardTitle>Jetzt Daten liefern</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="mb-6 opacity-90">
-                Die ersten Umfragen werden hier bald verfügbar sein. Registrieren Sie sich für Updates oder kontaktieren
-                Sie uns direkt.
+            <CardContent className="space-y-4">
+              <p className="opacity-90">
+                Wählen Sie, wie Sie Ihre Erfahrungen teilen möchten:
               </p>
-              <Button variant="secondary" size="lg">
-                Dateneingabe (wird 2026 aktiviert)
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button variant="secondary" size="lg" asChild>
+                  <Link to="/Umfrage-GGV">
+                    <ClipboardList className="h-4 w-4 mr-2" />
+                    Umfrage GGV & Co ausfüllen
+                  </Link>
+                </Button>
+                <Button variant="secondary" size="lg" asChild>
+                  <Link to="/dateninput">
+                    <Upload className="h-4 w-4 mr-2" />
+                    Daten & Dokumente einreichen
+                  </Link>
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
@@ -96,10 +106,10 @@ const Mitmachen = () => {
             </CardHeader>
             <CardContent>
               <ul className="space-y-2 text-muted-foreground">
-                <li>✓ Alle Eingaben werden anonymisiert</li>
-                <li>✓ Keine personenbezogenen Daten werden gespeichert</li>
-                <li>✓ Optional: Kontaktdaten nur für Rückfragen (getrennt gespeichert)</li>
-                <li>✓ Evidenzen werden auf PII geprüft</li>
+                <li>✓ Alle Eingaben werden anonymisiert ausgewertet und veröffentlicht</li>
+                <li>✓ Kontaktdaten (E-Mail) werden nur für Rückfragen genutzt und nicht veröffentlicht</li>
+                <li>✓ Löschung Ihrer Daten jederzeit möglich auf Anfrage an <a href="mailto:vnb-transparenz@1000gw.de" className="underline hover:text-foreground">vnb-transparenz@1000gw.de</a></li>
+                <li>✓ Hochgeladene Evidenzen sind nur für das Redaktionsteam einsehbar</li>
               </ul>
             </CardContent>
           </Card>

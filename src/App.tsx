@@ -22,6 +22,7 @@ import Reply from "./pages/Reply";
 import Survey from "./pages/Survey";
 
 import SurveyDocumentation from "./pages/SurveyDocumentation";
+import Dateninput from "./pages/Dateninput";
 import NotFound from "./pages/NotFound";
 import AnliegenGgv from "./pages/anliegen/Ggv";
 import AnliegenZvne from "./pages/anliegen/Zvne";
@@ -73,6 +74,7 @@ const App = () => (
           <Route path="/reply" element={<Reply />} />
           <Route path="/Umfrage-GGV" element={<Survey />} />
           <Route path="/Umfrage-GGV/dokumentation" element={<SurveyDocumentation />} />
+          <Route path="/dateninput" element={<Dateninput />} />
           
           {/* Temporäre Redirects – nach Juli 2026 entfernen */}
           <Route path="/umfrage" element={<Navigate to="/Umfrage-GGV" replace />} />

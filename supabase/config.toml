@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.export-survey]
 verify_jwt = false
+
+[functions.submit-data-input]
+verify_jwt = false
