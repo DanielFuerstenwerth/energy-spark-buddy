@@ -129,6 +129,12 @@ const Methodik = () => {
             <CardContent>
               <div className="space-y-3">
                 <div>
+                  <div className="text-sm font-semibold">v0.2 – 2026-02-18</div>
+                  <p className="text-sm text-muted-foreground">
+                    Platzhalter: Beschreibe hier die Änderungen der neuen Version.
+                  </p>
+                </div>
+                <div>
                   <div className="text-sm font-semibold">v0.1 – 2025-10-20</div>
                   <p className="text-sm text-muted-foreground">
                     v0.1 - 2025-11-01 Kategoriesierung aktualisiert auf 4 Kategorien fokussiert auf Benutzergruppen.
