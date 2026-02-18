@@ -312,6 +312,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
       optional: true,
       visibilityRule: PT_MS(),
@@ -486,6 +487,7 @@ const SECTION_VNB_PLANNING_GGV: SurveySection = {
         { value: "moeglich_wmsb", label: "Die GGV ist umsetzbar – dafür brauchen wir aber zwingend einen wettbewerblichen Messstellenbetreiber (wMSB), da der Verteilnetzbetreiber dies als gMSB nicht umsetzen kann" },
         { value: "nicht_moeglich", label: "Unser Verteilnetzbetreiber sagt, dass eine Umsetzung derzeit nicht möglich ist - auch nicht mit einem wMSB", hasTextField: true, textFieldLabel: "Gründe des Verteilnetzbetreibers", textFieldPlaceholder: "z.B. IT-Systeme nicht bereit, Summenzähler nicht unterstützt..." },
         { value: "keine_antwort", label: "Unser Verteilnetzbetreiber hat auf unsere Anfrage bisher nicht geantwortet", hasTextField: true, textFieldLabel: "Details zur Anfrage", textFieldPlaceholder: "z.B. seit wann, wie und an wen die Anfrage gestellt wurde..." },
+        { value: "weiss_nicht", label: "Das wissen wir noch nicht" },
       ],
     },
     {
@@ -530,6 +532,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls bekannt bitte Weblink zu Messkonzept angeben..." },
         { value: "nein", label: "Nein" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -540,6 +543,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls bekannt bitte Weblink zu Formularen o.ä. einfügen..." },
         { value: "nein", label: "Nein" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -550,6 +554,7 @@ const SECTION_VNB_SUPPORT: SurveySection = {
       options: [
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "Falls vorhanden bitte Weblink zu öffentlich verfügbaren Informationen hinzufügen" },
         { value: "nein", label: "Nein" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -609,6 +614,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
         { value: "zeitnah", label: "Zeitnah, wir warten auf den Start" },
         { value: "12_monate", label: "In den nächsten 12 Monaten" },
         { value: "spaeter", label: "In mehr als 12 Monaten" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. abhängig von IT-Umstellung des Verteilnetzbetreibers..." },
       ],
       // Section-Gate (vnbResponse='moeglich_gmssb') macht individuelle Rule überflüssig
@@ -649,6 +655,7 @@ const SECTION_VNB_MSB_DETAILS: SurveySection = {
       options: [
         { value: "nur_full_service", label: "Unser Stadtwerk/Verteilnetzbetreiber bietet den Messstellenbetrieb in der GGV nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk" },
         { value: "auch_ohne", label: "Unser Stadtwerk/Verteilnetzbetreiber bietet die Zusammenarbeit an der GGV auch an, ohne selber den Strom zu verkaufen" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -814,6 +821,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
       options: [
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der Verteilnetzbetreiber)" },
         { value: "wmsb", label: "Ein wMSB" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -824,6 +832,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "gmsb", label: "Unser lokaler gMSB (meist das gleiche Unternehmen wie der Verteilnetzbetreiber)" }, // Korrektur: Label
         { value: "wmsb", label: "Ein wMSB" },
         { value: "sonstiges", label: "Ein Dienstleister / Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Name des Dienstleisters..." }, // Korrektur: Label
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -835,6 +844,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "wmsb", label: "Ein wMSB" },
         { value: "dienstleister", label: "ESA-Dienstleister / Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Name des ESA-Dienstleisters..." }, // Korrektur: Neue Option
         { value: "abrechnung_dienstleister", label: "Wir benötigen keine detaillierten Werte - die Abrechnung wird direkt von einem Dienstleister durchgeführt." }, // Korrektur: Neue Option
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -903,6 +913,7 @@ const SECTION_GGV_OPERATION: SurveySection = {
         { value: "weniger_3_eur", label: "Dauerhaft weniger (oder gleich) 3 EUR/Messstelle pro Jahr" },
         { value: "mehr_3_eur", label: "Dauerhaft mehr als 3 EUR/Messstelle pro Jahr" },
         { value: "aktuell_kostenlos", label: "Aktuell kostenlos, das wird sich aber ändern" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
         { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Staffelpreise, Einmalkosten..." },
       ],
       visibilityRule: eq('operationDataProvider', 'gmsb'),
@@ -1081,6 +1092,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       options: [
         { value: "nein", label: "Nein" },
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Verteilnetzbetreiber verlangt Wandlermessung trotz virtuellem Modell..." },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
       visibilityRule: eq('mieterstromVirtuellAllowed', 'ja'),
     },
@@ -1134,6 +1146,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
       options: [
         { value: "nur_full_service", label: "Unser Stadtwerk/Verteilnetzbetreiber bietet den Messstellenbetrieb nur in Kombination mit einem Full-Service-Angebot an - also inkl. der Stromlieferung durch das Stadtwerk." },
         { value: "auch_ohne", label: "Unser Stadtwerk/Verteilnetzbetreiber bietet dies auch an, ohne selber Strom zu liefern." }, // Korrektur: Label
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -1173,6 +1186,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
         { value: "virtuell", label: "Einen 'virtuellen Summenzähler' mit Smart Metern - die Installation einer Wandlermessung am Hausanschluss ('physikalischer Summenzähler' für >5.000 EUR) bleibt uns damit erspart" },
         { value: "physikalisch", label: "Nur das sogenannte 'physikalische Summenzählermodell' (erfordert einen 'physikalischen Summenzähler' für >5.000 EUR)" }, // Korrektur: Label
         { value: "beide", label: "Beide Modelle" }, // Korrektur: Neue Option
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
@@ -1183,6 +1197,7 @@ const SECTION_MIETERSTROM_VNB_OFFER: SurveySection = {
         { value: "direkt_guenstig", label: "Der Verteilnetzbetreiber/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) – kostenlos oder für weniger (oder gleich) 3 EUR/Messstelle/Jahr" }, // Korrektur: Label
         { value: "direkt_teuer", label: "Der Verteilnetzbetreiber/gMSB stellt uns die Daten direkt zur Verfügung (Excel-Listen, Online-Portal o.ä.) - verlangt dafür mehr als 3 EUR/Messstelle/Jahr" },
         { value: "marktkommunikation", label: "Der Verteilnetzbetreiber/gMSB stellt die Daten lediglich über die Marktkommunikation zur Verfügung, wir brauchen einen Dienstleister für das Abrufen der Daten" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
   ],
@@ -1204,6 +1219,7 @@ const SECTION_MIETERSTROM_OPERATION: SurveySection = {
         { value: "msb_dienstleister", label: "Der Verteilnetzbetreiber/gMSB ist Messstellenbetreiber, ein Dienstleister stellt uns die Daten für die Abrechnung zur Verfügung" },
         { value: "msb_direkt", label: "Der Verteilnetzbetreiber/gMSB ist Messstellenbetreiber und stellt uns die Daten für die Abrechnung direkt zur Verfügung" },
         { value: "full_service", label: "Das Stadtwerk (oder ein mit dem Verteilnetzbetreiber verbundenes Unternehmen) übernimmt das ganze Projekt, inkl. der gesamten Stromlieferung und Abrechnung mit den Teilnehmenden" },
+        { value: "weiss_nicht", label: "Das wissen wir nicht" },
       ],
     },
     {
