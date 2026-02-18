@@ -158,7 +158,7 @@ Deno.serve(async (req) => {
         validationErrors.push(`Submission ${i}: ${validation.errors.join(", ")}`);
       }
 
-      sanitizedRows.push(sanitizeRow(sub as Record<string, unknown>));
+      sanitizedRows.push({ ...sanitizeRow(sub as Record<string, unknown>), status: "submitted" });
     }
 
     if (validationErrors.length > 0) {
