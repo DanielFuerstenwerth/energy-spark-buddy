@@ -96,7 +96,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // 5. Generate CSV with UTF-8 BOM (so Excel opens it correctly with umlauts)
+    // 5. Generate TRANSPOSED CSV (fields as rows, projects as columns)
+    // UTF-8 BOM + semicolon separator (Excel default for German locale)
     const allKeys = Object.keys(responses[0]);
     
     const escapeCsv = (val: unknown): string => {
@@ -108,12 +109,22 @@ Deno.serve(async (req) => {
       return str;
     };
 
-    const headerRow = allKeys.map(escapeCsv).join(";");
-    const dataRows = responses.map((row: Record<string, unknown>) =>
-      allKeys.map((key) => escapeCsv(row[key])).join(";")
-    );
+    // Build project labels for column headers
+    const projectHeaders = responses.map((r: Record<string, unknown>, i: number) => {
+      const label = r.evaluation_label || r.vnb_name || `Projekt ${i + 1}`;
+      return escapeCsv(label);
+    });
 
-    // UTF-8 BOM + semicolon separator (Excel default for German locale)
+    // First column header = "Feld", then one column per project
+    const headerRow = ["Feld", ...projectHeaders].join(";");
+
+    // One row per field, with values from each project
+    const dataRows = allKeys.map((key) => {
+      const fieldName = escapeCsv(key);
+      const values = responses.map((r: Record<string, unknown>) => escapeCsv(r[key]));
+      return [fieldName, ...values].join(";");
+    });
+
     const bom = "\uFEFF";
     const csv = bom + [headerRow, ...dataRows].join("\n");
 
