@@ -93,7 +93,7 @@ const Mitmachen = () => {
                 <Button variant="secondary" size="lg" asChild>
                   <Link to="/dateninput">
                     <Upload className="h-4 w-4 mr-2" />
-                    Daten & Dokumente einreichen
+                    Erfahrungen & Belege melden
                   </Link>
                 </Button>
               </div>
