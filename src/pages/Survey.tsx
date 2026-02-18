@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
 import { validateSurveyData } from "@/lib/surveyValidation";
-import { buildDbData, surveyDefinition } from "@/data/surveySchema";
+import { buildDbData, surveyDefinition, getHumanLabel } from "@/data/surveySchema";
 import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
@@ -152,8 +152,8 @@ export default function Survey() {
         );
         if (requiredErrors.length > 0) {
           const evalIndex = i;
-          const fieldNames = requiredErrors.map(e => e.field).join(', ');
-          toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldNames}`, {
+          const fieldLabels = requiredErrors.map(e => getHumanLabel(e.field));
+          toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldLabels.join(', ')}`, {
             duration: Infinity,
             action: {
               label: 'Zur Bewertung springen',
@@ -169,9 +169,9 @@ export default function Survey() {
           });
           return; // Block submit
         }
-        // Collect non-critical warnings
-        const fieldNames = validation.errors.map(e => e.field).join(', ');
-        warnings.push(`„${submission.evaluationLabel}": ${fieldNames}`);
+        // Collect non-critical warnings as human-readable list
+        const fieldLabels = validation.errors.map(e => getHumanLabel(e.field));
+        warnings.push(`„${submission.evaluationLabel}":\n${fieldLabels.map(l => `• ${l}`).join('\n')}`);
       }
     }
 
@@ -380,10 +380,22 @@ export default function Survey() {
                 <p>
                   Folgende Bereiche sind möglicherweise unvollständig:
                 </p>
-                <ul className="list-disc pl-5 space-y-1 text-sm">
-                  {validationWarnings.map((w, i) => (
-                    <li key={i}>{w}</li>
-                  ))}
+                <ul className="list-none space-y-3 text-sm">
+                  {validationWarnings.map((w, i) => {
+                    const [title, ...items] = w.split('\n');
+                    return (
+                      <li key={i}>
+                        <span className="font-medium">{title}</span>
+                        {items.length > 0 && (
+                          <ul className="list-none pl-2 mt-1 space-y-0.5 text-muted-foreground">
+                            {items.map((item, j) => (
+                              <li key={j}>{item}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
                 <p className="text-sm">
                   Sie können Ihre Eingaben überprüfen und ergänzen, oder die Umfrage so absenden wie sie ist.
