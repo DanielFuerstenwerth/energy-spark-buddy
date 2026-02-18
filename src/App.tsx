@@ -72,6 +72,7 @@ const App = () => (
           <Route path="/mitmachen" element={<Mitmachen />} />
           <Route path="/reply" element={<Reply />} />
           <Route path="/umfrage" element={<Survey />} />
+          <Route path="/Umfrage-GGV" element={<Survey />} />
           
           <Route path="/umfrage/dokumentation" element={<SurveyDocumentation />} />
           {/* /umfrage/audit is served as static HTML from public/umfrage/audit/index.html */}
