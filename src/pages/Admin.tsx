@@ -8,10 +8,12 @@ import AdminHeader from '@/components/AdminHeader';
 import FeedbackStats from '@/components/admin/FeedbackStats';
 import ChatHistory from '@/components/admin/ChatHistory';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { useSessionTimeout } from '@/hooks/useSessionTimeout';
 
 const Admin = () => {
   const navigate = useNavigate();
   const { isAdmin, loading, user } = useIsAdmin();
+  useSessionTimeout(isAdmin);
 
   useEffect(() => {
     if (!loading && !user) {
