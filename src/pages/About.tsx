@@ -21,9 +21,16 @@ const About = () => {
                 VNB-Transparenz ist eine unabhängige Initiative zur Schaffung von Transparenz über die Performance
                 deutscher Verteilnetzbetreiber.
               </p>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground mb-4">
                 Wir sind keine amtliche Stelle, sondern eine Community-getriebene Plattform, die auf offenen Daten und
                 Erfahrungsberichten basiert.
+              </p>
+              <p className="text-muted-foreground mb-4">
+                Wir beabsichtigen, die „Initiative zukunftsfähige Verteilnetze gUG" als gemeinnützige Trägerorganisation
+                in Form einer gUG im März 2026 zu gründen. Die Geschäftsführung wird initial die 1000GW Institut gUG übernehmen.
+              </p>
+              <p className="text-muted-foreground">
+                Verantwortlich für die Inhalte dieser Seite ist die 1000GW GmbH, Geschäftsführer Daniel Fürstenwerth.
               </p>
             </CardContent>
           </Card>
