@@ -321,6 +321,7 @@ export type Database = {
           motivation_other: string | null
           nps_score: number | null
           operation_allocation_provider: string | null
+          operation_allocation_provider_other: string | null
           operation_data_cost: string | null
           operation_data_cost_amount: number | null
           operation_data_format: string | null
@@ -493,6 +494,7 @@ export type Database = {
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
+          operation_allocation_provider_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
@@ -665,6 +667,7 @@ export type Database = {
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
+          operation_allocation_provider_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
