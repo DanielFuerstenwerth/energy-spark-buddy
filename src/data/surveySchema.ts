@@ -1816,6 +1816,23 @@ export function getDisplayId(questionId: string): string {
   return QUESTION_REGISTRY[questionId]?.displayId || questionId;
 }
 
+// Helper: Get human-readable label for a question (uiNumber + short label)
+export function getHumanLabel(questionId: string): string {
+  const reg = QUESTION_REGISTRY[questionId];
+  const uiNumber = reg?.uiNumber;
+  // Find the question label from the schema
+  for (const section of surveyDefinition.sections) {
+    for (const q of section.questions) {
+      if (q.id === questionId) {
+        const shortLabel = q.label.length > 60 ? q.label.slice(0, 57) + '…' : q.label;
+        return uiNumber ? `${uiNumber} – ${shortLabel}` : shortLabel;
+      }
+    }
+  }
+  // Fallback: use uiNumber + displayId or raw id
+  return uiNumber ? `Frage ${uiNumber}` : questionId;
+}
+
 // Helper: Get DB column for a question
 export function getDbColumn(questionId: string): string {
   return QUESTION_REGISTRY[questionId]?.dbColumn || toSnakeCase(questionId);
