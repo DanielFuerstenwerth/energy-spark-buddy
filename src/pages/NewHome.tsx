@@ -20,7 +20,7 @@ const NewHome = () => {
               <Link to="/methodik" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                 Methodik
               </Link>
-              <Link to="/umfrage" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+              <Link to="/Umfrage-GGV" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                 Umfrage
               </Link>
               <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">

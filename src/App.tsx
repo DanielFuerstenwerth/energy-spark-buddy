@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NewHome from "./pages/NewHome";
 import UniversalCategory from "./pages/UniversalCategory";
 import UniversalSubcategoryPage from "./pages/UniversalSubcategoryPage";
@@ -71,10 +71,12 @@ const App = () => (
           <Route path="/methodik" element={<Methodik />} />
           <Route path="/mitmachen" element={<Mitmachen />} />
           <Route path="/reply" element={<Reply />} />
-          <Route path="/umfrage" element={<Survey />} />
           <Route path="/Umfrage-GGV" element={<Survey />} />
+          <Route path="/Umfrage-GGV/dokumentation" element={<SurveyDocumentation />} />
           
-          <Route path="/umfrage/dokumentation" element={<SurveyDocumentation />} />
+          {/* Temporäre Redirects – nach Juli 2026 entfernen */}
+          <Route path="/umfrage" element={<Navigate to="/Umfrage-GGV" replace />} />
+          <Route path="/umfrage/dokumentation" element={<Navigate to="/Umfrage-GGV/dokumentation" replace />} />
           {/* /umfrage/audit is served as static HTML from public/umfrage/audit/index.html */}
           <Route path="/about" element={<About />} />
           <Route path="/impressum" element={<Impressum />} />
