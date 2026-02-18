@@ -1824,13 +1824,21 @@ export function getHumanLabel(questionId: string): string {
   for (const section of surveyDefinition.sections) {
     for (const q of section.questions) {
       if (q.id === questionId) {
-        const shortLabel = q.label.length > 60 ? q.label.slice(0, 57) + '…' : q.label;
-        return uiNumber ? `${uiNumber} – ${shortLabel}` : shortLabel;
+        const shortLabel = q.label.length > 80 ? q.label.slice(0, 77) + '…' : q.label;
+        return uiNumber ? `Frage ${uiNumber}: ${shortLabel}` : shortLabel;
       }
     }
   }
-  // Fallback: use uiNumber + displayId or raw id
-  return uiNumber ? `Frage ${uiNumber}` : questionId;
+  // Fallback for companion fields: try to find parent question
+  // e.g. "mieterstromProjectLocations" → look for related question
+  if (uiNumber) return `Frage ${uiNumber}`;
+  
+  // Last resort: make camelCase more readable
+  const readable = questionId
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, s => s.toUpperCase())
+    .trim();
+  return readable;
 }
 
 // Helper: Get DB column for a question
