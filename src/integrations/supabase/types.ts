@@ -230,12 +230,7 @@ export type Database = {
           actor_types: string[] | null
           additional_experiences: string | null
           challenges: string[] | null
-          challenges_costs_high: string | null
           challenges_details: Json | null
-          challenges_opposition: string | null
-          challenges_other: string | null
-          challenges_pv_installation: string | null
-          challenges_vnb_blocking: string | null
           confirmation_for_update: string | null
           contact_email: string | null
           created_at: string
@@ -258,11 +253,8 @@ export type Database = {
           es_status: string[] | null
           es_status_other: string | null
           es_technology_description: string | null
-          es_total_pv_size_kw: number | null
-          es_total_wind_size_kw: number | null
           es_vnb_contact: boolean | null
           es_vnb_response: string | null
-          es_vnb_response_details: string | null
           es_vnb_response_other: string | null
           evaluation_label: string | null
           ggv_additional_info: string | null
@@ -270,7 +262,6 @@ export type Database = {
           ggv_building_type: string | null
           ggv_decision_reasons: string[] | null
           ggv_decision_reasons_other: string | null
-          ggv_in_operation: boolean | null
           ggv_or_mieterstrom_decision: string | null
           ggv_party_count: number | null
           ggv_project_type: string | null
@@ -291,7 +282,6 @@ export type Database = {
           mieterstrom_foerderung_nein_grund: string | null
           mieterstrom_foerderung_nein_grund_other: string | null
           mieterstrom_full_service: string | null
-          mieterstrom_in_operation: boolean | null
           mieterstrom_info_sources: string | null
           mieterstrom_model_choice: string | null
           mieterstrom_msb_costs: string | null
@@ -312,14 +302,13 @@ export type Database = {
           mieterstrom_rejection_response_other: string | null
           mieterstrom_summenzaehler: string | null
           mieterstrom_support_rating: number | null
-          mieterstrom_survey_improvements: string | null
           mieterstrom_virtuell_allowed: string | null
           mieterstrom_virtuell_denied_documents: string[] | null
           mieterstrom_virtuell_denied_reason: string | null
           mieterstrom_virtuell_wandlermessung: string | null
           mieterstrom_virtuell_wandlermessung_comment: string | null
           mieterstrom_virtuell_wandlermessung_documents: string[] | null
-          mieterstrom_vnb_contact: string | null
+          mieterstrom_vnb_contact: string[] | null
           mieterstrom_vnb_contact_other: string | null
           mieterstrom_vnb_duration: string | null
           mieterstrom_vnb_duration_reasons: string | null
@@ -332,35 +321,24 @@ export type Database = {
           motivation_other: string | null
           nps_score: number | null
           operation_allocation_provider: string | null
-          operation_allocation_who: string | null
-          operation_allocation_who_details: string | null
-          operation_allocation_who_other: string | null
           operation_data_cost: string | null
           operation_data_cost_amount: number | null
           operation_data_format: string | null
           operation_data_format_other: string | null
-          operation_data_method: string | null
-          operation_data_method_other: string | null
           operation_data_provider: string | null
           operation_data_provider_other: string | null
-          operation_direct_data_cost: string | null
-          operation_direct_data_cost_amount: number | null
           operation_esa_cost: string | null
           operation_esa_cost_amount: number | null
-          operation_esa_role_cost: string | null
-          operation_esa_role_cost_amount: number | null
           operation_msb_additional_costs: string | null
           operation_msb_additional_costs_one_time: number | null
           operation_msb_additional_costs_yearly: number | null
           operation_msb_duration: string | null
           operation_msb_provider: string | null
           operation_satisfaction_rating: number | null
-          operation_start_date: string | null
           operation_vnb_duration: string | null
           operation_vnb_duration_reasons: string | null
           operation_wandlermessung: string | null
           operation_wandlermessung_comment: string | null
-          operation_wandlermessung_freiwillig: string | null
           planning_status: string[] | null
           planning_status_other: string | null
           project_address: string | null
@@ -370,7 +348,6 @@ export type Database = {
           project_types: string[] | null
           service_provider_2_comments: string | null
           service_provider_2_name: string | null
-          service_provider_2_rating: number | null
           service_provider_comments: string | null
           service_provider_name: string | null
           session_group_id: string | null
@@ -385,37 +362,19 @@ export type Database = {
           vnb_contact_other: string | null
           vnb_data_cost: string | null
           vnb_data_cost_amount: number | null
-          vnb_data_format: string | null
-          vnb_data_provision: string | null
-          vnb_data_provision_method: string | null
+          vnb_data_provision: string[] | null
           vnb_data_provision_other: string | null
-          vnb_direct_data_cost: string | null
-          vnb_direct_data_cost_amount: number | null
           vnb_esa_cost: string | null
           vnb_esa_cost_amount: number | null
-          vnb_esa_role_cost: string | null
-          vnb_esa_role_cost_amount: number | null
           vnb_existing_projects: string | null
           vnb_existing_projects_other: string | null
           vnb_full_service: string | null
-          vnb_full_service_condition: string | null
-          vnb_ggv_possible: string | null
-          vnb_ggv_possible_reasons: string | null
-          vnb_info_available: string | null
-          vnb_info_available_other: string | null
-          vnb_msb_additional_costs: string | null
-          vnb_msb_additional_costs_one_time: number | null
-          vnb_msb_additional_costs_yearly: number | null
-          vnb_msb_start_timeline: string | null
-          vnb_msb_start_timeline_other: string | null
           vnb_msb_timeline: string | null
           vnb_name: string | null
-          vnb_no_msb_future_timeline: string | null
           vnb_personal_contacts: string | null
           vnb_personal_contacts_other: string | null
           vnb_planning_duration: string | null
           vnb_planning_duration_reasons: string | null
-          vnb_rejection_future_timeline: string | null
           vnb_rejection_response: string[] | null
           vnb_rejection_response_details: Json | null
           vnb_rejection_response_other: string | null
@@ -425,9 +384,13 @@ export type Database = {
           vnb_start_timeline: string | null
           vnb_start_timeline_other: string | null
           vnb_support_formulare: string | null
+          vnb_support_formulare_other: string | null
           vnb_support_messkonzept: string | null
+          vnb_support_messkonzept_other: string | null
           vnb_support_other: string | null
+          vnb_support_other_details: string | null
           vnb_support_portal: string | null
+          vnb_support_portal_other: string | null
           vnb_support_rating: number | null
           vnb_wandlermessung: string | null
           vnb_wandlermessung_comment: string | null
@@ -439,12 +402,7 @@ export type Database = {
           actor_types?: string[] | null
           additional_experiences?: string | null
           challenges?: string[] | null
-          challenges_costs_high?: string | null
           challenges_details?: Json | null
-          challenges_opposition?: string | null
-          challenges_other?: string | null
-          challenges_pv_installation?: string | null
-          challenges_vnb_blocking?: string | null
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
@@ -467,11 +425,8 @@ export type Database = {
           es_status?: string[] | null
           es_status_other?: string | null
           es_technology_description?: string | null
-          es_total_pv_size_kw?: number | null
-          es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null
           es_vnb_response?: string | null
-          es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           evaluation_label?: string | null
           ggv_additional_info?: string | null
@@ -479,7 +434,6 @@ export type Database = {
           ggv_building_type?: string | null
           ggv_decision_reasons?: string[] | null
           ggv_decision_reasons_other?: string | null
-          ggv_in_operation?: boolean | null
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
           ggv_project_type?: string | null
@@ -500,7 +454,6 @@ export type Database = {
           mieterstrom_foerderung_nein_grund?: string | null
           mieterstrom_foerderung_nein_grund_other?: string | null
           mieterstrom_full_service?: string | null
-          mieterstrom_in_operation?: boolean | null
           mieterstrom_info_sources?: string | null
           mieterstrom_model_choice?: string | null
           mieterstrom_msb_costs?: string | null
@@ -521,14 +474,13 @@ export type Database = {
           mieterstrom_rejection_response_other?: string | null
           mieterstrom_summenzaehler?: string | null
           mieterstrom_support_rating?: number | null
-          mieterstrom_survey_improvements?: string | null
           mieterstrom_virtuell_allowed?: string | null
           mieterstrom_virtuell_denied_documents?: string[] | null
           mieterstrom_virtuell_denied_reason?: string | null
           mieterstrom_virtuell_wandlermessung?: string | null
           mieterstrom_virtuell_wandlermessung_comment?: string | null
           mieterstrom_virtuell_wandlermessung_documents?: string[] | null
-          mieterstrom_vnb_contact?: string | null
+          mieterstrom_vnb_contact?: string[] | null
           mieterstrom_vnb_contact_other?: string | null
           mieterstrom_vnb_duration?: string | null
           mieterstrom_vnb_duration_reasons?: string | null
@@ -541,35 +493,24 @@ export type Database = {
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
-          operation_allocation_who?: string | null
-          operation_allocation_who_details?: string | null
-          operation_allocation_who_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
           operation_data_format_other?: string | null
-          operation_data_method?: string | null
-          operation_data_method_other?: string | null
           operation_data_provider?: string | null
           operation_data_provider_other?: string | null
-          operation_direct_data_cost?: string | null
-          operation_direct_data_cost_amount?: number | null
           operation_esa_cost?: string | null
           operation_esa_cost_amount?: number | null
-          operation_esa_role_cost?: string | null
-          operation_esa_role_cost_amount?: number | null
           operation_msb_additional_costs?: string | null
           operation_msb_additional_costs_one_time?: number | null
           operation_msb_additional_costs_yearly?: number | null
           operation_msb_duration?: string | null
           operation_msb_provider?: string | null
           operation_satisfaction_rating?: number | null
-          operation_start_date?: string | null
           operation_vnb_duration?: string | null
           operation_vnb_duration_reasons?: string | null
           operation_wandlermessung?: string | null
           operation_wandlermessung_comment?: string | null
-          operation_wandlermessung_freiwillig?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
           project_address?: string | null
@@ -579,7 +520,6 @@ export type Database = {
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
-          service_provider_2_rating?: number | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
@@ -594,37 +534,19 @@ export type Database = {
           vnb_contact_other?: string | null
           vnb_data_cost?: string | null
           vnb_data_cost_amount?: number | null
-          vnb_data_format?: string | null
-          vnb_data_provision?: string | null
-          vnb_data_provision_method?: string | null
+          vnb_data_provision?: string[] | null
           vnb_data_provision_other?: string | null
-          vnb_direct_data_cost?: string | null
-          vnb_direct_data_cost_amount?: number | null
           vnb_esa_cost?: string | null
           vnb_esa_cost_amount?: number | null
-          vnb_esa_role_cost?: string | null
-          vnb_esa_role_cost_amount?: number | null
           vnb_existing_projects?: string | null
           vnb_existing_projects_other?: string | null
           vnb_full_service?: string | null
-          vnb_full_service_condition?: string | null
-          vnb_ggv_possible?: string | null
-          vnb_ggv_possible_reasons?: string | null
-          vnb_info_available?: string | null
-          vnb_info_available_other?: string | null
-          vnb_msb_additional_costs?: string | null
-          vnb_msb_additional_costs_one_time?: number | null
-          vnb_msb_additional_costs_yearly?: number | null
-          vnb_msb_start_timeline?: string | null
-          vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null
           vnb_name?: string | null
-          vnb_no_msb_future_timeline?: string | null
           vnb_personal_contacts?: string | null
           vnb_personal_contacts_other?: string | null
           vnb_planning_duration?: string | null
           vnb_planning_duration_reasons?: string | null
-          vnb_rejection_future_timeline?: string | null
           vnb_rejection_response?: string[] | null
           vnb_rejection_response_details?: Json | null
           vnb_rejection_response_other?: string | null
@@ -634,9 +556,13 @@ export type Database = {
           vnb_start_timeline?: string | null
           vnb_start_timeline_other?: string | null
           vnb_support_formulare?: string | null
+          vnb_support_formulare_other?: string | null
           vnb_support_messkonzept?: string | null
+          vnb_support_messkonzept_other?: string | null
           vnb_support_other?: string | null
+          vnb_support_other_details?: string | null
           vnb_support_portal?: string | null
+          vnb_support_portal_other?: string | null
           vnb_support_rating?: number | null
           vnb_wandlermessung?: string | null
           vnb_wandlermessung_comment?: string | null
@@ -648,12 +574,7 @@ export type Database = {
           actor_types?: string[] | null
           additional_experiences?: string | null
           challenges?: string[] | null
-          challenges_costs_high?: string | null
           challenges_details?: Json | null
-          challenges_opposition?: string | null
-          challenges_other?: string | null
-          challenges_pv_installation?: string | null
-          challenges_vnb_blocking?: string | null
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
@@ -676,11 +597,8 @@ export type Database = {
           es_status?: string[] | null
           es_status_other?: string | null
           es_technology_description?: string | null
-          es_total_pv_size_kw?: number | null
-          es_total_wind_size_kw?: number | null
           es_vnb_contact?: boolean | null
           es_vnb_response?: string | null
-          es_vnb_response_details?: string | null
           es_vnb_response_other?: string | null
           evaluation_label?: string | null
           ggv_additional_info?: string | null
@@ -688,7 +606,6 @@ export type Database = {
           ggv_building_type?: string | null
           ggv_decision_reasons?: string[] | null
           ggv_decision_reasons_other?: string | null
-          ggv_in_operation?: boolean | null
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
           ggv_project_type?: string | null
@@ -709,7 +626,6 @@ export type Database = {
           mieterstrom_foerderung_nein_grund?: string | null
           mieterstrom_foerderung_nein_grund_other?: string | null
           mieterstrom_full_service?: string | null
-          mieterstrom_in_operation?: boolean | null
           mieterstrom_info_sources?: string | null
           mieterstrom_model_choice?: string | null
           mieterstrom_msb_costs?: string | null
@@ -730,14 +646,13 @@ export type Database = {
           mieterstrom_rejection_response_other?: string | null
           mieterstrom_summenzaehler?: string | null
           mieterstrom_support_rating?: number | null
-          mieterstrom_survey_improvements?: string | null
           mieterstrom_virtuell_allowed?: string | null
           mieterstrom_virtuell_denied_documents?: string[] | null
           mieterstrom_virtuell_denied_reason?: string | null
           mieterstrom_virtuell_wandlermessung?: string | null
           mieterstrom_virtuell_wandlermessung_comment?: string | null
           mieterstrom_virtuell_wandlermessung_documents?: string[] | null
-          mieterstrom_vnb_contact?: string | null
+          mieterstrom_vnb_contact?: string[] | null
           mieterstrom_vnb_contact_other?: string | null
           mieterstrom_vnb_duration?: string | null
           mieterstrom_vnb_duration_reasons?: string | null
@@ -750,35 +665,24 @@ export type Database = {
           motivation_other?: string | null
           nps_score?: number | null
           operation_allocation_provider?: string | null
-          operation_allocation_who?: string | null
-          operation_allocation_who_details?: string | null
-          operation_allocation_who_other?: string | null
           operation_data_cost?: string | null
           operation_data_cost_amount?: number | null
           operation_data_format?: string | null
           operation_data_format_other?: string | null
-          operation_data_method?: string | null
-          operation_data_method_other?: string | null
           operation_data_provider?: string | null
           operation_data_provider_other?: string | null
-          operation_direct_data_cost?: string | null
-          operation_direct_data_cost_amount?: number | null
           operation_esa_cost?: string | null
           operation_esa_cost_amount?: number | null
-          operation_esa_role_cost?: string | null
-          operation_esa_role_cost_amount?: number | null
           operation_msb_additional_costs?: string | null
           operation_msb_additional_costs_one_time?: number | null
           operation_msb_additional_costs_yearly?: number | null
           operation_msb_duration?: string | null
           operation_msb_provider?: string | null
           operation_satisfaction_rating?: number | null
-          operation_start_date?: string | null
           operation_vnb_duration?: string | null
           operation_vnb_duration_reasons?: string | null
           operation_wandlermessung?: string | null
           operation_wandlermessung_comment?: string | null
-          operation_wandlermessung_freiwillig?: string | null
           planning_status?: string[] | null
           planning_status_other?: string | null
           project_address?: string | null
@@ -788,7 +692,6 @@ export type Database = {
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
-          service_provider_2_rating?: number | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
@@ -803,37 +706,19 @@ export type Database = {
           vnb_contact_other?: string | null
           vnb_data_cost?: string | null
           vnb_data_cost_amount?: number | null
-          vnb_data_format?: string | null
-          vnb_data_provision?: string | null
-          vnb_data_provision_method?: string | null
+          vnb_data_provision?: string[] | null
           vnb_data_provision_other?: string | null
-          vnb_direct_data_cost?: string | null
-          vnb_direct_data_cost_amount?: number | null
           vnb_esa_cost?: string | null
           vnb_esa_cost_amount?: number | null
-          vnb_esa_role_cost?: string | null
-          vnb_esa_role_cost_amount?: number | null
           vnb_existing_projects?: string | null
           vnb_existing_projects_other?: string | null
           vnb_full_service?: string | null
-          vnb_full_service_condition?: string | null
-          vnb_ggv_possible?: string | null
-          vnb_ggv_possible_reasons?: string | null
-          vnb_info_available?: string | null
-          vnb_info_available_other?: string | null
-          vnb_msb_additional_costs?: string | null
-          vnb_msb_additional_costs_one_time?: number | null
-          vnb_msb_additional_costs_yearly?: number | null
-          vnb_msb_start_timeline?: string | null
-          vnb_msb_start_timeline_other?: string | null
           vnb_msb_timeline?: string | null
           vnb_name?: string | null
-          vnb_no_msb_future_timeline?: string | null
           vnb_personal_contacts?: string | null
           vnb_personal_contacts_other?: string | null
           vnb_planning_duration?: string | null
           vnb_planning_duration_reasons?: string | null
-          vnb_rejection_future_timeline?: string | null
           vnb_rejection_response?: string[] | null
           vnb_rejection_response_details?: Json | null
           vnb_rejection_response_other?: string | null
@@ -843,9 +728,13 @@ export type Database = {
           vnb_start_timeline?: string | null
           vnb_start_timeline_other?: string | null
           vnb_support_formulare?: string | null
+          vnb_support_formulare_other?: string | null
           vnb_support_messkonzept?: string | null
+          vnb_support_messkonzept_other?: string | null
           vnb_support_other?: string | null
+          vnb_support_other_details?: string | null
           vnb_support_portal?: string | null
+          vnb_support_portal_other?: string | null
           vnb_support_rating?: number | null
           vnb_wandlermessung?: string | null
           vnb_wandlermessung_comment?: string | null
