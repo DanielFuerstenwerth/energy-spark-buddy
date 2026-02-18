@@ -17,13 +17,13 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/erklaerungen" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Erklärungen
+                <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Über uns
                 </Link>
               </li>
               <li>
-                <Link to="/api" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  API & Daten
+                <Link to="/erklaerungen" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Erklärungen
                 </Link>
               </li>
             </ul>
@@ -49,12 +49,12 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-3">Rechtliches</h4>
             <ul className="space-y-2">
               <li>
-                <Link to="/legal/impressum" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Impressum
+                <Link to="/impressum" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Impressum & Kontakt
                 </Link>
               </li>
               <li>
-                <Link to="/legal/datenschutz" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Link to="/datenschutz" className="text-sm text-muted-foreground hover:text-primary transition-colors">
                   Datenschutz
                 </Link>
               </li>
