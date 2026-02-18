@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
@@ -8,7 +8,11 @@ import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, Loader2, Zap } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, Loader2, Zap, AlertTriangle } from "lucide-react";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
@@ -30,6 +34,8 @@ export default function Survey() {
   const [uploadedDocuments, setUploadedDocuments] = useState<string[]>([]);
   const [dataUsageConfirmed, setDataUsageConfirmed] = useState(false);
   const [honeypot, setHoneypot] = useState(""); // Maßnahme 11: Honeypot
+  const [validationWarnings, setValidationWarnings] = useState<string[]>([]);
+  const [showWarningDialog, setShowWarningDialog] = useState(false);
 
   const {
     globalData,
@@ -129,52 +135,72 @@ export default function Survey() {
   };
   const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
 
-  const handleSubmit = async () => {
-    if (isSubmitting) return; // Maßnahme 1: Doppel-Submit-Guard
+  // Phase 1: Validate and show warnings if any (does NOT submit yet)
+  const handleSubmit = () => {
+    if (isSubmitting) return;
+    
+    const mergedSubmissions = getMergedSubmissions();
+    const warnings: string[] = [];
+    
+    // Maßnahme 8: Validierung blockiert Submit bei kritischen Fehlern
+    for (let i = 0; i < mergedSubmissions.length; i++) {
+      const submission = mergedSubmissions[i];
+      const validation = validateSurveyData(submission);
+      if (!validation.success) {
+        const requiredErrors = validation.errors.filter(e => 
+          e.message.includes('Required') || e.message.includes('invalid_type')
+        );
+        if (requiredErrors.length > 0) {
+          const evalIndex = i;
+          const fieldNames = requiredErrors.map(e => e.field).join(', ');
+          toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldNames}`, {
+            duration: Infinity,
+            action: {
+              label: 'Zur Bewertung springen',
+              onClick: () => {
+                setActiveEvaluationIndex(evalIndex);
+                const projectStepIndex = steps.findIndex(s => s.id === 'project');
+                if (projectStepIndex >= 0) {
+                  setCurrentStep(projectStepIndex);
+                  window.scrollTo(0, 0);
+                }
+              },
+            },
+          });
+          return; // Block submit
+        }
+        // Collect non-critical warnings
+        const fieldNames = validation.errors.map(e => e.field).join(', ');
+        warnings.push(`„${submission.evaluationLabel}": ${fieldNames}`);
+      }
+    }
+
+    if (warnings.length > 0) {
+      // Show blocking confirmation dialog instead of a fleeting toast
+      setValidationWarnings(warnings);
+      setShowWarningDialog(true);
+      return;
+    }
+
+    // No warnings — submit directly
+    doSubmit();
+  };
+
+  // Phase 2: Actually send the data
+  const doSubmit = useCallback(async () => {
+    if (isSubmitting) return;
     setIsSubmitting(true);
+    setShowWarningDialog(false);
+    setValidationWarnings([]);
+
     try {
       const mergedSubmissions = getMergedSubmissions();
-      
-      // Maßnahme 8: Validierung blockiert Submit bei kritischen Fehlern
-      for (let i = 0; i < mergedSubmissions.length; i++) {
-        const submission = mergedSubmissions[i];
-        const validation = validateSurveyData(submission);
-        if (!validation.success) {
-          const requiredErrors = validation.errors.filter(e => 
-            e.message.includes('Required') || e.message.includes('invalid_type')
-          );
-          if (requiredErrors.length > 0) {
-            const evalIndex = i;
-            const fieldNames = requiredErrors.map(e => e.field).join(', ');
-            toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldNames}`, {
-              duration: 8000,
-              action: {
-                label: 'Zur Bewertung springen',
-                onClick: () => {
-                  setActiveEvaluationIndex(evalIndex);
-                  // Navigate to "project" step (index 1) as most required fields are there
-                  const projectStepIndex = steps.findIndex(s => s.id === 'project');
-                  if (projectStepIndex >= 0) {
-                    setCurrentStep(projectStepIndex);
-                    window.scrollTo(0, 0);
-                  }
-                },
-              },
-            });
-            setIsSubmitting(false);
-            return; // Block submit
-          }
-          toast.warning(`Einige Eingaben in „${submission.evaluationLabel}" sind möglicherweise unvollständig - wird trotzdem abgeschickt`);
-        }
-      }
-
-      // Maßnahme 5+6: Serverseitige Validierung + atomare Transaktion via Edge Function
       const dbRows = mergedSubmissions.map(sub => 
         buildDbData(sub, sessionGroupId, uploadedDocuments)
       );
 
       const response = await supabase.functions.invoke('submit-survey', {
-        body: { submissions: dbRows, website: honeypot }, // honeypot field
+        body: { submissions: dbRows, website: honeypot },
       });
 
       if (response.error) {
@@ -186,9 +212,9 @@ export default function Survey() {
       if (result?.error) {
         console.error('Server validation error:', result.error, result.details);
         if (result.error === 'Rate limit exceeded. Please try again later.') {
-          toast.error('Zu viele Einsendungen. Bitte versuchen Sie es später erneut.');
+          toast.error('Zu viele Einsendungen. Bitte versuchen Sie es später erneut.', { duration: Infinity });
         } else if (result.error === 'Validation failed') {
-          toast.error(`Validierungsfehler: ${result.details?.join('; ') || 'Unbekannt'}`);
+          toast.error(`Validierungsfehler: ${result.details?.join('; ') || 'Unbekannt'}`, { duration: Infinity });
         } else {
           throw new Error(result.error);
         }
@@ -201,13 +227,18 @@ export default function Survey() {
       setCurrentStep(steps.length);
     } catch (error) {
       console.error('Error submitting survey:', error);
-      toast.error("Fehler beim Absenden. Bitte versuchen Sie es erneut.");
+      toast.error("Fehler beim Absenden. Bitte versuchen Sie es erneut.", {
+        duration: Infinity,
+        action: {
+          label: 'Erneut versuchen',
+          onClick: () => doSubmit(),
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [getMergedSubmissions, sessionGroupId, uploadedDocuments, honeypot, steps.length]);
 
-  // Get sections for current step, filtered by visibility
   const currentStepDef = steps[currentStep];
   const currentSections = useMemo(() => {
     if (!currentStepDef) return [];
@@ -335,6 +366,41 @@ export default function Survey() {
         </div>
       </main>
       <Footer />
+
+      {/* Bestätigungsdialog bei Validierungswarnungen */}
+      <AlertDialog open={showWarningDialog} onOpenChange={setShowWarningDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" />
+              Einige Angaben scheinen unvollständig
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>
+                  Folgende Bereiche sind möglicherweise unvollständig:
+                </p>
+                <ul className="list-disc pl-5 space-y-1 text-sm">
+                  {validationWarnings.map((w, i) => (
+                    <li key={i}>{w}</li>
+                  ))}
+                </ul>
+                <p className="text-sm">
+                  Sie können Ihre Eingaben überprüfen und ergänzen, oder die Umfrage so absenden wie sie ist.
+                </p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel onClick={() => setShowWarningDialog(false)}>
+              Zurück zur Eingabe
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={doSubmit}>
+              Trotzdem absenden
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
