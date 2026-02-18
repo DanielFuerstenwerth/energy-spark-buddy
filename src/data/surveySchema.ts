@@ -1616,7 +1616,8 @@ export function buildDbData(
     // Always include meta fields; for others, check visibility
     if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
 
-    const snakeKey = toSnakeCase(key);
+    // Use QUESTION_REGISTRY dbColumn when available, fall back to toSnakeCase
+    const snakeKey = QUESTION_REGISTRY[key]?.dbColumn || toSnakeCase(key);
     
     // Boolean conversion for fields stored as boolean in DB but string in UI
     const BOOLEAN_DB_FIELDS: Record<string, Record<string, boolean>> = {
