@@ -92,7 +92,7 @@ const About = () => {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-2">Für Fragen, Anregungen oder Kooperationsanfragen:</p>
-              <p className="text-muted-foreground">kontakt@vnb-transparenz.de (vorläufig: daniel@1000gw.de)</p>
+              <p className="text-muted-foreground">kontakt@vnb-transparenz.de (vorläufig: vnb-transparenz@1000gw.de)</p>
             </CardContent>
           </Card>
         </div>
