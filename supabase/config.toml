@@ -17,3 +17,6 @@ verify_jwt = true
 
 [functions.submit-survey]
 verify_jwt = false
+
+[functions.export-survey]
+verify_jwt = false
