@@ -65,9 +65,9 @@ const Methodik = () => {
                       <div
                         className="w-4 h-4 rounded"
                         style={{
-                          backgroundColor: "hsl(142, 71%, 37%)",
-                        }}
-                      ></div>
+                          backgroundColor: "hsl(142, 71%, 37%)"
+                        }}>
+                      </div>
                       <span>
                         <strong>50–100 Punkte:</strong> Gut (grün)
                       </span>
@@ -76,9 +76,9 @@ const Methodik = () => {
                       <div
                         className="w-4 h-4 rounded"
                         style={{
-                          backgroundColor: "hsl(38, 92%, 50%)",
-                        }}
-                      ></div>
+                          backgroundColor: "hsl(38, 92%, 50%)"
+                        }}>
+                      </div>
                       <span>
                         <strong>0-50 Punkte:</strong> Mittel (gelb/orange)
                       </span>
@@ -87,9 +87,9 @@ const Methodik = () => {
                       <div
                         className="w-4 h-4 rounded"
                         style={{
-                          backgroundColor: "hsl(0, 72%, 51%)",
-                        }}
-                      ></div>
+                          backgroundColor: "hsl(0, 72%, 51%)"
+                        }}>
+                      </div>
                       <span>
                         <strong>-100 - 0 unkte:</strong> Schlecht (rot)
                       </span>
@@ -136,10 +136,10 @@ const Methodik = () => {
                 </div>
                 <div>
                   <div className="text-sm font-semibold">v0.1 – 2025-10-20</div>
-                  <p className="text-sm text-muted-foreground">
-                    v0.1 - 2025-11-01 Kategoriesierung aktualisiert auf 4 Kategorien fokussiert auf Benutzergruppen.
-                    v0.1 – 2025-10-20(Dummy) Initiale Version: 3 Kategorien definiert, Scoring-System festgelegt,
-                    MVP-Struktur mit Dummy-Daten.
+                  <p className="text-sm text-muted-foreground">Erste Kategorisierung mit 4 Kategorien eingeführt. Erste Daten für Kategorie "Gemeinschae Version: 3 Kategorien definiert, Scoring-System festgelegt, MVP-Struktur mit Dummy-Daten.
+
+
+
                   </p>
                 </div>
               </div>
@@ -149,7 +149,7 @@ const Methodik = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>);
+
 };
 export default Methodik;
