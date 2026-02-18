@@ -1,19 +1,66 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, BarChart3, MessageSquare, ArrowLeft } from 'lucide-react';
+import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2 } from 'lucide-react';
 import AdminHeader from '@/components/AdminHeader';
 import FeedbackStats from '@/components/admin/FeedbackStats';
 import ChatHistory from '@/components/admin/ChatHistory';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
 import { useSessionTimeout } from '@/hooks/useSessionTimeout';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const Admin = () => {
   const navigate = useNavigate();
   const { isAdmin, loading, user } = useIsAdmin();
   useSessionTimeout(isAdmin);
+  const [exporting, setExporting] = useState(false);
+
+  const handleExport = async () => {
+    setExporting(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Nicht eingeloggt');
+        return;
+      }
+
+      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const res = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/export-survey`,
+        {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `HTTP ${res.status}`);
+      }
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'umfrage-export.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast.success('Export erfolgreich heruntergeladen');
+    } catch (error: any) {
+      console.error('Export error:', error);
+      toast.error(`Export fehlgeschlagen: ${error.message}`);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   useEffect(() => {
     if (!loading && !user) {
@@ -65,6 +112,20 @@ const Admin = () => {
                 Verwalte Chat-Statistiken und schaue dir die Konversationen an
               </CardDescription>
             </CardHeader>
+            <CardContent>
+              <Button
+                onClick={handleExport}
+                disabled={exporting}
+                variant="outline"
+                className="gap-2"
+              >
+                {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
+              </Button>
+              <p className="text-xs text-muted-foreground mt-2">
+                CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel mit korrekten Umlauten.
+              </p>
+            </CardContent>
           </Card>
         </div>
 
