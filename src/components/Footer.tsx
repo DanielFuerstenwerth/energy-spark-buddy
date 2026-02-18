@@ -21,11 +21,6 @@ const Footer = () => {
                   Über uns
                 </Link>
               </li>
-              <li>
-                <Link to="/erklaerungen" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Erklärungen
-                </Link>
-              </li>
             </ul>
           </div>
           
