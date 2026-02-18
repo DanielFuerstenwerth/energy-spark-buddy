@@ -83,6 +83,15 @@ Deno.serve(async (req) => {
   }
 
   try {
+    // Payload size limit: reject requests > 100KB
+    const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
+    if (contentLength > 102400) {
+      return new Response(
+        JSON.stringify({ error: "Payload too large. Maximum 100KB allowed." }),
+        { status: 413, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // Rate limiting by IP (Maßnahme 7)
     const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
                      req.headers.get("cf-connecting-ip") || "unknown";
