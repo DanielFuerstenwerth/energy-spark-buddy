@@ -292,6 +292,14 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       visibilityRule: PT_GGV(),
     },
     {
+      id: "projectLocations",
+      type: "text",
+      label: "Standort(e) des GGV-Projekts",
+      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      optional: true,
+      visibilityRule: PT_GGV(),
+    },
+    {
       id: "mieterstromProjectType",
       type: "single-select",
       label: "Wie viele Mieterstrom-Projekte planen/betreiben Sie? (optional)",
@@ -367,14 +375,6 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       ],
       optional: true,
       visibilityRule: and(PT_MS(), eq('mieterstromFoerderung', 'nein')),
-    },
-    {
-      id: "projectLocations",
-      type: "text",
-      label: "Standort(e) des GGV-Projekts",
-      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
-      optional: true,
-      visibilityRule: PT_GGV(),
     },
     {
       id: "mieterstromProjectLocations",
