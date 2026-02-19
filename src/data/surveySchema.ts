@@ -121,6 +121,23 @@ const SECTION_ABOUT_YOU: SurveySection = {
       ],
     },
     {
+      id: "dienstleisterWebsite",
+      type: "text",
+      label: "A1.1b Webadresse Ihres Unternehmens",
+      placeholder: "https://www.beispiel.de",
+      optional: true,
+      visibilityRule: inc('actorTypes', 'dienstleister'),
+    },
+    {
+      id: "dienstleisterKontakt",
+      type: "textarea",
+      label: "A1.1b Professionelle Kontaktdaten",
+      description: "Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.",
+      placeholder: "z.B. Firmenname, Ansprechpartner, E-Mail, Telefon",
+      optional: true,
+      visibilityRule: inc('actorTypes', 'dienstleister'),
+    },
+    {
       id: "motivation",
       type: "multi-select",
       label: "A2. Wie würden Sie Ihre Motivation einordnen?",
@@ -1769,6 +1786,8 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   // Section 1: Über Sie
   "actorTypes": { displayId: "1-ActorTypes", dbColumn: "actor_types", uiNumber: "1.1" },
   "actorDienstleisterCategory": { displayId: "1-ActorDienstleisterCategory", dbColumn: "actor_dienstleister_category", uiNumber: "1.1a" },
+  "dienstleisterWebsite": { displayId: "1-DienstleisterWebsite", dbColumn: "dienstleister_website", uiNumber: "1.1b" },
+  "dienstleisterKontakt": { displayId: "1-DienstleisterKontakt", dbColumn: "dienstleister_kontakt", uiNumber: "1.1b" },
   "motivation": { displayId: "1-Motivation", dbColumn: "motivation", uiNumber: "1.2" },
   "contactEmail": { displayId: "1-ContactEmail", dbColumn: "contact_email", uiNumber: "1.3" },
   "confirmationForUpdate": { displayId: "1-ConfirmationForUpdate", dbColumn: "confirmation_for_update", uiNumber: "1.4" },
