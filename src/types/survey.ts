@@ -19,8 +19,8 @@ export interface SurveyData {
   actorTypes: string[];
   actorDienstleisterCategory?: string[];
   actorDienstleisterCategoryOther?: string;
-  dienstleisterWebsite?: string[];
-  dienstleisterKontakt?: string[];
+  dienstleisterWebsite?: string;
+  dienstleisterKontakt?: string;
   actorTextFields?: Record<string, string>; // Serialized to text before DB insert
   actorOther?: string;
   motivation: string[];

@@ -125,7 +125,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     },
     {
       id: "dienstleisterWebsite",
-      type: "text-list",
+      type: "text",
       label: "Für Dienstleister: Webadresse und Kontaktdaten",
       placeholder: "Webadresse...",
       optional: true,
@@ -133,7 +133,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
     },
     {
       id: "dienstleisterKontakt",
-      type: "text-list",
+      type: "text",
       label: "",
       placeholder: "Email (Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.)",
       optional: true,
@@ -1738,6 +1738,13 @@ export function buildDbData(
     if (RECORD_FIELDS.has(key)) {
       const serialized = serializeRecord(value);
       if (serialized) dbData[snakeKey] = serialized;
+      continue;
+    }
+
+    // String-to-array wrapping for fields stored as text[] in DB but string in UI
+    const STRING_TO_ARRAY_FIELDS = new Set(['dienstleisterWebsite', 'dienstleisterKontakt']);
+    if (STRING_TO_ARRAY_FIELDS.has(key) && typeof value === 'string' && value.trim()) {
+      dbData[snakeKey] = [value.trim()];
       continue;
     }
 
