@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2 } from 'lucide-react';
+import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2, Globe } from 'lucide-react';
 import AdminHeader from '@/components/AdminHeader';
 import FeedbackStats from '@/components/admin/FeedbackStats';
 import ChatHistory from '@/components/admin/ChatHistory';
+import GgvExportManager from '@/components/admin/GgvExportManager';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
 import { useSessionTimeout } from '@/hooks/useSessionTimeout';
 import { supabase } from '@/integrations/supabase/client';
@@ -103,10 +104,14 @@ const Admin = () => {
           </Button>
           
           <Tabs defaultValue="survey" className="space-y-6">
-            <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-2">
+            <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-3">
               <TabsTrigger value="survey" className="flex items-center gap-2">
                 <Download className="w-4 h-4" />
                 Umfrage-Daten
+              </TabsTrigger>
+              <TabsTrigger value="ggv-export" className="flex items-center gap-2">
+                <Globe className="w-4 h-4" />
+                GGV-Export
               </TabsTrigger>
               <TabsTrigger value="chatbot" className="flex items-center gap-2">
                 <MessageSquare className="w-4 h-4" />
@@ -137,6 +142,10 @@ const Admin = () => {
                   </p>
                 </CardContent>
               </Card>
+            </TabsContent>
+
+            <TabsContent value="ggv-export" className="space-y-6">
+              <GgvExportManager />
             </TabsContent>
 
             <TabsContent value="chatbot" className="space-y-6">
