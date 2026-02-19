@@ -22,6 +22,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import { useMultiEvaluation } from "@/hooks/useMultiEvaluation";
+import { parsePrefillParams } from "@/utils/surveyPrefill";
+import { useLocation } from "react-router-dom";
 
 const DRAFT_KEY = "vnb-survey-draft-v2";
 const MAX_AGE_DAYS = 7;
@@ -52,6 +54,22 @@ export default function Survey() {
     getMergedSubmissions,
     restoreState,
   } = useMultiEvaluation();
+
+  // Prefill from query params (ggv-transparenz.de redirect)
+  const location = useLocation();
+  const [prefillApplied, setPrefillApplied] = useState(false);
+
+  useEffect(() => {
+    if (prefillApplied) return;
+    const { evalData, hasPrefill } = parsePrefillParams(location.search);
+    if (hasPrefill) {
+      Object.entries(evalData).forEach(([key, value]) => {
+        updateEvaluationData(key as keyof SurveyData, value as SurveyData[keyof SurveyData]);
+      });
+      setPrefillApplied(true);
+      toast.success("Projektdaten von ggv-transparenz.de wurden vorausgefüllt.", { duration: 5000 });
+    }
+  }, [location.search, prefillApplied, updateEvaluationData]);
 
   // Autosave
   useEffect(() => {
