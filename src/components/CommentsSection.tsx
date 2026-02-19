@@ -51,7 +51,7 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
     let query = supabase
       .from('comments_public')
       .select('*')
-      .eq('route', route)
+      .ilike('route', route)
       .order('created_at', { ascending: false });
 
     if (vnbName) {
