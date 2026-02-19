@@ -1622,6 +1622,9 @@ const SECTION_FINAL: SurveySection = {
 };
 
 // === HAUPTSCHEMA ===
+// Schema version stored with every submission for traceability
+export const SURVEY_SCHEMA_VERSION = "v0.0";
+
 export const surveyDefinition: SurveySchema = {
   version: "3.3.0",
   lastUpdated: "2026-02-18",
@@ -1767,6 +1770,7 @@ export function buildDbData(
   }
 
   dbData.session_group_id = sessionGroupId;
+  dbData.schema_version = SURVEY_SCHEMA_VERSION;
   if (uploadedDocuments.length > 0) {
     dbData.uploaded_documents = uploadedDocuments;
   }
