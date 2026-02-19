@@ -14,6 +14,7 @@ const STATUS_MAP: Record<string, string> = {
   planung_fast_fertig: "implementing",
   pv_laeuft_ggv_planung: "implementing",
   pv_laeuft_ggv_laeuft: "active",
+  sonstiges: "interested", // Fallback for "Sonstiges"
 };
 
 // Building type mapping
@@ -90,7 +91,7 @@ function buildGgvPayload(row: SurveyRow) {
       provider_name: row.service_provider_name || "",
       quality_rating: row.sp_quality_rating || undefined,
       price_rating: row.sp_price_rating || undefined,
-      comment: row.sp_rating_comment || undefined,
+      comment: row.sp_rating_comment ? row.sp_rating_comment.slice(0, 2000) : undefined,
     };
   }
 
