@@ -92,7 +92,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
         { value: "vermieter_wohnungsunternehmen", label: "Vermieter/in - Wohnungsunternehmen (>100 Einheiten)" },
         { value: "kommune", label: "Kommune / kommunales Unternehmen" },
         { value: "kmu", label: "Kleine und Mittelständische Unternehmen (KMU)" },
-        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", hasTextField: true, textFieldLabel: "Welche Dienstleistung?", textFieldPlaceholder: "z.B. Messstellenbetrieb, Abrechnung, Beratung..." },
+        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", tooltip: "Bitte tragen Sie Details zu Ihrer Dienstleistung unten ein." },
         { value: "installateur", label: "Installateur von PV-Anlagen" },
         { value: "msb", label: "Wettbewerblicher Messstellenbetreiber" },
         { value: "stadtwerk", label: "Stadtwerk/EVU" },
