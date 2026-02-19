@@ -18,12 +18,6 @@ const News = () => {
       date: "2025-10-20",
       excerpt: "Die Energiewende braucht transparente Netzbetreiber. Erfahren Sie, warum Performance-Transparenz der Schlüssel ist.",
     },
-    {
-      slug: "methodik-v0-1",
-      title: "Unsere Methodik v0.1",
-      date: "2025-10-18",
-      excerpt: "Wie wir VNB bewerten: Kategorien, Scores und Datenquellen im Detail.",
-    },
   ];
 
   return (
