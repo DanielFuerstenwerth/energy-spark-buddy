@@ -767,6 +767,7 @@ const SECTION_GGV_MESSKONZEPT: SurveySection = {
       type: "single-select",
       label: "C9. Frage zum Detail der technischen Anforderungen des Messkonzeptes: Verlangt Ihr Verteilnetzbetreiber einen neuen, zusätzlichen Zähler direkt hinter dem Netzanschluss des Gebäudes?",
       description: "Erfordert die Installation einer 'Wandlermessung' für > 5.000 EUR",
+      tooltip: "Eine sogenannte \"Wandlermessung\" wird benötigt, um Stromflüsse zu messen, die mittels einem regulären Haushaltszähler nicht gemessen werden können. Dies trifft für den Fall von Mehrfamilienhäusern ab ca. 3-4 Wohneinheiten bereits zu. Sofern hier eine gemeinsame Messung des Bezugsstroms oder der Einspeisung am Netzanschlusspunkt erfolgen soll, wird solch eine technische Vorrichtung benötigt. Die Kosten hierfür sind typischerweise ca. 5.000-8.000 EUR (inkl. Planungsleistung). Um diese Kosten zu vermeiden, hat der Gesetzgeber mit dem Modell des virtuellen Summenzählers im Mieterstrom bzw. mit dem Modell der Gemeinschaftlichen Gebäudeversorgung solche Modelle festgelegt, in denen die Installation eines physikalischen Zählers am Hausanschlusspunkt durch virtuelle Verrechnung von Messwerten vermieden wird.",
       options: [
         { value: "ja", label: "Ja" },
         { value: "nein", label: "Nein" },
