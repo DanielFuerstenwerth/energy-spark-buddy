@@ -129,6 +129,9 @@ export interface SurveyData {
   serviceProviderComments?: string;
   serviceProvider2Name?: string;
   serviceProvider2Comments?: string;
+  spQualityRating?: number;
+  spPriceRating?: number;
+  spRatingComment?: string;
 
   // Section 4-MS: Planung Mieterstrom
   mieterstromSummenzaehler?: string;
@@ -199,6 +202,12 @@ export interface SurveyData {
   additionalExperiences?: string;
   surveyImprovements?: string;
   npsScore?: number;
+
+  // GGV-Transparenz Integration
+  ggvTransparenzOptIn?: string;
+  ggvProjectCity?: string;
+  ggvProjectWebsite?: string;
+  ggvExperienceNotes?: string;
 
   // Multi-Evaluation metadata
   evaluationLabel?: string;

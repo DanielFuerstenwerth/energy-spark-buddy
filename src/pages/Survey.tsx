@@ -222,6 +222,20 @@ export default function Survey() {
         return;
       }
 
+      // After successful submission, trigger GGV export if opt-in is active
+      // Fire-and-forget: don't block the user on this
+      for (const row of dbRows) {
+        if (row.ggv_transparenz_opt_in === 'ja') {
+          supabase.functions.invoke('export-ggv', {
+            body: { survey_id: row.id || result?.id },
+          }).then(res => {
+            if (res.error) console.warn('GGV export failed (non-blocking):', res.error);
+            else console.log('GGV export result:', res.data);
+          }).catch(err => console.warn('GGV export error (non-blocking):', err));
+          break; // Only export once per submission group
+        }
+      }
+
       localStorage.removeItem(DRAFT_KEY);
       toast.success("Vielen Dank für Ihre Teilnahme!");
       setCurrentStep(steps.length);
