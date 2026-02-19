@@ -354,7 +354,22 @@ export default function Survey() {
               )}
               {showVnbWarning && !hasVnbOrLocation && (currentStepDef?.id === 'project' || currentStepDef?.id === 'final') && (
                 <div className="mt-4 rounded-lg border border-amber-300 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-700 p-3 text-sm text-amber-700 dark:text-amber-400">
-                  ⚠ Ohne Angabe von VNB oder des Projektstandortes kann Ihre Bewertung nicht vollständig genutzt werden.
+                  ⚠ Ohne Angabe von VNB oder des Projektstandortes kann Ihre Bewertung nicht vollständig genutzt werden.{' '}
+                  {currentStepDef?.id === 'final' && (
+                    <button
+                      type="button"
+                      className="underline font-medium hover:text-amber-900 dark:hover:text-amber-300"
+                      onClick={() => {
+                        const projectStepIndex = steps.findIndex(s => s.id === 'project');
+                        if (projectStepIndex >= 0) {
+                          setCurrentStep(projectStepIndex);
+                          window.scrollTo(0, 0);
+                        }
+                      }}
+                    >
+                      Zum Abschnitt „Projekt" springen
+                    </button>
+                  )}
                 </div>
               )}
               {/* Maßnahme 11: Honeypot - unsichtbar für echte Nutzer */}
