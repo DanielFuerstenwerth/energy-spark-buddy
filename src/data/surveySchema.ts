@@ -19,6 +19,7 @@ export interface SurveyOption {
   exclusive?: boolean; // If true, selecting this option deselects all others
   hint?: string; // Small hint text shown below the option label
   tooltip?: string; // Click-toggle inline hint shown via info icon next to the option label
+  inlineHint?: string; // Hint text shown below the option when selected
 }
 
 export interface SurveyQuestion {
@@ -92,7 +93,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
         { value: "vermieter_wohnungsunternehmen", label: "Vermieter/in - Wohnungsunternehmen (>100 Einheiten)" },
         { value: "kommune", label: "Kommune / kommunales Unternehmen" },
         { value: "kmu", label: "Kleine und Mittelständische Unternehmen (KMU)" },
-        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", tooltip: "Bitte tragen Sie Details zu Ihrer Dienstleistung unten ein." },
+        { value: "dienstleister", label: "Dienstleister für GGV/Mieterstrom/Energy Sharing", inlineHint: "Bitte tragen Sie Details zu Ihrer Dienstleistung unten ein." },
         { value: "installateur", label: "Installateur von PV-Anlagen" },
         { value: "msb", label: "Wettbewerblicher Messstellenbetreiber" },
         { value: "stadtwerk", label: "Stadtwerk/EVU" },
