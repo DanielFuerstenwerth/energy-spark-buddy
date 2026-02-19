@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { MultiSelectQuestion } from "./questions/MultiSelectQuestion";
 import { SingleSelectQuestion } from "./questions/SingleSelectQuestion";
 import { TextQuestion } from "./questions/TextQuestion";
+import { TextListQuestion } from "./questions/TextListQuestion";
 import { RatingQuestion } from "./questions/RatingQuestion";
 import { NpsQuestion } from "./questions/NpsQuestion";
 import { FileUpload } from "./questions/FileUpload";
@@ -265,6 +266,21 @@ function renderQuestion(
           optional={q.optional}
           questionNumber={uiNumber}
           multiline={q.multiline}
+          tooltipNode={tooltipNode}
+        />
+      );
+
+    case 'text-list':
+      return (
+        <TextListQuestion
+          key={q.id}
+          id={q.id}
+          label={label}
+          value={getValue<string[]>(q.id)}
+          onChange={(v) => setValue(q.id, v)}
+          placeholder={q.placeholder}
+          optional={q.optional}
+          questionNumber={uiNumber}
           tooltipNode={tooltipNode}
         />
       );

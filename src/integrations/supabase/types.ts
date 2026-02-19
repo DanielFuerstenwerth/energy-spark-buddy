@@ -317,8 +317,8 @@ export type Database = {
           confirmation_for_update: string | null
           contact_email: string | null
           created_at: string
-          dienstleister_kontakt: string | null
-          dienstleister_website: string | null
+          dienstleister_kontakt: string[] | null
+          dienstleister_website: string[] | null
           draft_token: string | null
           es_capacity_size_kw: number | null
           es_consumer_details: string | null
@@ -507,8 +507,8 @@ export type Database = {
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
-          dienstleister_kontakt?: string | null
-          dienstleister_website?: string | null
+          dienstleister_kontakt?: string[] | null
+          dienstleister_website?: string[] | null
           draft_token?: string | null
           es_capacity_size_kw?: number | null
           es_consumer_details?: string | null
@@ -697,8 +697,8 @@ export type Database = {
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
-          dienstleister_kontakt?: string | null
-          dienstleister_website?: string | null
+          dienstleister_kontakt?: string[] | null
+          dienstleister_website?: string[] | null
           draft_token?: string | null
           es_capacity_size_kw?: number | null
           es_consumer_details?: string | null
