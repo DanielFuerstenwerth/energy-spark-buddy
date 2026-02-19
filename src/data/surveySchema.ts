@@ -43,6 +43,7 @@ export interface SurveyQuestion {
   visibilityRule?: VisibilityRule;
   skipLogic?: string;
   conditionalRequired?: string;
+  multiline?: boolean;
 }
 
 export interface SurveySection {
@@ -123,18 +124,19 @@ const SECTION_ABOUT_YOU: SurveySection = {
     {
       id: "dienstleisterWebsite",
       type: "text",
-      label: "A1.1b Webadresse Ihres Unternehmens",
-      placeholder: "https://www.beispiel.de",
+      label: "Für Dienstleister: Webadresse und Kontaktdaten",
+      placeholder: "Webadresse...",
       optional: true,
+      multiline: false,
       visibilityRule: inc('actorTypes', 'dienstleister'),
     },
     {
       id: "dienstleisterKontakt",
-      type: "textarea",
-      label: "A1.1b Professionelle Kontaktdaten",
-      description: "Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.",
-      placeholder: "z.B. Firmenname, Ansprechpartner, E-Mail, Telefon",
+      type: "text",
+      label: "",
+      placeholder: "Email (Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.)",
       optional: true,
+      multiline: false,
       visibilityRule: inc('actorTypes', 'dienstleister'),
     },
     {
