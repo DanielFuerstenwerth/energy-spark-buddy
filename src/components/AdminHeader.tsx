@@ -17,6 +17,12 @@ const AdminHeader = () => {
           </div>
           
           <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/admin">Dashboard</Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/admin/comments">Kommentare</Link>
+            </Button>
             <Button variant="outline" size="sm" asChild>
               <Link to="/">Zurück zur Seite</Link>
             </Button>

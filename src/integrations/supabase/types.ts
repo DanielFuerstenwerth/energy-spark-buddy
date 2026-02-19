@@ -91,6 +91,8 @@ export type Database = {
       }
       comments: {
         Row: {
+          admin_reply: string | null
+          admin_reply_at: string | null
           author_email: string | null
           author_name: string | null
           created_at: string
@@ -104,6 +106,8 @@ export type Database = {
           vnb_name: string | null
         }
         Insert: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           author_email?: string | null
           author_name?: string | null
           created_at?: string
@@ -117,6 +121,8 @@ export type Database = {
           vnb_name?: string | null
         }
         Update: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           author_email?: string | null
           author_name?: string | null
           created_at?: string
@@ -896,6 +902,8 @@ export type Database = {
     Views: {
       comments_public: {
         Row: {
+          admin_reply: string | null
+          admin_reply_at: string | null
           author_name: string | null
           created_at: string | null
           id: string | null
@@ -908,6 +916,8 @@ export type Database = {
           vnb_name: string | null
         }
         Insert: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           author_name?: string | null
           created_at?: string | null
           id?: string | null
@@ -920,6 +930,8 @@ export type Database = {
           vnb_name?: string | null
         }
         Update: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           author_name?: string | null
           created_at?: string | null
           id?: string | null
