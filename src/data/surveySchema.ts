@@ -1811,6 +1811,7 @@ export function expandToLocationRows(
 
   return tagged.map((loc) => {
     const row = { ...baseRow };
+    row.project_type_tag = loc.source;
     if (loc.plz) row.project_plz = loc.plz;
     if (loc.address) row.project_address = loc.address;
     

@@ -40,7 +40,7 @@ function getAllSurveyDataKeys(): string[] {
     'actorTextFields', 'actorOther', 'actorDienstleisterCategoryOther',
     'motivationOther',
     'projectFocus', 'projectAddress', 'projectPlz',
-    'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations',
+    'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations', // UI-only, expanded to rows
     'planningStatusOther', 'mieterstromPlanningStatusOther',
     'ggvDecisionReasonsOther', 'mieterstromDecisionReasonsOther',
     'implementationApproachOther', 'challengesDetails',
@@ -88,7 +88,7 @@ const KNOWN_DB_COLUMNS = new Set([
   'ggv_project_links', 'ggv_experience_notes',
   'mieterstrom_project_type', 'mieterstrom_pv_size_kw', 'mieterstrom_party_count',
   'mieterstrom_building_type', 'mieterstrom_building_count', 'mieterstrom_additional_info',
-  'project_address', 'project_plz', 'project_locations', 'mieterstrom_project_locations',
+  'project_address', 'project_plz', 'project_type_tag',
   'mieterstrom_foerderung', 'mieterstrom_foerderung_nein_grund', 'mieterstrom_foerderung_nein_grund_other',
   'planning_status', 'planning_status_other',
   'mieterstrom_planning_status', 'mieterstrom_planning_status_other',
@@ -152,7 +152,7 @@ const KNOWN_DB_COLUMNS = new Set([
   'es_in_operation_details', 'es_operator_details',
   'es_plant_type', 'es_plant_type_details',
   'es_capacity_size_kw', 'es_technology_description',
-  'es_project_scope', 'es_project_locations',
+  'es_project_scope',
   'es_party_count',
   'es_consumer_types', 'es_consumer_details',
   'es_consumer_scope', 'es_consumer_scope_other',
@@ -165,7 +165,11 @@ const KNOWN_DB_COLUMNS = new Set([
 ]);
 
 const SYSTEM_COLUMNS = new Set(['id', 'created_at', 'status', 'draft_token']);
-const SPECIAL_KEYS = new Set(['sessionGroupId', 'documentUpload']); // handled specially in buildDbData
+const SPECIAL_KEYS = new Set([
+  'sessionGroupId', 'documentUpload',
+  // UI-only location arrays – expanded to rows by expandToLocationRows, no DB column
+  'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations',
+]);
 
 describe('Survey Schema ↔ Database Consistency', () => {
   
@@ -189,6 +193,7 @@ describe('Survey Schema ↔ Database Consistency', () => {
     const missing: string[] = [];
     
     for (const [key, entry] of Object.entries(QUESTION_REGISTRY)) {
+      if (SPECIAL_KEYS.has(key)) continue;
       if (!KNOWN_DB_COLUMNS.has(entry.dbColumn)) {
         missing.push(`${key}: dbColumn="${entry.dbColumn}" not in DB`);
       }
@@ -216,6 +221,7 @@ describe('Survey Schema ↔ Database Consistency', () => {
     
     // Verify each mismatch's dbColumn actually exists in DB
     for (const [key, entry] of Object.entries(QUESTION_REGISTRY)) {
+      if (SPECIAL_KEYS.has(key)) continue;
       expect(KNOWN_DB_COLUMNS.has(entry.dbColumn), 
         `${key}: registry dbColumn "${entry.dbColumn}" must exist in DB`
       ).toBe(true);
@@ -249,6 +255,7 @@ describe('Survey Schema ↔ Database Consistency', () => {
     // Add special mappings
     mappedColumns.add('session_group_id'); // set explicitly in buildDbData
     mappedColumns.add('uploaded_documents'); // set explicitly in buildDbData
+    mappedColumns.add('project_type_tag'); // set by expandToLocationRows
     
     const orphans: string[] = [];
     for (const col of KNOWN_DB_COLUMNS) {
