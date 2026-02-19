@@ -205,6 +205,7 @@ export interface SurveyData {
 
   // GGV-Transparenz Integration
   ggvTransparenzOptIn?: string;
+  ggvProjectName?: string;
   ggvProjectCity?: string;
   ggvProjectWebsite?: string;
   ggvProjectLinks?: string[];

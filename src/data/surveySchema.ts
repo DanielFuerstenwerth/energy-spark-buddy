@@ -1553,6 +1553,15 @@ const SECTION_GGV_TRANSPARENZ: SurveySection = {
       optional: true,
     },
     {
+      id: "ggvProjectName",
+      type: "text",
+      label: "Name des Projekts",
+      helpText: "Wird als Titel auf ggv-transparenz.de angezeigt. Falls leer, wird automatisch ein Name aus Adresse und Ort generiert.",
+      placeholder: "z.B. Sonnenhof-GGV, Energiegemeinschaft Musterstraße",
+      optional: true,
+      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
+    },
+    {
       id: "ggvProjectCity",
       type: "text",
       label: "Stadt / Ort des GGV-Projekts",
@@ -1903,6 +1912,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esConsumerDetails": { displayId: "4-ES-ConsumerDetails", dbColumn: "es_consumer_details", uiNumber: "7.9" },
   // GGV-Transparenz Integration
   "ggvTransparenzOptIn": { displayId: "GGV-T-OptIn", dbColumn: "ggv_transparenz_opt_in", uiNumber: "G.1" },
+  "ggvProjectName": { displayId: "GGV-T-Name", dbColumn: "ggv_project_name", uiNumber: "G.1a" },
   "ggvProjectCity": { displayId: "GGV-T-City", dbColumn: "ggv_project_city", uiNumber: "G.2" },
   "ggvProjectWebsite": { displayId: "GGV-T-Website", dbColumn: "ggv_project_website", uiNumber: "G.3" },
   "ggvProjectLinks": { displayId: "GGV-T-Links", dbColumn: "ggv_project_links", uiNumber: "G.3a" },

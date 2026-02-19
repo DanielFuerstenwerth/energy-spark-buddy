@@ -25,6 +25,7 @@ const BUILDING_TYPE_MAP: Record<string, string> = {
 
 interface SurveyRow {
   ggv_transparenz_opt_in?: string;
+  ggv_project_name?: string;
   vnb_name?: string;
   ggv_pv_size_kw?: number;
   ggv_party_count?: number;
@@ -57,10 +58,16 @@ function buildProjectPayload(row: SurveyRow) {
     address = loc.address;
   }
 
-  const nameParts = ["GGV"];
-  if (address) nameParts.push(address);
-  if (row.ggv_project_city) nameParts.push(row.ggv_project_city);
-  const name = nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt";
+  // Use explicit project name if provided, otherwise build from address/city
+  let name: string;
+  if (row.ggv_project_name?.trim()) {
+    name = row.ggv_project_name.trim();
+  } else {
+    const nameParts = ["GGV"];
+    if (address) nameParts.push(address);
+    if (row.ggv_project_city) nameParts.push(row.ggv_project_city);
+    name = nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt";
+  }
 
   const planningStatus = Array.isArray(row.planning_status) ? row.planning_status[0] : undefined;
   const status = planningStatus ? STATUS_MAP[planningStatus] || "interested" : undefined;
