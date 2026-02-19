@@ -1,98 +1,267 @@
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const Datenschutz = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Banner />
       <Header />
-      
+
       <main id="main-content" className="flex-1 container mx-auto px-4 py-12">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold mb-8">Datenschutzerklärung</h1>
-
-          <div className="prose prose-lg max-w-none space-y-6">
-            <section>
-              <h2 className="text-2xl font-bold mb-4">1. Datenschutz auf einen Blick</h2>
-              
-              <h3 className="text-xl font-semibold mb-2">Allgemeine Hinweise</h3>
-              <p className="text-muted-foreground">
-                VNB-Transparenz nimmt den Schutz Ihrer persönlichen Daten sehr ernst. 
-                Diese Plattform verzichtet bewusst auf die Erhebung personenbezogener Daten 
-                und den Einsatz von Tracking-Technologien.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">2. Datenerfassung auf dieser Website</h2>
-              
-              <h3 className="text-xl font-semibold mb-2">Welche Daten werden erhoben?</h3>
-              <p className="text-muted-foreground mb-4">
-                Diese Website erhebt <strong>keine personenbezogenen Daten</strong>. 
-                Es werden keine Cookies gesetzt, keine Analytics-Tools verwendet und 
-                keine IP-Adressen gespeichert.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-2">Server-Logs (GitHub Pages)</h3>
-              <p className="text-muted-foreground">
-                Diese Seite wird über GitHub Pages gehostet. GitHub kann technische Logs 
-                (IP-Adressen, Zeitstempel) für Sicherheits- und Betriebszwecke erfassen. 
-                Siehe: <a href="https://docs.github.com/de/pages/getting-started-with-github-pages/about-github-pages#data-collection" 
-                className="text-primary hover:text-accent" target="_blank" rel="noopener noreferrer">
-                GitHub Pages Datenschutz</a>
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">3. Externe Ressourcen</h2>
-              <p className="text-muted-foreground">
-                Diese Website lädt <strong>keine externen Ressourcen</strong> von CDNs oder 
-                Drittanbietern. Alle Schriftarten, JavaScript-Bibliotheken und Assets werden 
-                lokal gehostet.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">4. Community-Eingaben</h2>
-              <p className="text-muted-foreground mb-4">
-                Wenn Sie über das Formular „Mitmachen" oder „Right to Reply" Daten einreichen:
-              </p>
-              <ul className="list-disc pl-6 space-y-2 text-muted-foreground">
-                <li>Alle Eingaben werden anonymisiert</li>
-                <li>Kontaktdaten (E-Mail) werden nur für Rückfragen gespeichert (getrennt von Bewertungen)</li>
-                <li>Evidenzen (Dokumente, Screenshots) werden auf PII geprüft</li>
-                <li>Sie können jederzeit die Löschung Ihrer Kontaktdaten verlangen</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">5. Ihre Rechte</h2>
-              <p className="text-muted-foreground">
-                Sie haben das Recht auf Auskunft, Berichtigung, Löschung und Einschränkung 
-                der Verarbeitung Ihrer Daten. Kontakt: [kontakt@vnb-transparenz.de]
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">6. Keine Cookies</h2>
-              <p className="text-muted-foreground">
-                Diese Website verwendet <strong>keine Cookies</strong>. 
-                Daher ist auch kein Cookie-Banner notwendig.
-              </p>
-            </section>
-
-            <section className="bg-muted p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-2">Zusammenfassung</h3>
-              <p className="text-muted-foreground">
-                ✓ Keine personenbezogenen Daten<br />
-                ✓ Keine Cookies<br />
-                ✓ Keine Tracker<br />
-                ✓ Keine externen CDNs<br />
-                ✓ EU-Speicher bevorzugt
-              </p>
-            </section>
+        <div className="max-w-3xl space-y-6">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Datenschutzerklärung</h1>
+            <p className="text-sm text-muted-foreground">Stand: [TT.MM.JJJJ]</p>
           </div>
+
+          {/* 1. Verantwortlicher */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">1. Verantwortlicher</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Verantwortlich für die Datenverarbeitung auf dieser Website ist:
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                1000 GW GmbH<br />
+                Rollbergstraße 28a<br />
+                12053 Berlin, Deutschland<br />
+                E-Mail:{" "}
+                <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
+                  kontakt@vnb-transparenz.de
+                </a><br />
+                Telefon: +49 151 27656192
+              </p>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Datenschutzbeauftragter</p>
+                <p className="text-muted-foreground">
+                  Es besteht derzeit keine Benennungspflicht / kein Datenschutzbeauftragter benannt.
+                  <span className="text-xs italic ml-1">[falls doch: Kontaktdaten eintragen]</span>
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 2. Hosting / Server-Logs */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">2. Hosting / Server-Logs (GitHub Pages)</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Diese Website wird über GitHub Pages bereitgestellt. Beim Aufruf der Website können durch GitHub
+                technische Zugriffsdaten verarbeitet werden (z.&nbsp;B. IP-Adresse, Zeitstempel, angeforderte Seite)
+                zur Bereitstellung, Sicherheit und Fehleranalyse.
+              </p>
+              <p className="text-muted-foreground">
+                <span className="font-medium text-foreground">Rechtsgrundlage:</span>{" "}
+                Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an sicherem Betrieb).
+              </p>
+              <p className="text-muted-foreground">
+                Weitere Informationen:{" "}
+                <a
+                  href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
+                  className="underline hover:text-foreground"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub Privacy Statement
+                </a>{" "}
+                und{" "}
+                <a
+                  href="https://docs.github.com/de/pages/getting-started-with-github-pages/about-github-pages#data-collection"
+                  className="underline hover:text-foreground"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub Pages Hinweise
+                </a>.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Cookies / Tracking */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">3. Cookies / Local Storage / Tracking</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Wir setzen keine Tracking- oder Marketing-Technologien ein.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                Es werden keine einwilligungspflichtigen Cookies oder vergleichbare Technologien eingesetzt.
+                Sollten technisch notwendige Speicherungen für die Bereitstellung einzelner Funktionen erforderlich
+                sein, erfolgt dies nur im erforderlichen Umfang.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 4. E-Mail-Kontakt */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">4. Kontaktaufnahme per E-Mail</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Wenn Sie uns per E-Mail kontaktieren, verarbeiten wir Ihre Angaben (E-Mail-Adresse, Inhalt, Metadaten)
+                zur Bearbeitung der Anfrage.
+              </p>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <span className="font-medium text-foreground">Zweck:</span> Kommunikation und Bearbeitung.
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Rechtsgrundlage:</span>{" "}
+                  Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;b DSGVO (vorvertraglich/vertraglich) oder lit.&nbsp;f DSGVO
+                  (allgemeine Anfragen).
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Speicherdauer:</span> bis Abschluss der Bearbeitung;
+                  danach nur, soweit gesetzliche Aufbewahrungspflichten bestehen oder eine Dokumentation erforderlich ist.
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* 5. Community-Eingaben */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">5. Community-Eingaben („Mitmachen", „Right to Reply")</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Wenn Sie über Formulare Informationen einreichen, verarbeiten wir je nach Inhalt:
+              </p>
+              <ul className="list-disc pl-6 space-y-1 text-muted-foreground">
+                <li>Kontaktdaten (z.&nbsp;B. E-Mail) für Rückfragen</li>
+                <li>Inhalte Ihrer Einreichung (Bewertungs-/Korrekturhinweise)</li>
+                <li>hochgeladene Evidenzen (Dokumente/Screenshots), die personenbezogene Daten enthalten können</li>
+              </ul>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Zwecke</p>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
+                  <li>Prüfung, Qualitätssicherung und Korrektur von Plattforminhalten</li>
+                  <li>Durchführung des Right-to-Reply-Verfahrens</li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-medium">Rechtsgrundlagen</p>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
+                  <li>Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an korrekten, überprüfbaren Inhalten)</li>
+                  <li>ggf. Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;a DSGVO (Einwilligung), wenn Sie uns freiwillig zusätzliche Daten/Evidenzen übermitteln</li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-medium">Speicherdauer</p>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
+                  <li>Kontaktdaten: bis Abschluss der Rückfragen/Prüfung, anschließend Löschung oder Anonymisierung</li>
+                  <li>Evidenzen: nur solange erforderlich; anschließend Löschung/Schwärzung/Anonymisierung nach Prüfabschluss</li>
+                </ul>
+              </div>
+
+              <div>
+                <p className="font-medium">Empfänger / Dienstleister</p>
+                <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
+                  <li><span className="italic">[Formular-Dienst/Backend eintragen, falls vorhanden]</span></li>
+                  <li><span className="italic">[Speicher/Drive/Issue-Tracker eintragen, falls vorhanden]</span></li>
+                </ul>
+              </div>
+
+              <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground">
+                <strong>Hinweis:</strong> Bitte übermitteln Sie keine sensiblen Daten (z.&nbsp;B. Gesundheitsdaten)
+                und keine personenbezogenen Daten Dritter, sofern nicht zwingend erforderlich.
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 6. Chatbot */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">6. Chatbot (Beta)</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Der Chatbot dient der Orientierung und kann Inhalte ausgeben, die unvollständig oder fehlerhaft sind.
+                Wenn Sie den Chat nutzen, können Ihre Eingaben technisch verarbeitet werden, um Antworten zu generieren
+                und den Dienst bereitzustellen.
+              </p>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <span className="font-medium text-foreground">Verarbeitete Daten:</span> Chat-Eingaben; ggf. technische
+                  Metadaten (Zeitpunkt, Browser).
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Zweck:</span> Bereitstellung der Chat-Funktion.
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Rechtsgrundlage:</span>{" "}
+                  Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an Nutzer-Support) bzw. lit.&nbsp;b
+                  DSGVO, wenn Teil einer angefragten Leistung.
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Dienstleister:</span>{" "}
+                  <span className="italic">[Chatbot-Anbieter eintragen]</span>
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Speicherdauer:</span>{" "}
+                  <span className="italic">[z.&nbsp;B. „keine Speicherung" oder „X Tage" – Platzhalter eintragen]</span>
+                </li>
+              </ul>
+              <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground">
+                <strong>Hinweis:</strong> Bitte keine personenbezogenen oder vertraulichen Informationen in den Chat eingeben.
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 7. Drittland */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">7. Empfänger, Drittlandübermittlungen</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Je nach eingesetzten Dienstleistern kann eine Verarbeitung auch in Drittländern (außerhalb EU/EWR)
+                stattfinden. Details ergeben sich aus den Datenschutzinformationen der jeweiligen Dienstleister
+                (siehe Links oben) und den von uns getroffenen Einstellungen/Verträgen.
+              </p>
+              <p className="text-muted-foreground">
+                Wir wählen Dienstleister nach Datenschutzkriterien.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 8. Ihre Rechte */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">8. Ihre Rechte</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+                Datenübertragbarkeit sowie Widerspruch gegen Verarbeitung auf Grundlage von Art.&nbsp;6 Abs.&nbsp;1
+                lit.&nbsp;f DSGVO.
+              </p>
+              <p className="text-muted-foreground">
+                <span className="font-medium text-foreground">Kontakt:</span>{" "}
+                <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
+                  kontakt@vnb-transparenz.de
+                </a>
+              </p>
+              <p className="text-muted-foreground">
+                <span className="font-medium text-foreground">Beschwerderecht:</span>{" "}
+                Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren, insbesondere in dem Mitgliedstaat
+                Ihres Aufenthaltsorts oder des Orts des mutmaßlichen Verstoßes.{" "}
+                <span className="italic">[zuständige Behörde Berlin ergänzen]</span>
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 9. Änderungen */}
+          <Card>
+            <CardContent className="pt-6 space-y-2">
+              <h2 className="text-xl font-semibold">9. Änderungen</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Wir passen diese Datenschutzerklärung an, wenn sich Funktionen oder Rechtslage ändern. Stand siehe oben.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
