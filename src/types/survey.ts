@@ -126,12 +126,10 @@ export interface SurveyData {
   operationEsaCostAmount?: number;
   operationSatisfactionRating?: number;
   serviceProviderName?: string;
+  serviceProviderServices?: string[];
   serviceProviderComments?: string;
   serviceProvider2Name?: string;
   serviceProvider2Comments?: string;
-  spQualityRating?: number;
-  spPriceRating?: number;
-  spRatingComment?: string;
 
   // Section 4-MS: Planung Mieterstrom
   mieterstromSummenzaehler?: string;

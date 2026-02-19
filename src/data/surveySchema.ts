@@ -972,45 +972,32 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       placeholder: "Name des Dienstleisters",
       optional: true,
     },
-    // Korrektur: serviceProviderRating (#67) GELÖSCHT
+    {
+      id: "serviceProviderServices",
+      type: "multi-select",
+      label: "Welche Leistungen erbringt Ihr Dienstleister?",
+      helpText: "Wählen Sie alle zutreffenden Leistungen aus.",
+      optional: true,
+      visibilityRule: filled('serviceProviderName'),
+      options: [
+        // Gruppe 1: Ohne eigenen Messstellenbetrieb (nutzt gMSB)
+        { value: "data_provision", label: "Datenbereitstellung (ESA-Zugang zu gMSB-Werten)" },
+        { value: "invoicing_prep", label: "Vorbereitung der Rechnungsstellung für alle Teilnehmer" },
+        { value: "full_settlement", label: "Vollständige Abrechnung mit Teilnehmern" },
+        // Gruppe 2: Mit eigenem Messstellenbetrieb (wMSB)
+        { value: "metering_full", label: "Messstellenbetrieb inkl. Bereitstellung der Daten" },
+        { value: "metering_invoicing_prep", label: "Messstellenbetrieb inkl. Vorbereitung der Rechnung" },
+        { value: "metering_full_settlement", label: "Messstellenbetrieb inkl. Abrechnung" },
+      ],
+    },
     {
       id: "serviceProviderComments",
       type: "textarea",
-      label: "Kommentare zu Dienstleister 1",
-      placeholder: "Was lief gut? Was könnte besser sein?",
-      optional: true,
-      visibilityRule: filled('serviceProviderName'),
-    },
-    {
-      id: "spQualityRating",
-      type: "rating",
-      label: "Wie bewerten Sie die Qualität der Arbeit Ihres Dienstleisters?",
-      min: 1,
-      max: 5,
-      minLabel: "Sehr schlecht",
-      maxLabel: "Sehr gut",
-      optional: true,
-      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
-    },
-    {
-      id: "spPriceRating",
-      type: "rating",
-      label: "Wie bewerten Sie das Preis-Leistungs-Verhältnis Ihres Dienstleisters?",
-      min: 1,
-      max: 5,
-      minLabel: "Sehr schlecht",
-      maxLabel: "Sehr gut",
-      optional: true,
-      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
-    },
-    {
-      id: "spRatingComment",
-      type: "textarea",
-      label: "Erfahrungsbericht zum Dienstleister (wird auf ggv-transparenz.de veröffentlicht, max. 2000 Zeichen)",
-      placeholder: "z.B. Beratungsqualität, Reaktionszeiten, Transparenz der Abrechnung...",
+      label: "Erfahrungsbericht zum Dienstleister (max. 2000 Zeichen)",
+      placeholder: "z.B. Beratungsqualität, Reaktionszeiten, Transparenz der Abrechnung, was lief gut, was könnte besser sein?",
       optional: true,
       max: 2000,
-      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
+      visibilityRule: filled('serviceProviderName'),
     },
     {
       id: "serviceProvider2Name",
@@ -1028,7 +1015,6 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       optional: true,
       visibilityRule: filled('serviceProvider2Name'),
     },
-    // Korrektur: vnbRejectionResponse wurde nach Section 3 (Challenges) verschoben
   ],
 };
 
