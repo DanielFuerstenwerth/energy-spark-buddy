@@ -1549,6 +1549,15 @@ const SECTION_GGV_TRANSPARENZ: SurveySection = {
       visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
     },
     {
+      id: "ggvProjectLinks",
+      type: "text",
+      label: "Links zu Ihrem Projekt (z.B. Presseartikel, Social Media)",
+      helpText: "Sie können bis zu zwei Links angeben, getrennt durch Komma. Diese werden auf ggv-transparenz.de neben Ihrem Projektnamen angezeigt.",
+      placeholder: "https://beispiel.de/artikel, https://instagram.com/projekt",
+      optional: true,
+      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
+    },
+    {
       id: "ggvExperienceNotes",
       type: "textarea",
       label: "Erfahrungsnotizen zum GGV-Projekt (werden auf ggv-transparenz.de veröffentlicht)",
@@ -1705,6 +1714,9 @@ export function buildDbData(
     };
     if (BOOLEAN_DB_FIELDS[key] && typeof value === 'string') {
       dbData[snakeKey] = BOOLEAN_DB_FIELDS[key][value] ?? value;
+    } else if (key === 'ggvProjectLinks' && typeof value === 'string') {
+      // Split comma-separated links into array for text[] DB column
+      dbData[snakeKey] = value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 2);
     } else {
       dbData[snakeKey] = typeof value === 'string' && value.length > DB_TEXT_LIMIT
         ? value.slice(0, DB_TEXT_LIMIT)
@@ -1871,6 +1883,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "ggvTransparenzOptIn": { displayId: "GGV-T-OptIn", dbColumn: "ggv_transparenz_opt_in", uiNumber: "G.1" },
   "ggvProjectCity": { displayId: "GGV-T-City", dbColumn: "ggv_project_city", uiNumber: "G.2" },
   "ggvProjectWebsite": { displayId: "GGV-T-Website", dbColumn: "ggv_project_website", uiNumber: "G.3" },
+  "ggvProjectLinks": { displayId: "GGV-T-Links", dbColumn: "ggv_project_links", uiNumber: "G.3a" },
   "ggvExperienceNotes": { displayId: "GGV-T-ExperienceNotes", dbColumn: "ggv_experience_notes", uiNumber: "G.4" },
   "spQualityRating": { displayId: "SP-QualityRating", dbColumn: "sp_quality_rating", uiNumber: "G.5" },
   "spPriceRating": { displayId: "SP-PriceRating", dbColumn: "sp_price_rating", uiNumber: "G.6" },

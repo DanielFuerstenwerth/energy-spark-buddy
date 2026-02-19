@@ -303,6 +303,7 @@ export type Database = {
           ggv_or_mieterstrom_decision: string | null
           ggv_party_count: number | null
           ggv_project_city: string | null
+          ggv_project_links: string[] | null
           ggv_project_type: string | null
           ggv_project_website: string | null
           ggv_pv_size_kw: number | null
@@ -486,6 +487,7 @@ export type Database = {
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
           ggv_project_city?: string | null
+          ggv_project_links?: string[] | null
           ggv_project_type?: string | null
           ggv_project_website?: string | null
           ggv_pv_size_kw?: number | null
@@ -669,6 +671,7 @@ export type Database = {
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
           ggv_project_city?: string | null
+          ggv_project_links?: string[] | null
           ggv_project_type?: string | null
           ggv_project_website?: string | null
           ggv_pv_size_kw?: number | null

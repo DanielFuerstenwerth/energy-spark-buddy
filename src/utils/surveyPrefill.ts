@@ -15,6 +15,7 @@ const PARAM_MAP: Record<string, { field: keyof SurveyData; transform?: (v: strin
   status: { field: "planningStatus", transform: (v) => [v] },
   providerName: { field: "serviceProviderName" },
   website: { field: "ggvProjectWebsite" },
+  links: { field: "ggvProjectLinks", transform: (v) => v.split(",").map(s => s.trim()).filter(Boolean) },
 };
 
 export function parsePrefillParams(search: string): {
