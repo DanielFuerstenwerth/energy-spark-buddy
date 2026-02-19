@@ -456,7 +456,7 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
             )}
             <div className="space-y-8">
               {visibleQuestions.map((q) => (
-                <div key={q.id}>
+                <div key={q.id} className={q.groupWithPrevious ? "-mt-6" : ""}>
                   
                   {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, (q.tooltip || q.helpText) ? <InlineHintTrigger text={q.tooltip || q.helpText!} /> : undefined)}
                 </div>

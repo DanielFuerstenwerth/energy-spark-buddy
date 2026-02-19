@@ -41,17 +41,21 @@ export function TextQuestion({
     }
   };
 
+  const hasLabel = label || questionNumber || optional;
+
   return (
     <div className="space-y-3">
-      <div>
-        <Label htmlFor={id} className="text-base font-semibold text-foreground">
-          {label}
-          {questionNumber && <QuestionTag questionNumber={questionNumber} />}
-          {tooltipNode}
-          {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
-        </Label>
-        {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
-      </div>
+      {hasLabel && (
+        <div>
+          <Label htmlFor={id} className="text-base font-semibold text-foreground">
+            {label}
+            {questionNumber && <QuestionTag questionNumber={questionNumber} />}
+            {tooltipNode}
+            {optional && <span className="text-muted-foreground font-normal ml-2">(optional)</span>}
+          </Label>
+          {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
+        </div>
+      )}
       {useTextarea ? (
         <div className="space-y-1">
           <Textarea
