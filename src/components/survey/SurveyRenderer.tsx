@@ -457,6 +457,9 @@ function PrivacyNotice() {
           </p>
         </CollapsibleContent>
       </Collapsible>
+      <p className="text-xs text-muted-foreground/70 italic mt-3">
+        Fast alle Felder sind optional. Beantworten Sie gerne nur die Felder, die Sie befüllen möchten. Detaillierte Eingaben unterstützen unsere Auswertungen.
+      </p>
     </div>
   );
 }
