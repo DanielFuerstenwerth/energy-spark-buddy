@@ -21,7 +21,7 @@ export interface SurveyData {
   actorDienstleisterCategoryOther?: string;
   dienstleisterWebsite?: string[];
   dienstleisterKontakt?: string[];
-  actorTextFields?: Record<string, string>;
+  actorTextFields?: Record<string, string>; // Serialized to text before DB insert
   actorOther?: string;
   motivation: string[];
   motivationOther?: string;
@@ -62,10 +62,10 @@ export interface SurveyData {
   implementationApproach: string[];
   implementationApproachOther?: string;
   challenges: string[];
-  challengesDetails: Record<string, string>;
+  challengesDetails: Record<string, string>; // Serialized to text before DB insert
   vnbRejectionResponse?: string[];
   vnbRejectionResponseOther?: string;
-  vnbRejectionResponseDetails?: Record<string, string>;
+  vnbRejectionResponseDetails?: Record<string, string>; // Serialized to text before DB insert
 
   // Section 4-GGV: Planung GGV
   vnbExistingProjects?: string;
