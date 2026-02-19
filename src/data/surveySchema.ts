@@ -1786,6 +1786,19 @@ export function buildDbData(
  *  - ggv_project_links (from location.weblinks, GGV only)
  *  - ggv_pv_size_kw (from location.pvSizeKw, GGV multi-site only)
  */
+// Column prefixes that are type-specific and should be nullified in non-matching rows
+const GGV_ONLY_PREFIXES = ['ggv_', 'vnb_existing_projects', 'vnb_contact', 'vnb_response', 'vnb_support_', 'vnb_contact_helpful', 'vnb_personal_contacts', 'vnb_start_timeline', 'vnb_additional_costs', 'vnb_full_service', 'vnb_data_', 'vnb_esa_', 'vnb_msb_', 'vnb_rejection_timeline', 'vnb_wandlermessung', 'vnb_planning_duration', 'operation_'];
+const MS_ONLY_PREFIXES = ['mieterstrom_'];
+const ES_ONLY_PREFIXES = ['es_'];
+
+function nullifyColumns(row: Record<string, unknown>, prefixes: string[]): void {
+  for (const key of Object.keys(row)) {
+    if (prefixes.some(p => key.startsWith(p))) {
+      row[key] = null;
+    }
+  }
+}
+
 export function expandToLocationRows(
   baseRow: Record<string, unknown>,
   data: SurveyData,
@@ -1817,16 +1830,20 @@ export function expandToLocationRows(
     if (loc.plz) row.project_plz = loc.plz;
     if (loc.address) row.project_address = loc.address;
     
-    // GGV-specific fields
+    // Nullify columns that don't belong to this row's project type
     if (loc.source === 'ggv') {
+      nullifyColumns(row, [...MS_ONLY_PREFIXES, ...ES_ONLY_PREFIXES]);
       if (loc.projectName) row.ggv_project_name = loc.projectName;
       if (loc.weblinks && loc.weblinks.some(l => l.trim())) {
         row.ggv_project_links = loc.weblinks.filter(l => l.trim()).slice(0, 5);
       }
-      // For multi-site GGV, use per-location kW
       if (ggvCount > 1 && loc.pvSizeKw) {
         row.ggv_pv_size_kw = loc.pvSizeKw;
       }
+    } else if (loc.source === 'ms') {
+      nullifyColumns(row, [...GGV_ONLY_PREFIXES, ...ES_ONLY_PREFIXES]);
+    } else if (loc.source === 'es') {
+      nullifyColumns(row, [...GGV_ONLY_PREFIXES, ...MS_ONLY_PREFIXES]);
     }
     return row;
   });

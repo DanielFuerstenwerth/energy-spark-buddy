@@ -75,21 +75,39 @@ Deno.serve(async (req) => {
       details: { format: "csv", timestamp: new Date().toISOString() },
     });
 
-    // 4. Fetch all survey responses
-    const { data: responses, error: fetchError } = await supabaseAdmin
-      .from("survey_responses")
-      .select("*")
-      .order("created_at", { ascending: false });
+    // 4. Fetch ALL survey responses (paginated to avoid 1000-row limit)
+    const PAGE_SIZE = 1000;
+    let allResponses: Record<string, unknown>[] = [];
+    let offset = 0;
+    let hasMore = true;
 
-    if (fetchError) {
-      console.error("Fetch error:", fetchError);
-      return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    while (hasMore) {
+      const { data: page, error: fetchError } = await supabaseAdmin
+        .from("survey_responses")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .range(offset, offset + PAGE_SIZE - 1);
+
+      if (fetchError) {
+        console.error("Fetch error:", fetchError);
+        return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      if (page && page.length > 0) {
+        allResponses = allResponses.concat(page);
+        offset += PAGE_SIZE;
+        hasMore = page.length === PAGE_SIZE;
+      } else {
+        hasMore = false;
+      }
     }
 
-    if (!responses || responses.length === 0) {
+    const responses = allResponses;
+
+    if (responses.length === 0) {
       return new Response(JSON.stringify({ error: "No data to export" }), {
         status: 404,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
