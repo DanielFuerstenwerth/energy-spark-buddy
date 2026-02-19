@@ -21,7 +21,7 @@ const NewHome = () => {
                 Methodik
               </Link>
               <Link to="/Umfrage-GGV" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Umfrage
+                Umfrage GGV & Co
               </Link>
               <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                 Über uns
