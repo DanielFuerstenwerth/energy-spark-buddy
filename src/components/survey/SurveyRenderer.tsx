@@ -434,6 +434,7 @@ interface SurveyRendererFullProps extends SurveyRendererProps {
 function PrivacyNotice() {
   const [detailsOpen, setDetailsOpen] = useState(false);
   return (
+    <>
     <div className="rounded-lg bg-muted p-4 mb-6">
       <p className="font-semibold text-sm text-foreground mb-1">Hinweis zur Datennutzung</p>
       <p className="text-xs text-muted-foreground">
@@ -457,10 +458,11 @@ function PrivacyNotice() {
           </p>
         </CollapsibleContent>
       </Collapsible>
-      <p className="text-xs text-muted-foreground/70 italic mt-3">
-        Fast alle Felder sind optional. Beantworten Sie gerne nur die Felder, die Sie befüllen möchten. Detaillierte Eingaben unterstützen unsere Auswertungen.
-      </p>
     </div>
+    <p className="text-xs text-muted-foreground/70 italic">
+      Fast alle Felder sind optional. Beantworten Sie gerne nur die Felder, die Sie befüllen möchten. Detaillierte Eingaben unterstützen unsere Auswertungen.
+    </p>
+  </>
   );
 }
 
