@@ -85,17 +85,22 @@ export function useMultiEvaluation() {
    * Returns array of complete SurveyData objects ready for DB insert.
    */
   const getMergedSubmissions = useCallback((): SurveyData[] => {
+    const globalFieldSet = new Set<keyof SurveyData>([...GLOBAL_FIELDS, ...FINAL_FIELDS]);
     return evaluations.map((ev, i) => {
       // Use VNB name as label if available, otherwise fallback
       const dynamicLabel = ev.data.vnbName || ev.label;
+      // Strip global fields from evaluation data so they don't override globalData
+      const evalOnly = Object.fromEntries(
+        Object.entries(ev.data).filter(([key]) => !globalFieldSet.has(key as keyof SurveyData))
+      );
       return {
         ...initialSurveyData,
-        // Global fields
+        // Global fields (from globalData — filled once in "Über Sie" & "Abschluss")
         ...Object.fromEntries(
           [...GLOBAL_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
         ),
-        // Evaluation-specific fields (overrides) — includes ES data now
-        ...ev.data,
+        // Evaluation-specific fields (without global fields)
+        ...evalOnly,
         // Meta
         evaluationLabel: dynamicLabel,
         sessionGroupId,
