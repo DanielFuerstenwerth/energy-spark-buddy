@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const Impressum = () => {
   return (
@@ -9,65 +11,104 @@ const Impressum = () => {
       <Header />
 
       <main id="main-content" className="flex-1 container mx-auto px-4 py-12">
-        <div className="max-w-3xl">
-          <h1 className="text-4xl font-bold mb-8">Impressum</h1>
+        <div className="max-w-3xl space-y-6">
+          <h1 className="text-4xl font-bold mb-2">Impressum</h1>
 
-          <div className="prose prose-lg max-w-none space-y-6">
-            <section>
-              <h2 className="text-2xl font-bold mb-4">Angaben gemäß § 5 TMG</h2>
-              <p className="text-muted-foreground">
-                Daniel Fürstenwerth
-                <br />
-                1000 GW GmbH
-                <br />
-                Rollbergstraße 28a <br />
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">Diensteanbieter</h2>
+              <p className="text-xs text-muted-foreground">Angaben gemäß § 5 DDG</p>
+              <p className="text-muted-foreground leading-relaxed">
+                1000 GW GmbH<br />
+                Rollbergstraße 28a<br />
+                12053 Berlin<br />
+                Deutschland
+              </p>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Vertreten durch</p>
+                <p className="text-muted-foreground">Geschäftsführer: Daniel Fürstenwerth</p>
+              </div>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Kontakt</p>
+                <p className="text-muted-foreground">
+                  Telefon:{" "}
+                  <a href="tel:+4915127656192" className="underline hover:text-foreground">
+                    +49 151 27656192
+                  </a>
+                  <br />
+                  E-Mail:{" "}
+                  <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
+                    kontakt@vnb-transparenz.de
+                  </a>
+                </p>
+              </div>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Registereintrag</p>
+                <p className="text-muted-foreground">
+                  Eingetragen im Handelsregister.<br />
+                  Registergericht: Amtsgericht Berlin (Charlottenburg)<br />
+                  Registernummer: HRB 273150 B
+                </p>
+              </div>
+
+              <Separator />
+
+              <div>
+                <p className="font-medium">Umsatzsteuer</p>
+                <p className="text-muted-foreground">USt-IdNr.: DE453210004</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6 space-y-2">
+              <h2 className="text-xl font-semibold">Verantwortlich für journalistisch-redaktionelle Inhalte</h2>
+              <p className="text-xs text-muted-foreground">gemäß § 18 Abs. 2 MStV</p>
+              <p className="text-muted-foreground leading-relaxed">
+                Daniel Fürstenwerth<br />
+                Rollbergstraße 28a<br />
                 12053 Berlin
               </p>
-            </section>
+            </CardContent>
+          </Card>
 
-            <section>
-              <h2 className="text-2xl font-bold mb-4">Kontakt</h2>
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">Haftungshinweise</h2>
+
+              <div>
+                <p className="font-medium">Inhalte</p>
+                <p className="text-muted-foreground">
+                  Wir erstellen die Inhalte mit Sorgfalt, übernehmen aber keine Gewähr für Richtigkeit, Vollständigkeit und Aktualität. VNB-Transparenz ist keine amtliche Stelle; Bewertungen sind nicht rechtsverbindlich.
+                </p>
+              </div>
+
+              <div>
+                <p className="font-medium">Links</p>
+                <p className="text-muted-foreground">
+                  Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="pt-6 space-y-2">
+              <h2 className="text-xl font-semibold">Hinweise zum Bewertungsverfahren</h2>
               <p className="text-muted-foreground">
-                E-Mail: <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">kontakt@vnb-transparenz.de</a>
-                <br />
+                Bewertungen basieren auf verfügbaren Quellen und Community-Eingaben. Verteilnetzbetreiber können Korrekturen über ein Right-to-Reply-Verfahren anstoßen.
               </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">Verantwortlich für den Inhalt</h2>
-              <p className="text-muted-foreground">
-                Daniel Fürstenwerth, 1000 GW GmbH
-                <br />
-                Rollbergstraße 28a, 12053 Berlin
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">Haftungsausschluss</h2>
-
-              <h3 className="text-xl font-semibold mb-2">Haftung für Inhalte</h3>
-              <p className="text-muted-foreground mb-4">
-                Die Inhalte dieser Plattform wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit
-                und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. VNB-Transparenz ist keine amtliche
-                Stelle und stellt keine rechtlich bindenden Bewertungen dar.
-              </p>
-
-              <h3 className="text-xl font-semibold mb-2">Haftung für Links</h3>
-              <p className="text-muted-foreground">
-                Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben.
-                Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter verantwortlich.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-2xl font-bold mb-4">Disclaimer</h2>
-              <p className="text-muted-foreground">
-                Diese Plattform stellt Informationen auf Best-Effort-Basis bereit. Alle Bewertungen basieren auf
-                verfügbaren Datenquellen und Community-Eingaben. Wir bieten Verteilnetzbetreibern ein
-                Right-to-Reply-Verfahren zur Korrektur von Fehlern.
-              </p>
-            </section>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </main>
 
