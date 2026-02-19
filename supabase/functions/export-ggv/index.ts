@@ -14,14 +14,13 @@ const STATUS_MAP: Record<string, string> = {
   planung_fast_fertig: "implementing",
   pv_laeuft_ggv_planung: "implementing",
   pv_laeuft_ggv_laeuft: "active",
-  sonstiges: "interested", // Fallback for "Sonstiges"
+  sonstiges: "interested",
 };
 
-// Building type mapping
 const BUILDING_TYPE_MAP: Record<string, string> = {
   wohngebaeude: "wohngebaeude",
   gewerbe: "gewerbe",
-  gemischt: "wohngebaeude", // Default to residential for mixed
+  gemischt: "wohngebaeude",
 };
 
 interface SurveyRow {
@@ -36,15 +35,18 @@ interface SurveyRow {
   ggv_project_website?: string;
   ggv_experience_notes?: string;
   service_provider_name?: string;
+  service_provider_services?: string[];
   service_provider_comments?: string;
-  sp_quality_rating?: number;
-  sp_price_rating?: number;
-  sp_rating_comment?: string;
   contact_email?: string;
 }
 
-function buildGgvPayload(row: SurveyRow) {
-  // Extract location data
+// Valid service IDs on ggv-transparenz.de
+const VALID_SERVICE_IDS = new Set([
+  "data_provision", "invoicing_prep", "full_settlement",
+  "metering_full", "metering_invoicing_prep", "metering_full_settlement",
+]);
+
+function buildProjectPayload(row: SurveyRow) {
   let plz: string | undefined;
   let address: string | undefined;
 
@@ -54,17 +56,14 @@ function buildGgvPayload(row: SurveyRow) {
     address = loc.address;
   }
 
-  // Build project name
   const nameParts = ["GGV"];
   if (address) nameParts.push(address);
   if (row.ggv_project_city) nameParts.push(row.ggv_project_city);
   const name = nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt";
 
-  // Map status
   const planningStatus = Array.isArray(row.planning_status) ? row.planning_status[0] : undefined;
   const status = planningStatus ? STATUS_MAP[planningStatus] || "interested" : undefined;
 
-  // Build project object (only include non-empty fields)
   const project: Record<string, unknown> = { name };
   if (plz) project.plz = plz;
   if (row.ggv_project_city) project.city = row.ggv_project_city;
@@ -77,29 +76,31 @@ function buildGgvPayload(row: SurveyRow) {
   if (row.ggv_project_website) project.website = row.ggv_project_website;
   if (row.ggv_experience_notes) project.experience_notes = row.ggv_experience_notes;
   if (row.service_provider_name) project.provider_name = row.service_provider_name;
-  if (row.service_provider_comments) project.provider_experience = row.service_provider_comments;
-  project.country = "DE";
+  if (row.service_provider_comments) project.provider_experience = row.service_provider_comments.slice(0, 2000);
 
-  const payload: Record<string, unknown> = {
-    project,
-    source: "vnb-transparenz-survey",
+  // Provider services – filter to valid IDs
+  const services = (row.service_provider_services || []).filter(s => VALID_SERVICE_IDS.has(s));
+  if (services.length > 0) project.provider_services = services;
+
+  project.country = "DE";
+  return project;
+}
+
+function buildProviderFeedback(row: SurveyRow) {
+  if (!row.service_provider_name) return null;
+
+  const feedback: Record<string, unknown> = {
+    provider_name: row.service_provider_name,
   };
 
-  // Provider rating (only if quality or price rating given)
-  if (row.sp_quality_rating || row.sp_price_rating) {
-    payload.provider_rating = {
-      provider_name: row.service_provider_name || "",
-      quality_rating: row.sp_quality_rating || undefined,
-      price_rating: row.sp_price_rating || undefined,
-      comment: row.sp_rating_comment ? row.sp_rating_comment.slice(0, 2000) : undefined,
-    };
+  const services = (row.service_provider_services || []).filter(s => VALID_SERVICE_IDS.has(s));
+  if (services.length > 0) feedback.provider_services = services;
+
+  if (row.service_provider_comments) {
+    feedback.provider_experience = row.service_provider_comments.slice(0, 2000);
   }
 
-  if (row.contact_email) {
-    payload.submitter_email = row.contact_email;
-  }
-
-  return payload;
+  return feedback;
 }
 
 Deno.serve(async (req) => {
@@ -129,7 +130,6 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Fetch the survey response
     const { data: row, error: fetchError } = await supabase
       .from("survey_responses")
       .select("*")
@@ -143,29 +143,46 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check opt-in
-    if (row.ggv_transparenz_opt_in !== "ja") {
-      return new Response(JSON.stringify({ skipped: true, reason: "opt-in not active" }), {
+    const hasOptIn = row.ggv_transparenz_opt_in === "ja";
+    const hasProvider = !!row.service_provider_name;
+
+    // Nothing to send
+    if (!hasOptIn && !hasProvider) {
+      return new Response(JSON.stringify({ skipped: true, reason: "no opt-in and no provider data" }), {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const payload = buildGgvPayload(row as SurveyRow);
+    // Build payload per API spec
+    const payload: Record<string, unknown> = {
+      source: "vnb-transparenz-survey",
+    };
+
+    if (hasOptIn) {
+      // Full project data including provider info
+      payload.project = buildProjectPayload(row as SurveyRow);
+    } else if (hasProvider) {
+      // Only provider feedback, no project data
+      payload.provider_feedback = buildProviderFeedback(row as SurveyRow);
+    }
+
+    if (row.contact_email) {
+      payload.submitter_email = row.contact_email;
+    }
 
     // POST to ggv-transparenz.de API
-    // TODO: Replace with actual ggv-transparenz.de project ID and API key
     const GGV_API_URL = Deno.env.get("GGV_TRANSPARENZ_API_URL");
     const GGV_API_KEY = Deno.env.get("GGV_TRANSPARENZ_API_KEY");
 
     if (!GGV_API_URL || !GGV_API_KEY) {
-      console.warn("GGV_TRANSPARENZ_API_URL or GGV_TRANSPARENZ_API_KEY not configured, logging payload instead");
+      console.warn("GGV API credentials not configured, logging payload instead");
       console.log("GGV export payload:", JSON.stringify(payload, null, 2));
-      return new Response(JSON.stringify({ 
-        success: true, 
+      return new Response(JSON.stringify({
+        success: true,
         dry_run: true,
         payload,
-        message: "API credentials not configured yet. Payload logged." 
+        message: "API credentials not configured yet. Payload logged.",
       }), {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -185,20 +202,21 @@ Deno.serve(async (req) => {
 
     if (!apiResponse.ok) {
       console.error("GGV API error:", apiResult);
-      return new Response(JSON.stringify({ 
-        success: false, 
+      return new Response(JSON.stringify({
+        success: false,
         error: "GGV API returned error",
         status: apiResponse.status,
-        details: apiResult 
+        details: apiResult,
       }), {
         status: 502,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      project_id: apiResult.project_id 
+    return new Response(JSON.stringify({
+      success: true,
+      project_id: apiResult.project_id,
+      feedback_id: apiResult.feedback_id,
     }), {
       status: 200,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

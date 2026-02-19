@@ -222,10 +222,10 @@ export default function Survey() {
         return;
       }
 
-      // After successful submission, trigger GGV export if opt-in is active
+      // After successful submission, trigger GGV export if opt-in or provider data exists
       // Fire-and-forget: don't block the user on this
       for (const row of dbRows) {
-        if (row.ggv_transparenz_opt_in === 'ja') {
+        if (row.ggv_transparenz_opt_in === 'ja' || row.service_provider_name) {
           supabase.functions.invoke('export-ggv', {
             body: { survey_id: row.id || result?.id },
           }).then(res => {

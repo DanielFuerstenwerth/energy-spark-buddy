@@ -392,6 +392,7 @@ export type Database = {
           service_provider_2_name: string | null
           service_provider_comments: string | null
           service_provider_name: string | null
+          service_provider_services: string[] | null
           session_group_id: string | null
           sp_price_rating: number | null
           sp_quality_rating: number | null
@@ -574,6 +575,7 @@ export type Database = {
           service_provider_2_name?: string | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
+          service_provider_services?: string[] | null
           session_group_id?: string | null
           sp_price_rating?: number | null
           sp_quality_rating?: number | null
@@ -756,6 +758,7 @@ export type Database = {
           service_provider_2_name?: string | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
+          service_provider_services?: string[] | null
           session_group_id?: string | null
           sp_price_rating?: number | null
           sp_quality_rating?: number | null
