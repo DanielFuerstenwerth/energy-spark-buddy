@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
-
+import { COLUMN_LABELS, resolveValue, SCHEMA_VERSION } from "../_shared/survey-labels.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -133,14 +133,15 @@ Deno.serve(async (req) => {
       return escapeCsv(label);
     });
 
-    // First column header = "Feld", then one column per project
-    const headerRow = ["Feld", ...projectHeaders].join(";");
+    // First column header = "DB-Spalte", second = "Fragetext", then one column per project
+    const headerRow = ["DB-Spalte", "Fragetext", ...projectHeaders].join(";");
 
-    // One row per field, with values from each project
+    // One row per field, with RESOLVED values from each project
     const dataRows = allKeys.map((key) => {
       const fieldName = escapeCsv(key);
-      const values = responses.map((r: Record<string, unknown>) => escapeCsv(r[key]));
-      return [fieldName, ...values].join(";");
+      const questionLabel = escapeCsv(COLUMN_LABELS[key]?.questionLabel || key);
+      const values = responses.map((r: Record<string, unknown>) => escapeCsv(resolveValue(key, r[key])));
+      return [fieldName, questionLabel, ...values].join(";");
     });
 
     const bom = "\uFEFF";

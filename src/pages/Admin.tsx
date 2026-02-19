@@ -18,7 +18,31 @@ const Admin = () => {
   const { isAdmin, loading, user } = useIsAdmin();
   useSessionTimeout(isAdmin);
   const [exporting, setExporting] = useState(false);
+  const [exportingCodebook, setExportingCodebook] = useState(false);
 
+  const handleCodebookExport = async () => {
+    setExportingCodebook(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) { toast.error('Nicht eingeloggt'); return; }
+      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const res = await fetch(
+        `https://${projectId}.supabase.co/functions/v1/export-survey-codebook`,
+        { method: 'GET', headers: { 'Authorization': `Bearer ${session.access_token}`, 'apikey': import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY } }
+      );
+      if (!res.ok) { const err = await res.json().catch(() => ({})); throw new Error(err.error || `HTTP ${res.status}`); }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'umfrage-codebook.csv';
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      toast.success('Codebook heruntergeladen');
+    } catch (error: any) {
+      console.error('Codebook export error:', error);
+      toast.error(`Codebook-Export fehlgeschlagen: ${error.message}`);
+    } finally { setExportingCodebook(false); }
+  };
   const handleExport = async () => {
     setExporting(true);
     try {
@@ -137,9 +161,24 @@ const Admin = () => {
                     {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
                     {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
                   </Button>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel mit korrekten Umlauten.
-                  </p>
+                   <p className="text-xs text-muted-foreground mt-2">
+                     CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel. Antworten werden als Klartext (nicht IDs) exportiert.
+                   </p>
+                   <div className="mt-4 pt-4 border-t">
+                     <Button
+                       onClick={handleCodebookExport}
+                       disabled={exportingCodebook}
+                       variant="outline"
+                       size="sm"
+                       className="gap-2"
+                     >
+                       {exportingCodebook ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                       {exportingCodebook ? 'Exportiere...' : 'Codebook (alle Fragen & Antwortoptionen) herunterladen'}
+                     </Button>
+                     <p className="text-xs text-muted-foreground mt-1">
+                       Referenzdatei mit allen Fragen, DB-Spalten und möglichen Antworten – versioniert.
+                     </p>
+                   </div>
                 </CardContent>
               </Card>
             </TabsContent>

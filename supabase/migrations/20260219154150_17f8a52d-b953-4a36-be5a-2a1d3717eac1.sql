@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN schema_version text DEFAULT 'v0.0';

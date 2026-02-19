@@ -437,6 +437,7 @@ export type Database = {
           project_plz: string | null
           project_type_tag: string | null
           project_types: string[] | null
+          schema_version: string | null
           service_provider_2_comments: string | null
           service_provider_2_name: string | null
           service_provider_2_services: string[] | null
@@ -625,6 +626,7 @@ export type Database = {
           project_plz?: string | null
           project_type_tag?: string | null
           project_types?: string[] | null
+          schema_version?: string | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
           service_provider_2_services?: string[] | null
@@ -813,6 +815,7 @@ export type Database = {
           project_plz?: string | null
           project_type_tag?: string | null
           project_types?: string[] | null
+          schema_version?: string | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
           service_provider_2_services?: string[] | null
