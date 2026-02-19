@@ -334,7 +334,6 @@ export type Database = {
           es_party_count: number | null
           es_plant_type: string[] | null
           es_plant_type_details: string[] | null
-          es_project_locations: string | null
           es_project_scope: string | null
           es_status: string[] | null
           es_status_other: string | null
@@ -387,7 +386,6 @@ export type Database = {
           mieterstrom_party_count: number | null
           mieterstrom_planning_status: string[] | null
           mieterstrom_planning_status_other: string | null
-          mieterstrom_project_locations: string | null
           mieterstrom_project_type: string | null
           mieterstrom_pv_size_kw: number | null
           mieterstrom_rejection_response: string[] | null
@@ -436,8 +434,8 @@ export type Database = {
           planning_status_other: string | null
           project_address: string | null
           project_focus: string | null
-          project_locations: string | null
           project_plz: string | null
+          project_type_tag: string | null
           project_types: string[] | null
           service_provider_2_comments: string | null
           service_provider_2_name: string | null
@@ -524,7 +522,6 @@ export type Database = {
           es_party_count?: number | null
           es_plant_type?: string[] | null
           es_plant_type_details?: string[] | null
-          es_project_locations?: string | null
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null
@@ -577,7 +574,6 @@ export type Database = {
           mieterstrom_party_count?: number | null
           mieterstrom_planning_status?: string[] | null
           mieterstrom_planning_status_other?: string | null
-          mieterstrom_project_locations?: string | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
           mieterstrom_rejection_response?: string[] | null
@@ -626,8 +622,8 @@ export type Database = {
           planning_status_other?: string | null
           project_address?: string | null
           project_focus?: string | null
-          project_locations?: string | null
           project_plz?: string | null
+          project_type_tag?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
@@ -714,7 +710,6 @@ export type Database = {
           es_party_count?: number | null
           es_plant_type?: string[] | null
           es_plant_type_details?: string[] | null
-          es_project_locations?: string | null
           es_project_scope?: string | null
           es_status?: string[] | null
           es_status_other?: string | null
@@ -767,7 +762,6 @@ export type Database = {
           mieterstrom_party_count?: number | null
           mieterstrom_planning_status?: string[] | null
           mieterstrom_planning_status_other?: string | null
-          mieterstrom_project_locations?: string | null
           mieterstrom_project_type?: string | null
           mieterstrom_pv_size_kw?: number | null
           mieterstrom_rejection_response?: string[] | null
@@ -816,8 +810,8 @@ export type Database = {
           planning_status_other?: string | null
           project_address?: string | null
           project_focus?: string | null
-          project_locations?: string | null
           project_plz?: string | null
+          project_type_tag?: string | null
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
