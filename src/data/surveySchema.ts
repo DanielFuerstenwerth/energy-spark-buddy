@@ -1006,9 +1006,10 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
     {
       id: "spRatingComment",
       type: "textarea",
-      label: "Erfahrungsbericht zum Dienstleister (wird auf ggv-transparenz.de veröffentlicht)",
+      label: "Erfahrungsbericht zum Dienstleister (wird auf ggv-transparenz.de veröffentlicht, max. 2000 Zeichen)",
       placeholder: "z.B. Beratungsqualität, Reaktionszeiten, Transparenz der Abrechnung...",
       optional: true,
+      max: 2000,
       visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
     },
     {
