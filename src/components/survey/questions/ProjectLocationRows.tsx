@@ -8,6 +8,8 @@ export interface ProjectLocation {
   plz?: string;
   address?: string;
   pvSizeKw?: number;
+  projectName?: string;
+  weblinks?: string;
 }
 
 interface ProjectLocationRowsProps {
@@ -16,9 +18,11 @@ interface ProjectLocationRowsProps {
   multiple?: boolean;
   questionNumber?: string;
   label?: string;
+  /** Show GGV-transparenz fields (projectName, weblinks) when address is filled */
+  showGgvFields?: boolean;
 }
 
-export function ProjectLocationRows({ locations, onChange, multiple = false, questionNumber, label }: ProjectLocationRowsProps) {
+export function ProjectLocationRows({ locations, onChange, multiple = false, questionNumber, label, showGgvFields = false }: ProjectLocationRowsProps) {
   const displayLabel = label || `Standort${multiple ? 'e' : ''} des Projekts`;
   const rows = locations.length > 0 ? locations : [{}];
 
@@ -53,39 +57,58 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
         </Label>
       </div>
 
-      {rows.map((row, index) => (
-        <div key={index} className="flex gap-3 items-start">
-          <div className="w-28 shrink-0">
-            <Input
-              placeholder="PLZ"
-              value={row.plz ?? ""}
-              onChange={(e) => updateRow(index, 'plz', e.target.value)}
-            />
-          </div>
-          <div className="flex-1">
-            <Input
-              placeholder="Adresse (z.B. Musterstraße 1, Berlin)"
-              value={row.address ?? ""}
-              onChange={(e) => updateRow(index, 'address', e.target.value)}
-            />
-          </div>
-          {multiple && (
-            <div className="w-28 shrink-0">
-              <Input
-                type="number"
-                placeholder="kW"
-                value={row.pvSizeKw ?? ""}
-                onChange={(e) => updateRow(index, 'pvSizeKw', e.target.value)}
-              />
+      {rows.map((row, index) => {
+        const hasAddress = !!(row.plz?.trim() || row.address?.trim());
+        return (
+          <div key={index} className="space-y-2">
+            <div className="flex gap-3 items-start">
+              <div className="w-28 shrink-0">
+                <Input
+                  placeholder="PLZ"
+                  value={row.plz ?? ""}
+                  onChange={(e) => updateRow(index, 'plz', e.target.value)}
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  placeholder="Adresse (z.B. Musterstraße 1, Berlin)"
+                  value={row.address ?? ""}
+                  onChange={(e) => updateRow(index, 'address', e.target.value)}
+                />
+              </div>
+              {multiple && (
+                <div className="w-28 shrink-0">
+                  <Input
+                    type="number"
+                    placeholder="kW"
+                    value={row.pvSizeKw ?? ""}
+                    onChange={(e) => updateRow(index, 'pvSizeKw', e.target.value)}
+                  />
+                </div>
+              )}
+              {multiple && rows.length > 1 && (
+                <Button variant="ghost" size="icon" className="shrink-0 text-muted-foreground" onClick={() => removeRow(index)}>
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              )}
             </div>
-          )}
-          {multiple && rows.length > 1 && (
-            <Button variant="ghost" size="icon" className="shrink-0 text-muted-foreground" onClick={() => removeRow(index)}>
-              <Trash2 className="w-4 h-4" />
-            </Button>
-          )}
-        </div>
-      ))}
+            {showGgvFields && hasAddress && (
+              <div className="ml-0 pl-4 border-l-2 border-emerald-200 dark:border-emerald-700 space-y-2">
+                <Input
+                  placeholder="Optional: Name des Projekts (wird angezeigt auf ggv-transparenz.de)"
+                  value={row.projectName ?? ""}
+                  onChange={(e) => updateRow(index, 'projectName', e.target.value)}
+                />
+                <Input
+                  placeholder="Optional: Weblinks zu Ihrem Projekt (z.B. Website, Presseartikel, Social Media)"
+                  value={row.weblinks ?? ""}
+                  onChange={(e) => updateRow(index, 'weblinks', e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+        );
+      })}
 
       {multiple && (
         <Button variant="outline" size="sm" onClick={addRow} className="gap-1.5">

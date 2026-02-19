@@ -23,19 +23,27 @@ const BUILDING_TYPE_MAP: Record<string, string> = {
   gemischt: "wohngebaeude",
 };
 
+interface LocationData {
+  plz?: string;
+  address?: string;
+  pvSizeKw?: number;
+  projectName?: string;
+  weblinks?: string;
+}
+
 interface SurveyRow {
   ggv_transparenz_opt_in?: string;
-  ggv_project_name?: string;
+  ggv_project_name?: string; // legacy field
   vnb_name?: string;
   ggv_pv_size_kw?: number;
   ggv_party_count?: number;
   ggv_building_type?: string;
   planning_status?: string[];
-  project_locations?: Array<{ plz?: string; address?: string }> | unknown;
-  ggv_project_city?: string;
-  ggv_project_website?: string;
-  ggv_project_links?: string[];
-  ggv_experience_notes?: string;
+  project_locations?: LocationData[] | unknown;
+  ggv_project_city?: string; // legacy field
+  ggv_project_website?: string; // legacy field
+  ggv_project_links?: string[]; // legacy field
+  ggv_experience_notes?: string; // legacy field
   service_provider_name?: string;
   service_provider_services?: string[];
   service_provider_comments?: string;
@@ -48,19 +56,15 @@ const VALID_SERVICE_IDS = new Set([
   "metering_full", "metering_invoicing_prep", "metering_full_settlement",
 ]);
 
-function buildProjectPayload(row: SurveyRow) {
-  let plz: string | undefined;
-  let address: string | undefined;
+function buildProjectPayload(row: SurveyRow, loc?: LocationData) {
+  const plz = loc?.plz;
+  const address = loc?.address;
 
-  if (Array.isArray(row.project_locations) && row.project_locations.length > 0) {
-    const loc = row.project_locations[0] as { plz?: string; address?: string };
-    plz = loc.plz;
-    address = loc.address;
-  }
-
-  // Use explicit project name if provided, otherwise build from address/city
+  // Use per-location projectName, then legacy ggv_project_name, then build from address
   let name: string;
-  if (row.ggv_project_name?.trim()) {
+  if (loc?.projectName?.trim()) {
+    name = loc.projectName.trim();
+  } else if (row.ggv_project_name?.trim()) {
     name = row.ggv_project_name.trim();
   } else {
     const nameParts = ["GGV"];
@@ -76,13 +80,22 @@ function buildProjectPayload(row: SurveyRow) {
   if (plz) project.plz = plz;
   if (row.ggv_project_city) project.city = row.ggv_project_city;
   if (address) project.address = address;
-  if (row.ggv_pv_size_kw) project.pv_size_kwp = row.ggv_pv_size_kw;
+  if (loc?.pvSizeKw) project.pv_size_kwp = loc.pvSizeKw;
+  else if (row.ggv_pv_size_kw) project.pv_size_kwp = row.ggv_pv_size_kw;
   if (row.ggv_party_count) project.units_count = row.ggv_party_count;
   if (row.ggv_building_type) project.building_type = BUILDING_TYPE_MAP[row.ggv_building_type] || "wohngebaeude";
   if (status) project.status = status;
   if (row.vnb_name) project.dso_name = row.vnb_name;
-  if (row.ggv_project_website) project.website = row.ggv_project_website;
-  if (row.ggv_project_links && row.ggv_project_links.length > 0) project.links = row.ggv_project_links.slice(0, 2);
+
+  // Per-location weblinks (new), then legacy fields
+  if (loc?.weblinks?.trim()) {
+    const links = loc.weblinks.split(",").map(l => l.trim()).filter(Boolean).slice(0, 2);
+    if (links.length > 0) project.links = links;
+  } else {
+    if (row.ggv_project_website) project.website = row.ggv_project_website;
+    if (row.ggv_project_links && row.ggv_project_links.length > 0) project.links = row.ggv_project_links.slice(0, 2);
+  }
+
   if (row.ggv_experience_notes) project.experience_notes = row.ggv_experience_notes;
   if (row.service_provider_name) project.provider_name = row.service_provider_name;
   if (row.service_provider_comments) project.provider_experience = row.service_provider_comments.slice(0, 2000);
@@ -152,12 +165,15 @@ Deno.serve(async (req) => {
       });
     }
 
-    const hasOptIn = row.ggv_transparenz_opt_in === "ja";
+    // Determine if there's location data (new approach: location data implies opt-in)
+    const locations = Array.isArray(row.project_locations) ? row.project_locations as LocationData[] : [];
+    const hasLocationData = locations.some(l => l.plz?.trim() || l.address?.trim());
+    const hasOptIn = row.ggv_transparenz_opt_in === "ja" || hasLocationData;
     const hasProvider = !!row.service_provider_name;
 
     // Nothing to send
     if (!hasOptIn && !hasProvider) {
-      return new Response(JSON.stringify({ skipped: true, reason: "no opt-in and no provider data" }), {
+      return new Response(JSON.stringify({ skipped: true, reason: "no location data and no provider data" }), {
         status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -169,8 +185,13 @@ Deno.serve(async (req) => {
     };
 
     if (hasOptIn) {
-      // Full project data including provider info
-      payload.project = buildProjectPayload(row as SurveyRow);
+      // If multiple locations with data, send array of projects
+      const filledLocations = locations.filter(l => l.plz?.trim() || l.address?.trim());
+      if (filledLocations.length > 1) {
+        payload.projects = filledLocations.map(loc => buildProjectPayload(row as SurveyRow, loc));
+      } else {
+        payload.project = buildProjectPayload(row as SurveyRow, filledLocations[0]);
+      }
     } else if (hasProvider) {
       // Only provider feedback, no project data
       payload.provider_feedback = buildProviderFeedback(row as SurveyRow);
