@@ -40,6 +40,7 @@ function getAllSurveyDataKeys(): string[] {
     'actorTextFields', 'actorOther', 'actorDienstleisterCategoryOther',
     'motivationOther',
     'projectFocus', 'projectAddress', 'projectPlz',
+    'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations',
     'planningStatusOther', 'mieterstromPlanningStatusOther',
     'ggvDecisionReasonsOther', 'mieterstromDecisionReasonsOther',
     'implementationApproachOther', 'challengesDetails',

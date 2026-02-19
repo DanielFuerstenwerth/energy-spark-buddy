@@ -1690,9 +1690,24 @@ export function getVisibleQuestionIds(data: SurveyData): Set<string> {
   return visible;
 }
 
+// Serialize a Record<string, string> to a readable flat text for TEXT DB columns
+function serializeRecord(rec: unknown): string | null {
+  if (!rec || typeof rec !== 'object') return null;
+  const entries = Object.entries(rec as Record<string, string>).filter(([, v]) => v?.trim());
+  if (entries.length === 0) return null;
+  return entries.map(([k, v]) => `[${k}] ${v}`).join('\n---\n');
+}
+
+// Fields that are stored as Record<string,string> in UI but as TEXT in DB
+const RECORD_FIELDS = new Set(['actorTextFields', 'challengesDetails', 'vnbRejectionResponseDetails']);
+
+// All location array fields – handled by expandToLocationRows, never stored as JSONB
+const LOCATION_FIELDS = new Set(['projectLocations', 'mieterstromProjectLocations', 'esProjectLocations']);
+
 // Build database-ready object from SurveyData
 // Only includes fields whose questions are currently visible (defensive filtering).
-// Note: projectLocations JSONB is excluded – use expandToLocationRows() to flatten.
+// Location arrays are excluded – use expandToLocationRows() to flatten into multi-row.
+// Record<string,string> fields are serialized to readable TEXT.
 export function buildDbData(
   data: SurveyData,
   sessionGroupId: string,
@@ -1707,14 +1722,11 @@ export function buildDbData(
     'actorTextFields', // Special companion for actorTypes with irregular name
   ]);
 
-  // Fields handled by expandToLocationRows – skip JSONB storage
-  const LOCATION_JSONB_FIELDS = new Set(['projectLocations']);
-
   const visibleIds = getVisibleQuestionIds(data);
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === '') continue;
-    if (LOCATION_JSONB_FIELDS.has(key)) continue;
+    if (LOCATION_FIELDS.has(key)) continue;
 
     // Always include meta fields; for others, check visibility
     if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
@@ -1722,6 +1734,13 @@ export function buildDbData(
     // Use QUESTION_REGISTRY dbColumn when available, fall back to toSnakeCase
     const snakeKey = QUESTION_REGISTRY[key]?.dbColumn || toSnakeCase(key);
     
+    // Record<string,string> → serialize to flat text
+    if (RECORD_FIELDS.has(key)) {
+      const serialized = serializeRecord(value);
+      if (serialized) dbData[snakeKey] = serialized;
+      continue;
+    }
+
     // Boolean conversion for fields stored as boolean in DB but string in UI
     const BOOLEAN_DB_FIELDS: Record<string, Record<string, boolean>> = {
       'esVnbContact': { 'ja': true, 'nein': false },
@@ -1747,37 +1766,57 @@ export function buildDbData(
 }
 
 /**
- * Expand a single DB row into N rows – one per GGV project location.
- * If no locations or only one, returns 1 row with flat location fields.
+ * Expand a single DB row into N rows – one per project location.
+ * Handles GGV, Mieterstrom, and Energy Sharing locations uniformly.
+ * If no locations exist, returns 1 row unchanged.
  * Each row shares the same session_group_id; all feedback data is duplicated.
  * 
  * Flat columns used per location:
  *  - project_plz, project_address (from location.plz, location.address)
- *  - ggv_project_name (from location.projectName)
- *  - ggv_project_links (from location.weblinks)
- *  - ggv_pv_size_kw (from location.pvSizeKw, only for multi-site)
+ *  - ggv_project_name (from location.projectName, GGV only)
+ *  - ggv_project_links (from location.weblinks, GGV only)
+ *  - ggv_pv_size_kw (from location.pvSizeKw, GGV multi-site only)
  */
 export function expandToLocationRows(
   baseRow: Record<string, unknown>,
-  locations: Array<{ plz?: string; address?: string; pvSizeKw?: number; projectName?: string; weblinks?: string[] }> | undefined,
+  data: SurveyData,
 ): Record<string, unknown>[] {
-  const locs = locations?.filter(l => l.plz || l.address) ?? [];
+  // Collect all locations with their source type
+  type TaggedLocation = { plz?: string; address?: string; pvSizeKw?: number; projectName?: string; weblinks?: string[]; source: 'ggv' | 'ms' | 'es' };
+  
+  const tagged: TaggedLocation[] = [];
+  
+  for (const loc of (data.projectLocations ?? [])) {
+    if (loc.plz || loc.address) tagged.push({ ...loc, source: 'ggv' });
+  }
+  for (const loc of (data.mieterstromProjectLocations ?? [])) {
+    if (loc.plz || loc.address) tagged.push({ ...loc, source: 'ms' });
+  }
+  for (const loc of (data.esProjectLocations ?? [])) {
+    if (loc.plz || loc.address) tagged.push({ ...loc, source: 'es' });
+  }
 
-  if (locs.length === 0) {
+  if (tagged.length === 0) {
     return [baseRow];
   }
 
-  return locs.map((loc) => {
+  const ggvCount = tagged.filter(l => l.source === 'ggv').length;
+
+  return tagged.map((loc) => {
     const row = { ...baseRow };
     if (loc.plz) row.project_plz = loc.plz;
     if (loc.address) row.project_address = loc.address;
-    if (loc.projectName) row.ggv_project_name = loc.projectName;
-    if (loc.weblinks && loc.weblinks.some(l => l.trim())) {
-      row.ggv_project_links = loc.weblinks.filter(l => l.trim()).slice(0, 5);
-    }
-    // For multi-site, use per-location kW (overrides global ggv_pv_size_kw)
-    if (locs.length > 1 && loc.pvSizeKw) {
-      row.ggv_pv_size_kw = loc.pvSizeKw;
+    
+    // GGV-specific fields
+    if (loc.source === 'ggv') {
+      if (loc.projectName) row.ggv_project_name = loc.projectName;
+      if (loc.weblinks && loc.weblinks.some(l => l.trim())) {
+        row.ggv_project_links = loc.weblinks.filter(l => l.trim()).slice(0, 5);
+      }
+      // For multi-site GGV, use per-location kW
+      if (ggvCount > 1 && loc.pvSizeKw) {
+        row.ggv_pv_size_kw = loc.pvSizeKw;
+      }
     }
     return row;
   });

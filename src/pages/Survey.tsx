@@ -215,7 +215,7 @@ export default function Survey() {
       const mergedSubmissions = getMergedSubmissions();
       const dbRows = mergedSubmissions.flatMap(sub => {
         const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments);
-        return expandToLocationRows(baseRow, sub.projectLocations);
+        return expandToLocationRows(baseRow, sub);
       });
 
       const response = await supabase.functions.invoke('submit-survey', {
