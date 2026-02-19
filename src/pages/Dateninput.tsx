@@ -6,22 +6,34 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState, useRef } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from "@/components/ui/select";
+import { useState, useRef, useEffect } from "react";
 import { toast } from "sonner";
 import { Upload, X, FileText, CheckCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-const CATEGORIES = [
+interface NavSubcategory {
+  slug: string;
+  title: string;
+}
+interface NavCategory {
+  slug: string;
+  title: string;
+  unterkategorien: NavSubcategory[];
+}
+interface NavData {
+  kategorien: NavCategory[];
+}
+
+const FALLBACK_CATEGORIES = [
   { value: "ggv", label: "Gemeinschaftliche Gebäudeversorgung (GGV)" },
-  { value: "zvne", label: "Zählpunktnahe Nutzung erneuerbarer Energien (zVNE)" },
-  { value: "direktvermarktung", label: "Direktvermarktung" },
-  { value: "smgw", label: "Smart Meter Gateway (SMGW)" },
-  { value: "bidi", label: "Bidirektionales Laden" },
+  { value: "mieterstrom", label: "Mieterstrom" },
+  { value: "zvne", label: "zeitvariable Netzentgelte (zvNE)" },
   { value: "sonstiges", label: "Sonstiges" },
 ];
 
 const Dateninput = () => {
+  const [navData, setNavData] = useState<NavData | null>(null);
   const [category, setCategory] = useState("");
   const [categoryOther, setCategoryOther] = useState("");
   const [description, setDescription] = useState("");
@@ -31,6 +43,13 @@ const Dateninput = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    fetch("/data/nav.json")
+      .then((r) => r.json())
+      .then((data: NavData) => setNavData(data))
+      .catch(() => setNavData(null));
+  }, []);
 
   const handleFileAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -134,11 +153,30 @@ const Dateninput = () => {
                       <SelectValue placeholder="Bitte wählen..." />
                     </SelectTrigger>
                     <SelectContent>
-                      {CATEGORIES.map((c) => (
-                        <SelectItem key={c.value} value={c.value}>
-                          {c.label}
-                        </SelectItem>
-                      ))}
+                      {navData ? (
+                        <>
+                          {navData.kategorien.map((kat) => (
+                            <SelectGroup key={kat.slug}>
+                              <SelectLabel>{kat.title}</SelectLabel>
+                              {kat.unterkategorien.map((sub) => (
+                                <SelectItem key={sub.slug} value={sub.slug}>
+                                  {sub.title}
+                                </SelectItem>
+                              ))}
+                            </SelectGroup>
+                          ))}
+                          <SelectGroup>
+                            <SelectLabel>Andere</SelectLabel>
+                            <SelectItem value="sonstiges">Sonstiges</SelectItem>
+                          </SelectGroup>
+                        </>
+                      ) : (
+                        FALLBACK_CATEGORIES.map((c) => (
+                          <SelectItem key={c.value} value={c.value}>
+                            {c.label}
+                          </SelectItem>
+                        ))
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
