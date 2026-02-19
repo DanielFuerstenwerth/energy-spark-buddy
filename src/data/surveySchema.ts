@@ -1555,69 +1555,7 @@ const SECTION_ENERGY_SHARING: SurveySection = {
   ],
 };
 
-// === SECTION 6: Abschluss ===
-// === SECTION: GGV-Transparenz Opt-In ===
-const SECTION_GGV_TRANSPARENZ: SurveySection = {
-  id: "ggv-transparenz",
-  title: "GGV-Transparenz – Veröffentlichung",
-  description: "Projekt auf ggv-transparenz.de veröffentlichen",
-  visibilityRule: PT_GGV(),
-  questions: [
-    {
-      id: "ggvTransparenzOptIn",
-      type: "single-select",
-      label: "Möchten Sie Ihr GGV-Projekt auf ggv-transparenz.de mit Details veröffentlichen?",
-      helpText: "ggv-transparenz.de zeigt eine Übersicht von GGV-Projekten in Deutschland mit Kartenansicht und Dienstleister-Bewertungen. Ihre Projektdaten (Standort, PV-Größe, Gebäudetyp) werden dort öffentlich sichtbar. VNB-Bewertungen verbleiben ausschließlich hier auf vnb-transparenz.de.",
-      options: [
-        { value: "ja", label: "Ja, ich möchte mein Projekt veröffentlichen" },
-        { value: "nein", label: "Nein, danke" },
-      ],
-      optional: true,
-    },
-    {
-      id: "ggvProjectName",
-      type: "text",
-      label: "Name des Projekts",
-      helpText: "Wird als Titel auf ggv-transparenz.de angezeigt. Falls leer, wird automatisch ein Name aus Adresse und Ort generiert.",
-      placeholder: "z.B. Sonnenhof-GGV, Energiegemeinschaft Musterstraße",
-      optional: true,
-      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
-    },
-    {
-      id: "ggvProjectCity",
-      type: "text",
-      label: "Stadt / Ort des GGV-Projekts",
-      placeholder: "z.B. Berlin",
-      optional: true,
-      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
-    },
-    {
-      id: "ggvProjectWebsite",
-      type: "text",
-      label: "Projekt-Website (falls vorhanden)",
-      placeholder: "https://...",
-      optional: true,
-      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
-    },
-    {
-      id: "ggvProjectLinks",
-      type: "text",
-      label: "Links zu Ihrem Projekt (z.B. Presseartikel, Social Media)",
-      helpText: "Sie können bis zu zwei Links angeben, getrennt durch Komma. Diese werden auf ggv-transparenz.de neben Ihrem Projektnamen angezeigt.",
-      placeholder: "https://beispiel.de/artikel, https://instagram.com/projekt",
-      optional: true,
-      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
-    },
-    {
-      id: "ggvExperienceNotes",
-      type: "textarea",
-      label: "Erfahrungsnotizen zum GGV-Projekt (werden auf ggv-transparenz.de veröffentlicht)",
-      placeholder: "z.B. Tipps für andere, Lessons Learned, besondere Herausforderungen...",
-      optional: true,
-      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
-    },
-  ],
-};
+// SECTION_GGV_TRANSPARENZ removed – fields now inline in ProjectLocationRows
 
 // === SECTION 6: Abschluss ===
 const SECTION_FINAL: SurveySection = {
@@ -1678,7 +1616,7 @@ export const surveyDefinition: SurveySchema = {
     SECTION_VNB_SUPPORT,
     SECTION_GGV_OPERATION,
     SECTION_SERVICE_PROVIDER,
-    SECTION_GGV_TRANSPARENZ,
+    // SECTION_GGV_TRANSPARENZ removed
     SECTION_MIETERSTROM_PLANNING,
     SECTION_MIETERSTROM_VNB_OFFER,
     SECTION_MIETERSTROM_OPERATION,

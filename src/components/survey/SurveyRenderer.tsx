@@ -235,8 +235,8 @@ function renderQuestion(
     }
 
     case 'text':
-      // Special case: projectLocations and mieterstromProjectLocations
-      if (q.id === 'projectLocations' || q.id === 'mieterstromProjectLocations') {
+      // Special case: projectLocations, mieterstromProjectLocations, esProjectLocations
+      if (q.id === 'projectLocations' || q.id === 'mieterstromProjectLocations' || q.id === 'esProjectLocations') {
         const isMultipleLocations = q.id === 'projectLocations'
           ? data.ggvProjectType === 'multiple'
           : data.mieterstromProjectType === 'multiple';
@@ -248,6 +248,7 @@ function renderQuestion(
             multiple={isMultipleLocations}
             questionNumber={uiNumber}
             label={label}
+            showGgvFields={q.id === 'projectLocations'}
           />
         );
       }
