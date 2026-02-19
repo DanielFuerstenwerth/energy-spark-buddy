@@ -1168,6 +1168,7 @@ const SECTION_MIETERSTROM_PLANNING: SurveySection = {
       id: "mieterstromVirtuellWandlermessung",
       type: "single-select",
       label: "M7. Wenn Ihr Verteilnetzbetreiber/gMSB die Umsetzung des 'virtuellen Summenzählers' zulässt, verlangt er dennoch den Einbau eines Zählers direkt am Hausanschlusspunkt (Wandlermessung, Kosten >5.000 EUR)?",
+      tooltip: "Eine sogenannte \"Wandlermessung\" wird benötigt, um Stromflüsse zu messen, die mittels einem regulären Haushaltszähler nicht gemessen werden können. Dies trifft für den Fall von Mehrfamilienhäusern ab ca. 3-4 Wohneinheiten bereits zu. Sofern hier eine gemeinsame Messung des Bezugsstroms oder der Einspeisung am Netzanschlusspunkt erfolgen soll, wird solch eine technische Vorrichtung benötigt. Die Kosten hierfür sind typischerweise ca. 5.000-8.000 EUR (inkl. Planungsleistung). Um diese Kosten zu vermeiden, hat der Gesetzgeber mit dem Modell des virtuellen Summenzählers im Mieterstrom bzw. mit dem Modell der Gemeinschaftlichen Gebäudeversorgung solche Modelle festgelegt, in denen die Installation eines physikalischen Zählers am Hausanschlusspunkt durch virtuelle Verrechnung von Messwerten vermieden wird.",
       options: [
         { value: "nein", label: "Nein" },
         { value: "ja", label: "Ja", hasTextField: true, textFieldPlaceholder: "z.B. Verteilnetzbetreiber verlangt Wandlermessung trotz virtuellem Modell..." },
