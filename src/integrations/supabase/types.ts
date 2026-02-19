@@ -299,10 +299,14 @@ export type Database = {
           ggv_building_type: string | null
           ggv_decision_reasons: string[] | null
           ggv_decision_reasons_other: string | null
+          ggv_experience_notes: string | null
           ggv_or_mieterstrom_decision: string | null
           ggv_party_count: number | null
+          ggv_project_city: string | null
           ggv_project_type: string | null
+          ggv_project_website: string | null
           ggv_pv_size_kw: number | null
+          ggv_transparenz_opt_in: string | null
           id: string
           implementation_approach: string[] | null
           implementation_approach_other: string | null
@@ -389,6 +393,9 @@ export type Database = {
           service_provider_comments: string | null
           service_provider_name: string | null
           session_group_id: string | null
+          sp_price_rating: number | null
+          sp_quality_rating: number | null
+          sp_rating_comment: string | null
           status: string
           survey_improvements: string | null
           uploaded_documents: string[] | null
@@ -474,10 +481,14 @@ export type Database = {
           ggv_building_type?: string | null
           ggv_decision_reasons?: string[] | null
           ggv_decision_reasons_other?: string | null
+          ggv_experience_notes?: string | null
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
+          ggv_project_city?: string | null
           ggv_project_type?: string | null
+          ggv_project_website?: string | null
           ggv_pv_size_kw?: number | null
+          ggv_transparenz_opt_in?: string | null
           id?: string
           implementation_approach?: string[] | null
           implementation_approach_other?: string | null
@@ -564,6 +575,9 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
+          sp_price_rating?: number | null
+          sp_quality_rating?: number | null
+          sp_rating_comment?: string | null
           status?: string
           survey_improvements?: string | null
           uploaded_documents?: string[] | null
@@ -649,10 +663,14 @@ export type Database = {
           ggv_building_type?: string | null
           ggv_decision_reasons?: string[] | null
           ggv_decision_reasons_other?: string | null
+          ggv_experience_notes?: string | null
           ggv_or_mieterstrom_decision?: string | null
           ggv_party_count?: number | null
+          ggv_project_city?: string | null
           ggv_project_type?: string | null
+          ggv_project_website?: string | null
           ggv_pv_size_kw?: number | null
+          ggv_transparenz_opt_in?: string | null
           id?: string
           implementation_approach?: string[] | null
           implementation_approach_other?: string | null
@@ -739,6 +757,9 @@ export type Database = {
           service_provider_comments?: string | null
           service_provider_name?: string | null
           session_group_id?: string | null
+          sp_price_rating?: number | null
+          sp_quality_rating?: number | null
+          sp_rating_comment?: string | null
           status?: string
           survey_improvements?: string | null
           uploaded_documents?: string[] | null

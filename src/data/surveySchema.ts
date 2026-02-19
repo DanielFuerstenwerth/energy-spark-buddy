@@ -982,6 +982,36 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       visibilityRule: filled('serviceProviderName'),
     },
     {
+      id: "spQualityRating",
+      type: "rating",
+      label: "Wie bewerten Sie die Qualität der Arbeit Ihres Dienstleisters?",
+      min: 1,
+      max: 5,
+      minLabel: "Sehr schlecht",
+      maxLabel: "Sehr gut",
+      optional: true,
+      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
+    },
+    {
+      id: "spPriceRating",
+      type: "rating",
+      label: "Wie bewerten Sie das Preis-Leistungs-Verhältnis Ihres Dienstleisters?",
+      min: 1,
+      max: 5,
+      minLabel: "Sehr schlecht",
+      maxLabel: "Sehr gut",
+      optional: true,
+      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
+    },
+    {
+      id: "spRatingComment",
+      type: "textarea",
+      label: "Erfahrungsbericht zum Dienstleister (wird auf ggv-transparenz.de veröffentlicht)",
+      placeholder: "z.B. Beratungsqualität, Reaktionszeiten, Transparenz der Abrechnung...",
+      optional: true,
+      visibilityRule: and(filled('serviceProviderName'), eq('ggvTransparenzOptIn', 'ja')),
+    },
+    {
       id: "serviceProvider2Name",
       type: "text",
       label: "Dienstleister 2 (optional)",
@@ -1497,6 +1527,52 @@ const SECTION_ENERGY_SHARING: SurveySection = {
 };
 
 // === SECTION 6: Abschluss ===
+// === SECTION: GGV-Transparenz Opt-In ===
+const SECTION_GGV_TRANSPARENZ: SurveySection = {
+  id: "ggv-transparenz",
+  title: "GGV-Transparenz – Veröffentlichung",
+  description: "Projekt auf ggv-transparenz.de veröffentlichen",
+  visibilityRule: PT_GGV(),
+  questions: [
+    {
+      id: "ggvTransparenzOptIn",
+      type: "single-select",
+      label: "Möchten Sie Ihr GGV-Projekt auf ggv-transparenz.de mit Details veröffentlichen?",
+      helpText: "ggv-transparenz.de zeigt eine Übersicht von GGV-Projekten in Deutschland mit Kartenansicht und Dienstleister-Bewertungen. Ihre Projektdaten (Standort, PV-Größe, Gebäudetyp) werden dort öffentlich sichtbar. VNB-Bewertungen verbleiben ausschließlich hier auf vnb-transparenz.de.",
+      options: [
+        { value: "ja", label: "Ja, ich möchte mein Projekt veröffentlichen" },
+        { value: "nein", label: "Nein, danke" },
+      ],
+      optional: true,
+    },
+    {
+      id: "ggvProjectCity",
+      type: "text",
+      label: "Stadt / Ort des GGV-Projekts",
+      placeholder: "z.B. Berlin",
+      optional: true,
+      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
+    },
+    {
+      id: "ggvProjectWebsite",
+      type: "text",
+      label: "Projekt-Website (falls vorhanden)",
+      placeholder: "https://...",
+      optional: true,
+      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
+    },
+    {
+      id: "ggvExperienceNotes",
+      type: "textarea",
+      label: "Erfahrungsnotizen zum GGV-Projekt (werden auf ggv-transparenz.de veröffentlicht)",
+      placeholder: "z.B. Tipps für andere, Lessons Learned, besondere Herausforderungen...",
+      optional: true,
+      visibilityRule: eq('ggvTransparenzOptIn', 'ja'),
+    },
+  ],
+};
+
+// === SECTION 6: Abschluss ===
 const SECTION_FINAL: SurveySection = {
   id: "final",
   title: "6. Abschluss",
@@ -1540,8 +1616,8 @@ const SECTION_FINAL: SurveySection = {
 
 // === HAUPTSCHEMA ===
 export const surveyDefinition: SurveySchema = {
-  version: "3.2.0",
-  lastUpdated: "2026-02-12",
+  version: "3.3.0",
+  lastUpdated: "2026-02-18",
   title: "Umfrage zu GGV, Mieterstrom & Energy Sharing",
   description: "Diese Umfrage erfasst Erfahrungen mit der Umsetzung von Gemeinschaftlicher Gebäudeversorgung (GGV), Mieterstrom und Energy Sharing in Deutschland.",
   sections: [
@@ -1555,6 +1631,7 @@ export const surveyDefinition: SurveySchema = {
     SECTION_VNB_SUPPORT,
     SECTION_GGV_OPERATION,
     SECTION_SERVICE_PROVIDER,
+    SECTION_GGV_TRANSPARENZ,
     SECTION_MIETERSTROM_PLANNING,
     SECTION_MIETERSTROM_VNB_OFFER,
     SECTION_MIETERSTROM_OPERATION,
@@ -1803,6 +1880,14 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esInOperationDetails": { displayId: "4-ES-InOperationDetails", dbColumn: "es_in_operation_details", uiNumber: "7.2" },
   "esOperatorDetails": { displayId: "4-ES-OperatorDetails", dbColumn: "es_operator_details", uiNumber: "7.3" },
   "esConsumerDetails": { displayId: "4-ES-ConsumerDetails", dbColumn: "es_consumer_details", uiNumber: "7.9" },
+  // GGV-Transparenz Integration
+  "ggvTransparenzOptIn": { displayId: "GGV-T-OptIn", dbColumn: "ggv_transparenz_opt_in", uiNumber: "G.1" },
+  "ggvProjectCity": { displayId: "GGV-T-City", dbColumn: "ggv_project_city", uiNumber: "G.2" },
+  "ggvProjectWebsite": { displayId: "GGV-T-Website", dbColumn: "ggv_project_website", uiNumber: "G.3" },
+  "ggvExperienceNotes": { displayId: "GGV-T-ExperienceNotes", dbColumn: "ggv_experience_notes", uiNumber: "G.4" },
+  "spQualityRating": { displayId: "SP-QualityRating", dbColumn: "sp_quality_rating", uiNumber: "G.5" },
+  "spPriceRating": { displayId: "SP-PriceRating", dbColumn: "sp_price_rating", uiNumber: "G.6" },
+  "spRatingComment": { displayId: "SP-RatingComment", dbColumn: "sp_rating_comment", uiNumber: "G.7" },
   // Section 6: Abschluss
   // helpfulInfoSources GELÖSCHT
   "additionalExperiences": { displayId: "6-Experiences", dbColumn: "additional_experiences", uiNumber: "8.1" },

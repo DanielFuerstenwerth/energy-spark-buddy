@@ -23,3 +23,6 @@ verify_jwt = false
 
 [functions.submit-data-input]
 verify_jwt = false
+
+[functions.export-ggv]
+verify_jwt = false
