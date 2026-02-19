@@ -459,6 +459,7 @@ export type Database = {
           uploaded_documents: string[] | null
           vnb_additional_costs: string | null
           vnb_additional_costs_one_time: number | null
+          vnb_additional_costs_other: string | null
           vnb_additional_costs_yearly: number | null
           vnb_contact: string[] | null
           vnb_contact_helpful: string | null
@@ -648,6 +649,7 @@ export type Database = {
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
           vnb_additional_costs_one_time?: number | null
+          vnb_additional_costs_other?: string | null
           vnb_additional_costs_yearly?: number | null
           vnb_contact?: string[] | null
           vnb_contact_helpful?: string | null
@@ -837,6 +839,7 @@ export type Database = {
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
           vnb_additional_costs_one_time?: number | null
+          vnb_additional_costs_other?: string | null
           vnb_additional_costs_yearly?: number | null
           vnb_contact?: string[] | null
           vnb_contact_helpful?: string | null
