@@ -108,7 +108,7 @@ const Mitmachen = () => {
               <ul className="space-y-2 text-muted-foreground">
                 <li>✓ Alle Eingaben werden anonymisiert ausgewertet und veröffentlicht</li>
                 <li>✓ Kontaktdaten (E-Mail) werden nur für Rückfragen genutzt und nicht veröffentlicht</li>
-                <li>✓ Löschung Ihrer Daten jederzeit möglich auf Anfrage an <a href="mailto:vnb-transparenz@1000gw.de" className="underline hover:text-foreground">vnb-transparenz@1000gw.de</a></li>
+                <li>✓ Löschung Ihrer Daten jederzeit möglich auf Anfrage an <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">kontakt@vnb-transparenz.de</a></li>
                 <li>✓ Hochgeladene Evidenzen sind nur für das Redaktionsteam einsehbar</li>
               </ul>
             </CardContent>

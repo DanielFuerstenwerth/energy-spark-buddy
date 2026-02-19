@@ -297,7 +297,7 @@ const Dateninput = () => {
                 Mit dem Absenden erklären Sie sich einverstanden, dass Ihre Angaben von VNB-Transparenz zur Auswertung
                 genutzt werden. Kontaktdaten werden nur für eventuelle Rückfragen verwendet und nicht veröffentlicht.
                 Löschung auf Anfrage jederzeit möglich an{" "}
-                <a href="mailto:vnb-transparenz@1000gw.de" className="underline">vnb-transparenz@1000gw.de</a>.
+                <a href="mailto:kontakt@vnb-transparenz.de" className="underline">kontakt@vnb-transparenz.de</a>.
               </p>
             </div>
 

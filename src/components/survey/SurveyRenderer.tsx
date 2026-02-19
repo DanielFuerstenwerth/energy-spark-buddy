@@ -453,7 +453,7 @@ function PrivacyNotice() {
             dargestellt.
           </p>
           <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, schreiben Sie bitte an:{" "}
-            <a href="mailto:vnb-transparenz@1000gw.de" className="underline font-medium">vnb-transparenz@1000gw.de</a>.
+            <a href="mailto:kontakt@vnb-transparenz.de" className="underline font-medium">kontakt@vnb-transparenz.de</a>.
           </p>
         </CollapsibleContent>
       </Collapsible>
@@ -506,7 +506,7 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
           </div>
           <p className="text-xs text-muted-foreground mt-4">
             Falls bei der Übermittlung der Daten Probleme auftreten, senden Sie bitte eine E-Mail an:{" "}
-            <a href="mailto:vnb-transparenz@1000gw.de" className="underline text-primary hover:text-primary/80">vnb-transparenz@1000gw.de</a>
+            <a href="mailto:kontakt@vnb-transparenz.de" className="underline text-primary hover:text-primary/80">kontakt@vnb-transparenz.de</a>
           </p>
         </div>
       )}
