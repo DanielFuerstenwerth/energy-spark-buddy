@@ -71,7 +71,11 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
           {showGgvFields ? (
             <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-2 text-sm">
-              (optional – nur wenn Anzeige auf einer Deutschlandkarte erwünscht ist)
+              (optional – nur wenn Anzeige auf einer Deutschlandkarte auf{' '}
+              <a href="https://www.ggv-transparenz.de" target="_blank" rel="noopener noreferrer" className="underline hover:text-emerald-800 dark:hover:text-emerald-300">
+                www.ggv-transparenz.de
+              </a>
+              {' '}erwünscht ist)
             </span>
           ) : (
             <span className="text-muted-foreground font-normal ml-2 text-sm">(optional)</span>

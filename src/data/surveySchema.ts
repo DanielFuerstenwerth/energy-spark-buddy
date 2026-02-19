@@ -295,7 +295,7 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "projectLocations",
       type: "text",
       label: "Standort(e) des GGV-Projekts",
-      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      description: "(optional – nur wenn Anzeige auf einer Deutschlandkarte auf https://www.ggv-transparenz.de erwünscht ist)",
       optional: true,
       visibilityRule: PT_GGV(),
     },
