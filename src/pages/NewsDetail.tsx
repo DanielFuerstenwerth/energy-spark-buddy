@@ -8,6 +8,16 @@ const NewsDetail = () => {
   const { slug } = useParams();
 
   const articles: Record<string, { title: string; date: string; author: string; content: string }> = {
+    "umfrage-ggv-2026": {
+      title: "Umfrage zur Gemeinschaftlichen Gebäudeversorgung",
+      date: "2026-02-19",
+      author: "VNB-Transparenz Team",
+      content: `Gemeinsam mit dem Bündnis Bürgerenergie und weiteren Partnern führen wir eine bundesweite Umfrage durch. Darin werden die Erfahrungen mit der Umsetzung der Gemeinschaftlichen Gebäudeversorgung (GGV) und mit Mieterstrom erhoben. Zusätzlich wird das Interesse an der Umsetzung von Energy Sharing abgefragt, das ab dem 01.06.2026 möglich sein wird.
+
+Die Ergebnisse fließen in die Bewertung der Verteilnetzbetreiber auf dieser Plattform ein und helfen, Transparenz über die Prozesse und Erfahrungen bei der Umsetzung dezentraler Energieversorgungsmodelle zu schaffen.
+
+[Zur Umfrage →](/Umfrage-GGV)`,
+    },
     "warum-vnb-transparenz": {
       title: "Warum VNB-Transparenz jetzt zählt",
       date: "2025-10-20",
