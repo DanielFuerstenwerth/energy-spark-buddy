@@ -44,6 +44,8 @@ export interface SurveyQuestion {
   skipLogic?: string;
   conditionalRequired?: string;
   multiline?: boolean;
+  /** When true, this question is rendered directly below the previous one without extra spacing or label wrapper */
+  groupWithPrevious?: boolean;
 }
 
 export interface SurveySection {
@@ -137,6 +139,7 @@ const SECTION_ABOUT_YOU: SurveySection = {
       placeholder: "Email (Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.)",
       optional: true,
       multiline: false,
+      groupWithPrevious: true,
       visibilityRule: inc('actorTypes', 'dienstleister'),
     },
     {
