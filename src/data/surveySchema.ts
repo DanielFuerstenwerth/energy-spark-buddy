@@ -1050,6 +1050,25 @@ const SECTION_SERVICE_PROVIDER: SurveySection = {
       visibilityRule: filled('serviceProviderName'),
     },
     {
+      id: "serviceProvider2Services",
+      type: "multi-select",
+      label: "Welche Leistungen erbringt Ihr zweiter Dienstleister?",
+      helpText: "Wählen Sie alle zutreffenden Leistungen aus.",
+      optional: true,
+      visibilityRule: filled('serviceProvider2Name'),
+      options: [
+        { value: "data_provision", label: "Datenbereitstellung (ESA-Zugang zu gMSB-Werten)" },
+        { value: "invoicing_prep", label: "Datenbereitstellung und Vorbereitung der Abrechnung (durchzuführen durch den Betreiber)" },
+        { value: "full_settlement", label: "Vollständige Abrechnung mit Teilnehmenden (im Auftrag des Betreibers oder auf eigenes Risiko)" },
+        { value: "metering_full", label: "Messstellenbetrieb inkl. Datenbereitstellung" },
+        { value: "metering_invoicing_prep", label: "Messstellenbetrieb inkl. Datenbereitstellung und Vorbereitung der Abrechnung (durchzuführen durch den Betreiber)" },
+        { value: "metering_full_settlement", label: "Messstellenbetrieb und vollständige Abrechnung mit Teilnehmenden (im Auftrag des Betreibers oder auf eigenes Risiko)" },
+        { value: "beratung", label: "Beratung für Immobilieneigentümer zur Umsetzung von GGV/Mieterstrom" },
+        { value: "software", label: "Software / IT-Plattform für Dienstleister, MSB und/oder VNB" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. weitere Leistungen..." },
+      ],
+    },
+    {
       id: "serviceProvider2Comments",
       type: "textarea",
       label: "Kommentare zu Dienstleister 2",
@@ -1813,7 +1832,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   // serviceProviderRating GELÖSCHT
   "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments", uiNumber: "5.19" },
   "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name", uiNumber: "5.20" },
-  // serviceProvider2Rating GELÖSCHT (Maßnahme 2)
+  "serviceProvider2Services": { displayId: "5-GGV-SP2-Services", dbColumn: "service_provider_2_services", uiNumber: "5.20a" },
   "serviceProvider2Comments": { displayId: "5-GGV-SP2-Comments", dbColumn: "service_provider_2_comments", uiNumber: "5.21" },
   // Section 4-MS: Planung Mieterstrom
   "mieterstromSummenzaehler": { displayId: "4-MS-Summenzaehler", dbColumn: "mieterstrom_summenzaehler", uiNumber: "6.1" },
