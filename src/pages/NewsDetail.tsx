@@ -22,26 +22,19 @@ und die lokale Öffentlichkeit derzeit nicht nachvollziehbar.
 Ohne Vergleichsmöglichkeiten können ineffiziente Prozesse nicht identifiziert werden. 
 VNB-Transparenz schafft die Grundlage für:
 
-- **Best Practice Sharing**: Erfolgreiche VNBs können als Vorbild dienen
-- **Politische Steuerung**: Regulierungsbehörden erhalten bessere Datengrundlagen
-- **Öffentlichen Druck**: Netzbetreiber mit schlechter Performance werden sichtbar
+- Best Practice Sharing: Erfolgreiche VNBs können als Vorbild dienen
+- Politische Steuerung: Regulierungsbehörden erhalten bessere Datengrundlagen
+- Öffentlichen Druck: Netzbetreiber mit schlechter Performance werden sichtbar
 
 ## Unsere Mission
 
 Mit dieser Plattform wollen wir die Performance der >800 deutschen Verteilnetzbetreiber vergleichbar machen. 
 Wir bewerten sie in verschiedenen Kategorien:
 
-1. **Elektrifizierung der Haushalte**: Wie werden Haushalte unterstützt, Teil des neuen Energiesystems zu werden?
-2. **Teilhabe an der Energiewende**: Wie werden Möglichkeiten zur Teilhabe der Bevölkerung unterstützt?
-3. **Elektrifizierung im Gewerbe**: Wie effizient und günstig können Unternehmen Elektrifizierungstechnologien und erneuerbare Energien anschliessen?
-4. **Netzanschlüsse in der Hochspannung**: Wie schnell werden neue große Verbraucher und Erzeuger angschlossen, inwiefern kommen innovative Konzepte und Prozesse zum Einsatz?
-
-## Nächste Schritte
-
-In den kommenden Wochen veröffentlichen wir ein ausführliches Hintergrundpapier zur Methodik. 
-Parallel bauen wir die Datenbank aus – und dabei sind wir auf Ihre Hilfe angewiesen.
-
-**Haben Sie Erfahrungen mit einem VNB gemacht?** [Teilen Sie Ihre Daten mit uns →](/mitmachen)
+1. Elektrifizierung der Haushalte: Wie werden Haushalte unterstützt, Teil des neuen Energiesystems zu werden?
+2. Teilhabe an der Energiewende: Wie werden Möglichkeiten zur Teilhabe der Bevölkerung unterstützt?
+3. Elektrifizierung im Gewerbe: Wie effizient und günstig können Unternehmen Elektrifizierungstechnologien und erneuerbare Energien anschliessen?
+4. Netzanschlüsse in der Hochspannung: Wie schnell werden neue große Verbraucher und Erzeuger angschlossen, inwiefern kommen innovative Konzepte und Prozesse zum Einsatz?
       `,
     },
     "methodik-v0-1": {
@@ -121,17 +114,27 @@ Die Methodik wird kontinuierlich weiterentwickelt. Feedback ist ausdrücklich er
                   <ul key={index} className="list-disc pl-6 mb-4 space-y-2">
                     {items.map((item, i) => (
                       <li key={i}>
-                        {item.replace(/^[1-9]\.\s|-\s/, "").replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")}
+                        {item.replace(/^[1-9]\.\s|-\s/, "")}
                       </li>
                     ))}
                   </ul>
                 );
               }
+              // Handle links: [text](url)
+              const linkRegex = /\[(.*?)\]\((.*?)\)/g;
+              const parts: React.ReactNode[] = [];
+              let lastIdx = 0;
+              let match;
+              const text = paragraph;
+              while ((match = linkRegex.exec(text)) !== null) {
+                if (match.index > lastIdx) parts.push(text.slice(lastIdx, match.index));
+                parts.push(<a key={match.index} href={match[2]} className="text-primary hover:text-accent">{match[1]}</a>);
+                lastIdx = match.index + match[0].length;
+              }
+              if (lastIdx < text.length) parts.push(text.slice(lastIdx));
               return (
                 <p key={index} className="mb-4 text-foreground/90 leading-relaxed">
-                  {paragraph
-                    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-                    .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-primary hover:text-accent">$1</a>')}
+                  {parts.length > 0 ? parts : paragraph}
                 </p>
               );
             })}
