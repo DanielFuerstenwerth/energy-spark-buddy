@@ -25,7 +25,7 @@ export interface SurveyOption {
 export interface SurveyQuestion {
   id: string;
   dbColumn?: string;
-  type: 'single-select' | 'multi-select' | 'text' | 'textarea' | 'number' | 'email' | 'rating' | 'file' | 'vnb-select' | 'project-focus';
+  type: 'single-select' | 'multi-select' | 'text' | 'text-list' | 'textarea' | 'number' | 'email' | 'rating' | 'file' | 'vnb-select' | 'project-focus';
   label: string;
   description?: string;
   helpText?: string;
@@ -125,20 +125,18 @@ const SECTION_ABOUT_YOU: SurveySection = {
     },
     {
       id: "dienstleisterWebsite",
-      type: "text",
+      type: "text-list",
       label: "Für Dienstleister: Webadresse und Kontaktdaten",
       placeholder: "Webadresse...",
       optional: true,
-      multiline: false,
       visibilityRule: inc('actorTypes', 'dienstleister'),
     },
     {
       id: "dienstleisterKontakt",
-      type: "text",
+      type: "text-list",
       label: "",
       placeholder: "Email (Bitte nur professionelle Kontaktdaten für Veröffentlichung auf www.ggv-transparenz.de angeben.)",
       optional: true,
-      multiline: false,
       groupWithPrevious: true,
       visibilityRule: inc('actorTypes', 'dienstleister'),
     },
