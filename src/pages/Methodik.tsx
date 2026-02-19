@@ -9,7 +9,11 @@ const Methodik = () => {
       <Header />
 
       <main id="main-content" className="flex-1 container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 text-red-700">Methodik v0.1</h1>
+        <h1 className="text-4xl font-bold mb-4 text-red-700">Methodik v0.1</h1>
+
+        <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground mb-8">
+          <strong>Hinweis:</strong> Das Transparenzportal befindet sich im Aufbau – ebenso wie die Methodik. Erste Analysen erfolgen ab dem 08.03.2026.
+        </div>
 
         <div className="max-w-3xl space-y-8">
           <Card>
@@ -115,6 +119,7 @@ const Methodik = () => {
                 <li>• Öffentliche VNB-Websites (Antragsformulare, Prozessbeschreibungen)</li>
                 <li>• Offizielle Berichte (BNetzA, Landesregulierungsbehörden)</li>
                 <li>• Medienberichte und Recherchen</li>
+                <li>• Umfragen und Datenerhebungen</li>
               </ul>
               <p className="mt-4 text-sm text-muted-foreground">
                 Bei fehlenden Daten wird &quot;keine Daten&quot; angezeigt (grau).
@@ -129,9 +134,9 @@ const Methodik = () => {
             <CardContent>
               <div className="space-y-3">
                 <div>
-                  <div className="text-sm font-semibold">v0.2 – 2026-02-18</div>
+                  <div className="text-sm font-semibold">v0.2 – 2026-02-19</div>
                   <p className="text-sm text-muted-foreground">
-                    Platzhalter: Beschreibe hier die Änderungen der neuen Version.
+                    Umfrage zur GGV, Mieterstrom und Energy Sharing gestartet. Erste Analysen erfolgen ab 08.03.2026.
                   </p>
                 </div>
                 <div>
