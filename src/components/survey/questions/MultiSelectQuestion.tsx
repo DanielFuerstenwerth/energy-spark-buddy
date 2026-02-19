@@ -17,6 +17,7 @@ interface Option {
   textFieldPlaceholder?: string;
   exclusive?: boolean;
   tooltip?: string;
+  inlineHint?: string;
 }
 
 interface MultiSelectQuestionProps {
@@ -115,6 +116,11 @@ export function MultiSelectQuestion({
                   )}
                 </span>
               </div>
+              {option.inlineHint && isChecked && (
+                <div className="px-3 py-2 border-b border-border bg-primary/5">
+                  <p className="ml-7 text-sm text-muted-foreground italic">{option.inlineHint}</p>
+                </div>
+              )}
               {option.hasTextField && isChecked && (
                 onOptionTextChange ? (
                   <div className="px-3 py-2 border-b border-border bg-muted/20">
