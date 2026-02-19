@@ -7,6 +7,12 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const News = () => {
   const newsItems = [
     {
+      slug: "umfrage-ggv-2026",
+      title: "Umfrage zur Gemeinschaftlichen Gebäudeversorgung",
+      date: "2026-02-19",
+      excerpt: "Gemeinsam mit dem Bündnis Bürgerenergie und weiteren Partnern führen wir eine bundesweite Umfrage zu GGV, Mieterstrom und Energy Sharing durch.",
+    },
+    {
       slug: "warum-vnb-transparenz",
       title: "Warum VNB-Transparenz jetzt zählt",
       date: "2025-10-20",
