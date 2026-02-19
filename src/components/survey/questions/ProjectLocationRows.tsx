@@ -64,14 +64,18 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
   };
 
   return (
-    <div className="space-y-4 rounded-lg border-2 border-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/20 dark:border-emerald-700 p-4">
+    <div className={`space-y-4 rounded-lg border-2 p-4 ${showGgvFields ? 'border-emerald-300 bg-emerald-50/50 dark:bg-emerald-950/20 dark:border-emerald-700' : 'border-border bg-muted/30'}`}>
       <div>
         <Label className="text-base font-semibold text-foreground">
           {displayLabel}
           {questionNumber && <QuestionTag questionNumber={questionNumber} />}
-          <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-2 text-sm">
-            (optional – nur wenn Anzeige auf einer Deutschlandkarte erwünscht ist)
-          </span>
+          {showGgvFields ? (
+            <span className="text-emerald-600 dark:text-emerald-400 font-normal ml-2 text-sm">
+              (optional – nur wenn Anzeige auf einer Deutschlandkarte erwünscht ist)
+            </span>
+          ) : (
+            <span className="text-muted-foreground font-normal ml-2 text-sm">(optional)</span>
+          )}
         </Label>
       </div>
 

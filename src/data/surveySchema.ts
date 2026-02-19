@@ -380,9 +380,9 @@ const SECTION_PROJECT_DETAILS: SurveySection = {
       id: "mieterstromProjectLocations",
       type: "text",
       label: "Standort(e) des Mieterstrom-Projekts",
-      description: "Optional – nur wenn Veröffentlichung der Adresse erwünscht ist. PLZ, Adresse und bei mehreren Projekten kW pro Standort.",
+      description: "(optional)",
       optional: true,
-      visibilityRule: PT_MS_OR_BOTH(),
+      visibilityRule: PT_MS(),
     },
   ],
 };
