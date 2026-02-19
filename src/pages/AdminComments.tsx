@@ -39,160 +39,165 @@ interface Comment {
 
 interface CommentCardProps {
   comment: Comment;
-  replyingTo: string | null;
-  replyText: string;
-  submittingReply: boolean;
-  onReplyTextChange: (text: string) => void;
-  onStartReply: (id: string, existingReply: string) => void;
-  onCancelReply: () => void;
-  onSubmitReply: (id: string) => void;
+  onSubmitReply: (id: string, text: string) => Promise<void>;
   onUpdateStatus: (id: string, status: 'approved' | 'rejected') => void;
   onDelete: (id: string) => void;
 }
 
-const CommentCard = ({
-  comment,
-  replyingTo,
-  replyText,
-  submittingReply,
-  onReplyTextChange,
-  onStartReply,
-  onCancelReply,
-  onSubmitReply,
-  onUpdateStatus,
-  onDelete,
-}: CommentCardProps) => (
-  <Card className="mb-4">
-    <CardHeader>
-      <div className="flex items-start justify-between">
-        <div>
-          <CardTitle className="text-lg flex items-center gap-2">
-            <MessageCircle className="w-4 h-4" />
-            {comment.author_name || 'Anonym'}
+const CommentCard = ({ comment, onSubmitReply, onUpdateStatus, onDelete }: CommentCardProps) => {
+  const [isReplying, setIsReplying] = useState(false);
+  const [localReplyText, setLocalReplyText] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleStartReply = () => {
+    setIsReplying(true);
+    setLocalReplyText(comment.admin_reply || '');
+  };
+
+  const handleCancelReply = () => {
+    setIsReplying(false);
+    setLocalReplyText('');
+  };
+
+  const handleSubmitReply = async () => {
+    if (!localReplyText.trim()) return;
+    setSubmitting(true);
+    await onSubmitReply(comment.id, localReplyText.trim());
+    setSubmitting(false);
+    setIsReplying(false);
+    setLocalReplyText('');
+  };
+
+  return (
+    <Card className="mb-4">
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <MessageCircle className="w-4 h-4" />
+              {comment.author_name || 'Anonym'}
+              {comment.vnb_name && (
+                <Badge variant="outline" className="ml-1 text-xs">{comment.vnb_name}</Badge>
+              )}
+            </CardTitle>
+            <CardDescription>
+              {new Date(comment.created_at).toLocaleString('de-DE')}
+              {comment.author_email && ` • ${comment.author_email}`}
+            </CardDescription>
+          </div>
+          <Badge variant={
+            comment.status === 'approved' ? 'default' :
+            comment.status === 'rejected' ? 'destructive' : 'secondary'
+          }>
+            {comment.status}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm text-muted-foreground mb-1">
+              Route: <span className="font-medium text-foreground">{comment.route}</span>
+            </p>
             {comment.vnb_name && (
-              <Badge variant="outline" className="ml-1 text-xs">{comment.vnb_name}</Badge>
+              <p className="text-sm text-muted-foreground mb-1">
+                VNB: <span className="font-medium text-foreground">{comment.vnb_name}</span>
+              </p>
             )}
-          </CardTitle>
-          <CardDescription>
-            {new Date(comment.created_at).toLocaleString('de-DE')}
-            {comment.author_email && ` • ${comment.author_email}`}
-          </CardDescription>
-        </div>
-        <Badge variant={
-          comment.status === 'approved' ? 'default' :
-          comment.status === 'rejected' ? 'destructive' : 'secondary'
-        }>
-          {comment.status}
-        </Badge>
-      </div>
-    </CardHeader>
-    <CardContent>
-      <div className="space-y-3">
-        <div>
-          <p className="text-sm text-muted-foreground mb-1">
-            Route: <span className="font-medium text-foreground">{comment.route}</span>
-          </p>
-          {comment.vnb_name && (
-            <p className="text-sm text-muted-foreground mb-1">
-              VNB: <span className="font-medium text-foreground">{comment.vnb_name}</span>
-            </p>
-          )}
-          {comment.kriterium && (
-            <p className="text-sm text-muted-foreground mb-1">
-              Kriterium: <span className="font-medium text-foreground">{comment.kriterium}</span>
-            </p>
-          )}
-        </div>
-        
-        <div className="bg-muted/50 p-4 rounded-md">
-          <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
-        </div>
-
-        {comment.admin_reply && (
-          <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-md">
-            <p className="text-xs font-medium text-primary mb-1">
-              Antwort vom {comment.admin_reply_at ? new Date(comment.admin_reply_at).toLocaleString('de-DE') : ''}
-            </p>
-            <p className="text-sm whitespace-pre-wrap">{comment.admin_reply}</p>
+            {comment.kriterium && (
+              <p className="text-sm text-muted-foreground mb-1">
+                Kriterium: <span className="font-medium text-foreground">{comment.kriterium}</span>
+              </p>
+            )}
           </div>
-        )}
-
-        {replyingTo === comment.id && (
-          <div className="space-y-2 border-t pt-3">
-            <Textarea
-              value={replyText}
-              onChange={(e) => onReplyTextChange(e.target.value)}
-              placeholder="Öffentliche Antwort verfassen..."
-              rows={3}
-              autoFocus
-            />
-            <div className="flex gap-2">
-              <Button size="sm" onClick={() => onSubmitReply(comment.id)} disabled={submittingReply || !replyText.trim()}>
-                {submittingReply ? 'Wird gespeichert...' : 'Antwort veröffentlichen'}
-              </Button>
-              <Button size="sm" variant="ghost" onClick={onCancelReply}>
-                Abbrechen
-              </Button>
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-wrap gap-2 pt-2">
-          {comment.status === 'pending' && (
-            <>
-              <Button size="sm" onClick={() => onUpdateStatus(comment.id, 'approved')} className="flex-1">
-                <CheckCircle className="w-4 h-4 mr-2" />
-                Genehmigen
-              </Button>
-              <Button size="sm" variant="destructive" onClick={() => onUpdateStatus(comment.id, 'rejected')} className="flex-1">
-                <XCircle className="w-4 h-4 mr-2" />
-                Ablehnen
-              </Button>
-            </>
-          )}
           
-          {comment.status === 'approved' && replyingTo !== comment.id && (
-            <Button size="sm" variant="outline" onClick={() => onStartReply(comment.id, comment.admin_reply || '')}>
-              <Reply className="w-4 h-4 mr-2" />
-              {comment.admin_reply ? 'Antwort bearbeiten' : 'Antworten'}
-            </Button>
-          )}
-        </div>
+          <div className="bg-muted/50 p-4 rounded-md">
+            <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+          </div>
 
-        <div className="flex gap-2 pt-2 border-t mt-2">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button size="sm" variant="outline" className="w-full">
-                <Trash2 className="w-4 h-4 mr-2" />
-                Löschen
+          {comment.admin_reply && !isReplying && (
+            <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-md">
+              <p className="text-xs font-medium text-primary mb-1">
+                Antwort vom {comment.admin_reply_at ? new Date(comment.admin_reply_at).toLocaleString('de-DE') : ''}
+              </p>
+              <p className="text-sm whitespace-pre-wrap">{comment.admin_reply}</p>
+            </div>
+          )}
+
+          {isReplying && (
+            <div className="space-y-2 border-t pt-3">
+              <Textarea
+                value={localReplyText}
+                onChange={(e) => setLocalReplyText(e.target.value)}
+                placeholder="Öffentliche Antwort verfassen..."
+                rows={3}
+                autoFocus
+              />
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleSubmitReply} disabled={submitting || !localReplyText.trim()}>
+                  {submitting ? 'Wird gespeichert...' : 'Antwort veröffentlichen'}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={handleCancelReply}>
+                  Abbrechen
+                </Button>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            {comment.status === 'pending' && (
+              <>
+                <Button size="sm" onClick={() => onUpdateStatus(comment.id, 'approved')} className="flex-1">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Genehmigen
+                </Button>
+                <Button size="sm" variant="destructive" onClick={() => onUpdateStatus(comment.id, 'rejected')} className="flex-1">
+                  <XCircle className="w-4 h-4 mr-2" />
+                  Ablehnen
+                </Button>
+              </>
+            )}
+            
+            {comment.status === 'approved' && !isReplying && (
+              <Button size="sm" variant="outline" onClick={handleStartReply}>
+                <Reply className="w-4 h-4 mr-2" />
+                {comment.admin_reply ? 'Antwort bearbeiten' : 'Antworten'}
               </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Kommentar löschen?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Diese Aktion kann nicht rückgängig gemacht werden. Der Kommentar wird permanent gelöscht.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Abbrechen</AlertDialogCancel>
-                <AlertDialogAction onClick={() => onDelete(comment.id)}>Löschen</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+            )}
+          </div>
+
+          <div className="flex gap-2 pt-2 border-t mt-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="outline" className="w-full">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Löschen
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Kommentar löschen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Diese Aktion kann nicht rückgängig gemacht werden. Der Kommentar wird permanent gelöscht.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onDelete(comment.id)}>Löschen</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
-      </div>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};
 
 // Shared hook for comment management logic
 function useCommentManagement() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [replyingTo, setReplyingTo] = useState<string | null>(null);
-  const [replyText, setReplyText] = useState('');
-  const [submittingReply, setSubmittingReply] = useState(false);
   const { toast } = useToast();
   const { user, isAdmin } = useAuth();
 
@@ -255,12 +260,11 @@ function useCommentManagement() {
     }
   };
 
-  const submitReply = async (id: string) => {
-    if (!user || !replyText.trim()) return;
-    setSubmittingReply(true);
+  const submitReply = async (id: string, text: string) => {
+    if (!user) return;
     const { error } = await supabase
       .from('comments')
-      .update({ admin_reply: replyText.trim(), admin_reply_at: new Date().toISOString() })
+      .update({ admin_reply: text, admin_reply_at: new Date().toISOString() })
       .eq('id', id);
 
     if (error) {
@@ -271,24 +275,11 @@ function useCommentManagement() {
         action: 'comment_replied',
         entity_type: 'comment',
         entity_id: id,
-        details: { reply: replyText.trim(), timestamp: new Date().toISOString() }
+        details: { reply: text, timestamp: new Date().toISOString() }
       });
       toast({ title: 'Erfolg', description: 'Antwort wurde veröffentlicht.' });
-      setReplyingTo(null);
-      setReplyText('');
       loadComments();
     }
-    setSubmittingReply(false);
-  };
-
-  const startReply = (id: string, existingReply: string) => {
-    setReplyingTo(id);
-    setReplyText(existingReply);
-  };
-
-  const cancelReply = () => {
-    setReplyingTo(null);
-    setReplyText('');
   };
 
   const pendingComments = comments.filter((c) => c.status === 'pending');
@@ -296,9 +287,7 @@ function useCommentManagement() {
   const rejectedComments = comments.filter((c) => c.status === 'rejected');
 
   return {
-    comments, loading, replyingTo, replyText, submittingReply,
-    setReplyText, startReply, cancelReply,
-    updateCommentStatus, deleteComment, submitReply,
+    loading, updateCommentStatus, deleteComment, submitReply,
     pendingComments, approvedComments, rejectedComments,
   };
 }
@@ -306,9 +295,7 @@ function useCommentManagement() {
 // Shared tab content renderer
 function CommentTabs({
   loading, pendingComments, approvedComments, rejectedComments,
-  replyingTo, replyText, submittingReply,
-  setReplyText, startReply, cancelReply, submitReply,
-  updateCommentStatus, deleteComment,
+  submitReply, updateCommentStatus, deleteComment,
 }: ReturnType<typeof useCommentManagement>) {
   return (
     <Tabs defaultValue="pending" className="w-full">
@@ -339,12 +326,6 @@ function CommentTabs({
                 <CommentCard
                   key={comment.id}
                   comment={comment}
-                  replyingTo={replyingTo}
-                  replyText={replyText}
-                  submittingReply={submittingReply}
-                  onReplyTextChange={setReplyText}
-                  onStartReply={startReply}
-                  onCancelReply={cancelReply}
                   onSubmitReply={submitReply}
                   onUpdateStatus={updateCommentStatus}
                   onDelete={deleteComment}
