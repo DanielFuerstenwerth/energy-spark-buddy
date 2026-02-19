@@ -38,7 +38,7 @@ export const SURVEY_STEPS: SurveyStep[] = [
     title: 'Projekt',
     description: 'Projektdetails & Verteilnetzbetreiber',
     type: 'questions',
-    sectionIds: ['project'],
+    sectionIds: ['project', 'ggv-transparenz'],
   },
   {
     id: 'planning-general',
@@ -67,7 +67,7 @@ export const SURVEY_STEPS: SurveyStep[] = [
     title: 'Betrieb: Modellspezifisch',
     description: 'Erfahrungen im Betrieb',
     type: 'questions',
-    sectionIds: ['ggv-operation', 'service-provider', 'ggv-transparenz', 'mieterstrom-operation'],
+    sectionIds: ['ggv-operation', 'service-provider', 'mieterstrom-operation'],
     isVisible: (data) => {
       const flags = getProjectFlags(data);
       return flags.isGgvOrMieterstrom && (flags.isGgvInOperation || flags.isMieterstromInOperation);
