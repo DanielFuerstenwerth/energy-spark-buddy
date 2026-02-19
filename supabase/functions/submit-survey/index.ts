@@ -6,8 +6,9 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-// Rate limiting: max 10 submissions per IP per hour
-const RATE_LIMIT_MAX = 10;
+// Rate limiting: max 50 submissions per IP per hour
+// Only counted on SUCCESSFUL submissions to prevent death-spiral on validation errors
+const RATE_LIMIT_MAX = 50;
 const RATE_LIMIT_WINDOW_HOURS = 1;
 
 // Text limits
@@ -94,7 +95,6 @@ function buildGgvPayload(row: Record<string, unknown>): Record<string, unknown> 
   const payload: Record<string, unknown> = { source: "vnb-transparenz-survey" };
 
   if (hasOptIn) {
-    // Use flat columns (project_plz, project_address, ggv_project_name, ggv_project_links)
     const plz = row.project_plz as string | undefined;
     const address = row.project_address as string | undefined;
 
@@ -171,7 +171,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Rate limit check
+    // Rate limit check (read-only — counter is incremented only on success)
     const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
     const { count: recentCount } = await supabaseAdmin
       .from("chat_rate_limits")
@@ -185,10 +185,6 @@ Deno.serve(async (req) => {
         { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-
-    await supabaseAdmin
-      .from("chat_rate_limits")
-      .insert({ client_ip: `survey:${clientIp}` });
 
     const body = await req.json();
     const { submissions, website } = body;
@@ -228,6 +224,7 @@ Deno.serve(async (req) => {
     }
 
     if (validationErrors.length > 0) {
+      console.error("Validation failed:", JSON.stringify(validationErrors));
       return new Response(
         JSON.stringify({ error: "Validation failed", details: validationErrors }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -247,6 +244,11 @@ Deno.serve(async (req) => {
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+
+    // Only increment rate limit AFTER successful insert
+    await supabaseAdmin
+      .from("chat_rate_limits")
+      .insert({ client_ip: `survey:${clientIp}` });
 
     // Create ggv_exports entries for rows that qualify
     const exportEntries: Array<{ survey_id: string; payload: Record<string, unknown>; status: string }> = [];
@@ -272,7 +274,6 @@ Deno.serve(async (req) => {
         .insert(exportEntries);
 
       if (exportInsertError) {
-        // Non-blocking: log but don't fail the submission
         console.error("Failed to create ggv_export entries:", exportInsertError);
       } else {
         console.log(`Created ${exportEntries.length} ggv_export entries for admin review`);

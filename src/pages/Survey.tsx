@@ -210,6 +210,8 @@ export default function Survey() {
   };
 
   // Phase 2: Actually send the data
+  const retryCountRef = { current: 0 };
+
   const doSubmit = useCallback(async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
@@ -229,16 +231,34 @@ export default function Survey() {
 
       if (response.error) {
         console.error('Edge function error:', response.error);
-        throw new Error(response.error.message || 'Submission failed');
+        // Try to extract details from error context
+        const errorContext = (response.error as unknown as Record<string, unknown>)?.context;
+        const errorBody = typeof errorContext === 'object' && errorContext !== null
+          ? (errorContext as Record<string, unknown>)
+          : null;
+        const details = errorBody?.details || errorBody?.error || response.error.message;
+        throw new Error(typeof details === 'string' ? details : JSON.stringify(details) || 'Submission failed');
       }
 
       const result = response.data;
       if (result?.error) {
         console.error('Server validation error:', result.error, result.details);
         if (result.error === 'Rate limit exceeded. Please try again later.') {
-          toast.error('Zu viele Einsendungen. Bitte versuchen Sie es später erneut.', { duration: Infinity });
+          toast.error('Zu viele Einsendungen. Bitte versuchen Sie es in einer Stunde erneut.', { duration: Infinity });
         } else if (result.error === 'Validation failed') {
           toast.error(`Validierungsfehler: ${result.details?.join('; ') || 'Unbekannt'}`, { duration: Infinity });
+        } else if (result.error === 'Failed to save survey responses') {
+          toast.error(`Speicherfehler: ${result.details || 'Unbekannt'}. Ihre Daten sind lokal gesichert.`, {
+            duration: Infinity,
+            action: {
+              label: 'Erneut versuchen',
+              onClick: () => {
+                retryCountRef.current++;
+                const delay = Math.min(2000 * Math.pow(2, retryCountRef.current - 1), 30000);
+                setTimeout(() => doSubmit(), delay);
+              },
+            },
+          });
         } else {
           throw new Error(result.error);
         }
@@ -246,19 +266,24 @@ export default function Survey() {
         return;
       }
 
-      // GGV exports are now created automatically by submit-survey edge function
-      // and require admin approval before being sent to ggv-transparenz.de
+      // Success — reset retry counter
+      retryCountRef.current = 0;
 
       localStorage.removeItem(DRAFT_KEY);
       toast.success("Vielen Dank für Ihre Teilnahme!");
       setCurrentStep(steps.length);
     } catch (error) {
       console.error('Error submitting survey:', error);
-      toast.error("Fehler beim Absenden. Bitte versuchen Sie es erneut.", {
+      const errorMsg = error instanceof Error ? error.message : 'Unbekannter Fehler';
+      toast.error(`Fehler beim Absenden: ${errorMsg}. Ihre Daten sind lokal gesichert.`, {
         duration: Infinity,
         action: {
           label: 'Erneut versuchen',
-          onClick: () => doSubmit(),
+          onClick: () => {
+            retryCountRef.current++;
+            const delay = Math.min(2000 * Math.pow(2, retryCountRef.current - 1), 30000);
+            setTimeout(() => doSubmit(), delay);
+          },
         },
       });
     } finally {
