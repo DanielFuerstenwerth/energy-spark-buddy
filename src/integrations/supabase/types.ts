@@ -185,6 +185,51 @@ export type Database = {
         }
         Relationships: []
       }
+      ggv_exports: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          payload: Json
+          remote_feedback_id: string | null
+          remote_project_id: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          sent_at: string | null
+          status: string
+          survey_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          payload?: Json
+          remote_feedback_id?: string | null
+          remote_project_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sent_at?: string | null
+          status?: string
+          survey_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          payload?: Json
+          remote_feedback_id?: string | null
+          remote_project_id?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          sent_at?: string | null
+          status?: string
+          survey_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           conversation_id: string

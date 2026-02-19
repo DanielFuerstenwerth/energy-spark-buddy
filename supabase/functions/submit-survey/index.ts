@@ -24,27 +24,19 @@ function sanitizeText(val: unknown): string | null {
 function validateSubmission(data: Record<string, unknown>): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  // Required: session_group_id must be UUID
   if (!data.session_group_id || typeof data.session_group_id !== "string" ||
       !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data.session_group_id)) {
     errors.push("session_group_id must be a valid UUID");
   }
 
-  // Validate all fields defensively
   for (const [key, value] of Object.entries(data)) {
     if (value === null || value === undefined) continue;
-
-    // String length check
     if (typeof value === "string" && value.length > MAX_TEXT_LENGTH) {
       errors.push(`${key} exceeds max length of ${MAX_TEXT_LENGTH}`);
     }
-
-    // Array length check
     if (Array.isArray(value) && value.length > MAX_ARRAY_ITEMS) {
       errors.push(`${key} exceeds max array items of ${MAX_ARRAY_ITEMS}`);
     }
-
-    // Number range check (basic)
     if (typeof value === "number" && (value < -1000000 || value > 10000000)) {
       errors.push(`${key} number out of range`);
     }
@@ -70,6 +62,91 @@ function sanitizeRow(data: Record<string, unknown>): Record<string, unknown> {
   return sanitized;
 }
 
+// --- GGV Export Payload Builder (mirrors export-ggv logic) ---
+
+const STATUS_MAP: Record<string, string> = {
+  info_sammeln: "interested",
+  planung_stockt_ggv: "planning_no_provider",
+  planung_stockt_pv: "planning_no_provider",
+  planung_fast_fertig: "implementing",
+  pv_laeuft_ggv_planung: "implementing",
+  pv_laeuft_ggv_laeuft: "active",
+  sonstiges: "interested",
+};
+
+const BUILDING_TYPE_MAP: Record<string, string> = {
+  wohngebaeude: "wohngebaeude",
+  gewerbe: "gewerbe",
+  gemischt: "wohngebaeude",
+};
+
+const VALID_SERVICE_IDS = new Set([
+  "data_provision", "invoicing_prep", "full_settlement",
+  "metering_full", "metering_invoicing_prep", "metering_full_settlement",
+]);
+
+function buildGgvPayload(row: Record<string, unknown>): Record<string, unknown> | null {
+  const hasOptIn = row.ggv_transparenz_opt_in === "ja";
+  const hasProvider = !!row.service_provider_name;
+
+  if (!hasOptIn && !hasProvider) return null;
+
+  const payload: Record<string, unknown> = { source: "vnb-transparenz-survey" };
+
+  if (hasOptIn) {
+    // Build project
+    let plz: string | undefined;
+    let address: string | undefined;
+    const locations = row.project_locations as Array<{ plz?: string; address?: string }> | undefined;
+    if (Array.isArray(locations) && locations.length > 0) {
+      plz = locations[0]?.plz;
+      address = locations[0]?.address;
+    }
+
+    const nameParts = ["GGV"];
+    if (address) nameParts.push(address);
+    if (row.ggv_project_city) nameParts.push(row.ggv_project_city as string);
+    const name = nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt";
+
+    const planningStatus = Array.isArray(row.planning_status) ? row.planning_status[0] : undefined;
+    const status = planningStatus ? STATUS_MAP[planningStatus] || "interested" : undefined;
+
+    const project: Record<string, unknown> = { name };
+    if (plz) project.plz = plz;
+    if (row.ggv_project_city) project.city = row.ggv_project_city;
+    if (address) project.address = address;
+    if (row.ggv_pv_size_kw) project.pv_size_kwp = row.ggv_pv_size_kw;
+    if (row.ggv_party_count) project.units_count = row.ggv_party_count;
+    if (row.ggv_building_type) project.building_type = BUILDING_TYPE_MAP[row.ggv_building_type as string] || "wohngebaeude";
+    if (status) project.status = status;
+    if (row.vnb_name) project.dso_name = row.vnb_name;
+    if (row.ggv_project_website) project.website = row.ggv_project_website;
+    const links = row.ggv_project_links as string[] | undefined;
+    if (links && links.length > 0) project.links = links.slice(0, 2);
+    if (row.ggv_experience_notes) project.experience_notes = row.ggv_experience_notes;
+    if (row.service_provider_name) project.provider_name = row.service_provider_name;
+    if (row.service_provider_comments) project.provider_experience = (row.service_provider_comments as string).slice(0, 2000);
+
+    const services = ((row.service_provider_services || []) as string[]).filter(s => VALID_SERVICE_IDS.has(s));
+    if (services.length > 0) project.provider_services = services;
+    project.country = "DE";
+
+    payload.project = project;
+  } else if (hasProvider) {
+    const feedback: Record<string, unknown> = { provider_name: row.service_provider_name };
+    const services = ((row.service_provider_services || []) as string[]).filter(s => VALID_SERVICE_IDS.has(s));
+    if (services.length > 0) feedback.provider_services = services;
+    if (row.service_provider_comments) feedback.provider_experience = (row.service_provider_comments as string).slice(0, 2000);
+    payload.provider_feedback = feedback;
+  }
+
+  if (row.contact_email) payload.submitter_email = row.contact_email;
+
+  return payload;
+}
+
+// --- Main handler ---
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -83,7 +160,6 @@ Deno.serve(async (req) => {
   }
 
   try {
-    // Payload size limit: reject requests > 100KB
     const contentLength = parseInt(req.headers.get("content-length") || "0", 10);
     if (contentLength > 102400) {
       return new Response(
@@ -92,7 +168,6 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Rate limiting by IP (Maßnahme 7)
     const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
                      req.headers.get("cf-connecting-ip") || "unknown";
 
@@ -101,7 +176,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Check rate limit
+    // Rate limit check
     const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
     const { count: recentCount } = await supabaseAdmin
       .from("chat_rate_limits")
@@ -116,18 +191,15 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Record this submission attempt for rate limiting
     await supabaseAdmin
       .from("chat_rate_limits")
       .insert({ client_ip: `survey:${clientIp}` });
 
-    // Parse body
     const body = await req.json();
     const { submissions, website } = body;
 
-    // Maßnahme 11: Honeypot check - bots fill the hidden "website" field
+    // Honeypot
     if (website && typeof website === "string" && website.trim().length > 0) {
-      // Silently reject - return success to not reveal detection
       console.log("Honeypot triggered, rejecting submission from IP:", clientIp);
       return new Response(
         JSON.stringify({ success: true, count: 0 }),
@@ -142,7 +214,6 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Validate all submissions first (Maßnahme 5)
     const validationErrors: string[] = [];
     const sanitizedRows: Record<string, unknown>[] = [];
 
@@ -168,11 +239,11 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Atomic insert: all or nothing (Maßnahme 6)
-    // Supabase insert with array inserts all rows in a single transaction
-    const { error: insertError } = await supabaseAdmin
+    // Insert survey responses
+    const { data: insertedRows, error: insertError } = await supabaseAdmin
       .from("survey_responses")
-      .insert(sanitizedRows);
+      .insert(sanitizedRows)
+      .select("id");
 
     if (insertError) {
       console.error("Insert error:", insertError);
@@ -180,6 +251,37 @@ Deno.serve(async (req) => {
         JSON.stringify({ error: "Failed to save survey responses", details: insertError.message }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
+    }
+
+    // Create ggv_exports entries for rows that qualify
+    const exportEntries: Array<{ survey_id: string; payload: Record<string, unknown>; status: string }> = [];
+    
+    for (let i = 0; i < sanitizedRows.length; i++) {
+      const row = sanitizedRows[i];
+      const surveyId = insertedRows?.[i]?.id;
+      if (!surveyId) continue;
+
+      const payload = buildGgvPayload(row);
+      if (payload) {
+        exportEntries.push({
+          survey_id: surveyId,
+          payload,
+          status: "pending_review",
+        });
+      }
+    }
+
+    if (exportEntries.length > 0) {
+      const { error: exportInsertError } = await supabaseAdmin
+        .from("ggv_exports")
+        .insert(exportEntries);
+
+      if (exportInsertError) {
+        // Non-blocking: log but don't fail the submission
+        console.error("Failed to create ggv_export entries:", exportInsertError);
+      } else {
+        console.log(`Created ${exportEntries.length} ggv_export entries for admin review`);
+      }
     }
 
     return new Response(
