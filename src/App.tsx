@@ -87,6 +87,7 @@ const App = () => (
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin/comments" element={<AdminComments />} />
+          <Route path="/admin-comments" element={<Navigate to="/admin/comments" replace />} />
           <Route path="/admin/vnb-mapping" element={<AdminVnbMapping />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
