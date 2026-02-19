@@ -14,7 +14,7 @@ const Datenschutz = () => {
         <div className="max-w-3xl space-y-6">
           <div>
             <h1 className="text-4xl font-bold mb-2">Datenschutzerklärung</h1>
-            <p className="text-sm text-muted-foreground">Stand: [TT.MM.JJJJ]</p>
+            <p className="text-sm text-muted-foreground">Stand: 19.02.2026</p>
           </div>
 
           {/* 1. Verantwortlicher */}
@@ -29,20 +29,18 @@ const Datenschutz = () => {
                 Rollbergstraße 28a<br />
                 12053 Berlin, Deutschland<br />
                 E-Mail:{" "}
-                <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
-                  kontakt@vnb-transparenz.de
-                </a><br />
-                Telefon: +49 151 27656192
+                 <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
+                   kontakt@vnb-transparenz.de
+                 </a>
               </p>
 
               <Separator />
 
               <div>
-                <p className="font-medium">Datenschutzbeauftragter</p>
-                <p className="text-muted-foreground">
-                  Es besteht derzeit keine Benennungspflicht / kein Datenschutzbeauftragter benannt.
-                  <span className="text-xs italic ml-1">[falls doch: Kontaktdaten eintragen]</span>
-                </p>
+               <p className="font-medium">Datenschutzbeauftragter</p>
+                 <p className="text-muted-foreground">
+                   Es besteht derzeit keine gesetzliche Benennungspflicht. Ein Datenschutzbeauftragter ist daher nicht benannt.
+                 </p>
               </div>
             </CardContent>
           </Card>
@@ -162,18 +160,20 @@ const Datenschutz = () => {
                 </ul>
               </div>
 
-              <div>
-                <p className="font-medium">Empfänger / Dienstleister</p>
-                <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
-                  <li><span className="italic">[Formular-Dienst/Backend eintragen, falls vorhanden]</span></li>
-                  <li><span className="italic">[Speicher/Drive/Issue-Tracker eintragen, falls vorhanden]</span></li>
-                </ul>
-              </div>
+               <div>
+                 <p className="font-medium">Empfänger / Dienstleister</p>
+                 <ul className="list-disc pl-6 space-y-1 text-muted-foreground mt-1">
+                   <li>Supabase Inc. (Backend &amp; Datenbank) –{" "}
+                     <a href="https://supabase.com/privacy" className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                       Datenschutzhinweise
+                     </a>
+                   </li>
+                 </ul>
+               </div>
 
-              <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground">
-                <strong>Hinweis:</strong> Bitte übermitteln Sie keine sensiblen Daten (z.&nbsp;B. Gesundheitsdaten)
-                und keine personenbezogenen Daten Dritter, sofern nicht zwingend erforderlich.
-              </div>
+               <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground">
+                 <strong>Hinweis:</strong> Bitte übermitteln Sie keine sensiblen Daten.
+               </div>
             </CardContent>
           </Card>
 
@@ -199,14 +199,21 @@ const Datenschutz = () => {
                   Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an Nutzer-Support) bzw. lit.&nbsp;b
                   DSGVO, wenn Teil einer angefragten Leistung.
                 </li>
-                <li>
-                  <span className="font-medium text-foreground">Dienstleister:</span>{" "}
-                  <span className="italic">[Chatbot-Anbieter eintragen]</span>
-                </li>
-                <li>
-                  <span className="font-medium text-foreground">Speicherdauer:</span>{" "}
-                  <span className="italic">[z.&nbsp;B. „keine Speicherung" oder „X Tage" – Platzhalter eintragen]</span>
-                </li>
+                 <li>
+                   <span className="font-medium text-foreground">Dienstleister:</span>{" "}
+                   OpenAI, Inc. (Sprachmodell GPT-4o-mini) –{" "}
+                   <a href="https://openai.com/privacy" className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                     Datenschutzhinweise
+                   </a>;{" "}
+                   Supabase Inc. (Backend &amp; Speicherung) –{" "}
+                   <a href="https://supabase.com/privacy" className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                     Datenschutzhinweise
+                   </a>
+                 </li>
+                 <li>
+                   <span className="font-medium text-foreground">Speicherdauer:</span>{" "}
+                   Chat-Verläufe werden dauerhaft gespeichert, um den Gesprächskontext innerhalb einer Sitzung zu erhalten. Eine automatische Löschung findet derzeit nicht statt.
+                 </li>
               </ul>
               <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground">
                 <strong>Hinweis:</strong> Bitte keine personenbezogenen oder vertraulichen Informationen in den Chat eingeben.
@@ -244,12 +251,14 @@ const Datenschutz = () => {
                   kontakt@vnb-transparenz.de
                 </a>
               </p>
-              <p className="text-muted-foreground">
-                <span className="font-medium text-foreground">Beschwerderecht:</span>{" "}
-                Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren, insbesondere in dem Mitgliedstaat
-                Ihres Aufenthaltsorts oder des Orts des mutmaßlichen Verstoßes.{" "}
-                <span className="italic">[zuständige Behörde Berlin ergänzen]</span>
-              </p>
+               <p className="text-muted-foreground">
+                 <span className="font-medium text-foreground">Beschwerderecht:</span>{" "}
+                 Sie können sich bei einer Datenschutz-Aufsichtsbehörde beschweren, insbesondere in dem Mitgliedstaat
+                 Ihres Aufenthaltsorts oder des Orts des mutmaßlichen Verstoßes. Zuständig für unseren Sitz ist die{" "}
+                 <a href="https://www.datenschutz-berlin.de" className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
+                   Berliner Beauftragte für Datenschutz und Informationsfreiheit
+                 </a>, Friedrichstr.&nbsp;219, 10969 Berlin.
+               </p>
             </CardContent>
           </Card>
 
