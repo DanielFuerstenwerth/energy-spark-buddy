@@ -133,15 +133,14 @@ Deno.serve(async (req) => {
       return escapeCsv(label);
     });
 
-    // First column header = "DB-Spalte", second = "Fragetext", then one column per project
-    const headerRow = ["DB-Spalte", "Fragetext", ...projectHeaders].join(";");
+    // First column header = "Fragetext", then one column per project
+    const headerRow = ["Fragetext", ...projectHeaders].join(";");
 
     // One row per field, with RESOLVED values from each project
     const dataRows = allKeys.map((key) => {
-      const fieldName = escapeCsv(key);
       const questionLabel = escapeCsv(COLUMN_LABELS[key]?.questionLabel || key);
       const values = responses.map((r: Record<string, unknown>) => escapeCsv(resolveValue(key, r[key])));
-      return [fieldName, questionLabel, ...values].join(";");
+      return [questionLabel, ...values].join(";");
     });
 
     const bom = "\uFEFF";
