@@ -188,8 +188,13 @@ export default function Survey() {
           return; // Block submit
         }
         // Collect non-critical warnings as human-readable list
-        const fieldLabels = validation.errors.map(e => getHumanLabel(e.field));
-        warnings.push(`„${submission.evaluationLabel}":\n${fieldLabels.map(l => `• ${l}`).join('\n')}`);
+        // Exclude optional location fields – they should never create submission anxiety
+        const SUPPRESS_WARNING_FIELDS = new Set(['projectLocations', 'mieterstromProjectLocations', 'esProjectLocations']);
+        const filteredErrors = validation.errors.filter(e => !SUPPRESS_WARNING_FIELDS.has(e.field));
+        if (filteredErrors.length > 0) {
+          const fieldLabels = filteredErrors.map(e => getHumanLabel(e.field));
+          warnings.push(`„${submission.evaluationLabel}":\n${fieldLabels.map(l => `• ${l}`).join('\n')}`);
+        }
       }
     }
 
