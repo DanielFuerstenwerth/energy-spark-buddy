@@ -263,6 +263,7 @@ function renderQuestion(
           type="text"
           optional={q.optional}
           questionNumber={uiNumber}
+          multiline={q.multiline}
           tooltipNode={tooltipNode}
         />
       );
