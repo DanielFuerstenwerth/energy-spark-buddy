@@ -78,6 +78,16 @@ function renderQuestion(
     label = label.replace('GGV/Mieterstrom', 'Mieterstrom').replace('GGV / Mieterstrom', 'Mieterstrom');
   }
 
+  // Dynamic labels for GGV project details when multiple projects selected
+  const ggvProjectType = (data as unknown as Record<string, unknown>).ggvProjectType as string | undefined;
+  if (ggvProjectType === 'multiple') {
+    if (q.id === 'ggvPvSizeKw') {
+      label = "Gesamtgröße aller PV-Anlagen in kWp - GGV";
+    } else if (q.id === 'ggvPartyCount') {
+      label = "Gesamtzahl der Parteien über alle Projekte - GGV";
+    }
+  }
+
   // Helper to get value safely
   const getValue = <T,>(field: string): T => getFieldValue(data, field) as T;
   const setValue = (field: string, value: unknown) => updateData(field as keyof SurveyData, value as SurveyData[keyof SurveyData]);
