@@ -306,6 +306,8 @@ export type Database = {
       }
       survey_responses: {
         Row: {
+          actor_dienstleister_category: string[] | null
+          actor_dienstleister_category_other: string | null
           actor_other: string | null
           actor_text_fields: Json | null
           actor_types: string[] | null
@@ -490,6 +492,8 @@ export type Database = {
           vnb_wandlermessung_documents: string[] | null
         }
         Insert: {
+          actor_dienstleister_category?: string[] | null
+          actor_dienstleister_category_other?: string | null
           actor_other?: string | null
           actor_text_fields?: Json | null
           actor_types?: string[] | null
@@ -674,6 +678,8 @@ export type Database = {
           vnb_wandlermessung_documents?: string[] | null
         }
         Update: {
+          actor_dienstleister_category?: string[] | null
+          actor_dienstleister_category_other?: string | null
           actor_other?: string | null
           actor_text_fields?: Json | null
           actor_types?: string[] | null

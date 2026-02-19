@@ -37,7 +37,8 @@ function getAllSurveyDataKeys(): string[] {
   // Add known companion fields from SurveyData interface
   // These are fields that exist in SurveyData but aren't direct schema questions
   const companionFields = [
-    'actorTextFields', 'actorOther', 'motivationOther',
+    'actorTextFields', 'actorOther', 'actorDienstleisterCategoryOther',
+    'motivationOther',
     'projectFocus', 'projectAddress', 'projectPlz',
     'planningStatusOther', 'mieterstromPlanningStatusOther',
     'ggvDecisionReasonsOther', 'mieterstromDecisionReasonsOther',
@@ -76,10 +77,13 @@ function getAllSurveyDataKeys(): string[] {
 const KNOWN_DB_COLUMNS = new Set([
   'id', 'created_at', 'session_group_id', 'evaluation_label', 'status', 'draft_token',
   'actor_types', 'actor_text_fields', 'actor_other',
+  'actor_dienstleister_category', 'actor_dienstleister_category_other',
   'motivation', 'motivation_other', 'contact_email', 'confirmation_for_update',
   'vnb_name', 'project_types', 'project_focus',
   'ggv_project_type', 'ggv_pv_size_kw', 'ggv_party_count', 'ggv_building_type',
   'ggv_building_count', 'ggv_additional_info',
+  'ggv_transparenz_opt_in', 'ggv_project_city', 'ggv_project_website',
+  'ggv_project_links', 'ggv_experience_notes',
   'mieterstrom_project_type', 'mieterstrom_pv_size_kw', 'mieterstrom_party_count',
   'mieterstrom_building_type', 'mieterstrom_building_count', 'mieterstrom_additional_info',
   'project_address', 'project_plz', 'project_locations', 'mieterstrom_project_locations',
@@ -121,8 +125,9 @@ const KNOWN_DB_COLUMNS = new Set([
   'operation_data_cost', 'operation_data_cost_amount',
   'operation_esa_cost', 'operation_esa_cost_amount',
   'operation_satisfaction_rating',
-  'service_provider_name', 'service_provider_comments',
+  'service_provider_name', 'service_provider_services', 'service_provider_comments',
   'service_provider_2_name', 'service_provider_2_comments',
+  'sp_quality_rating', 'sp_price_rating', 'sp_rating_comment',
   'mieterstrom_summenzaehler',
   'mieterstrom_existing_projects', 'mieterstrom_existing_projects_virtuell',
   'mieterstrom_vnb_contact', 'mieterstrom_vnb_contact_other',

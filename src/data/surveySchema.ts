@@ -101,6 +101,26 @@ const SECTION_ABOUT_YOU: SurveySection = {
       optional: true,
     },
     {
+      id: "actorDienstleisterCategory",
+      type: "multi-select",
+      label: "A1.1 In welche Kategorie von Dienstleister ordnen Sie sich ein?",
+      helpText: "Wählen Sie alle zutreffenden Kategorien aus.",
+      optional: true,
+      visibilityRule: inc('actorTypes', 'dienstleister'),
+      options: [
+        { value: "data_provision", label: "Datenbereitstellung (ESA-Zugang zu gMSB-Werten)" },
+        { value: "invoicing_prep", label: "Vorbereitung der Rechnungsstellung" },
+        { value: "full_settlement", label: "Vollständige Abrechnung mit Teilnehmern" },
+        { value: "metering_full", label: "Messstellenbetrieb inkl. Datenbereitstellung" },
+        { value: "metering_invoicing_prep", label: "Messstellenbetrieb inkl. Rechnungsvorbereitung" },
+        { value: "metering_full_settlement", label: "Messstellenbetrieb inkl. vollständiger Abrechnung" },
+        { value: "beratung", label: "Beratung / Projektentwicklung" },
+        { value: "installation", label: "Installation / Technik" },
+        { value: "software", label: "Software / IT-Plattform" },
+        { value: "sonstiges", label: "Sonstiges", hasTextField: true, textFieldPlaceholder: "z.B. Contracting, Energiemanagement..." },
+      ],
+    },
+    {
       id: "motivation",
       type: "multi-select",
       label: "A2. Wie würden Sie Ihre Motivation einordnen?",
@@ -1736,6 +1756,7 @@ export function buildDbData(
 export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: string; uiNumber?: string }> = {
   // Section 1: Über Sie
   "actorTypes": { displayId: "1-ActorTypes", dbColumn: "actor_types", uiNumber: "1.1" },
+  "actorDienstleisterCategory": { displayId: "1-ActorDienstleisterCategory", dbColumn: "actor_dienstleister_category", uiNumber: "1.1a" },
   "motivation": { displayId: "1-Motivation", dbColumn: "motivation", uiNumber: "1.2" },
   "contactEmail": { displayId: "1-ContactEmail", dbColumn: "contact_email", uiNumber: "1.3" },
   "confirmationForUpdate": { displayId: "1-ConfirmationForUpdate", dbColumn: "confirmation_for_update", uiNumber: "1.4" },
@@ -1817,6 +1838,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "operationSatisfactionRating": { displayId: "5-GGV-SatisfactionRating", dbColumn: "operation_satisfaction_rating", uiNumber: "5.17" },
   // Section 5-GGV: Dienstleister
   "serviceProviderName": { displayId: "5-GGV-SP-Name", dbColumn: "service_provider_name", uiNumber: "5.18" },
+  "serviceProviderServices": { displayId: "5-GGV-SP-Services", dbColumn: "service_provider_services", uiNumber: "5.18a" },
   // serviceProviderRating GELÖSCHT
   "serviceProviderComments": { displayId: "5-GGV-SP-Comments", dbColumn: "service_provider_comments", uiNumber: "5.19" },
   "serviceProvider2Name": { displayId: "5-GGV-SP2-Name", dbColumn: "service_provider_2_name", uiNumber: "5.20" },

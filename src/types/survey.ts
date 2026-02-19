@@ -17,6 +17,8 @@ import { QUESTION_REGISTRY } from '@/data/surveySchema';
 export interface SurveyData {
   // Section 1: Über Sie
   actorTypes: string[];
+  actorDienstleisterCategory?: string[];
+  actorDienstleisterCategoryOther?: string;
   actorTextFields?: Record<string, string>;
   actorOther?: string;
   motivation: string[];
