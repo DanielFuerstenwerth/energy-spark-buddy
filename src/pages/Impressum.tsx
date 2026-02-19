@@ -28,7 +28,7 @@ const Impressum = () => {
             <section>
               <h2 className="text-2xl font-bold mb-4">Kontakt</h2>
               <p className="text-muted-foreground">
-                E-Mail: [kontakt@vnb-transparenz.de vorläufig: daniel@1000gw.de]
+                E-Mail: <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">kontakt@vnb-transparenz.de</a>
                 <br />
               </p>
             </section>
