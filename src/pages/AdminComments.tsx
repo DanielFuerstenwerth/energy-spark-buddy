@@ -37,6 +37,277 @@ interface Comment {
   admin_reply_at: string | null;
 }
 
+// Extracted panel for embedding in Admin.tsx
+export const AdminCommentsPanel = () => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyText, setReplyText] = useState('');
+  const [submittingReply, setSubmittingReply] = useState(false);
+  const { toast } = useToast();
+  const { user, isAdmin } = useAuth();
+
+  useEffect(() => {
+    if (user && isAdmin) {
+      loadComments();
+    }
+  }, [user, isAdmin]);
+
+  const loadComments = async () => {
+    if (!user || !isAdmin) return;
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('comments')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error loading comments:', error);
+      toast({ title: 'Fehler', description: 'Kommentare konnten nicht geladen werden.', variant: 'destructive' });
+    } else {
+      setComments(data || []);
+    }
+    setLoading(false);
+  };
+
+  const updateCommentStatus = async (id: string, status: 'approved' | 'rejected') => {
+    if (!user) return;
+    const { error } = await supabase.from('comments').update({ status }).eq('id', id);
+    if (error) {
+      toast({ title: 'Fehler', description: 'Status konnte nicht aktualisiert werden.', variant: 'destructive' });
+    } else {
+      await supabase.from('admin_audit_log').insert({
+        admin_user_id: user.id,
+        action: status === 'approved' ? 'comment_approved' : 'comment_rejected',
+        entity_type: 'comment',
+        entity_id: id,
+        details: { status, timestamp: new Date().toISOString() }
+      });
+      toast({ title: 'Erfolg', description: `Kommentar wurde ${status === 'approved' ? 'genehmigt' : 'abgelehnt'}.` });
+      loadComments();
+    }
+  };
+
+  const deleteComment = async (id: string) => {
+    if (!user) return;
+    const { error } = await supabase.from('comments').delete().eq('id', id);
+    if (error) {
+      toast({ title: 'Fehler', description: 'Kommentar konnte nicht gelöscht werden.', variant: 'destructive' });
+    } else {
+      await supabase.from('admin_audit_log').insert({
+        admin_user_id: user.id,
+        action: 'comment_deleted',
+        entity_type: 'comment',
+        entity_id: id,
+        details: { timestamp: new Date().toISOString() }
+      });
+      toast({ title: 'Erfolg', description: 'Kommentar wurde gelöscht.' });
+      loadComments();
+    }
+  };
+
+  const submitReply = async (id: string) => {
+    if (!user || !replyText.trim()) return;
+    setSubmittingReply(true);
+    const { error } = await supabase
+      .from('comments')
+      .update({ admin_reply: replyText.trim(), admin_reply_at: new Date().toISOString() })
+      .eq('id', id);
+
+    if (error) {
+      toast({ title: 'Fehler', description: 'Antwort konnte nicht gespeichert werden.', variant: 'destructive' });
+    } else {
+      await supabase.from('admin_audit_log').insert({
+        admin_user_id: user.id,
+        action: 'comment_replied',
+        entity_type: 'comment',
+        entity_id: id,
+        details: { reply: replyText.trim(), timestamp: new Date().toISOString() }
+      });
+      toast({ title: 'Erfolg', description: 'Antwort wurde veröffentlicht.' });
+      setReplyingTo(null);
+      setReplyText('');
+      loadComments();
+    }
+    setSubmittingReply(false);
+  };
+
+  const pendingComments = comments.filter((c) => c.status === 'pending');
+  const approvedComments = comments.filter((c) => c.status === 'approved');
+  const rejectedComments = comments.filter((c) => c.status === 'rejected');
+
+  const CommentCard = ({ comment }: { comment: Comment }) => (
+    <Card key={comment.id} className="mb-4">
+      <CardHeader>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <MessageCircle className="w-4 h-4" />
+              {comment.author_name || 'Anonym'}
+              {comment.vnb_name && (
+                <Badge variant="outline" className="ml-1 text-xs">{comment.vnb_name}</Badge>
+              )}
+            </CardTitle>
+            <CardDescription>
+              {new Date(comment.created_at).toLocaleString('de-DE')}
+              {comment.author_email && ` • ${comment.author_email}`}
+            </CardDescription>
+          </div>
+          <Badge variant={
+            comment.status === 'approved' ? 'default' :
+            comment.status === 'rejected' ? 'destructive' : 'secondary'
+          }>
+            {comment.status}
+          </Badge>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm text-muted-foreground mb-1">
+              Route: <span className="font-medium text-foreground">{comment.route}</span>
+            </p>
+            {comment.vnb_name && (
+              <p className="text-sm text-muted-foreground mb-1">
+                VNB: <span className="font-medium text-foreground">{comment.vnb_name}</span>
+              </p>
+            )}
+            {comment.kriterium && (
+              <p className="text-sm text-muted-foreground mb-1">
+                Kriterium: <span className="font-medium text-foreground">{comment.kriterium}</span>
+              </p>
+            )}
+          </div>
+          
+          <div className="bg-muted/50 p-4 rounded-md">
+            <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+          </div>
+
+          {comment.admin_reply && (
+            <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-md">
+              <p className="text-xs font-medium text-primary mb-1">
+                Antwort vom {comment.admin_reply_at ? new Date(comment.admin_reply_at).toLocaleString('de-DE') : ''}
+              </p>
+              <p className="text-sm whitespace-pre-wrap">{comment.admin_reply}</p>
+            </div>
+          )}
+
+          {replyingTo === comment.id && (
+            <div className="space-y-2 border-t pt-3">
+              <Textarea
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+                placeholder="Öffentliche Antwort verfassen..."
+                rows={3}
+              />
+              <div className="flex gap-2">
+                <Button size="sm" onClick={() => submitReply(comment.id)} disabled={submittingReply || !replyText.trim()}>
+                  {submittingReply ? 'Wird gespeichert...' : 'Antwort veröffentlichen'}
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => { setReplyingTo(null); setReplyText(''); }}>
+                  Abbrechen
+                </Button>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            {comment.status === 'pending' && (
+              <>
+                <Button size="sm" onClick={() => updateCommentStatus(comment.id, 'approved')} className="flex-1">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Genehmigen
+                </Button>
+                <Button size="sm" variant="destructive" onClick={() => updateCommentStatus(comment.id, 'rejected')} className="flex-1">
+                  <XCircle className="w-4 h-4 mr-2" />
+                  Ablehnen
+                </Button>
+              </>
+            )}
+            
+            {comment.status === 'approved' && replyingTo !== comment.id && (
+              <Button size="sm" variant="outline" onClick={() => { setReplyingTo(comment.id); setReplyText(comment.admin_reply || ''); }}>
+                <Reply className="w-4 h-4 mr-2" />
+                {comment.admin_reply ? 'Antwort bearbeiten' : 'Antworten'}
+              </Button>
+            )}
+          </div>
+
+          <div className="flex gap-2 pt-2 border-t mt-2">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="outline" className="w-full">
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  Löschen
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Kommentar löschen?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Diese Aktion kann nicht rückgängig gemacht werden. Der Kommentar wird permanent gelöscht.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => deleteComment(comment.id)}>Löschen</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  return (
+    <div className="space-y-6">
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageCircle className="w-5 h-5 text-primary" />
+            Kommentar-Moderation
+          </CardTitle>
+          <CardDescription>
+            Verwalten, moderieren und beantworten Sie Benutzerkommentare
+          </CardDescription>
+        </CardHeader>
+      </Card>
+
+      <Tabs defaultValue="pending" className="w-full">
+        <TabsList className="grid w-full grid-cols-3 mb-6">
+          <TabsTrigger value="pending" className="relative">
+            Ausstehend
+            {pendingComments.length > 0 && (
+              <Badge variant="destructive" className="ml-2 px-2 py-0 text-xs">
+                {pendingComments.length}
+              </Badge>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="approved">Genehmigt ({approvedComments.length})</TabsTrigger>
+          <TabsTrigger value="rejected">Abgelehnt ({rejectedComments.length})</TabsTrigger>
+        </TabsList>
+
+        {['pending', 'approved', 'rejected'].map((tab) => {
+          const filtered = tab === 'pending' ? pendingComments : tab === 'approved' ? approvedComments : rejectedComments;
+          const emptyLabel = tab === 'pending' ? 'Keine ausstehenden Kommentare' : tab === 'approved' ? 'Keine genehmigten Kommentare' : 'Keine abgelehnten Kommentare';
+          return (
+            <TabsContent key={tab} value={tab}>
+              {loading && tab === 'pending' ? (
+                <Card><CardContent className="py-12 text-center text-muted-foreground">Lädt Kommentare...</CardContent></Card>
+              ) : filtered.length === 0 ? (
+                <Card><CardContent className="py-12 text-center text-muted-foreground">{emptyLabel}</CardContent></Card>
+              ) : (
+                filtered.map((comment) => <CommentCard key={comment.id} comment={comment} />)
+              )}
+            </TabsContent>
+          );
+        })}
+      </Tabs>
+    </div>
+  );
+};
+
 const AdminComments = () => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
