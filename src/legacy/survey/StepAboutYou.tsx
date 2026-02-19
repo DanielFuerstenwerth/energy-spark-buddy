@@ -38,7 +38,7 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
               dargestellt.
             </p>
             <p>Sollten Sie Feedback zu Ihrem Verteilnetzbetreiber geben wollen, welches nicht veröffentlicht werden soll, schreiben Sie bitte an:{" "}
-              <a href="mailto:vnb-transparenz@1000gw.de" className="underline font-medium">vnb-transparenz@1000gw.de</a>.
+              <a href="mailto:kontakt@vnb-transparenz.de" className="underline font-medium">kontakt@vnb-transparenz.de</a>.
             </p>
           </CollapsibleContent>
         </Collapsible>
