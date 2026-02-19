@@ -18,6 +18,7 @@ import Datenschutz from "./pages/Datenschutz";
 import AdminComments from "./pages/AdminComments";
 import AdminVnbMapping from "./pages/AdminVnbMapping";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Reply from "./pages/Reply";
 import Survey from "./pages/Survey";
 
@@ -66,6 +67,7 @@ const App = () => (
           
           {/* Other Routes */}
           <Route path="/auth" element={<Auth />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:slug" element={<NewsDetail />} />
           <Route path="/vnb/:id" element={<VnbDetail />} />
