@@ -5,11 +5,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageCircle, Clock } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { MessageCircle, Clock, Reply } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 
-// Validation schema for comments
 const commentSchema = z.object({
   text: z.string().trim().min(1, 'Kommentar darf nicht leer sein').max(5000, 'Kommentar zu lang (max 5000 Zeichen)'),
   author_name: z.string().trim().max(100, 'Name zu lang (max 100 Zeichen)').optional().or(z.literal('')),
@@ -24,6 +24,8 @@ interface Comment {
   views: number;
   vnb_name: string | null;
   kriterium: string | null;
+  admin_reply: string | null;
+  admin_reply_at: string | null;
 }
 
 interface CommentsSectionProps {
@@ -46,7 +48,6 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
   }, [route, vnbName]);
 
   const loadComments = async () => {
-    // Query from comments_public view which excludes email addresses
     let query = supabase
       .from('comments_public')
       .select('*')
@@ -58,38 +59,23 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
     }
 
     const { data, error } = await query;
-
     if (error) {
       console.error('Error loading comments:', error);
       return;
     }
-
     setComments(data || []);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Validate input
-    const validation = commentSchema.safeParse({
-      text,
-      author_name: authorName,
-      author_email: authorEmail,
-    });
+    const validation = commentSchema.safeParse({ text, author_name: authorName, author_email: authorEmail });
 
     if (!validation.success) {
-      const firstError = validation.error.errors[0];
-      toast({
-        title: 'Validierungsfehler',
-        description: firstError.message,
-        variant: 'destructive',
-      });
+      toast({ title: 'Validierungsfehler', description: validation.error.errors[0].message, variant: 'destructive' });
       return;
     }
 
     setSubmitting(true);
-
-    // Submit via edge function with server-side rate limiting
     const { data, error } = await supabase.functions.invoke('submit-comment', {
       body: {
         route,
@@ -100,34 +86,18 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
         author_email: validation.data.author_email || null,
       },
     });
-
     setSubmitting(false);
 
     if (error || !data?.success) {
-      console.error('Error submitting comment:', error);
-      
-      // Check if it's a rate limit error
       if (data?.error === 'Rate limit exceeded' && data?.waitMinutes) {
-        toast({
-          title: 'Zu viele Kommentare',
-          description: `Bitte warten Sie ${data.waitMinutes} Minuten, bevor Sie einen weiteren Kommentar abgeben.`,
-          variant: 'destructive',
-        });
+        toast({ title: 'Zu viele Kommentare', description: `Bitte warten Sie ${data.waitMinutes} Minuten.`, variant: 'destructive' });
       } else {
-        toast({
-          title: 'Fehler',
-          description: data?.message || 'Kommentar konnte nicht abgeschickt werden. Bitte versuchen Sie es später erneut.',
-          variant: 'destructive',
-        });
+        toast({ title: 'Fehler', description: data?.message || 'Kommentar konnte nicht abgeschickt werden.', variant: 'destructive' });
       }
       return;
     }
 
-    toast({
-      title: 'Kommentar eingereicht',
-      description: 'Ihr Kommentar wird nach Prüfung veröffentlicht.',
-    });
-
+    toast({ title: 'Kommentar eingereicht', description: 'Ihr Kommentar wird nach Prüfung veröffentlicht.' });
     setText('');
     setAuthorName('');
     setAuthorEmail('');
@@ -155,45 +125,23 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="comment-text">Ihr Kommentar *</Label>
-        <Textarea
-          id="comment-text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Teilen Sie Ihre Erfahrungen..."
-          rows={4}
-          required
-          className="min-h-[100px]"
-        />
+                <Textarea id="comment-text" value={text} onChange={(e) => setText(e.target.value)} placeholder="Teilen Sie Ihre Erfahrungen..." rows={4} required className="min-h-[100px]" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="author-name">Name (optional)</Label>
-                  <Input
-                    id="author-name"
-                    value={authorName}
-                    onChange={(e) => setAuthorName(e.target.value)}
-                    placeholder="Anonym"
-                  />
+                  <Input id="author-name" value={authorName} onChange={(e) => setAuthorName(e.target.value)} placeholder="Anonym" />
                 </div>
                 <div>
                   <Label htmlFor="author-email">E-Mail (optional, nicht öffentlich)</Label>
-                  <Input
-                    id="author-email"
-                    type="email"
-                    value={authorEmail}
-                    onChange={(e) => setAuthorEmail(e.target.value)}
-                    placeholder="ihre@email.de"
-                  />
+                  <Input id="author-email" type="email" value={authorEmail} onChange={(e) => setAuthorEmail(e.target.value)} placeholder="ihre@email.de" />
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
                 <div className="space-y-1">
-                  <p className="text-sm text-muted-foreground">
-                    * Kommentare werden nach Freigabe sichtbar
-                  </p>
+                  <p className="text-sm text-muted-foreground">* Kommentare werden nach Freigabe sichtbar</p>
                   <p className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Clock className="w-3 h-3" />
-                    Max. 5 Kommentare pro Stunde
+                    <Clock className="w-3 h-3" /> Max. 5 Kommentare pro Stunde
                   </p>
                 </div>
                 <Button type="submit" disabled={submitting} className="w-full md:w-auto min-h-[44px]">
@@ -219,20 +167,35 @@ const CommentsSection = ({ route, vnbName, kriterium }: CommentsSectionProps) =>
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     {comment.kriterium && (
-                      <span className="text-sm font-medium text-primary">
-                        {comment.kriterium}:
-                      </span>
+                      <span className="text-sm font-medium text-primary">{comment.kriterium}:</span>
                     )}
                     <p className="text-sm text-muted-foreground">
-                      {comment.author_name || 'Anonym'} •{' '}
+                      {comment.author_name || 'Anonym'}
+                      {comment.vnb_name && (
+                        <Badge variant="outline" className="ml-2 text-xs">{comment.vnb_name}</Badge>
+                      )}
+                      {' • '}
                       {new Date(comment.created_at).toLocaleDateString('de-DE')}
                     </p>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {comment.views} Ansichten
-                  </span>
                 </div>
-                <p className="text-sm">{comment.text}</p>
+                <p className="text-sm mb-3">{comment.text}</p>
+
+                {/* Admin reply */}
+                {comment.admin_reply && (
+                  <div className="bg-primary/5 border-l-4 border-primary p-4 rounded-md mt-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Reply className="w-3 h-3 text-primary" />
+                      <span className="text-xs font-semibold text-primary">Antwort von VNB-Transparenz</span>
+                      {comment.admin_reply_at && (
+                        <span className="text-xs text-muted-foreground">
+                          • {new Date(comment.admin_reply_at).toLocaleDateString('de-DE')}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm whitespace-pre-wrap">{comment.admin_reply}</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))
