@@ -94,19 +94,14 @@ function buildGgvPayload(row: Record<string, unknown>): Record<string, unknown> 
   const payload: Record<string, unknown> = { source: "vnb-transparenz-survey" };
 
   if (hasOptIn) {
-    // Build project
-    let plz: string | undefined;
-    let address: string | undefined;
-    const locations = row.project_locations as Array<{ plz?: string; address?: string }> | undefined;
-    if (Array.isArray(locations) && locations.length > 0) {
-      plz = locations[0]?.plz;
-      address = locations[0]?.address;
-    }
+    // Use flat columns (project_plz, project_address, ggv_project_name, ggv_project_links)
+    const plz = row.project_plz as string | undefined;
+    const address = row.project_address as string | undefined;
 
     const nameParts = ["GGV"];
     if (address) nameParts.push(address);
     if (row.ggv_project_city) nameParts.push(row.ggv_project_city as string);
-    const name = nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt";
+    const name = (row.ggv_project_name as string) || (nameParts.length > 1 ? nameParts.join(", ") : "GGV-Projekt");
 
     const planningStatus = Array.isArray(row.planning_status) ? row.planning_status[0] : undefined;
     const status = planningStatus ? STATUS_MAP[planningStatus] || "interested" : undefined;
@@ -122,7 +117,7 @@ function buildGgvPayload(row: Record<string, unknown>): Record<string, unknown> 
     if (row.vnb_name) project.dso_name = row.vnb_name;
     if (row.ggv_project_website) project.website = row.ggv_project_website;
     const links = row.ggv_project_links as string[] | undefined;
-    if (links && links.length > 0) project.links = links.slice(0, 2);
+    if (links && links.length > 0) project.links = links.slice(0, 5);
     if (row.ggv_experience_notes) project.experience_notes = row.ggv_experience_notes;
     if (row.service_provider_name) project.provider_name = row.service_provider_name;
     if (row.service_provider_comments) project.provider_experience = (row.service_provider_comments as string).slice(0, 2000);

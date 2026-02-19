@@ -1692,6 +1692,7 @@ export function getVisibleQuestionIds(data: SurveyData): Set<string> {
 
 // Build database-ready object from SurveyData
 // Only includes fields whose questions are currently visible (defensive filtering).
+// Note: projectLocations JSONB is excluded – use expandToLocationRows() to flatten.
 export function buildDbData(
   data: SurveyData,
   sessionGroupId: string,
@@ -1706,10 +1707,14 @@ export function buildDbData(
     'actorTextFields', // Special companion for actorTypes with irregular name
   ]);
 
+  // Fields handled by expandToLocationRows – skip JSONB storage
+  const LOCATION_JSONB_FIELDS = new Set(['projectLocations']);
+
   const visibleIds = getVisibleQuestionIds(data);
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === '') continue;
+    if (LOCATION_JSONB_FIELDS.has(key)) continue;
 
     // Always include meta fields; for others, check visibility
     if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
@@ -1739,6 +1744,43 @@ export function buildDbData(
   }
 
   return dbData;
+}
+
+/**
+ * Expand a single DB row into N rows – one per GGV project location.
+ * If no locations or only one, returns 1 row with flat location fields.
+ * Each row shares the same session_group_id; all feedback data is duplicated.
+ * 
+ * Flat columns used per location:
+ *  - project_plz, project_address (from location.plz, location.address)
+ *  - ggv_project_name (from location.projectName)
+ *  - ggv_project_links (from location.weblinks)
+ *  - ggv_pv_size_kw (from location.pvSizeKw, only for multi-site)
+ */
+export function expandToLocationRows(
+  baseRow: Record<string, unknown>,
+  locations: Array<{ plz?: string; address?: string; pvSizeKw?: number; projectName?: string; weblinks?: string[] }> | undefined,
+): Record<string, unknown>[] {
+  const locs = locations?.filter(l => l.plz || l.address) ?? [];
+
+  if (locs.length === 0) {
+    return [baseRow];
+  }
+
+  return locs.map((loc) => {
+    const row = { ...baseRow };
+    if (loc.plz) row.project_plz = loc.plz;
+    if (loc.address) row.project_address = loc.address;
+    if (loc.projectName) row.ggv_project_name = loc.projectName;
+    if (loc.weblinks && loc.weblinks.some(l => l.trim())) {
+      row.ggv_project_links = loc.weblinks.filter(l => l.trim()).slice(0, 5);
+    }
+    // For multi-site, use per-location kW (overrides global ggv_pv_size_kw)
+    if (locs.length > 1 && loc.pvSizeKw) {
+      row.ggv_pv_size_kw = loc.pvSizeKw;
+    }
+    return row;
+  });
 }
 
 // === QUESTION REGISTRY: Display-IDs (Abschnitt-Modell-Name) + DB-Spalten + UI-Nummern ===
