@@ -89,6 +89,12 @@ export function StepAboutYou({ data, updateData }: StepAboutYouProps) {
         optional
         questionNumber="1.4"
       />
+
+      {data.confirmationForUpdate === "ja" && !data.contactEmail?.trim() && (
+        <div className="rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+          ⚠ Sie haben bei 1.4 „Ja" gewählt, aber keine E-Mail-Adresse bei Frage 1.3 angegeben. Ohne E-Mail können wir Sie nicht kontaktieren.
+        </div>
+      )}
     </div>
   );
 }
