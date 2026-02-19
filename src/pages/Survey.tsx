@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
 import { validateSurveyData } from "@/lib/surveyValidation";
-import { buildDbData, surveyDefinition, getHumanLabel } from "@/data/surveySchema";
+import { buildDbData, expandToLocationRows, surveyDefinition, getHumanLabel } from "@/data/surveySchema";
 import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
@@ -213,9 +213,10 @@ export default function Survey() {
 
     try {
       const mergedSubmissions = getMergedSubmissions();
-      const dbRows = mergedSubmissions.map(sub => 
-        buildDbData(sub, sessionGroupId, uploadedDocuments)
-      );
+      const dbRows = mergedSubmissions.flatMap(sub => {
+        const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments);
+        return expandToLocationRows(baseRow, sub.projectLocations);
+      });
 
       const response = await supabase.functions.invoke('submit-survey', {
         body: { submissions: dbRows, website: honeypot },
