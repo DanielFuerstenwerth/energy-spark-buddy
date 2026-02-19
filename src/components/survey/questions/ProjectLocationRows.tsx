@@ -9,7 +9,7 @@ export interface ProjectLocation {
   address?: string;
   pvSizeKw?: number;
   projectName?: string;
-  weblinks?: string;
+  weblinks?: string[];
 }
 
 interface ProjectLocationRowsProps {
@@ -26,14 +26,32 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
   const displayLabel = label || `Standort${multiple ? 'e' : ''} des Projekts`;
   const rows = locations.length > 0 ? locations : [{}];
 
-  const updateRow = (index: number, field: keyof ProjectLocation, value: string) => {
+  const updateRow = (index: number, field: keyof ProjectLocation, value: string | string[] | undefined) => {
     const updated = [...rows];
     if (field === 'pvSizeKw') {
-      updated[index] = { ...updated[index], [field]: value ? parseFloat(value) : undefined };
+      updated[index] = { ...updated[index], [field]: value ? parseFloat(value as string) : undefined };
     } else {
       updated[index] = { ...updated[index], [field]: value || undefined };
     }
     onChange(updated);
+  };
+
+  const updateWeblink = (rowIndex: number, linkIndex: number, value: string) => {
+    const currentLinks = rows[rowIndex].weblinks || [""];
+    const updated = [...currentLinks];
+    updated[linkIndex] = value;
+    updateRow(rowIndex, 'weblinks', updated);
+  };
+
+  const addWeblink = (rowIndex: number) => {
+    const currentLinks = rows[rowIndex].weblinks || [""];
+    updateRow(rowIndex, 'weblinks', [...currentLinks, ""]);
+  };
+
+  const removeWeblink = (rowIndex: number, linkIndex: number) => {
+    const currentLinks = rows[rowIndex].weblinks || [""];
+    const updated = currentLinks.filter((_, i) => i !== linkIndex);
+    updateRow(rowIndex, 'weblinks', updated.length > 0 ? updated : [""]);
   };
 
   const addRow = () => {
@@ -99,11 +117,26 @@ export function ProjectLocationRows({ locations, onChange, multiple = false, que
                   value={row.projectName ?? ""}
                   onChange={(e) => updateRow(index, 'projectName', e.target.value)}
                 />
-                <Input
-                  placeholder="Optional: Weblinks zu Ihrem Projekt (z.B. Website, Presseartikel, Social Media)"
-                  value={row.weblinks ?? ""}
-                  onChange={(e) => updateRow(index, 'weblinks', e.target.value)}
-                />
+                <div className="space-y-1">
+                  {(row.weblinks && row.weblinks.length > 0 ? row.weblinks : [""]).map((link, linkIdx) => (
+                    <div key={linkIdx} className="flex items-center gap-2">
+                      <Input
+                        placeholder="Optional: Weblink (z.B. Website, Presseartikel, Social Media)"
+                        value={link}
+                        onChange={(e) => updateWeblink(index, linkIdx, e.target.value)}
+                        className="flex-1"
+                      />
+                      {(row.weblinks?.length ?? 0) > 1 && (
+                        <Button variant="ghost" size="icon" className="shrink-0 h-9 w-9 text-muted-foreground hover:text-destructive" onClick={() => removeWeblink(index, linkIdx)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                  <Button type="button" variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground" onClick={() => addWeblink(index)}>
+                    <Plus className="w-4 h-4 mr-1" /> Weiteren Link hinzufügen
+                  </Button>
+                </div>
               </div>
             )}
           </div>
