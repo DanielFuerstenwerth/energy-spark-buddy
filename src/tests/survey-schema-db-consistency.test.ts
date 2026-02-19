@@ -127,7 +127,7 @@ const KNOWN_DB_COLUMNS = new Set([
   'operation_esa_cost', 'operation_esa_cost_amount',
   'operation_satisfaction_rating',
   'service_provider_name', 'service_provider_services', 'service_provider_comments',
-  'service_provider_2_name', 'service_provider_2_comments',
+  'service_provider_2_name', 'service_provider_2_services', 'service_provider_2_comments',
   'sp_quality_rating', 'sp_price_rating', 'sp_rating_comment',
   'mieterstrom_summenzaehler',
   'mieterstrom_existing_projects', 'mieterstrom_existing_projects_virtuell',

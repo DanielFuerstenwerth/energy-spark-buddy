@@ -441,6 +441,7 @@ export type Database = {
           project_types: string[] | null
           service_provider_2_comments: string | null
           service_provider_2_name: string | null
+          service_provider_2_services: string[] | null
           service_provider_comments: string | null
           service_provider_name: string | null
           service_provider_services: string[] | null
@@ -630,6 +631,7 @@ export type Database = {
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
+          service_provider_2_services?: string[] | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_services?: string[] | null
@@ -819,6 +821,7 @@ export type Database = {
           project_types?: string[] | null
           service_provider_2_comments?: string | null
           service_provider_2_name?: string | null
+          service_provider_2_services?: string[] | null
           service_provider_comments?: string | null
           service_provider_name?: string | null
           service_provider_services?: string[] | null

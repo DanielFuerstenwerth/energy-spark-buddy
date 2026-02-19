@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN service_provider_2_services text[] DEFAULT '{}'::text[];

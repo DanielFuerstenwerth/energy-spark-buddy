@@ -133,6 +133,7 @@ export interface SurveyData {
   serviceProviderServices?: string[];
   serviceProviderComments?: string;
   serviceProvider2Name?: string;
+  serviceProvider2Services?: string[];
   serviceProvider2Comments?: string;
 
   // Section 4-MS: Planung Mieterstrom
