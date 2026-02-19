@@ -37,11 +37,6 @@ const Impressum = () => {
               <div>
                 <p className="font-medium">Kontakt</p>
                 <p className="text-muted-foreground">
-                  Telefon:{" "}
-                  <a href="tel:+4915127656192" className="underline hover:text-foreground">
-                    +49 151 27656192
-                  </a>
-                  <br />
                   E-Mail:{" "}
                   <a href="mailto:kontakt@vnb-transparenz.de" className="underline hover:text-foreground">
                     kontakt@vnb-transparenz.de
