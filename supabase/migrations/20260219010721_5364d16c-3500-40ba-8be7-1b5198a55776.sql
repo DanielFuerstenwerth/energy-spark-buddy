@@ -1,0 +1,1 @@
+ALTER TABLE public.survey_responses ADD COLUMN ggv_project_links text[] DEFAULT '{}'::text[];

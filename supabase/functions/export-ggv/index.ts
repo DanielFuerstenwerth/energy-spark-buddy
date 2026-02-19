@@ -33,6 +33,7 @@ interface SurveyRow {
   project_locations?: Array<{ plz?: string; address?: string }> | unknown;
   ggv_project_city?: string;
   ggv_project_website?: string;
+  ggv_project_links?: string[];
   ggv_experience_notes?: string;
   service_provider_name?: string;
   service_provider_services?: string[];
@@ -74,6 +75,7 @@ function buildProjectPayload(row: SurveyRow) {
   if (status) project.status = status;
   if (row.vnb_name) project.dso_name = row.vnb_name;
   if (row.ggv_project_website) project.website = row.ggv_project_website;
+  if (row.ggv_project_links && row.ggv_project_links.length > 0) project.links = row.ggv_project_links.slice(0, 2);
   if (row.ggv_experience_notes) project.experience_notes = row.ggv_experience_notes;
   if (row.service_provider_name) project.provider_name = row.service_provider_name;
   if (row.service_provider_comments) project.provider_experience = row.service_provider_comments.slice(0, 2000);

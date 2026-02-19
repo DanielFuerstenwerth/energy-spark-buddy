@@ -205,6 +205,7 @@ export interface SurveyData {
   ggvTransparenzOptIn?: string;
   ggvProjectCity?: string;
   ggvProjectWebsite?: string;
+  ggvProjectLinks?: string[];
   ggvExperienceNotes?: string;
 
   // Multi-Evaluation metadata
