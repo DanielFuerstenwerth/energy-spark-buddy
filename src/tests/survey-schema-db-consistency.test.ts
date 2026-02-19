@@ -78,6 +78,7 @@ const KNOWN_DB_COLUMNS = new Set([
   'id', 'created_at', 'session_group_id', 'evaluation_label', 'status', 'draft_token',
   'actor_types', 'actor_text_fields', 'actor_other',
   'actor_dienstleister_category', 'actor_dienstleister_category_other',
+  'dienstleister_website', 'dienstleister_kontakt',
   'motivation', 'motivation_other', 'contact_email', 'confirmation_for_update',
   'vnb_name', 'project_types', 'project_focus',
   'ggv_project_type', 'ggv_pv_size_kw', 'ggv_party_count', 'ggv_building_type',
