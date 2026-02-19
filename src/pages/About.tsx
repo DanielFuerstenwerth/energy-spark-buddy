@@ -81,7 +81,7 @@ const About = () => {
               </div>
               <div>
                 <h3 className="font-semibold mb-1">Datenschutz</h3>
-                <p className="text-sm text-muted-foreground">Keine personenbezogenen Daten.</p>
+                <p className="text-sm text-muted-foreground">Mit Daten gehen wir vertraulich und transparent um.</p>
               </div>
             </CardContent>
           </Card>
