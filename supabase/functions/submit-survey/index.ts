@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { submissions, website } = body;
+    const { submissions, website, draft_token } = body;
 
     // Honeypot
     if (website && typeof website === "string" && website.trim().length > 0) {
@@ -231,7 +231,24 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Insert survey responses
+    // Delete existing draft rows for this draft_token before inserting submitted ones
+    if (draft_token && typeof draft_token === "string" &&
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(draft_token)) {
+      const { error: deleteError } = await supabaseAdmin
+        .from("survey_responses")
+        .delete()
+        .eq("draft_token", draft_token)
+        .eq("status", "draft");
+
+      if (deleteError) {
+        console.warn("Failed to delete draft rows:", deleteError.message);
+        // Continue — drafts are not critical
+      } else {
+        console.log(`Deleted draft rows for token ${draft_token}`);
+      }
+    }
+
+    // Insert survey responses (as submitted)
     const { data: insertedRows, error: insertError } = await supabaseAdmin
       .from("survey_responses")
       .insert(sanitizedRows)
