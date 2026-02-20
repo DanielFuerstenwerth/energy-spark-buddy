@@ -6,8 +6,8 @@ import { Evaluation } from "@/hooks/useMultiEvaluation";
 
 // ── Config ──────────────────────────────────────────────────────────
 const DRAFT_TOKEN_KEY = "vnb-survey-draft-token";
-const DEBOUNCE_MS = 1500;
-const MAX_ERRORS = 5;
+const SAVE_INTERVAL_MS = 3000;
+const MAX_CONSECUTIVE_ERRORS = 5;
 
 // Fields that live in globalData (not per-evaluation)
 const GLOBAL_FIELDS: (keyof SurveyData)[] = [
@@ -31,14 +31,16 @@ function getOrCreateDraftToken(): string {
   return token;
 }
 
-/** Build DB-ready draft rows from current survey state.
- *  Uses skipVisibilityCheck so ALL entered data is preserved in drafts.
+/**
+ * Build DB-ready draft rows from current survey state.
+ * Uses skipVisibilityCheck so ALL entered data is preserved in drafts.
  */
-function buildDraftPayload(
+function buildDraftRows(
   globalData: SurveyData,
   evaluations: Evaluation[],
   sessionGroupId: string,
   uploadedDocuments: string[],
+  draftToken: string,
 ): Record<string, unknown>[] {
   const mergedSubmissions: SurveyData[] = evaluations.map((ev) => {
     const evalOnly = Object.fromEntries(
@@ -57,22 +59,26 @@ function buildDraftPayload(
 
   return mergedSubmissions.flatMap(sub => {
     const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments, { skipVisibilityCheck: true });
-    return expandToLocationRows(baseRow, sub);
+    const rows = expandToLocationRows(baseRow, sub);
+    return rows.map(row => ({
+      ...row,
+      draft_token: draftToken,
+      status: "draft",
+    }));
   });
 }
 
 // ── Hook ────────────────────────────────────────────────────────────
 
 /**
- * Server-side draft persistence using atomic UPSERT.
+ * Writes draft data directly into `survey_responses` every 3 seconds.
  *
  * Architecture:
- * - Stores drafts in `survey_drafts` table (JSONB payload, single row per token)
- * - Uses UPSERT (INSERT ON CONFLICT UPDATE) — no DELETE needed, no data loss possible
- * - draft_token UUID stored in localStorage
- * - Debounced save (1.5s) on data changes
- * - Immediate save on step changes via `saveNow()`
- * - Reliable save on tab close / hide using `fetch` with `keepalive`
+ * - DELETE old draft rows + INSERT new ones (same draft_token)
+ * - Starts saving once user answers Q1.1 (actorTypes) or selects a VNB
+ * - Hash check avoids no-op writes
+ * - On tab close / visibilitychange: triggers immediate save
+ * - On submit: edge function deletes drafts and inserts final submitted rows
  */
 export function useSurveyDraftSync(
   globalData: SurveyData,
@@ -81,148 +87,127 @@ export function useSurveyDraftSync(
   uploadedDocuments: string[],
 ) {
   const draftToken = useRef(getOrCreateDraftToken());
-  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isSaving = useRef(false);
   const lastSavedHash = useRef("");
   const errorCount = useRef(0);
+  const isStarted = useRef(false);
 
-  // Always keep latest data in a ref so unload handlers never read stale closures
+  // Always keep latest data in a ref so callbacks never read stale closures
   const latest = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
   latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
 
-  // ── Core save: atomic UPSERT ─────────────────────────────────────
-  const saveDraftToDb = useCallback(async () => {
-    if (isSaving.current || errorCount.current >= MAX_ERRORS) return;
+  // ── Core save: DELETE old drafts + INSERT new ones ────────────────
+  const saveDraft = useCallback(async () => {
+    if (isSaving.current || errorCount.current >= MAX_CONSECUTIVE_ERRORS) return;
 
     const { globalData: gd, evaluations: evs, sessionGroupId: sgid, uploadedDocuments: docs } = latest.current;
 
-    const rows = buildDraftPayload(gd, evs, sgid, docs);
-    const payload = JSON.stringify(rows);
-    if (payload === lastSavedHash.current) return;
+    const rows = buildDraftRows(gd, evs, sgid, docs, draftToken.current);
+    const hash = JSON.stringify(rows);
+    if (hash === lastSavedHash.current) return; // No change since last save
 
     isSaving.current = true;
-    const token = draftToken.current;
-
     try {
-      // Single atomic UPSERT — no DELETE needed, no data loss possible
-      const { error } = await (supabase as any)
-        .from("survey_drafts")
-        .upsert(
-          {
-            draft_token: token,
-            payload: rows,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "draft_token" },
-        );
+      // Step 1: Delete old draft rows for this token
+      const { error: deleteError } = await (supabase as any)
+        .from("survey_responses")
+        .delete()
+        .eq("draft_token", draftToken.current)
+        .eq("status", "draft");
 
-      if (error) {
+      if (deleteError) {
         errorCount.current++;
-        console.warn("[DraftSync] upsert error:", error.message);
-      } else {
-        errorCount.current = 0;
-        lastSavedHash.current = payload;
-        console.log(`[DraftSync] Saved draft (${rows.length} row(s) in payload)`);
+        console.warn("[DraftSync] delete error:", deleteError.message);
+        return;
       }
+
+      // Step 2: Insert new draft rows
+      const { error: insertError } = await (supabase as any)
+        .from("survey_responses")
+        .insert(rows);
+
+      if (insertError) {
+        errorCount.current++;
+        console.warn("[DraftSync] insert error:", insertError.message);
+        return;
+      }
+
+      errorCount.current = 0;
+      lastSavedHash.current = hash;
+      console.log(`[DraftSync] Saved ${rows.length} draft row(s)`);
     } catch (err) {
       errorCount.current++;
-      console.warn("[DraftSync] error:", err);
+      console.warn("[DraftSync] unexpected error:", err);
     } finally {
       isSaving.current = false;
     }
   }, []); // stable — reads from refs only
 
-  // ── Keepalive save (survives page unload) ─────────────────────────
-  const saveWithKeepalive = useCallback(() => {
-    const { globalData: gd, evaluations: evs, sessionGroupId: sgid, uploadedDocuments: docs } = latest.current;
+  // ── Start/stop logic ─────────────────────────────────────────────
 
-    const rows = buildDraftPayload(gd, evs, sgid, docs);
-    const payload = JSON.stringify(rows);
-    if (payload === lastSavedHash.current) return;
+  // Survey is "started" when user has answered Q1.1 or selected a VNB
+  const hasStarted =
+    (globalData.actorTypes && globalData.actorTypes.length > 0) ||
+    evaluations.some(ev => !!ev.data.vnbName || (ev.data.projectTypes && ev.data.projectTypes.length > 0));
 
-    const token = draftToken.current;
-    const baseUrl = import.meta.env.VITE_SUPABASE_URL;
-    const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
-    const headers: Record<string, string> = {
-      apikey: anonKey,
-      Authorization: `Bearer ${anonKey}`,
-      "Content-Type": "application/json",
-      Prefer: "resolution=merge-duplicates,return=minimal",
-    };
-
-    // Single UPSERT fetch — atomic, no DELETE needed
-    fetch(`${baseUrl}/rest/v1/survey_drafts`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        draft_token: token,
-        payload: rows,
-        updated_at: new Date().toISOString(),
-      }),
-      keepalive: true,
-    })
-      .then(() => {
-        lastSavedHash.current = payload;
-      })
-      .catch((err) => {
-        console.warn("[DraftSync] keepalive error:", err);
-      });
-  }, []); // stable — reads from refs only
-
-  // ── Public API ────────────────────────────────────────────────────
-
-  const scheduleSave = useCallback(() => {
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    debounceTimer.current = setTimeout(saveDraftToDb, DEBOUNCE_MS);
-  }, [saveDraftToDb]);
-
-  /** Immediate save (e.g. on step change). */
-  const saveNow = useCallback(() => {
-    if (debounceTimer.current) clearTimeout(debounceTimer.current);
-    saveDraftToDb();
-  }, [saveDraftToDb]);
-
-  const clearDraftToken = useCallback(() => {
-    // Delete draft from DB, then clear localStorage
-    const token = draftToken.current;
-    (supabase as any).from("survey_drafts").delete().eq("draft_token", token).then(() => {
-      localStorage.removeItem(DRAFT_TOKEN_KEY);
-      lastSavedHash.current = "";
-    });
-  }, []);
-
-  const getDraftToken = useCallback(() => draftToken.current, []);
-
-  // ── Effects ───────────────────────────────────────────────────────
-
-  // Debounced save on any data change (no hasContent gate — save everything)
   useEffect(() => {
-    scheduleSave();
+    if (hasStarted && !isStarted.current) {
+      isStarted.current = true;
+      // Save immediately
+      saveDraft();
+      // Then every 3 seconds
+      intervalRef.current = setInterval(saveDraft, SAVE_INTERVAL_MS);
+    }
+
     return () => {
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
-  }, [globalData, evaluations, scheduleSave]);
+  }, [hasStarted, saveDraft]);
 
-  // Reliable save on tab close / hide
+  // ── Save on tab close / hide ──────────────────────────────────────
   useEffect(() => {
-    const onBeforeUnload = () => {
-      if (debounceTimer.current) clearTimeout(debounceTimer.current);
-      saveWithKeepalive();
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden" && isStarted.current) {
+        saveDraft();
+      }
     };
-    const onVisibilityChange = () => {
-      if (document.visibilityState === "hidden") {
-        if (debounceTimer.current) clearTimeout(debounceTimer.current);
-        saveWithKeepalive();
+    const handleBeforeUnload = () => {
+      if (isStarted.current) {
+        saveDraft();
       }
     };
 
-    window.addEventListener("beforeunload", onBeforeUnload);
-    document.addEventListener("visibilitychange", onVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
-      window.removeEventListener("beforeunload", onBeforeUnload);
-      document.removeEventListener("visibilitychange", onVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [saveWithKeepalive]);
+  }, [saveDraft]);
+
+  // ── Public API ────────────────────────────────────────────────────
+
+  /** Trigger an immediate save (e.g. on step change). */
+  const saveNow = useCallback(() => {
+    saveDraft();
+  }, [saveDraft]);
+
+  /** Clear draft token from localStorage after successful submission. */
+  const clearDraftToken = useCallback(() => {
+    localStorage.removeItem(DRAFT_TOKEN_KEY);
+    lastSavedHash.current = "";
+    isStarted.current = false;
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }, []);
+
+  const getDraftToken = useCallback(() => draftToken.current, []);
 
   return { saveNow, clearDraftToken, getDraftToken };
 }

@@ -17,7 +17,6 @@ import {
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
 import { SurveyTracker } from "@/components/survey/SurveyTracker";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
-import { DraftRestorationBanner } from "@/components/survey/DraftRestorationBanner";
 import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -27,14 +26,14 @@ import { useSurveyDraftSync } from "@/hooks/useSurveyDraftSync";
 import { parsePrefillParams } from "@/utils/surveyPrefill";
 import { useLocation } from "react-router-dom";
 
-const DRAFT_KEY = "vnb-survey-draft-v2";
-const MAX_AGE_DAYS = 7;
+const LEGACY_DRAFT_KEY = "vnb-survey-draft-v2";
+const LEGACY_DRAFT_TOKEN_KEY = "vnb-survey-draft"; // old localStorage key
+
 
 export default function Survey() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showDraftBanner, setShowDraftBanner] = useState(false);
-  const [savedDraftInfo, setSavedDraftInfo] = useState<{ savedAt: string; step: number } | null>(null);
+  // removed: showDraftBanner, savedDraftInfo (no longer needed)
   const [uploadedDocuments, setUploadedDocuments] = useState<string[]>([]);
   const [dataUsageConfirmed, setDataUsageConfirmed] = useState(false);
   const [honeypot, setHoneypot] = useState(""); // Maßnahme 11: Honeypot
@@ -81,7 +80,7 @@ export default function Survey() {
     }
   }, [location.search, prefillApplied, updateEvaluationData]);
 
-  // Autosave
+  // Autosave to localStorage (backup — primary save is DB-based via useSurveyDraftSync)
   useEffect(() => {
     const toStore = {
       globalData,
@@ -90,51 +89,13 @@ export default function Survey() {
       currentStep,
       savedAt: new Date().toISOString(),
     };
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(toStore));
+    localStorage.setItem(LEGACY_DRAFT_KEY, JSON.stringify(toStore));
   }, [globalData, evaluations, activeEvaluationIndex, currentStep]);
 
-  // Draft restoration check on mount
+  // One-time cleanup of old localStorage keys from previous implementations
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(DRAFT_KEY);
-      if (!stored) return;
-      const parsed = JSON.parse(stored);
-      const savedDate = new Date(parsed.savedAt);
-      const daysDiff = (Date.now() - savedDate.getTime()) / (1000 * 60 * 60 * 24);
-      if (daysDiff > MAX_AGE_DAYS) { localStorage.removeItem(DRAFT_KEY); return; }
-      const gd = parsed.globalData;
-      const hasContent = gd?.actorTypes?.length > 0 || gd?.motivation?.length > 0 || gd?.projectTypes?.length > 0;
-      if (!hasContent) return;
-      setSavedDraftInfo({ savedAt: parsed.savedAt, step: parsed.currentStep });
-      setShowDraftBanner(true);
-    } catch { /* ignore */ }
+    localStorage.removeItem(LEGACY_DRAFT_TOKEN_KEY);
   }, []);
-
-  const handleRestoreDraft = () => {
-    try {
-      const stored = localStorage.getItem(DRAFT_KEY);
-      if (!stored) return;
-      const parsed = JSON.parse(stored);
-      restoreState({
-        globalData: parsed.globalData,
-        evaluations: parsed.evaluations,
-        activeEvaluationIndex: parsed.activeEvaluationIndex,
-      });
-      setCurrentStep(parsed.currentStep);
-      setShowDraftBanner(false);
-    } catch { /* ignore */ }
-  };
-
-  const handleDiscardDraft = () => { localStorage.removeItem(DRAFT_KEY); setShowDraftBanner(false); };
-
-  const formatSavedTime = (isoString: string): string => {
-    const diffMinutes = Math.floor((Date.now() - new Date(isoString).getTime()) / (1000 * 60));
-    if (diffMinutes < 1) return "gerade eben";
-    if (diffMinutes < 60) return `vor ${diffMinutes} Minuten`;
-    const diffHours = Math.floor(diffMinutes / 60);
-    if (diffHours < 24) return `vor ${diffHours} Stunden`;
-    return `vor ${Math.floor(diffHours / 24)} Tagen`;
-  };
 
   // Use the active evaluation's data for determining step visibility
   const evalData = activeEvaluation.data;
@@ -280,7 +241,7 @@ export default function Survey() {
       // Success — reset retry counter
       retryCountRef.current = 0;
 
-      localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(LEGACY_DRAFT_KEY);
       clearDraftToken();
       toast.success("Vielen Dank für Ihre Teilnahme!");
       setCurrentStep(steps.length);
@@ -357,9 +318,7 @@ export default function Survey() {
       <main className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
           <SurveyTracker />
-          {showDraftBanner && savedDraftInfo && (
-            <DraftRestorationBanner savedTime={formatSavedTime(savedDraftInfo.savedAt)} stepTitle={steps[savedDraftInfo.step]?.title || "Unbekannt"} onRestore={handleRestoreDraft} onDiscard={handleDiscardDraft} />
-          )}
+          {/* Draft banner removed — drafts are now saved directly to DB */}
           <SurveyProgress currentStep={currentStep} totalSteps={steps.length} steps={steps} onStepClick={(step) => { setCurrentStep(step); window.scrollTo(0, 0); }} />
           
           {showEvaluationTabs && (
