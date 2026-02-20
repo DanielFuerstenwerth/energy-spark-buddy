@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
-import { COLUMN_LABELS, resolveValue, SCHEMA_VERSION } from "../_shared/survey-labels.ts";
+import { COLUMN_LABELS, formatRawValue, SCHEMA_VERSION } from "../_shared/survey-labels.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -115,13 +115,14 @@ Deno.serve(async (req) => {
     }
 
     // 5. Generate TRANSPOSED CSV (fields as rows, projects as columns)
+    // Machine-readable format: raw technical values, stable question IDs
     // UTF-8 BOM + semicolon separator (Excel default for German locale)
     const allKeys = Object.keys(responses[0]);
     
     const escapeCsv = (val: unknown): string => {
       if (val === null || val === undefined) return "";
       const str = typeof val === "object" ? JSON.stringify(val) : String(val);
-      if (str.includes(";") || str.includes('"') || str.includes("\n")) {
+      if (str.includes(";") || str.includes('"') || str.includes("\n") || str.includes("|")) {
         return `"${str.replace(/"/g, '""')}"`;
       }
       return str;
@@ -133,14 +134,18 @@ Deno.serve(async (req) => {
       return escapeCsv(label);
     });
 
-    // First column header = "Fragetext", then one column per project
-    const headerRow = ["Fragetext", ...projectHeaders].join(";");
+    // Columns: Frage-Nr | Abschnitt | DB-Spalte | Fragetext | Projekt1 | Projekt2 | ...
+    const headerRow = ["Frage-Nr", "Abschnitt", "DB-Spalte", "Fragetext", ...projectHeaders].join(";");
 
-    // One row per field, with RESOLVED values from each project
+    // One row per field, with RAW values from each project (no label resolution)
     const dataRows = allKeys.map((key) => {
-      const questionLabel = escapeCsv(COLUMN_LABELS[key]?.questionLabel || key);
-      const values = responses.map((r: Record<string, unknown>) => escapeCsv(resolveValue(key, r[key])));
-      return [questionLabel, ...values].join(";");
+      const meta = COLUMN_LABELS[key];
+      const uiNumber = escapeCsv(meta?.uiNumber || "");
+      const section = escapeCsv(meta?.section || "");
+      const dbColumn = escapeCsv(key);
+      const questionLabel = escapeCsv(meta?.questionLabel || key);
+      const values = responses.map((r: Record<string, unknown>) => escapeCsv(formatRawValue(r[key])));
+      return [uiNumber, section, dbColumn, questionLabel, ...values].join(";");
     });
 
     const bom = "\uFEFF";
