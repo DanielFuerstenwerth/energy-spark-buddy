@@ -84,14 +84,18 @@ export default function Survey() {
 
   // Autosave to localStorage (backup — primary save is DB-based via useSurveyDraftSync)
   useEffect(() => {
-    const toStore = {
-      globalData,
-      evaluations,
-      activeEvaluationIndex,
-      currentStep,
-      savedAt: new Date().toISOString(),
-    };
-    localStorage.setItem(LEGACY_DRAFT_KEY, JSON.stringify(toStore));
+    try {
+      const toStore = {
+        globalData,
+        evaluations,
+        activeEvaluationIndex,
+        currentStep,
+        savedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(LEGACY_DRAFT_KEY, JSON.stringify(toStore));
+    } catch {
+      // Safari Private Browsing: localStorage quota is 0 bytes — silently ignore
+    }
   }, [globalData, evaluations, activeEvaluationIndex, currentStep]);
 
   // One-time cleanup of old localStorage keys from previous implementations
@@ -249,12 +253,24 @@ export default function Survey() {
         return expandToLocationRows(baseRow, sub);
       });
 
+      logErrorToDb({
+        error_message: `[submit-survey] Invoking edge function with ${dbRows.length} row(s)`,
+        component: "Survey/doSubmit/pre-invoke",
+        metadata: { rowCount: dbRows.length, userAgent: navigator.userAgent },
+      });
+
       const response = await supabase.functions.invoke('submit-survey', {
         body: { submissions: dbRows, website: honeypot, draft_token: getDraftToken() },
       });
 
       if (response.error) {
         console.error('Edge function error:', response.error);
+        logErrorToDb({
+          error_message: `[submit-survey] Edge function returned error: ${response.error.message}`,
+          error_stack: JSON.stringify(response.error).slice(0, 5000),
+          component: "Survey/doSubmit/invoke-error",
+          metadata: { userAgent: navigator.userAgent },
+        });
         // Try to extract details from error context
         const errorContext = (response.error as unknown as Record<string, unknown>)?.context;
         const errorBody = typeof errorContext === 'object' && errorContext !== null
@@ -294,7 +310,7 @@ export default function Survey() {
       retryCountRef.current = 0;
 
       track("Survey Complete");
-      localStorage.removeItem(LEGACY_DRAFT_KEY);
+      try { localStorage.removeItem(LEGACY_DRAFT_KEY); } catch { /* Safari private mode */ }
       clearDraftToken();
       toast.success("Vielen Dank für Ihre Teilnahme!");
       setCurrentStep(steps.length);
