@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
@@ -221,7 +221,7 @@ export default function Survey() {
   };
 
   // Phase 2: Actually send the data
-  const retryCountRef = { current: 0 };
+  const retryCountRef = useRef(0);
 
   const doSubmit = useCallback(async () => {
     if (isSubmitting) return;

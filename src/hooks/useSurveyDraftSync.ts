@@ -40,7 +40,9 @@ function hasContent(gd: SurveyData, evs: Evaluation[]): boolean {
   );
 }
 
-/** Build DB-ready draft rows from current survey state. */
+/** Build DB-ready draft rows from current survey state.
+ *  Uses skipVisibilityCheck so ALL entered data is preserved in drafts.
+ */
 function buildDraftRows(
   globalData: SurveyData,
   evaluations: Evaluation[],
@@ -63,7 +65,7 @@ function buildDraftRows(
   });
 
   return mergedSubmissions.flatMap(sub => {
-    const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments);
+    const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments, { skipVisibilityCheck: true });
     return expandToLocationRows(baseRow, sub);
   });
 }
@@ -91,10 +93,9 @@ export function useSurveyDraftSync(
   const errorCount = useRef(0);
 
   // Always keep latest data in a ref so unload handlers never read stale closures
+  // Updated synchronously (not via useEffect) so saveNow() always sees current data
   const latest = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
-  useEffect(() => {
-    latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
-  }, [globalData, evaluations, sessionGroupId, uploadedDocuments]);
+  latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
 
   // ── Core save (used for normal in-page saves) ────────────────────
   const saveDraftToDb = useCallback(async () => {
