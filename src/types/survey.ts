@@ -19,12 +19,14 @@ export interface SurveyData {
   actorTypes: string[];
   actorDienstleisterCategory?: string[];
   actorDienstleisterCategoryOther?: string;
+  actorDienstleisterCategoryDetails?: Record<string, string>;
   dienstleisterWebsite?: string;
   dienstleisterKontakt?: string;
   actorTextFields?: Record<string, string>; // Serialized to text before DB insert
   actorOther?: string;
   motivation: string[];
   motivationOther?: string;
+  motivationDetails?: Record<string, string>;
   contactEmail?: string;
   confirmationForUpdate?: string;
 
@@ -57,8 +59,10 @@ export interface SurveyData {
   ggvOrMieterstromDecision?: string;
   ggvDecisionReasons: string[];
   ggvDecisionReasonsOther?: string;
+  ggvDecisionReasonsDetails?: Record<string, string>;
   mieterstromDecisionReasons: string[];
   mieterstromDecisionReasonsOther?: string;
+  mieterstromDecisionReasonsDetails?: Record<string, string>;
   implementationApproach: string[];
   implementationApproachOther?: string;
   challenges: string[];
@@ -72,6 +76,7 @@ export interface SurveyData {
   vnbExistingProjectsOther?: string;
   vnbContact: string[];
   vnbContactOther?: string;
+  vnbContactDetails?: Record<string, string>;
   vnbResponse: string[];
   vnbResponseReasons?: string;
   vnbSupportMesskonzept?: string;
@@ -142,6 +147,7 @@ export interface SurveyData {
   mieterstromExistingProjectsVirtuell?: string;
   mieterstromVnbContact?: string[];
   mieterstromVnbContactOther?: string;
+  mieterstromVnbContactDetails?: Record<string, string>;
   mieterstromVirtuellAllowed?: string;
   mieterstromVirtuellDeniedReason?: string;
   mieterstromVirtuellDeniedDocuments?: string[];
@@ -150,6 +156,7 @@ export interface SurveyData {
   mieterstromVirtuellWandlermessungDocuments?: string[];
   mieterstromVnbResponse?: string[];
   mieterstromVnbResponseReasons?: string;
+  mieterstromVnbResponseDetails?: Record<string, string>;
   mieterstromSupportRating?: number;
   mieterstromFullService?: string;
   mieterstromMsbCosts?: string;
@@ -174,6 +181,7 @@ export interface SurveyData {
   mieterstromOperationCostsYearly?: number;
   mieterstromRejectionResponse?: string[];
   mieterstromRejectionResponseOther?: string;
+  mieterstromRejectionResponseDetails?: Record<string, string>;
   mieterstromInfoSources?: string;
   mieterstromExperiences?: string;
 
