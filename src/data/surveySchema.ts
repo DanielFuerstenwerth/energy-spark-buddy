@@ -1728,7 +1728,8 @@ const LOCATION_FIELDS = new Set(['projectLocations', 'mieterstromProjectLocation
 export function buildDbData(
   data: SurveyData,
   sessionGroupId: string,
-  uploadedDocuments: string[]
+  uploadedDocuments: string[],
+  options?: { skipVisibilityCheck?: boolean },
 ): Record<string, unknown> {
   const DB_TEXT_LIMIT = 10000;
   const dbData: Record<string, unknown> = {};
@@ -1739,14 +1740,15 @@ export function buildDbData(
     'actorTextFields', // Special companion for actorTypes with irregular name
   ]);
 
-  const visibleIds = getVisibleQuestionIds(data);
+  // For drafts, skip visibility filtering so ALL entered data is preserved
+  const visibleIds = options?.skipVisibilityCheck ? null : getVisibleQuestionIds(data);
 
   for (const [key, value] of Object.entries(data)) {
     if (value === undefined || value === '') continue;
     if (LOCATION_FIELDS.has(key)) continue;
 
-    // Always include meta fields; for others, check visibility
-    if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
+    // Always include meta fields; for others, check visibility (unless skipped for drafts)
+    if (!META_FIELDS.has(key) && visibleIds && !visibleIds.has(key)) continue;
 
     // Use QUESTION_REGISTRY dbColumn when available, fall back to toSnakeCase
     const registryEntry = QUESTION_REGISTRY[key];
