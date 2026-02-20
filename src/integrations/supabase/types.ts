@@ -310,6 +310,27 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_drafts: {
+        Row: {
+          created_at: string
+          draft_token: string
+          payload: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          draft_token: string
+          payload?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          draft_token?: string
+          payload?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       survey_responses: {
         Row: {
           actor_dienstleister_category: string[] | null
