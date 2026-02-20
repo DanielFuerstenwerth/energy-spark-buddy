@@ -97,7 +97,7 @@ export function useSurveyDraftSync(
   const latest = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
   latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
 
-  // ── Core save: DELETE old drafts + INSERT new ones ────────────────
+  // ── Core save: atomic RPC (DELETE+INSERT in one transaction) ───────
   const saveDraft = useCallback(async () => {
     if (isSaving.current || errorCount.current >= MAX_CONSECUTIVE_ERRORS) return;
 
@@ -109,33 +109,20 @@ export function useSurveyDraftSync(
 
     isSaving.current = true;
     try {
-      // Step 1: Delete old draft rows for this token
-      const { error: deleteError } = await (supabase as any)
-        .from("survey_responses")
-        .delete()
-        .eq("draft_token", draftToken.current)
-        .eq("status", "draft");
+      const { error } = await (supabase as any).rpc("upsert_survey_drafts", {
+        p_draft_token: draftToken.current,
+        p_rows: rows,
+      });
 
-      if (deleteError) {
+      if (error) {
         errorCount.current++;
-        console.warn("[DraftSync] delete error:", deleteError.message);
-        return;
-      }
-
-      // Step 2: Insert new draft rows
-      const { error: insertError } = await (supabase as any)
-        .from("survey_responses")
-        .insert(rows);
-
-      if (insertError) {
-        errorCount.current++;
-        console.warn("[DraftSync] insert error:", insertError.message);
+        console.warn("[DraftSync] RPC error:", error.message);
         return;
       }
 
       errorCount.current = 0;
       lastSavedHash.current = hash;
-      console.log(`[DraftSync] Saved ${rows.length} draft row(s)`);
+      console.log(`[DraftSync] Saved ${rows.length} draft row(s) (atomic)`);
     } catch (err) {
       errorCount.current++;
       console.warn("[DraftSync] unexpected error:", err);
