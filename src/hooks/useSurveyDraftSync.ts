@@ -6,8 +6,8 @@ import { Evaluation } from "@/hooks/useMultiEvaluation";
 
 // ── Config ──────────────────────────────────────────────────────────
 const DRAFT_TOKEN_KEY = "vnb-survey-draft-token";
-const DEBOUNCE_MS = 1500; // Save quickly after changes
-const MAX_ERRORS = 3;
+const DEBOUNCE_MS = 1500;
+const MAX_ERRORS = 5;
 
 // Fields that live in globalData (not per-evaluation)
 const GLOBAL_FIELDS: (keyof SurveyData)[] = [
@@ -31,19 +31,10 @@ function getOrCreateDraftToken(): string {
   return token;
 }
 
-/** True if the user has entered anything worth persisting. */
-function hasContent(gd: SurveyData, evs: Evaluation[]): boolean {
-  return (
-    (gd.actorTypes?.length ?? 0) > 0 ||
-    (gd.motivation?.length ?? 0) > 0 ||
-    evs.some(e => !!e.data.vnbName || (e.data.projectTypes?.length ?? 0) > 0)
-  );
-}
-
 /** Build DB-ready draft rows from current survey state.
  *  Uses skipVisibilityCheck so ALL entered data is preserved in drafts.
  */
-function buildDraftRows(
+function buildDraftPayload(
   globalData: SurveyData,
   evaluations: Evaluation[],
   sessionGroupId: string,
@@ -73,10 +64,13 @@ function buildDraftRows(
 // ── Hook ────────────────────────────────────────────────────────────
 
 /**
- * Server-side draft persistence for the survey.
+ * Server-side draft persistence using atomic UPSERT.
  *
- * - Stores a `draft_token` UUID in localStorage
- * - Debounced save (1.5 s) on data changes
+ * Architecture:
+ * - Stores drafts in `survey_drafts` table (JSONB payload, single row per token)
+ * - Uses UPSERT (INSERT ON CONFLICT UPDATE) — no DELETE needed, no data loss possible
+ * - draft_token UUID stored in localStorage
+ * - Debounced save (1.5s) on data changes
  * - Immediate save on step changes via `saveNow()`
  * - Reliable save on tab close / hide using `fetch` with `keepalive`
  */
@@ -93,49 +87,42 @@ export function useSurveyDraftSync(
   const errorCount = useRef(0);
 
   // Always keep latest data in a ref so unload handlers never read stale closures
-  // Updated synchronously (not via useEffect) so saveNow() always sees current data
   const latest = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
   latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
 
-  // ── Core save (used for normal in-page saves) ────────────────────
+  // ── Core save: atomic UPSERT ─────────────────────────────────────
   const saveDraftToDb = useCallback(async () => {
     if (isSaving.current || errorCount.current >= MAX_ERRORS) return;
 
     const { globalData: gd, evaluations: evs, sessionGroupId: sgid, uploadedDocuments: docs } = latest.current;
-    if (!hasContent(gd, evs)) return;
 
-    const rows = buildDraftRows(gd, evs, sgid, docs);
-    if (rows.length === 0) return;
-
-    const hash = JSON.stringify(rows);
-    if (hash === lastSavedHash.current) return;
+    const rows = buildDraftPayload(gd, evs, sgid, docs);
+    const payload = JSON.stringify(rows);
+    if (payload === lastSavedHash.current) return;
 
     isSaving.current = true;
     const token = draftToken.current;
 
     try {
-      // 1) Delete old drafts for this token
-      const { error: delErr } = await supabase
-        .from("survey_responses")
-        .delete()
-        .eq("draft_token", token)
-        .eq("status", "draft");
+      // Single atomic UPSERT — no DELETE needed, no data loss possible
+      const { error } = await (supabase as any)
+        .from("survey_drafts")
+        .upsert(
+          {
+            draft_token: token,
+            payload: rows,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "draft_token" },
+        );
 
-      if (delErr) console.warn("[DraftSync] delete:", delErr.message);
-
-      // 2) Insert new draft rows
-      const draftRows = rows.map(r => ({ ...r, draft_token: token, status: "draft" }));
-      const { error: insErr } = await supabase
-        .from("survey_responses")
-        .insert(draftRows);
-
-      if (insErr) {
+      if (error) {
         errorCount.current++;
-        console.warn("[DraftSync] insert:", insErr.message);
+        console.warn("[DraftSync] upsert error:", error.message);
       } else {
         errorCount.current = 0;
-        lastSavedHash.current = hash;
-        console.log(`[DraftSync] Saved ${draftRows.length} draft row(s)`);
+        lastSavedHash.current = payload;
+        console.log(`[DraftSync] Saved draft (${rows.length} row(s) in payload)`);
       }
     } catch (err) {
       errorCount.current++;
@@ -148,51 +135,37 @@ export function useSurveyDraftSync(
   // ── Keepalive save (survives page unload) ─────────────────────────
   const saveWithKeepalive = useCallback(() => {
     const { globalData: gd, evaluations: evs, sessionGroupId: sgid, uploadedDocuments: docs } = latest.current;
-    if (!hasContent(gd, evs)) return;
 
-    const rows = buildDraftRows(gd, evs, sgid, docs);
-    if (rows.length === 0) return;
-
-    const hash = JSON.stringify(rows);
-    if (hash === lastSavedHash.current) return;
+    const rows = buildDraftPayload(gd, evs, sgid, docs);
+    const payload = JSON.stringify(rows);
+    if (payload === lastSavedHash.current) return;
 
     const token = draftToken.current;
-    const draftRows = rows.map(r => ({ ...r, draft_token: token, status: "draft" }));
-
     const baseUrl = import.meta.env.VITE_SUPABASE_URL;
     const anonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
     const headers: Record<string, string> = {
       apikey: anonKey,
       Authorization: `Bearer ${anonKey}`,
       "Content-Type": "application/json",
-      Prefer: "return=minimal",
+      Prefer: "resolution=merge-duplicates,return=minimal",
     };
 
-    // DELETE old drafts then INSERT new ones, both with keepalive
-    // Chain via .then so INSERT waits for DELETE, but both survive unload
-    fetch(
-      `${baseUrl}/rest/v1/survey_responses?draft_token=eq.${token}&status=eq.draft`,
-      { method: "DELETE", headers, keepalive: true },
-    )
-      .then(() =>
-        fetch(`${baseUrl}/rest/v1/survey_responses`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(draftRows),
-          keepalive: true,
-        }),
-      )
+    // Single UPSERT fetch — atomic, no DELETE needed
+    fetch(`${baseUrl}/rest/v1/survey_drafts`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        draft_token: token,
+        payload: rows,
+        updated_at: new Date().toISOString(),
+      }),
+      keepalive: true,
+    })
       .then(() => {
-        lastSavedHash.current = hash;
+        lastSavedHash.current = payload;
       })
-      .catch(() => {
-        // Best-effort: if DELETE failed, try INSERT anyway (duplicates are harmless)
-        fetch(`${baseUrl}/rest/v1/survey_responses`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(draftRows),
-          keepalive: true,
-        }).catch(() => { /* truly best-effort */ });
+      .catch((err) => {
+        console.warn("[DraftSync] keepalive error:", err);
       });
   }, []); // stable — reads from refs only
 
@@ -203,26 +176,28 @@ export function useSurveyDraftSync(
     debounceTimer.current = setTimeout(saveDraftToDb, DEBOUNCE_MS);
   }, [saveDraftToDb]);
 
-  /** Immediate save (e.g. on step change). Still checks hasContent. */
+  /** Immediate save (e.g. on step change). */
   const saveNow = useCallback(() => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     saveDraftToDb();
   }, [saveDraftToDb]);
 
   const clearDraftToken = useCallback(() => {
-    localStorage.removeItem(DRAFT_TOKEN_KEY);
-    lastSavedHash.current = "";
+    // Delete draft from DB, then clear localStorage
+    const token = draftToken.current;
+    (supabase as any).from("survey_drafts").delete().eq("draft_token", token).then(() => {
+      localStorage.removeItem(DRAFT_TOKEN_KEY);
+      lastSavedHash.current = "";
+    });
   }, []);
 
   const getDraftToken = useCallback(() => draftToken.current, []);
 
   // ── Effects ───────────────────────────────────────────────────────
 
-  // Debounced save on data changes
+  // Debounced save on any data change (no hasContent gate — save everything)
   useEffect(() => {
-    if (hasContent(globalData, evaluations)) {
-      scheduleSave();
-    }
+    scheduleSave();
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };
