@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.76.0";
-import { COLUMN_LABELS, formatRawValue, SCHEMA_VERSION } from "../_shared/survey-labels.ts";
+import { COLUMN_LABELS, resolveValue, SCHEMA_VERSION } from "../_shared/survey-labels.ts";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -144,7 +144,7 @@ Deno.serve(async (req) => {
       const section = escapeCsv(meta?.section || "");
       const dbColumn = escapeCsv(key);
       const questionLabel = escapeCsv(meta?.questionLabel || key);
-      const values = responses.map((r: Record<string, unknown>) => escapeCsv(formatRawValue(r[key])));
+      const values = responses.map((r: Record<string, unknown>) => escapeCsv(resolveValue(key, r[key])));
       return [uiNumber, section, dbColumn, questionLabel, ...values].join(";");
     });
 
