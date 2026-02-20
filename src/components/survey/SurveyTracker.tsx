@@ -18,10 +18,9 @@ export function SurveyTracker() {
     });
   }, []);
 
-  if (!stats || stats.total === 0) return null;
+  if (!stats || (stats.ggv === 0 && stats.mieterstrom === 0 && stats.energy_sharing === 0)) return null;
 
   const items = [
-    { label: "Projekte gesamt", value: stats.total, icon: BarChart3, color: "text-primary" },
     { label: "GGV", value: stats.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
     { label: "Mieterstrom", value: stats.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
     { label: "Energy Sharing", value: stats.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
@@ -34,7 +33,7 @@ export function SurveyTracker() {
       <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">
         Bisherige Teilnahme
       </p>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-3 gap-3">
         {items.map((item) => (
           <div key={item.label} className="flex items-center gap-2.5">
             <div className={`shrink-0 ${item.color}`}>
