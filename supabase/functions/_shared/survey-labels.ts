@@ -107,7 +107,7 @@ export const COLUMN_LABELS: Record<string, QuestionMeta> = {
       energysharing: "Energy Sharing (in Zukunft möglich)",
     },
   },
-  project_focus: { questionLabel: "Projektfokus", section: "2. Projekt", type: "text" },
+  // project_focus: removed (orphaned/derived field, never populated)
   planning_status: {
     questionLabel: "Wo stehen Sie aktuell mit dem Projekt?",
     section: "2. Projekt", type: "single-select", uiNumber: "2.3",
@@ -879,11 +879,7 @@ export const COLUMN_LABELS: Record<string, QuestionMeta> = {
   es_info_sources: { questionLabel: "Welche Informationsquellen haben Sie zum Thema Energy Sharing genutzt?", section: "4. ES", type: "textarea", uiNumber: "7.15" },
 
   // === GGV-Transparenz ===
-  ggv_transparenz_opt_in: {
-    questionLabel: "Möchten Sie Ihr Projekt auf ggv-transparenz.de veröffentlichen?",
-    section: "GGV-Transparenz", type: "single-select", uiNumber: "G.1",
-    options: { ja: "Ja", nein: "Nein" },
-  },
+  // ggv_transparenz_opt_in: removed (deprecated, opt-in now implicit via location data)
   ggv_project_name: { questionLabel: "Projektname für ggv-transparenz.de", section: "GGV-Transparenz", type: "text", uiNumber: "G.1a" },
   ggv_project_city: { questionLabel: "Stadt/Ort des GGV-Projekts", section: "GGV-Transparenz", type: "text", uiNumber: "G.2" },
   ggv_project_website: { questionLabel: "Website des GGV-Projekts", section: "GGV-Transparenz", type: "text", uiNumber: "G.3" },

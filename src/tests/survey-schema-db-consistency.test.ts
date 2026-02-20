@@ -39,7 +39,7 @@ function getAllSurveyDataKeys(): string[] {
   const companionFields = [
     'actorTextFields', 'actorOther', 'actorDienstleisterCategoryOther',
     'motivationOther',
-    'projectFocus', 'projectAddress', 'projectPlz',
+    'projectAddress', 'projectPlz',
     'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations', // UI-only, expanded to rows
     'planningStatusOther', 'mieterstromPlanningStatusOther',
     'ggvDecisionReasonsOther', 'mieterstromDecisionReasonsOther',
@@ -81,10 +81,10 @@ const KNOWN_DB_COLUMNS = new Set([
   'actor_dienstleister_category', 'actor_dienstleister_category_other',
   'dienstleister_website', 'dienstleister_kontakt',
   'motivation', 'motivation_other', 'contact_email', 'confirmation_for_update',
-  'vnb_name', 'project_types', 'project_focus',
+  'vnb_name', 'project_types',
   'ggv_project_type', 'ggv_pv_size_kw', 'ggv_party_count', 'ggv_building_type',
   'ggv_building_count', 'ggv_additional_info',
-  'ggv_transparenz_opt_in', 'ggv_project_name', 'ggv_project_city', 'ggv_project_website',
+  'ggv_project_name', 'ggv_project_city', 'ggv_project_website',
   'ggv_project_links', 'ggv_experience_notes',
   'mieterstrom_project_type', 'mieterstrom_pv_size_kw', 'mieterstrom_party_count',
   'mieterstrom_building_type', 'mieterstrom_building_count', 'mieterstrom_additional_info',

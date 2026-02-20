@@ -94,11 +94,6 @@ export function EvaluationTabs({
                 <span className="truncate max-w-[120px]">
                   {ev.data.vnbName || ev.label}
                 </span>
-                {ev.data.projectFocus && (
-                  <Badge variant="outline" className="text-[10px] px-1 py-0">
-                    {ev.data.projectFocus === 'ggv' ? 'GGV' : ev.data.projectFocus === 'mieterstrom' ? 'MS' : 'ES'}
-                  </Badge>
-                )}
                 <button
                   className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5 hover:text-primary"
                   onClick={(e) => { e.stopPropagation(); startEditing(i); }}

@@ -33,7 +33,7 @@ export interface SurveyData {
   // Section 2: Projekt
   vnbName?: string;
   projectTypes: string[];
-  projectFocus?: 'ggv' | 'mieterstrom' | 'energysharing';
+  
   ggvProjectType?: string;
   ggvPvSizeKw?: number;
   ggvPartyCount?: number;
@@ -215,7 +215,6 @@ export interface SurveyData {
   npsScore?: number;
 
   // GGV-Transparenz Integration
-  ggvTransparenzOptIn?: string;
   ggvProjectName?: string;
   ggvProjectCity?: string;
   ggvProjectWebsite?: string;
