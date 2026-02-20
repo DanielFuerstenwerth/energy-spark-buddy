@@ -22,6 +22,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import { useMultiEvaluation } from "@/hooks/useMultiEvaluation";
+import { useSurveyDraftSync } from "@/hooks/useSurveyDraftSync";
 import { parsePrefillParams } from "@/utils/surveyPrefill";
 import { useLocation } from "react-router-dom";
 
@@ -54,6 +55,14 @@ export default function Survey() {
     getMergedSubmissions,
     restoreState,
   } = useMultiEvaluation();
+
+  // DB-based draft persistence
+  const { saveNow, clearDraftToken, getDraftToken } = useSurveyDraftSync(
+    globalData,
+    evaluations,
+    sessionGroupId,
+    uploadedDocuments,
+  );
 
   // Prefill from query params (ggv-transparenz.de redirect)
   const location = useLocation();
@@ -148,10 +157,11 @@ export default function Survey() {
         setShowVnbWarning(true);
       }
       setCurrentStep(currentStep + 1);
+      saveNow(); // Persist draft to DB on step change
       window.scrollTo(0, 0);
     }
   };
-  const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); window.scrollTo(0, 0); } };
+  const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); saveNow(); window.scrollTo(0, 0); } };
 
   // Phase 1: Validate and show warnings if any (does NOT submit yet)
   const handleSubmit = () => {
@@ -226,7 +236,7 @@ export default function Survey() {
       });
 
       const response = await supabase.functions.invoke('submit-survey', {
-        body: { submissions: dbRows, website: honeypot },
+        body: { submissions: dbRows, website: honeypot, draft_token: getDraftToken() },
       });
 
       if (response.error) {
@@ -270,6 +280,7 @@ export default function Survey() {
       retryCountRef.current = 0;
 
       localStorage.removeItem(DRAFT_KEY);
+      clearDraftToken();
       toast.success("Vielen Dank für Ihre Teilnahme!");
       setCurrentStep(steps.length);
     } catch (error) {
