@@ -26,6 +26,7 @@ import { useSurveyDraftSync } from "@/hooks/useSurveyDraftSync";
 import { parsePrefillParams } from "@/utils/surveyPrefill";
 import { useLocation } from "react-router-dom";
 import { track } from "@/utils/plausibleTrack";
+import { logErrorToDb } from "@/utils/errorLogger";
 
 const LEGACY_DRAFT_KEY = "vnb-survey-draft-v2";
 const LEGACY_DRAFT_TOKEN_KEY = "vnb-survey-draft"; // old localStorage key
@@ -300,6 +301,8 @@ export default function Survey() {
     } catch (error) {
       console.error('Error submitting survey:', error);
       const errorMsg = error instanceof Error ? error.message : 'Unbekannter Fehler';
+      const errorStack = error instanceof Error ? error.stack : undefined;
+      logErrorToDb({ error_message: errorMsg, error_stack: errorStack, component: "Survey/doSubmit" });
       toast.error(`Fehler beim Absenden: ${errorMsg}. Ihre Daten sind lokal gesichert.`, {
         duration: Infinity,
         action: {
