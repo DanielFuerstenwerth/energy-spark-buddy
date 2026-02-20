@@ -7,10 +7,14 @@
  * 3. buildDbData uses the correct column names (not just toSnakeCase)
  * 4. No DB columns are orphaned (exist in DB but not mapped)
  * 
+ * KNOWN_DB_COLUMNS is extracted dynamically from types.ts — no manual maintenance needed.
+ * 
  * Run: npx vitest run src/tests/survey-schema-db-consistency.test.ts
  */
 
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'fs';
+import { resolve } from 'path';
 import { QUESTION_REGISTRY, surveyDefinition } from '@/data/surveySchema';
 import { initialSurveyData, type SurveyData } from '@/types/survey';
 
@@ -20,27 +24,19 @@ function toSnakeCase(str: string): string {
   return str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
 }
 
-/** Extract all column names from the Supabase types file (survey_responses Insert type) */
-// We maintain KNOWN_DB_COLUMNS below as a snapshot that must match the types file.
-
-// All SurveyData interface keys (extracted from the interface definition)
-// We use initialSurveyData + explicit listing of optional fields
+/** Extract all SurveyData keys from initialSurveyData + QUESTION_REGISTRY + companion fields */
 function getAllSurveyDataKeys(): string[] {
-  // Start with keys from initialSurveyData (only includes required/defaulted fields)
   const keys = new Set(Object.keys(initialSurveyData));
   
-  // Add all QUESTION_REGISTRY keys
   for (const key of Object.keys(QUESTION_REGISTRY)) {
     keys.add(key);
   }
   
-  // Add known companion fields from SurveyData interface
-  // These are fields that exist in SurveyData but aren't direct schema questions
   const companionFields = [
     'actorTextFields', 'actorOther', 'actorDienstleisterCategoryOther',
     'motivationOther',
     'projectAddress', 'projectPlz',
-    'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations', // UI-only, expanded to rows
+    'projectLocations', 'mieterstromProjectLocations', 'esProjectLocations',
     'planningStatusOther', 'mieterstromPlanningStatusOther',
     'ggvDecisionReasonsOther', 'mieterstromDecisionReasonsOther',
     'implementationApproachOther', 'challengesDetails',
@@ -73,98 +69,43 @@ function getAllSurveyDataKeys(): string[] {
   return [...keys];
 }
 
-// Known DB columns from the Supabase types file (survey_responses)
-// This is the authoritative list — updated automatically when types.ts changes
-const KNOWN_DB_COLUMNS = new Set([
-  'id', 'created_at', 'session_group_id', 'evaluation_label', 'status', 'draft_token',
-  'actor_types', 'actor_text_fields', 'actor_other',
-  'actor_dienstleister_category', 'actor_dienstleister_category_other',
-  'dienstleister_website', 'dienstleister_kontakt',
-  'motivation', 'motivation_other', 'contact_email', 'confirmation_for_update',
-  'vnb_name', 'project_types',
-  'ggv_project_type', 'ggv_pv_size_kw', 'ggv_party_count', 'ggv_building_type',
-  'ggv_building_count', 'ggv_additional_info',
-  'ggv_project_name', 'ggv_project_city', 'ggv_project_website',
-  'ggv_project_links', 'ggv_experience_notes',
-  'mieterstrom_project_type', 'mieterstrom_pv_size_kw', 'mieterstrom_party_count',
-  'mieterstrom_building_type', 'mieterstrom_building_count', 'mieterstrom_additional_info',
-  'project_address', 'project_plz', 'project_type_tag',
-  'mieterstrom_foerderung', 'mieterstrom_foerderung_nein_grund', 'mieterstrom_foerderung_nein_grund_other',
-  'planning_status', 'planning_status_other',
-  'mieterstrom_planning_status', 'mieterstrom_planning_status_other',
-  'ggv_or_mieterstrom_decision',
-  'ggv_decision_reasons', 'ggv_decision_reasons_other',
-  'mieterstrom_decision_reasons', 'mieterstrom_decision_reasons_other',
-  'implementation_approach', 'implementation_approach_other',
-  'challenges', 'challenges_details',
-  'vnb_rejection_response', 'vnb_rejection_response_other', 'vnb_rejection_response_details',
-  'vnb_existing_projects', 'vnb_existing_projects_other',
-  'vnb_contact', 'vnb_contact_other',
-  'vnb_response', 'vnb_response_reasons',
-  'vnb_support_messkonzept', 'vnb_support_messkonzept_other',
-  'vnb_support_formulare', 'vnb_support_formulare_other',
-  'vnb_support_portal', 'vnb_support_portal_other',
-  'vnb_support_other', 'vnb_support_other_details',
-  'vnb_contact_helpful', 'vnb_contact_helpful_other',
-  'vnb_personal_contacts', 'vnb_personal_contacts_other',
-  'vnb_support_rating',
-  'vnb_start_timeline', 'vnb_start_timeline_other',
-  'vnb_additional_costs', 'vnb_additional_costs_one_time', 'vnb_additional_costs_yearly',
-  'vnb_full_service',
-  'vnb_data_provision', 'vnb_data_provision_other',
-  'vnb_data_cost', 'vnb_data_cost_amount',
-  'vnb_esa_cost', 'vnb_esa_cost_amount',
-  'vnb_msb_timeline', 'vnb_rejection_timeline',
-  'vnb_wandlermessung', 'vnb_wandlermessung_comment', 'vnb_wandlermessung_documents',
-  'vnb_planning_duration', 'vnb_planning_duration_reasons',
-  'operation_vnb_duration', 'operation_vnb_duration_reasons',
-  'operation_wandlermessung', 'operation_wandlermessung_comment',
-  'operation_msb_provider', 'operation_allocation_provider', 'operation_allocation_provider_other',
-  'operation_data_provider', 'operation_data_provider_other',
-  'operation_msb_duration',
-  'operation_msb_additional_costs', 'operation_msb_additional_costs_one_time', 'operation_msb_additional_costs_yearly',
-  'operation_data_format', 'operation_data_format_other',
-  'operation_data_cost', 'operation_data_cost_amount',
-  'operation_esa_cost', 'operation_esa_cost_amount',
-  'operation_satisfaction_rating',
-  'service_provider_name', 'service_provider_services', 'service_provider_comments',
-  'service_provider_2_name', 'service_provider_2_services', 'service_provider_2_comments',
-  'sp_quality_rating', 'sp_price_rating', 'sp_rating_comment',
-  'mieterstrom_summenzaehler',
-  'mieterstrom_existing_projects', 'mieterstrom_existing_projects_virtuell',
-  'mieterstrom_vnb_contact', 'mieterstrom_vnb_contact_other',
-  'mieterstrom_virtuell_allowed', 'mieterstrom_virtuell_denied_reason',
-  'mieterstrom_virtuell_denied_documents',
-  'mieterstrom_virtuell_wandlermessung', 'mieterstrom_virtuell_wandlermessung_comment',
-  'mieterstrom_virtuell_wandlermessung_documents',
-  'mieterstrom_vnb_response', 'mieterstrom_vnb_response_reasons',
-  'mieterstrom_support_rating',
-  'mieterstrom_full_service',
-  'mieterstrom_msb_costs', 'mieterstrom_msb_costs_one_time', 'mieterstrom_msb_costs_yearly', 'mieterstrom_msb_costs_other',
-  'mieterstrom_model_choice', 'mieterstrom_data_provision',
-  'mieterstrom_vnb_role', 'mieterstrom_vnb_duration', 'mieterstrom_vnb_duration_reasons',
-  'mieterstrom_wandlermessung', 'mieterstrom_wandlermessung_comment',
-  'mieterstrom_msb_install_duration',
-  'mieterstrom_operation_costs', 'mieterstrom_operation_costs_one_time', 'mieterstrom_operation_costs_yearly',
-  'mieterstrom_rejection_response', 'mieterstrom_rejection_response_other',
-  'mieterstrom_info_sources', 'mieterstrom_experiences',
-  'es_status', 'es_status_other',
-  'es_in_operation_details', 'es_operator_details',
-  'es_plant_type', 'es_plant_type_details',
-  'es_capacity_size_kw', 'es_technology_description',
-  'es_project_scope',
-  'es_party_count',
-  'es_consumer_types', 'es_consumer_details',
-  'es_consumer_scope', 'es_consumer_scope_other',
-  'es_max_distance',
-  'es_vnb_contact', 'es_vnb_response', 'es_vnb_response_other',
-  'es_netzentgelte_discussion', 'es_netzentgelte_details',
-  'es_info_sources',
-  'additional_experiences', 'uploaded_documents', 'survey_improvements',
-  'nps_score',
-]);
+/**
+ * Dynamically extract DB column names from the Supabase types file.
+ * Parses the survey_responses Insert block to get all column names.
+ * This eliminates the need for a manually maintained list.
+ */
+function extractDbColumnsFromTypes(): Set<string> {
+  const typesPath = resolve(process.cwd(), 'src/integrations/supabase/types.ts');
+  const content = readFileSync(typesPath, 'utf-8');
+  
+  // Find the survey_responses section, then extract the Insert block
+  const surveySection = content.match(/survey_responses:\s*\{([\s\S]*?)^\s{6}\}/m);
+  if (!surveySection) {
+    throw new Error('Could not find survey_responses type in supabase types');
+  }
+  
+  // Extract the Insert block from the survey_responses section
+  const insertBlock = surveySection[1].match(/Insert:\s*\{([\s\S]*?)\n\s{8}\}/);
+  if (!insertBlock) {
+    throw new Error('Could not find Insert block in survey_responses type');
+  }
+  
+  const columns = new Set<string>();
+  const columnRegex = /^\s+(\w+)\??:/gm;
+  let match;
+  while ((match = columnRegex.exec(insertBlock[1])) !== null) {
+    columns.add(match[1]);
+  }
+  return columns;
+}
 
-const SYSTEM_COLUMNS = new Set(['id', 'created_at', 'status', 'draft_token']);
+const KNOWN_DB_COLUMNS = extractDbColumnsFromTypes();
+
+const SYSTEM_COLUMNS = new Set([
+  'id', 'created_at', 'updated_at', 'status', 'draft_token', 'schema_version',
+  // Deprecated/orphan columns kept in DB but removed from code:
+  'project_focus', 'ggv_transparenz_opt_in', 'vnb_additional_costs_other',
+]);
 const SPECIAL_KEYS = new Set([
   'sessionGroupId', 'documentUpload',
   // UI-only location arrays – expanded to rows by expandToLocationRows, no DB column
