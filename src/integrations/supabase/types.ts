@@ -986,6 +986,10 @@ export type Database = {
         }
         Returns: boolean
       }
+      upsert_survey_drafts: {
+        Args: { p_draft_token: string; p_rows: Json }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
