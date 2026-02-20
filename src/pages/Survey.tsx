@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { SurveyData } from "@/types/survey";
 import { validateSurveyData } from "@/lib/surveyValidation";
-import { buildDbData, expandToLocationRows, surveyDefinition, getHumanLabel } from "@/data/surveySchema";
+import { buildDbData, expandToLocationRows, surveyDefinition, getHumanLabel, QUESTION_REGISTRY } from "@/data/surveySchema";
 import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
@@ -25,6 +25,7 @@ import { useMultiEvaluation } from "@/hooks/useMultiEvaluation";
 import { useSurveyDraftSync } from "@/hooks/useSurveyDraftSync";
 import { parsePrefillParams } from "@/utils/surveyPrefill";
 import { useLocation } from "react-router-dom";
+import { track } from "@/utils/plausibleTrack";
 
 const LEGACY_DRAFT_KEY = "vnb-survey-draft-v2";
 const LEGACY_DRAFT_TOKEN_KEY = "vnb-survey-draft"; // old localStorage key
@@ -112,19 +113,60 @@ export default function Survey() {
 
   const [showVnbWarning, setShowVnbWarning] = useState(false);
 
+  // ── Plausible: Survey Start (once) ─────────────────────────────────
+  const hasFiredStart = useRef(false);
+  useEffect(() => {
+    const hasStarted =
+      (globalData.actorTypes && globalData.actorTypes.length > 0) ||
+      evaluations.some(ev => !!ev.data.vnbName || (ev.data.projectTypes && ev.data.projectTypes.length > 0));
+    if (hasStarted && !hasFiredStart.current) {
+      hasFiredStart.current = true;
+      track("Survey Start");
+    }
+  }, [globalData.actorTypes, evaluations]);
+
+  // ── Plausible: Step View + Question View ──────────────────────────
+  useEffect(() => {
+    const stepDef = steps[currentStep];
+    if (!stepDef) return;
+    const stepIndex = String(currentStep + 1);
+    track("Survey Step View", { step: stepIndex });
+
+    // Track visible question IDs for this step
+    const visibleSections = surveyDefinition.sections
+      .filter(s => stepDef.sectionIds.includes(s.id))
+      .filter(s => isSectionVisible(s, evalData));
+    for (const section of visibleSections) {
+      for (const q of section.questions) {
+        const reg = QUESTION_REGISTRY[q.id];
+        const qid = reg?.uiNumber || q.id;
+        track("Survey Question View", { step: stepIndex, qid });
+      }
+    }
+  }, [currentStep, activeEvaluationIndex, steps, evalData]);
+
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       // Show warning when leaving "project" step without VNB or location
       if (currentStepDef?.id === 'project' && !hasVnbOrLocation) {
         setShowVnbWarning(true);
       }
+      const stepIndex = String(steps.indexOf(currentStepDef!) + 1);
+      track("Survey Next", { step: stepIndex });
       setCurrentStep(currentStep + 1);
       saveNow(); // Persist draft to DB on step change
       window.scrollTo(0, 0);
     }
   };
-  const handleBack = () => { if (currentStep > 0) { setCurrentStep(currentStep - 1); saveNow(); window.scrollTo(0, 0); } };
-
+  const handleBack = () => {
+    if (currentStep > 0) {
+      const stepIndex = String(steps.indexOf(currentStepDef!) + 1);
+      track("Survey Back", { step: stepIndex });
+      setCurrentStep(currentStep - 1);
+      saveNow();
+      window.scrollTo(0, 0);
+    }
+  };
   // Phase 1: Validate and show warnings if any (does NOT submit yet)
   const handleSubmit = () => {
     if (isSubmitting) return;
@@ -143,6 +185,15 @@ export default function Survey() {
         if (requiredErrors.length > 0) {
           const evalIndex = i;
           const fieldLabels = requiredErrors.map(e => getHumanLabel(e.field));
+          // Track validation errors (no PII — only field IDs)
+          for (const e of requiredErrors) {
+            const reg = QUESTION_REGISTRY[e.field];
+            track("Survey Validation Error", {
+              step: String(steps.length),
+              qid: reg?.uiNumber || e.field,
+              error_code: "required",
+            });
+          }
           toast.error(`Pflichtfelder in „${submission.evaluationLabel}" fehlen: ${fieldLabels.join(', ')}`, {
             duration: Infinity,
             action: {
@@ -241,6 +292,7 @@ export default function Survey() {
       // Success — reset retry counter
       retryCountRef.current = 0;
 
+      track("Survey Complete");
       localStorage.removeItem(LEGACY_DRAFT_KEY);
       clearDraftToken();
       toast.success("Vielen Dank für Ihre Teilnahme!");
