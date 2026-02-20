@@ -102,8 +102,6 @@ function buildZodShape(): Record<string, z.ZodTypeAny> {
     // Actor text fields (companion to actorTypes multi-select with hasTextField)
     actorTextFields: z.record(z.string().max(MAX_MEDIUM_TEXT)).default({}),
     actorOther: z.string().max(MAX_MEDIUM_TEXT).optional(),
-    // Project focus (derived)
-    projectFocus: z.enum(["ggv", "mieterstrom", "energysharing"]).optional(),
     // Mieterstrom extras
     mieterstromProjectType: z.string().max(MAX_SHORT_TEXT).optional(),
     mieterstromBuildingCount: z.number().int().min(0).max(1000).optional(),

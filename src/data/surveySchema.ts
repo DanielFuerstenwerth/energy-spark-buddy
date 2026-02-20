@@ -1736,7 +1736,7 @@ export function buildDbData(
 
   // Fields that are always saved regardless of visibility
   const META_FIELDS = new Set([
-    'evaluationLabel', 'projectTypes', 'projectFocus',
+    'evaluationLabel', 'projectTypes',
     'actorTextFields', // Special companion for actorTypes with irregular name
   ]);
 
@@ -2035,7 +2035,6 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "esOperatorDetails": { displayId: "4-ES-OperatorDetails", dbColumn: "es_operator_details", uiNumber: "7.3" },
   "esConsumerDetails": { displayId: "4-ES-ConsumerDetails", dbColumn: "es_consumer_details", uiNumber: "7.9" },
   // GGV-Transparenz Integration
-  "ggvTransparenzOptIn": { displayId: "GGV-T-OptIn", dbColumn: "ggv_transparenz_opt_in", uiNumber: "G.1" },
   "ggvProjectName": { displayId: "GGV-T-Name", dbColumn: "ggv_project_name", uiNumber: "G.1a" },
   "ggvProjectCity": { displayId: "GGV-T-City", dbColumn: "ggv_project_city", uiNumber: "G.2" },
   "ggvProjectWebsite": { displayId: "GGV-T-Website", dbColumn: "ggv_project_website", uiNumber: "G.3" },
