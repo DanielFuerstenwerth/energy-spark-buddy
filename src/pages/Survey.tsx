@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
+import { SurveyTracker } from "@/components/survey/SurveyTracker";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
 import { DraftRestorationBanner } from "@/components/survey/DraftRestorationBanner";
 import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
@@ -355,6 +356,7 @@ export default function Survey() {
       
       <main className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
+          <SurveyTracker />
           {showDraftBanner && savedDraftInfo && (
             <DraftRestorationBanner savedTime={formatSavedTime(savedDraftInfo.savedAt)} stepTitle={steps[savedDraftInfo.step]?.title || "Unbekannt"} onRestore={handleRestoreDraft} onDiscard={handleDiscardDraft} />
           )}
