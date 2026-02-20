@@ -59,13 +59,22 @@ function zodFieldForQuestion(q: SurveyQuestion): z.ZodTypeAny {
 }
 
 // Programmatically build the Zod schema shape from all survey sections
+// Fields rendered as single-select but stored as string[] for logic compatibility
+const ARRAY_WRAPPED_FIELDS = new Set(['planningStatus', 'mieterstromPlanningStatus', 'esStatus', 'vnbResponse']);
+
 function buildZodShape(): Record<string, z.ZodTypeAny> {
   const shape: Record<string, z.ZodTypeAny> = {};
 
   for (const section of surveyDefinition.sections) {
     for (const q of section.questions) {
-      // Main field
-      shape[q.id] = zodFieldForQuestion(q);
+      // ARRAY_WRAPPED_FIELDS: single-select in UI but stored as string[] in SurveyData
+      if (ARRAY_WRAPPED_FIELDS.has(q.id)) {
+        shape[q.id] = q.required
+          ? z.array(z.string().max(MAX_MEDIUM_TEXT)).default([])
+          : z.array(z.string().max(MAX_MEDIUM_TEXT)).optional().default([]);
+      } else {
+        shape[q.id] = zodFieldForQuestion(q);
+      }
 
       // Auto-generate "Other" text fields for multi-select/single-select with hasTextField options
       const hasTextFieldOptions = q.options?.some(o => o.hasTextField || o.value === 'sonstiges');
