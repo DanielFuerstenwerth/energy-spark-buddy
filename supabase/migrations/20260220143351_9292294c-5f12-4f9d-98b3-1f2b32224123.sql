@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.upsert_survey_drafts(uuid, jsonb) TO anon, authenticated;
