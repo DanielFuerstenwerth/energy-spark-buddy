@@ -310,27 +310,6 @@ export type Database = {
         }
         Relationships: []
       }
-      survey_drafts: {
-        Row: {
-          created_at: string
-          draft_token: string
-          payload: Json
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          draft_token: string
-          payload?: Json
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          draft_token?: string
-          payload?: Json
-          updated_at?: string
-        }
-        Relationships: []
-      }
       survey_responses: {
         Row: {
           actor_dienstleister_category: string[] | null
@@ -484,6 +463,7 @@ export type Database = {
           sp_rating_comment: string | null
           status: string
           survey_improvements: string | null
+          updated_at: string
           uploaded_documents: string[] | null
           vnb_additional_costs: string | null
           vnb_additional_costs_one_time: number | null
@@ -682,6 +662,7 @@ export type Database = {
           sp_rating_comment?: string | null
           status?: string
           survey_improvements?: string | null
+          updated_at?: string
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
           vnb_additional_costs_one_time?: number | null
@@ -880,6 +861,7 @@ export type Database = {
           sp_rating_comment?: string | null
           status?: string
           survey_improvements?: string | null
+          updated_at?: string
           uploaded_documents?: string[] | null
           vnb_additional_costs?: string | null
           vnb_additional_costs_one_time?: number | null
