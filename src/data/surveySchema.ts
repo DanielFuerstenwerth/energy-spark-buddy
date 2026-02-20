@@ -1704,7 +1704,19 @@ function serializeRecord(rec: unknown): string | null {
 }
 
 // Fields that are stored as Record<string,string> in UI but as TEXT in DB
-const RECORD_FIELDS = new Set(['actorTextFields', 'challengesDetails', 'vnbRejectionResponseDetails']);
+const RECORD_FIELDS = new Set([
+  'actorTextFields',
+  'challengesDetails',
+  'vnbRejectionResponseDetails',
+  'motivationDetails',
+  'actorDienstleisterCategoryDetails',
+  'ggvDecisionReasonsDetails',
+  'mieterstromDecisionReasonsDetails',
+  'vnbContactDetails',
+  'mieterstromVnbContactDetails',
+  'mieterstromVnbResponseDetails',
+  'mieterstromRejectionResponseDetails',
+]);
 
 // All location array fields – handled by expandToLocationRows, never stored as JSONB
 const LOCATION_FIELDS = new Set(['projectLocations', 'mieterstromProjectLocations', 'esProjectLocations']);
@@ -1737,7 +1749,13 @@ export function buildDbData(
     if (!META_FIELDS.has(key) && !visibleIds.has(key)) continue;
 
     // Use QUESTION_REGISTRY dbColumn when available, fall back to toSnakeCase
-    const snakeKey = QUESTION_REGISTRY[key]?.dbColumn || toSnakeCase(key);
+    const registryEntry = QUESTION_REGISTRY[key];
+    if (!registryEntry && !META_FIELDS.has(key) && !RECORD_FIELDS.has(key)) {
+      // Unknown field — skip to prevent INSERT failures from non-existent columns
+      console.warn(`[buildDbData] Skipping unknown field: ${key}`);
+      continue;
+    }
+    const snakeKey = registryEntry?.dbColumn || toSnakeCase(key);
     
     // Record<string,string> → serialize to flat text
     if (RECORD_FIELDS.has(key)) {
@@ -1889,12 +1907,19 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromDecisionReasons": { displayId: "3-MS-DecisionReasons", dbColumn: "mieterstrom_decision_reasons", uiNumber: "3.3" },
   "implementationApproach": { displayId: "3-ImplApproach", dbColumn: "implementation_approach", uiNumber: "3.4" },
   "challenges": { displayId: "3-Challenges", dbColumn: "challenges", uiNumber: "3.5" },
+  "challengesDetails": { displayId: "3-ChallengesDetails", dbColumn: "challenges_details", uiNumber: "3.5d" },
   "vnbRejectionResponse": { displayId: "3-RejectionResponse", dbColumn: "vnb_rejection_response", uiNumber: "3.6" },
+  "vnbRejectionResponseDetails": { displayId: "3-RejectionResponseDetails", dbColumn: "vnb_rejection_response_details", uiNumber: "3.6d" },
+  "ggvDecisionReasonsDetails": { displayId: "3-GGV-DecisionReasonsDetails", dbColumn: "ggv_decision_reasons_details", uiNumber: "3.2d" },
+  "mieterstromDecisionReasonsDetails": { displayId: "3-MS-DecisionReasonsDetails", dbColumn: "mieterstrom_decision_reasons_details", uiNumber: "3.3d" },
+  "motivationDetails": { displayId: "1-MotivationDetails", dbColumn: "motivation_details", uiNumber: "1.2d" },
+  "actorDienstleisterCategoryDetails": { displayId: "1-DLCategoryDetails", dbColumn: "actor_dienstleister_category_details", uiNumber: "1.1d" },
   "mieterstromPlanningStatus": { displayId: "2-MS-PlanningStatus", dbColumn: "mieterstrom_planning_status", uiNumber: "2.3b" },
   // Section 4-GGV: Planung GGV
   "vnbExistingProjects": { displayId: "4-GGV-ExistingProjects", dbColumn: "vnb_existing_projects", uiNumber: "4.1" },
   "vnbContact": { displayId: "4-GGV-VnbContact", dbColumn: "vnb_contact", uiNumber: "4.2" },
   "vnbResponse": { displayId: "4-GGV-VnbResponse", dbColumn: "vnb_response", uiNumber: "4.3" },
+  "vnbContactDetails": { displayId: "4-GGV-VnbContactDetails", dbColumn: "vnb_contact_details", uiNumber: "4.2d" },
   "vnbSupportMesskonzept": { displayId: "4-GGV-SupportMesskonzept", dbColumn: "vnb_support_messkonzept", uiNumber: "4.22" },
   "vnbSupportFormulare": { displayId: "4-GGV-SupportFormulare", dbColumn: "vnb_support_formulare", uiNumber: "4.23" },
   "vnbSupportPortal": { displayId: "4-GGV-SupportPortal", dbColumn: "vnb_support_portal", uiNumber: "4.24" },
@@ -1959,6 +1984,8 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromVirtuellWandlermessung": { displayId: "4-MS-VirtuellWandlermessung", dbColumn: "mieterstrom_virtuell_wandlermessung", uiNumber: "6.8" },
   "mieterstromVirtuellWandlermessungDocuments": { displayId: "4-MS-VirtuellWandlermessungDocuments", dbColumn: "mieterstrom_virtuell_wandlermessung_documents", uiNumber: "6.9" },
   "mieterstromVnbResponse": { displayId: "4-MS-VnbResponse", dbColumn: "mieterstrom_vnb_response", uiNumber: "6.10" },
+  "mieterstromVnbContactDetails": { displayId: "4-MS-VnbContactDetails", dbColumn: "mieterstrom_vnb_contact_details", uiNumber: "6.4d" },
+  "mieterstromVnbResponseDetails": { displayId: "4-MS-VnbResponseDetails", dbColumn: "mieterstrom_vnb_response_details", uiNumber: "6.10d" },
   // mieterstromVnbSupport GELÖSCHT
   // mieterstromVnbHelpful GELÖSCHT
   // mieterstromPersonalContacts GELÖSCHT
@@ -1983,6 +2010,7 @@ export const QUESTION_REGISTRY: Record<string, { displayId: string; dbColumn: st
   "mieterstromOperationCostsYearly": { displayId: "5-MS-OperationCostsYearly", dbColumn: "mieterstrom_operation_costs_yearly", uiNumber: "6.27" },
   // mieterstromOperationSatisfaction GELÖSCHT
   "mieterstromRejectionResponse": { displayId: "5-MS-RejectionResponse", dbColumn: "mieterstrom_rejection_response", uiNumber: "6.28" },
+  "mieterstromRejectionResponseDetails": { displayId: "5-MS-RejectionResponseDetails", dbColumn: "mieterstrom_rejection_response_details", uiNumber: "6.28d" },
   "mieterstromInfoSources": { displayId: "5-MS-InfoSources", dbColumn: "mieterstrom_info_sources", uiNumber: "6.29" },
   "mieterstromExperiences": { displayId: "5-MS-Experiences", dbColumn: "mieterstrom_experiences", uiNumber: "6.30" },
   // Section 4-ES: Energy Sharing

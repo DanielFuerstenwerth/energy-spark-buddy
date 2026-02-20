@@ -6,13 +6,14 @@ import { Evaluation } from "@/hooks/useMultiEvaluation";
 
 const DRAFT_TOKEN_KEY = "vnb-survey-draft-token";
 const DEBOUNCE_MS = 3000;
+const MAX_CONSECUTIVE_ERRORS = 3;
 
 /**
  * Manages server-side draft persistence for the survey.
  * 
  * - Generates/stores a `draft_token` UUID in localStorage
  * - Debounced upsert to `survey_responses` on data changes
- * - Immediate save on step changes
+ * - Immediate save on step changes, beforeunload, and visibilitychange
  * - Load existing draft from DB on mount (fallback if localStorage is empty)
  */
 export function useSurveyDraftSync(
@@ -25,12 +26,18 @@ export function useSurveyDraftSync(
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isSaving = useRef(false);
   const lastSavedHash = useRef<string>("");
+  const consecutiveErrors = useRef(0);
+
+  // Keep refs to latest data for beforeunload/visibilitychange
+  const latestDataRef = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
+  useEffect(() => {
+    latestDataRef.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
+  }, [globalData, evaluations, sessionGroupId, uploadedDocuments]);
 
   /**
    * Build DB rows from current state (mirrors submit logic but keeps status='draft')
    */
   const buildDraftRows = useCallback(() => {
-    // We need to merge global + evaluation data the same way getMergedSubmissions does
     const GLOBAL_FIELDS: (keyof SurveyData)[] = [
       'actorTypes', 'actorTextFields', 'actorOther',
       'motivation', 'motivationOther',
@@ -47,7 +54,7 @@ export function useSurveyDraftSync(
         Object.entries(ev.data).filter(([key]) => !globalFieldSet.has(key as keyof SurveyData))
       );
       return {
-        ...({} as SurveyData), // base
+        ...({} as SurveyData),
         ...Object.fromEntries(
           [...GLOBAL_FIELDS, ...FINAL_FIELDS].map(f => [f, globalData[f]])
         ),
@@ -65,15 +72,17 @@ export function useSurveyDraftSync(
 
   /**
    * Save current state to DB as draft rows.
-   * Uses upsert pattern: delete old drafts for this token, insert new ones.
    */
   const saveDraftToDb = useCallback(async () => {
     if (isSaving.current) return;
+    if (consecutiveErrors.current >= MAX_CONSECUTIVE_ERRORS) {
+      console.warn("[DraftSync] Too many consecutive errors, pausing saves");
+      return;
+    }
 
     const rows = buildDraftRows();
     if (rows.length === 0) return;
 
-    // Simple content hash to avoid redundant saves
     const hash = JSON.stringify(rows);
     if (hash === lastSavedHash.current) return;
 
@@ -81,8 +90,6 @@ export function useSurveyDraftSync(
     try {
       const token = draftToken.current;
 
-      // Delete existing draft rows for this token, then insert fresh ones
-      // This handles evaluation tab additions/removals cleanly
       const { error: deleteError } = await supabase
         .from("survey_responses")
         .delete()
@@ -91,7 +98,6 @@ export function useSurveyDraftSync(
 
       if (deleteError) {
         console.warn("[DraftSync] Delete failed:", deleteError.message);
-        // Continue anyway — insert may still work (e.g., first save)
       }
 
       const draftRows = rows.map(row => ({
@@ -105,12 +111,15 @@ export function useSurveyDraftSync(
         .insert(draftRows);
 
       if (insertError) {
+        consecutiveErrors.current++;
         console.warn("[DraftSync] Insert failed:", insertError.message);
       } else {
+        consecutiveErrors.current = 0;
         lastSavedHash.current = hash;
         console.log(`[DraftSync] Saved ${draftRows.length} draft rows`);
       }
     } catch (err) {
+      consecutiveErrors.current++;
       console.warn("[DraftSync] Unexpected error:", err);
     } finally {
       isSaving.current = false;
@@ -135,7 +144,6 @@ export function useSurveyDraftSync(
 
   /**
    * Load existing draft from DB by draft_token.
-   * Returns the raw DB rows or null if none found.
    */
   const loadDraftFromDb = useCallback(async () => {
     const token = draftToken.current;
@@ -177,7 +185,6 @@ export function useSurveyDraftSync(
 
   // Trigger debounced save whenever data changes
   useEffect(() => {
-    // Don't save if there's no meaningful data yet
     const hasContent = globalData.actorTypes?.length > 0 || 
       globalData.motivation?.length > 0 ||
       evaluations.some(e => e.data.vnbName || e.data.projectTypes?.length > 0);
@@ -190,6 +197,31 @@ export function useSurveyDraftSync(
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };
   }, [globalData, evaluations, scheduleSave]);
+
+  // Save on beforeunload (tab/browser close) and visibilitychange (tab switch)
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      // Use sendBeacon pattern: trigger synchronous-ish save
+      // We can't await here, but we fire the save attempt
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+      saveDraftToDb();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        if (debounceTimer.current) clearTimeout(debounceTimer.current);
+        saveDraftToDb();
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [saveDraftToDb]);
 
   return {
     saveNow,
