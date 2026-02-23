@@ -140,7 +140,9 @@ Deno.serve(async (req) => {
     // One row per field, with RAW values from each project (no label resolution)
     const dataRows = allKeys.map((key) => {
       const meta = COLUMN_LABELS[key];
-      const uiNumber = escapeCsv(meta?.uiNumber || "");
+      const rawUiNumber = meta?.uiNumber || "";
+      // Wrap in ="..." so Excel treats "1.2" as text, not as a date
+      const uiNumber = rawUiNumber ? `="\"${rawUiNumber}\""` : "";
       const section = escapeCsv(meta?.section || "");
       const dbColumn = escapeCsv(key);
       const questionLabel = escapeCsv(meta?.questionLabel || key);
