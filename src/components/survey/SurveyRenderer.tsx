@@ -488,7 +488,11 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
             <div className="space-y-8">
               {visibleQuestions.map((q) => (
                 <div key={q.id} className={q.groupWithPrevious ? "-mt-6" : ""}>
-                  
+                  {q.id === 'contactEmail' && (
+                    <div className="rounded-md border border-border bg-muted/50 p-3 text-sm text-muted-foreground mb-4">
+                      Bitte fügen Sie Ihren Bewertungen wenn möglich Erklärungen, Kommentare oder Weblinks hinzu, sofern Sie keine E-Mail-Adresse für Rückfragen hinterlassen möchten. Im Fall von Fragen können wir die Bewertung ansonsten nicht verifizieren und berücksichtigen.
+                    </div>
+                  )}
                   {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, (q.tooltip || q.helpText) ? <InlineHintTrigger text={q.tooltip || q.helpText!} /> : undefined)}
                   {q.id === 'confirmationForUpdate' && data.confirmationForUpdate === 'ja' && !data.contactEmail?.trim() && (
                     <div className="mt-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
