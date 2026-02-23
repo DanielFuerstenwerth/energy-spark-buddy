@@ -101,7 +101,9 @@ const UniversalCriterionPage = () => {
                 scoreData={scoreData}
               />
             </div>
-            <MapLegend />
+            <div className="relative" style={{ zIndex: 2 }}>
+              <MapLegend />
+            </div>
           </div>
           
           <div className="lg:col-span-1">
