@@ -14,7 +14,7 @@ const Datenschutz = () => {
         <div className="max-w-3xl space-y-6">
           <div>
             <h1 className="text-4xl font-bold mb-2">Datenschutzerklärung</h1>
-            <p className="text-sm text-muted-foreground">Stand: 19.02.2026</p>
+            <p className="text-sm text-muted-foreground">Stand: 23.02.2026</p>
           </div>
 
           {/* 1. Verantwortlicher */}
@@ -221,10 +221,40 @@ const Datenschutz = () => {
             </CardContent>
           </Card>
 
-          {/* 7. Drittland */}
+          {/* 7. Technische Fehlerprotokollierung */}
           <Card>
             <CardContent className="pt-6 space-y-4">
-              <h2 className="text-xl font-semibold">7. Empfänger, Drittlandübermittlungen</h2>
+              <h2 className="text-xl font-semibold">7. Technische Fehlerprotokollierung</h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Zur Sicherstellung der technischen Funktionsfähigkeit dieser Website werden bei auftretenden
+                Fehlern automatisch technische Informationen erfasst und in unserer Datenbank gespeichert.
+              </p>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>
+                  <span className="font-medium text-foreground">Verarbeitete Daten:</span>{" "}
+                  Fehlermeldung, Browser-Typ (User-Agent), aufgerufene Seite (URL), Zeitpunkt. Eine Identifikation
+                  einzelner Nutzer:innen ist anhand dieser Daten nicht möglich.
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Zweck:</span>{" "}
+                  Erkennung und Behebung technischer Fehler, Qualitätssicherung der Website.
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Rechtsgrundlage:</span>{" "}
+                  Art.&nbsp;6 Abs.&nbsp;1 lit.&nbsp;f DSGVO (berechtigtes Interesse an einem störungsfreien Betrieb).
+                </li>
+                <li>
+                  <span className="font-medium text-foreground">Speicherdauer:</span>{" "}
+                  Die Protokolldaten werden nach Behebung des jeweiligen Fehlers bzw. spätestens nach 90&nbsp;Tagen gelöscht.
+                </li>
+              </ul>
+            </CardContent>
+          </Card>
+
+          {/* 8. Drittland */}
+          <Card>
+            <CardContent className="pt-6 space-y-4">
+              <h2 className="text-xl font-semibold">8. Empfänger, Drittlandübermittlungen</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Je nach eingesetzten Dienstleistern kann eine Verarbeitung auch in Drittländern (außerhalb EU/EWR)
                 stattfinden. Details ergeben sich aus den Datenschutzinformationen der jeweiligen Dienstleister
@@ -236,10 +266,10 @@ const Datenschutz = () => {
             </CardContent>
           </Card>
 
-          {/* 8. Ihre Rechte */}
+          {/* 9. Ihre Rechte */}
           <Card>
             <CardContent className="pt-6 space-y-4">
-              <h2 className="text-xl font-semibold">8. Ihre Rechte</h2>
+              <h2 className="text-xl font-semibold">9. Ihre Rechte</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Sie haben das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
                 Datenübertragbarkeit sowie Widerspruch gegen Verarbeitung auf Grundlage von Art.&nbsp;6 Abs.&nbsp;1
@@ -262,10 +292,10 @@ const Datenschutz = () => {
             </CardContent>
           </Card>
 
-          {/* 9. Änderungen */}
+          {/* 10. Änderungen */}
           <Card>
             <CardContent className="pt-6 space-y-2">
-              <h2 className="text-xl font-semibold">9. Änderungen</h2>
+              <h2 className="text-xl font-semibold">10. Änderungen</h2>
               <p className="text-muted-foreground leading-relaxed">
                 Wir passen diese Datenschutzerklärung an, wenn sich Funktionen oder Rechtslage ändern. Stand siehe oben.
               </p>
