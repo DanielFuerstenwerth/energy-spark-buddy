@@ -44,6 +44,48 @@ export type Database = {
         }
         Relationships: []
       }
+      app_telemetry: {
+        Row: {
+          component: string | null
+          created_at: string
+          event_type: string
+          id: string
+          level: string
+          message: string | null
+          metadata: Json | null
+          session_id: string | null
+          trace_id: string | null
+          url: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          component?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          level?: string
+          message?: string | null
+          metadata?: Json | null
+          session_id?: string | null
+          trace_id?: string | null
+          url?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          component?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          level?: string
+          message?: string | null
+          metadata?: Json | null
+          session_id?: string | null
+          trace_id?: string | null
+          url?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       chat_rate_limits: {
         Row: {
           client_ip: string
@@ -354,6 +396,7 @@ export type Database = {
           additional_experiences: string | null
           challenges: string[] | null
           challenges_details: string | null
+          client_submission_id: string | null
           confirmation_for_update: string | null
           contact_email: string | null
           created_at: string
@@ -553,6 +596,7 @@ export type Database = {
           additional_experiences?: string | null
           challenges?: string[] | null
           challenges_details?: string | null
+          client_submission_id?: string | null
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
@@ -752,6 +796,7 @@ export type Database = {
           additional_experiences?: string | null
           challenges?: string[] | null
           challenges_details?: string | null
+          client_submission_id?: string | null
           confirmation_for_update?: string | null
           contact_email?: string | null
           created_at?: string
@@ -1011,6 +1056,7 @@ export type Database = {
     }
     Functions: {
       cleanup_old_rate_limits: { Args: never; Returns: undefined }
+      cleanup_old_telemetry: { Args: never; Returns: undefined }
       get_survey_stats: { Args: never; Returns: Json }
       has_role: {
         Args: {
