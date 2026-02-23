@@ -1843,6 +1843,20 @@ export function expandToLocationRows(
   }
 
   if (tagged.length === 0) {
+    // Fallback: derive project_type_tag from projectTypes when no locations exist
+    const projectTypes = data.projectTypes ?? [];
+    const tagMap: Record<string, string> = {
+      ggv: 'ggv',
+      mieterstrom: 'ms',
+      energysharing: 'es',
+      ggv_oder_mieterstrom: 'ggv', // default to ggv for combined choice
+    };
+    const fallbackTag = projectTypes
+      .map(pt => tagMap[pt])
+      .find(t => t != null);
+    if (fallbackTag) {
+      baseRow.project_type_tag = fallbackTag;
+    }
     return [baseRow];
   }
 
