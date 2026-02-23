@@ -141,8 +141,8 @@ Deno.serve(async (req) => {
     const dataRows = allKeys.map((key) => {
       const meta = COLUMN_LABELS[key];
       const rawUiNumber = meta?.uiNumber || "";
-      // Wrap in ="..." so Excel treats "1.2" as text, not as a date
-      const uiNumber = rawUiNumber ? `="\"${rawUiNumber}\""` : "";
+      // Prepend tab character to force Excel to treat the value as text
+      const uiNumber = rawUiNumber ? `\t${rawUiNumber}` : "";
       const section = escapeCsv(meta?.section || "");
       const dbColumn = escapeCsv(key);
       const questionLabel = escapeCsv(meta?.questionLabel || key);
