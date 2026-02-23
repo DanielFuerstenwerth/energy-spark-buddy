@@ -7,7 +7,6 @@ const corsHeaders = {
 };
 
 // Rate limiting: max 50 submissions per IP per hour
-// Only counted on SUCCESSFUL submissions to prevent death-spiral on validation errors
 const RATE_LIMIT_MAX = 50;
 const RATE_LIMIT_WINDOW_HOURS = 1;
 
@@ -63,7 +62,7 @@ function sanitizeRow(data: Record<string, unknown>): Record<string, unknown> {
   return sanitized;
 }
 
-// --- GGV Export Payload Builder (mirrors export-ggv logic) ---
+// --- GGV Export Payload Builder ---
 
 const STATUS_MAP: Record<string, string> = {
   info_sammeln: "interested",
@@ -140,9 +139,28 @@ function buildGgvPayload(row: Record<string, unknown>): Record<string, unknown> 
   return payload;
 }
 
+// --- Idempotency check ---
+async function checkIdempotency(
+  supabaseAdmin: ReturnType<typeof createClient>,
+  clientSubmissionId: string
+): Promise<{ isDuplicate: boolean; existingIds?: string[] }> {
+  const { data: existing } = await supabaseAdmin
+    .from("survey_responses")
+    .select("id")
+    .eq("client_submission_id", clientSubmissionId)
+    .eq("status", "submitted");
+
+  if (existing && existing.length > 0) {
+    return { isDuplicate: true, existingIds: existing.map((r: { id: string }) => r.id) };
+  }
+  return { isDuplicate: false };
+}
+
 // --- Main handler ---
 
 Deno.serve(async (req) => {
+  const requestStart = Date.now();
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -171,7 +189,7 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Rate limit check (read-only — counter is incremented only on success)
+    // Rate limit check
     const windowStart = new Date(Date.now() - RATE_LIMIT_WINDOW_HOURS * 60 * 60 * 1000).toISOString();
     const { count: recentCount } = await supabaseAdmin
       .from("chat_rate_limits")
@@ -187,7 +205,7 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { submissions, website, draft_token } = body;
+    const { submissions, website, draft_token, client_submission_id } = body;
 
     // Honeypot
     if (website && typeof website === "string" && website.trim().length > 0) {
@@ -196,6 +214,26 @@ Deno.serve(async (req) => {
         JSON.stringify({ success: true, count: 0 }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
+    }
+
+    // Idempotency check: if client_submission_id was already submitted, return existing IDs
+    if (client_submission_id && typeof client_submission_id === "string" &&
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(client_submission_id)) {
+      const { isDuplicate, existingIds } = await checkIdempotency(supabaseAdmin, client_submission_id);
+      if (isDuplicate) {
+        console.log(`Idempotent duplicate detected for client_submission_id=${client_submission_id}`);
+        const latencyMs = Date.now() - requestStart;
+        return new Response(
+          JSON.stringify({
+            success: true,
+            count: existingIds!.length,
+            ids: existingIds,
+            deduplicated: true,
+            latency_ms: latencyMs,
+          }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
     }
 
     if (!Array.isArray(submissions) || submissions.length === 0 || submissions.length > 10) {
@@ -220,7 +258,16 @@ Deno.serve(async (req) => {
         validationErrors.push(`Submission ${i}: ${validation.errors.join(", ")}`);
       }
 
-      sanitizedRows.push({ ...sanitizeRow(sub as Record<string, unknown>), status: "submitted" });
+      const sanitized = sanitizeRow(sub as Record<string, unknown>);
+      sanitized.status = "submitted";
+
+      // Attach client_submission_id for idempotency (only to first row if multiple)
+      if (i === 0 && client_submission_id && typeof client_submission_id === "string" &&
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(client_submission_id)) {
+        sanitized.client_submission_id = client_submission_id;
+      }
+
+      sanitizedRows.push(sanitized);
     }
 
     if (validationErrors.length > 0) {
@@ -231,7 +278,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Delete existing draft rows for this draft_token before inserting submitted ones
+    // Delete existing draft rows
     if (draft_token && typeof draft_token === "string" &&
         /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(draft_token)) {
       const { error: deleteError } = await supabaseAdmin
@@ -242,19 +289,32 @@ Deno.serve(async (req) => {
 
       if (deleteError) {
         console.warn("Failed to delete draft rows:", deleteError.message);
-        // Continue — drafts are not critical
-      } else {
-        console.log(`Deleted draft rows for token ${draft_token}`);
       }
     }
 
-    // Insert survey responses (as submitted)
+    // Insert survey responses
     const { data: insertedRows, error: insertError } = await supabaseAdmin
       .from("survey_responses")
       .insert(sanitizedRows)
       .select("id");
 
     if (insertError) {
+      // Handle unique constraint violation for client_submission_id (concurrent duplicate)
+      if (insertError.code === "23505" && insertError.message?.includes("client_submission_id")) {
+        console.log("Concurrent duplicate detected via unique constraint");
+        const { existingIds } = await checkIdempotency(supabaseAdmin, client_submission_id);
+        return new Response(
+          JSON.stringify({
+            success: true,
+            count: existingIds?.length || 0,
+            ids: existingIds,
+            deduplicated: true,
+            latency_ms: Date.now() - requestStart,
+          }),
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
       console.error("Insert error:", insertError);
       return new Response(
         JSON.stringify({ error: "Failed to save survey responses", details: insertError.message }),
@@ -262,12 +322,12 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Only increment rate limit AFTER successful insert
+    // Increment rate limit AFTER successful insert
     await supabaseAdmin
       .from("chat_rate_limits")
       .insert({ client_ip: `survey:${clientIp}` });
 
-    // Create ggv_exports entries for rows that qualify
+    // Create ggv_exports entries for qualifying rows
     const exportEntries: Array<{ survey_id: string; payload: Record<string, unknown>; status: string }> = [];
     
     for (let i = 0; i < sanitizedRows.length; i++) {
@@ -292,19 +352,26 @@ Deno.serve(async (req) => {
 
       if (exportInsertError) {
         console.error("Failed to create ggv_export entries:", exportInsertError);
-      } else {
-        console.log(`Created ${exportEntries.length} ggv_export entries for admin review`);
       }
     }
 
+    const insertedIds = insertedRows?.map((r: { id: string }) => r.id) || [];
+    const latencyMs = Date.now() - requestStart;
+
     return new Response(
-      JSON.stringify({ success: true, count: sanitizedRows.length }),
+      JSON.stringify({
+        success: true,
+        count: sanitizedRows.length,
+        ids: insertedIds,
+        latency_ms: latencyMs,
+      }),
       { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Unexpected error:", error);
+    const latencyMs = Date.now() - requestStart;
     return new Response(
-      JSON.stringify({ error: "Internal server error" }),
+      JSON.stringify({ error: "Internal server error", latency_ms: latencyMs }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

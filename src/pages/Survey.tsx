@@ -26,7 +26,7 @@ import { useSurveyDraftSync } from "@/hooks/useSurveyDraftSync";
 import { parsePrefillParams } from "@/utils/surveyPrefill";
 import { useLocation } from "react-router-dom";
 import { track } from "@/utils/plausibleTrack";
-import { logErrorToDb } from "@/utils/errorLogger";
+import { telemetry } from "@/utils/telemetry";
 
 const LEGACY_DRAFT_KEY = "vnb-survey-draft-v2";
 const LEGACY_DRAFT_TOKEN_KEY = "vnb-survey-draft"; // old localStorage key
@@ -176,12 +176,17 @@ export default function Survey() {
   const handleSubmit = () => {
     if (isSubmitting) return;
 
-    // Logging-Punkt 1: Button-Klick registriert (vor Validierung)
-    logErrorToDb({
-      error_message: "[submit-survey] handleSubmit aufgerufen (Button-Klick)",
-      component: "Survey/handleSubmit/start",
-      metadata: { userAgent: navigator.userAgent, step: String(currentStep) },
+    const traceId = telemetry.newTraceId();
+    traceIdRef.current = traceId;
+    clientSubmissionIdRef.current = telemetry.newSubmissionId();
+
+    telemetry.info("handleSubmit_start", {
+      component: "Survey/handleSubmit",
+      trace_id: traceId,
+      client_submission_id: clientSubmissionIdRef.current,
+      step_id: String(currentStep),
     });
+
     const mergedSubmissions = getMergedSubmissions();
     const warnings: string[] = [];
     
@@ -222,7 +227,6 @@ export default function Survey() {
           return; // Block submit
         }
         // Collect non-critical warnings as human-readable list
-        // Exclude optional location fields – they should never create submission anxiety
         const SUPPRESS_WARNING_FIELDS = new Set(['projectLocations', 'mieterstromProjectLocations', 'esProjectLocations']);
         const filteredErrors = validation.errors.filter(e => !SUPPRESS_WARNING_FIELDS.has(e.field));
         if (filteredErrors.length > 0) {
@@ -232,11 +236,11 @@ export default function Survey() {
       }
     }
 
-    // Logging-Punkt 2: Validierung abgeschlossen
-    logErrorToDb({
-      error_message: `[submit-survey] Validierung abgeschlossen – ${warnings.length} Warnung(en)`,
-      component: "Survey/handleSubmit/validation-done",
-      metadata: { warningCount: warnings.length, userAgent: navigator.userAgent },
+    telemetry.info("validation_done", {
+      component: "Survey/handleSubmit",
+      trace_id: traceId,
+      client_submission_id: clientSubmissionIdRef.current,
+      extra: { warning_count: warnings.length },
     });
 
     if (warnings.length > 0) {
@@ -252,20 +256,27 @@ export default function Survey() {
 
   // Phase 2: Actually send the data
   const retryCountRef = useRef(0);
+  const traceIdRef = useRef<string>(telemetry.newTraceId());
+  const clientSubmissionIdRef = useRef<string>(telemetry.newSubmissionId());
 
   const doSubmit = useCallback(async () => {
     if (isSubmitting) return;
 
-    // Logging-Punkt 3: doSubmit gestartet
-    logErrorToDb({
-      error_message: "[submit-survey] doSubmit gestartet (Absendung beginnt)",
-      component: "Survey/doSubmit/start",
-      metadata: { retryCount: retryCountRef.current, userAgent: navigator.userAgent },
+    const traceId = traceIdRef.current;
+    const clientSubmissionId = clientSubmissionIdRef.current;
+
+    telemetry.info("doSubmit_start", {
+      component: "Survey/doSubmit",
+      trace_id: traceId,
+      client_submission_id: clientSubmissionId,
+      retry_count: retryCountRef.current,
     });
 
     setIsSubmitting(true);
     setShowWarningDialog(false);
     setValidationWarnings([]);
+
+    const invokeStart = performance.now();
 
     try {
       const mergedSubmissions = getMergedSubmissions();
@@ -274,25 +285,42 @@ export default function Survey() {
         return expandToLocationRows(baseRow, sub);
       });
 
-      logErrorToDb({
-        error_message: `[submit-survey] Invoking edge function with ${dbRows.length} row(s)`,
-        component: "Survey/doSubmit/pre-invoke",
-        metadata: { rowCount: dbRows.length, userAgent: navigator.userAgent },
+      const payloadBody = {
+        submissions: dbRows,
+        website: honeypot,
+        draft_token: getDraftToken(),
+        client_submission_id: clientSubmissionId,
+      };
+      const payloadBytes = new Blob([JSON.stringify(payloadBody)]).size;
+
+      telemetry.info("doSubmit_preInvoke", {
+        component: "Survey/doSubmit",
+        trace_id: traceId,
+        client_submission_id: clientSubmissionId,
+        row_count: dbRows.length,
+        payload_bytes: payloadBytes,
+        retry_count: retryCountRef.current,
       });
 
       const response = await supabase.functions.invoke('submit-survey', {
-        body: { submissions: dbRows, website: honeypot, draft_token: getDraftToken() },
+        body: payloadBody,
       });
+
+      const latencyMs = Math.round(performance.now() - invokeStart);
 
       if (response.error) {
         console.error('Edge function error:', response.error);
-        logErrorToDb({
-          error_message: `[submit-survey] Edge function returned error: ${response.error.message}`,
-          error_stack: JSON.stringify(response.error).slice(0, 5000),
-          component: "Survey/doSubmit/invoke-error",
-          metadata: { userAgent: navigator.userAgent },
+        telemetry.error("doSubmit_failure", {
+          component: "Survey/doSubmit",
+          trace_id: traceId,
+          client_submission_id: clientSubmissionId,
+          latency_ms: latencyMs,
+          error_name: "EdgeFunctionError",
+          error_message: response.error.message,
+          stack: JSON.stringify(response.error).slice(0, 5000),
+          retry_count: retryCountRef.current,
+          extra: { retry_decision: "user_prompted" },
         });
-        // Try to extract details from error context
         const errorContext = (response.error as unknown as Record<string, unknown>)?.context;
         const errorBody = typeof errorContext === 'object' && errorContext !== null
           ? (errorContext as Record<string, unknown>)
@@ -302,8 +330,28 @@ export default function Survey() {
       }
 
       const result = response.data;
+
+      // Post-invoke telemetry (success path through edge function)
+      telemetry.info("doSubmit_postInvoke", {
+        component: "Survey/doSubmit",
+        trace_id: traceId,
+        client_submission_id: clientSubmissionId,
+        status_code: 200,
+        latency_ms: latencyMs,
+        extra: { response_has_error: !!result?.error, server_count: result?.count },
+      });
+
       if (result?.error) {
         console.error('Server validation error:', result.error, result.details);
+
+        telemetry.warn("doSubmit_serverError", {
+          component: "Survey/doSubmit",
+          trace_id: traceId,
+          client_submission_id: clientSubmissionId,
+          error_message: result.error,
+          latency_ms: latencyMs,
+        });
+
         if (result.error === 'Rate limit exceeded. Please try again later.') {
           toast.error('Zu viele Einsendungen. Bitte versuchen Sie es in einer Stunde erneut.', { duration: Infinity });
         } else if (result.error === 'Validation failed') {
@@ -327,8 +375,20 @@ export default function Survey() {
         return;
       }
 
-      // Success — reset retry counter
+      // Success
       retryCountRef.current = 0;
+
+      telemetry.info("doSubmit_success", {
+        component: "Survey/doSubmit",
+        trace_id: traceId,
+        client_submission_id: clientSubmissionId,
+        latency_ms: latencyMs,
+        extra: {
+          server_count: result?.count,
+          server_ids: result?.ids,
+          was_deduplicated: result?.deduplicated === true,
+        },
+      });
 
       track("Survey Complete");
       try { localStorage.removeItem(LEGACY_DRAFT_KEY); } catch { /* Safari private mode */ }
@@ -337,9 +397,22 @@ export default function Survey() {
       setCurrentStep(steps.length);
     } catch (error) {
       console.error('Error submitting survey:', error);
+      const latencyMs = Math.round(performance.now() - invokeStart);
       const errorMsg = error instanceof Error ? error.message : 'Unbekannter Fehler';
       const errorStack = error instanceof Error ? error.stack : undefined;
-      logErrorToDb({ error_message: errorMsg, error_stack: errorStack, component: "Survey/doSubmit" });
+
+      telemetry.error("doSubmit_failure", {
+        component: "Survey/doSubmit",
+        trace_id: traceId,
+        client_submission_id: clientSubmissionId,
+        error_name: error instanceof Error ? error.name : "Unknown",
+        error_message: errorMsg,
+        stack: errorStack,
+        latency_ms: latencyMs,
+        retry_count: retryCountRef.current,
+        extra: { retry_decision: "user_prompted" },
+      });
+
       toast.error(`Fehler beim Absenden: ${errorMsg}. Ihre Daten sind lokal gesichert.`, {
         duration: Infinity,
         action: {
