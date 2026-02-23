@@ -93,17 +93,15 @@ const UniversalCriterionPage = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          <div className="lg:col-span-2 space-y-4">
-            <div className="relative h-[400px] md:h-[600px] bg-card rounded-lg overflow-hidden border border-border" style={{ zIndex: 1 }}>
+          <div className="lg:col-span-2 flex flex-col gap-4">
+            <div className="h-[400px] md:h-[600px] rounded-lg border border-border overflow-hidden isolate">
               <MapGgv
                 ref={mapRef}
                 onRegionClick={handleRegionClick}
                 scoreData={scoreData}
               />
             </div>
-            <div className="relative" style={{ zIndex: 2 }}>
-              <MapLegend />
-            </div>
+            <MapLegend />
           </div>
           
           <div className="lg:col-span-1">
