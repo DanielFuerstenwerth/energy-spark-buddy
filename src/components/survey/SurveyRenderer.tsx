@@ -490,6 +490,11 @@ export function SurveyRenderer({ sections, data, updateData, uploadedDocuments, 
                 <div key={q.id} className={q.groupWithPrevious ? "-mt-6" : ""}>
                   
                   {renderQuestion(q, data, updateData, uploadedDocuments, setUploadedDocuments, (q.tooltip || q.helpText) ? <InlineHintTrigger text={q.tooltip || q.helpText!} /> : undefined)}
+                  {q.id === 'confirmationForUpdate' && data.confirmationForUpdate === 'ja' && !data.contactEmail?.trim() && (
+                    <div className="mt-2 rounded-md border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+                      ⚠ Sie haben bei 1.4 „Ja" gewählt, aber keine E-Mail-Adresse bei Frage 1.3 angegeben. Ohne E-Mail können wir Sie nicht kontaktieren.
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
