@@ -175,7 +175,13 @@ export default function Survey() {
   // Phase 1: Validate and show warnings if any (does NOT submit yet)
   const handleSubmit = () => {
     if (isSubmitting) return;
-    
+
+    // Logging-Punkt 1: Button-Klick registriert (vor Validierung)
+    logErrorToDb({
+      error_message: "[submit-survey] handleSubmit aufgerufen (Button-Klick)",
+      component: "Survey/handleSubmit/start",
+      metadata: { userAgent: navigator.userAgent, step: String(currentStep) },
+    });
     const mergedSubmissions = getMergedSubmissions();
     const warnings: string[] = [];
     
@@ -226,6 +232,13 @@ export default function Survey() {
       }
     }
 
+    // Logging-Punkt 2: Validierung abgeschlossen
+    logErrorToDb({
+      error_message: `[submit-survey] Validierung abgeschlossen – ${warnings.length} Warnung(en)`,
+      component: "Survey/handleSubmit/validation-done",
+      metadata: { warningCount: warnings.length, userAgent: navigator.userAgent },
+    });
+
     if (warnings.length > 0) {
       // Show blocking confirmation dialog instead of a fleeting toast
       setValidationWarnings(warnings);
@@ -242,6 +255,14 @@ export default function Survey() {
 
   const doSubmit = useCallback(async () => {
     if (isSubmitting) return;
+
+    // Logging-Punkt 3: doSubmit gestartet
+    logErrorToDb({
+      error_message: "[submit-survey] doSubmit gestartet (Absendung beginnt)",
+      component: "Survey/doSubmit/start",
+      metadata: { retryCount: retryCountRef.current, userAgent: navigator.userAgent },
+    });
+
     setIsSubmitting(true);
     setShowWarningDialog(false);
     setValidationWarnings([]);
