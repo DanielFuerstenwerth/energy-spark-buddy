@@ -6,7 +6,6 @@ interface MapConfig {
   [key: string]: {
     sheet: string;
     criterion_column?: string;
-    fallback?: string;
   };
 }
 
@@ -87,7 +86,6 @@ export const useMapData = (route: string) => {
         const data = await loadScores(routeConfig.sheet, {
           aggregatedColumn: 'aggregated_score',
           requestedColumn: columnName,
-          fallbackUrl: routeConfig.fallback,
         });
         console.log(`[useMapData] Loaded ${data.size} VNB scores`);
         

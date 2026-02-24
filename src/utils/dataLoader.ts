@@ -55,7 +55,7 @@ export async function loadAllVnbNames(): Promise<Map<string, string>> {
 
 export async function loadScores(
   url: string,
-  opts?: { aggregatedColumn?: string; requestedColumn?: string; fallbackUrl?: string }
+  opts?: { aggregatedColumn?: string; requestedColumn?: string }
 ): Promise<Map<string, ScoreData>> {
   console.log('[loadScores] Loading scores from:', url, 'opts:', opts);
 
@@ -113,29 +113,15 @@ export async function loadScores(
     text.toLowerCase().includes('<!doctype');
 
   if (looksInvalid) {
-    // Use route-specific fallback if available, otherwise no data
-    if (opts?.fallbackUrl) {
-      console.warn('[loadScores] Invalid data from primary source, using route-specific fallback:', opts.fallbackUrl);
-      text = await fetchText(opts.fallbackUrl);
-    } else {
-      console.warn('[loadScores] Invalid data from primary source, no fallback configured');
-      return new Map<string, ScoreData>();
-    }
-  } else {
-    // Check if this looks like the structure sheet (wrong tab exported)
-    const firstLine = text.split('\n')[0];
-    if (firstLine.includes('Kategorie_slug') || firstLine.includes('Kategorie_name')) {
-      console.warn('[loadScores] Detected structure sheet instead of scores data');
-      
-      // Try route-specific fallback first
-      if (opts?.fallbackUrl) {
-        console.log('[loadScores] Trying route-specific fallback:', opts.fallbackUrl);
-        text = await fetchText(opts.fallbackUrl);
-      } else {
-        console.warn('[loadScores] No fallback configured');
-        return new Map<string, ScoreData>();
-      }
-    }
+    console.warn('[loadScores] Invalid data from Google Sheet source');
+    return new Map<string, ScoreData>();
+  }
+
+  // Check if this looks like the structure sheet (wrong tab exported)
+  const firstLine = text.split('\n')[0];
+  if (firstLine.includes('Kategorie_slug') || firstLine.includes('Kategorie_name')) {
+    console.warn('[loadScores] Detected structure sheet instead of scores data');
+    return new Map<string, ScoreData>();
   }
   
   const lines = text.trim().split(/\r?\n/);
