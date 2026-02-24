@@ -2,7 +2,7 @@ import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { loadScoresFromGoogleSheets } from '@/utils/googleSheetsLoader';
-import { ScoreData } from '@/utils/dataLoader';
+import { ScoreData, getColor } from '@/utils/dataLoader';
 import { getVnbNameFromId } from '@/utils/vnbMapping';
 
 interface MapGgvProps {
@@ -83,15 +83,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           
           // Fixed 5-category system
           // Treat 0 and null as 0 (keine Daten)
-          const normalizedScore = (score === null || score === undefined || score === 0) ? 0 : score;
-          
-          let fillColor = 'hsl(220, 13%, 91%)'; // 0 (keine Daten)
-          if (normalizedScore !== 0) {
-            if (normalizedScore <= -50) fillColor = 'hsl(0, 84%, 25%)';      // -100 bis -50: dark red
-            else if (normalizedScore < 0) fillColor = 'hsl(0, 72%, 42%)';    // -50 bis 0: red
-            else if (normalizedScore <= 50) fillColor = 'hsl(142, 76%, 45%)'; // 0 bis 50: green
-            else fillColor = 'hsl(158, 64%, 32%)';                           // 50 bis 100: dark green
-          }
+          const fillColor = getColor(score);
 
           return {
             fillColor,
