@@ -9,110 +9,47 @@
           "slug": "zvNE",
           "title": "zeitvariable Netzentgelte",
           "kriterien": [
-            {
-              "slug": "Modul1&2",
-              "title": "Modul 1&2 wird angeboten und abgerechnet"
-            },
-            {
-              "slug": "Modul3",
-              "title": "Modul 3 wird angeboten"
-            },
-            {
-              "slug": "Modul3-MaKo",
-              "title": "Modul 3 kann über Mako bestellt werden"
-            },
-            {
-              "slug": "Modul3-Abrechnung-Frist",
-              "title": "Modul 3 Netzentgelte werden fristgerecht abgerechnet in >90% der Fälle"
-            },
-            {
-              "slug": "Modul3-Abrechnung-Korrektheit",
-              "title": "Modul 3 Netzentgelte werden korrekt abgerechnet in >90% der Fälle"
-            }
+            { "slug": "Modul1&2", "title": "Modul 1&2 wird angeboten und abgerechnet" },
+            { "slug": "Modul3", "title": "Modul 3 wird angeboten" },
+            { "slug": "Modul3-MaKo", "title": "Modul 3 kann über Mako bestellt werden" },
+            { "slug": "Modul3-TAF2", "title": "TAF 2 ist nicht erforderlich für Modul 3" },
+            { "slug": "Modul3-Abrechnung-Frist", "title": "Modul 3 Netzentgelte werden fristgerecht abgerechnet in >90% der Fälle" },
+            { "slug": "Modul3-Abrechnung-Korrektheit", "title": "Modul 3 Netzentgelte werden korrekt abgerechnet in >90% der Fälle" }
           ]
         },
         {
           "slug": "DV",
           "title": "PV-DV",
           "kriterien": [
-            {
-              "slug": "K1",
-              "title": "K1"
-            },
-            {
-              "slug": "K2",
-              "title": "MaLo-ID wird umgehend zugewiesen"
-            },
-            {
-              "slug": "K3",
-              "title": "WIM Prozesse laufen"
-            },
-            {
-              "slug": "K4",
-              "title": "GPKE Prozesse laufen"
-            },
-            {
-              "slug": "K5",
-              "title": "Speicheranmeldung"
-            }
+            { "slug": "K2", "title": "MaLo-ID wird umgehend zugewiesen", "hasData": true },
+            { "slug": "K3", "title": "WIM Prozesse laufen", "hasData": true },
+            { "slug": "K4", "title": "GPKE Prozesse laufen", "hasData": true },
+            { "slug": "K5", "title": "Speicheranmeldung funktioniert", "hasData": true }
           ]
         },
         {
           "slug": "Sflex",
           "title": "Speicher flex",
           "kriterien": [
-            {
-              "slug": "K6",
-              "title": "K6"
-            },
-            {
-              "slug": "K7",
-              "title": "UK 1"
-            },
-            {
-              "slug": "K8",
-              "title": "UK 2"
-            }
+            { "slug": "K7", "title": "UK 1", "hasData": true },
+            { "slug": "K8", "title": "UK 2", "hasData": true }
           ]
         },
         {
           "slug": "Wp",
           "title": "Wärmepumpe",
           "kriterien": [
-            {
-              "slug": "K9",
-              "title": "K9"
-            },
-            {
-              "slug": "K10",
-              "title": "UK1"
-            },
-            {
-              "slug": "K11",
-              "title": "UK 2"
-            }
+            { "slug": "K10", "title": "UK 3", "hasData": true },
+            { "slug": "K11", "title": "UK 4", "hasData": true }
           ]
         },
         {
           "slug": "Emob",
           "title": "Elektromobilität",
           "kriterien": [
-            {
-              "slug": "K12",
-              "title": "K12"
-            },
-            {
-              "slug": "K13",
-              "title": "UK 1"
-            },
-            {
-              "slug": "K14",
-              "title": "UK 2"
-            },
-            {
-              "slug": "K15",
-              "title": "UK3"
-            }
+            { "slug": "K13", "title": "UK 4", "hasData": true },
+            { "slug": "K14", "title": "UK 6", "hasData": true },
+            { "slug": "K15", "title": "UK 7", "hasData": true }
           ]
         }
       ]
@@ -126,56 +63,35 @@
           "slug": "GGV",
           "title": "Gemeinschaftliche Gebäudeversorgung",
           "kriterien": [
-            {
-              "slug": "K17",
-              "title": "UK1"
-            },
-            {
-              "slug": "K18",
-              "title": "UK 2"
-            }
+            { "slug": "K16", "title": "VNB setzt GGV als gMSB um", "hasData": true },
+            { "slug": "K17", "title": "VNB lässt Umsetzung durch wMSB zu", "hasData": true },
+            { "slug": "K18", "title": "VNB lässt Umsetzung durch wMSB zu ohne physikalischen Summenzähler", "hasData": true },
+            { "slug": "K19", "title": "VNB stellt Daten an ESA bereit", "hasData": true },
+            { "slug": "K20", "title": "VNB stellt Daten an Endnutzer bereit", "hasData": true }
           ]
         },
         {
-          "slug": "MS",
-          "title": "Mieterstrom",
+          "slug": "MSg",
+          "title": "Mieterstrom - große Häuser",
           "kriterien": [
-            {
-              "slug": "K20",
-              "title": "UK1"
-            },
-            {
-              "slug": "K21",
-              "title": "UK 2"
-            }
+            { "slug": "K20", "title": "UK 8" },
+            { "slug": "K21", "title": "UK 9" }
           ]
         },
         {
-          "slug": "vSZ",
-          "title": "virtueller Summenzähler",
+          "slug": "MSk",
+          "title": "Mieterstrom - kleine Häuser",
           "kriterien": [
-            {
-              "slug": "K23",
-              "title": "UK1"
-            },
-            {
-              "slug": "K24",
-              "title": "UK 2"
-            }
+            { "slug": "K23", "title": "UK 10" },
+            { "slug": "K24", "title": "UK 11" }
           ]
         },
         {
           "slug": "ES",
           "title": "Energy Sharing",
           "kriterien": [
-            {
-              "slug": "K26",
-              "title": "UK1"
-            },
-            {
-              "slug": "K27",
-              "title": "UK 2"
-            }
+            { "slug": "K26", "title": "UK 12" },
+            { "slug": "K27", "title": "UK 13" }
           ]
         }
       ]
@@ -186,64 +102,58 @@
       "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
-          "slug": "NaHS",
-          "title": "Netzanschluss Hochspannung",
+          "slug": "TAB",
+          "title": "Technische Anschlussbedingungen",
           "kriterien": [
-            {
-              "slug": "K28",
-              "title": "K28"
-            },
-            {
-              "slug": "K29",
-              "title": "UK1"
-            },
-            {
-              "slug": "K30",
-              "title": "UK 2"
-            }
+            { "slug": "K30", "title": "UK 14" },
+            { "slug": "K31", "title": "UK 2" }
           ]
         },
         {
-          "slug": "NaMS",
-          "title": "Netzanschluss Mittelspannung",
+          "slug": "PV Only",
+          "title": "PV Only-Umsetzung",
           "kriterien": [
-            {
-              "slug": "K31",
-              "title": "K31"
-            },
-            {
-              "slug": "K32",
-              "title": "UK1"
-            },
-            {
-              "slug": "K33",
-              "title": "UK 2"
-            }
+            { "slug": "K33", "title": "UK1" },
+            { "slug": "K34", "title": "UK 2" }
+          ]
+        },
+        {
+          "slug": "ESA",
+          "title": "ESA-Services",
+          "kriterien": [
+            { "slug": "K36", "title": "UK1" },
+            { "slug": "K37", "title": "UK 2" }
           ]
         }
       ]
     },
     {
-      "slug": "NiH",
+      "slug": "NAH",
       "title": "Netzanschluss Hochspannung",
       "tabs": ["Performance VNB", "Best Practices"],
       "unterkategorien": [
         {
-          "slug": "NA",
-          "title": "Netzanschluss",
+          "slug": "PT",
+          "title": "Prozesstransparenz",
           "kriterien": [
-            {
-              "slug": "K34",
-              "title": "K34"
-            },
-            {
-              "slug": "K35",
-              "title": "UK1"
-            },
-            {
-              "slug": "K36",
-              "title": "UK 2"
-            }
+            { "slug": "K40", "title": "UK1" },
+            { "slug": "K41", "title": "UK 2" }
+          ]
+        },
+        {
+          "slug": "DPU",
+          "title": "Digitale Prozessunterstützung",
+          "kriterien": [
+            { "slug": "K43", "title": "UK1" },
+            { "slug": "K44", "title": "UK 2" }
+          ]
+        },
+        {
+          "slug": "ZzA",
+          "title": "Zeit zum Anschluss",
+          "kriterien": [
+            { "slug": "K46", "title": "UK1" },
+            { "slug": "K47", "title": "UK 2" }
           ]
         }
       ]
