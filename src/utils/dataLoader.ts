@@ -254,8 +254,8 @@ export function getColor(score: number | null | undefined): string {
   const normalizedScore = (score === null || score === undefined || score === 0) ? 0 : score;
   
   if (normalizedScore === 0) return 'hsl(220, 13%, 91%)';  // 0 (keine Daten)
-  if (normalizedScore <= -50) return 'hsl(0, 84%, 25%)';   // -100 bis -50: dark red
-  if (normalizedScore < 0) return 'hsl(0, 72%, 42%)';      // -50 bis 0: red
+  if (normalizedScore < -50) return 'hsl(0, 84%, 25%)';    // -100 bis -50: dark red
+  if (normalizedScore < 0) return 'hsl(0, 72%, 42%)';      // -50 bis 0: red (includes -50)
   if (normalizedScore <= 50) return 'hsl(142, 76%, 45%)';  // 0 bis 50: green
   return 'hsl(158, 64%, 32%)';                             // 50 bis 100: dark green
 }
