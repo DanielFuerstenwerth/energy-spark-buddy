@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { FileDown } from "lucide-react";
 const Methodik = () => {
   return (
     <div className="min-h-screen flex flex-col">
@@ -133,6 +134,20 @@ const Methodik = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
+                <div>
+                  <div className="text-sm font-semibold">v1.0 – 2026-02-24</div>
+                  <p className="text-sm text-muted-foreground">
+                    Erste vollständige Methodik zur Bewertung der GGV-Umsetzung auf Basis der Umfrageergebnisse veröffentlicht.
+                  </p>
+                  <a
+                    href="/data/vnb-transparenz.de-Methodik_v1.0.pdf"
+                    download
+                    className="inline-flex items-center gap-1.5 mt-1.5 text-sm font-medium text-primary hover:underline"
+                  >
+                    <FileDown className="h-4 w-4" />
+                    Methodik v1.0 herunterladen (PDF)
+                  </a>
+                </div>
                 <div>
                   <div className="text-sm font-semibold">v0.2 – 2026-02-19</div>
                   <p className="text-sm text-muted-foreground">
