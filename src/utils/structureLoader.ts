@@ -219,20 +219,12 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
 let _mapsConfigCache: Record<string, any> | null = null;
 let _mapsConfigPromise: Promise<Record<string, any>> | null = null;
 
-/** Known local CSV fallbacks keyed by route prefix */
-const LOCAL_FALLBACKS: Record<string, string> = {
-  'TaE/GGV': '/data/scores_ggv.csv',
-  'EHH/zvNE': '/data/scores_ehh_zvne.csv',
-};
-
 /**
  * Build maps.json structure from sheet data.
  * Results are cached in memory — only fetched once per page session.
  */
 export async function buildMapsConfig(): Promise<Record<string, any>> {
-  // Return cached result immediately
   if (_mapsConfigCache) return _mapsConfigCache;
-  // Deduplicate concurrent calls
   if (_mapsConfigPromise) return _mapsConfigPromise;
 
   _mapsConfigPromise = _buildMapsConfigInternal();
@@ -283,10 +275,7 @@ async function _buildMapsConfigInternal(): Promise<Record<string, any>> {
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-          // Route-specific fallback: check exact key first, then category prefix
-          const fallback = LOCAL_FALLBACKS[subKey]
-            || Object.entries(LOCAL_FALLBACKS).find(([k]) => subKey.startsWith(k))?.[1];
-          const config = { sheet: exportUrl, fallback };
+          const config = { sheet: exportUrl };
           mapsConfig[subKey] = config;
           mapsConfig[subKeyLower] = config;
         }
@@ -302,10 +291,8 @@ async function _buildMapsConfigInternal(): Promise<Record<string, any>> {
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-          const fallback = LOCAL_FALLBACKS[`${row.kategorie_slug}/${row.unterkategorie_slug}`];
           const config = {
             sheet: exportUrl,
-            fallback,
             criterion_column: row.kriterium_slug
           };
           mapsConfig[critKey] = config;
