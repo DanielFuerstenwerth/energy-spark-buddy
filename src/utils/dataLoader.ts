@@ -113,9 +113,14 @@ export async function loadScores(
     text.toLowerCase().includes('<!doctype');
 
   if (looksInvalid) {
-    console.warn('[loadScores] Invalid data from primary source, using general fallback');
-    // Fallback to local CSV if remote is unavailable
-    text = await fetchText('/data/scores_ggv.csv');
+    // Use route-specific fallback if available, otherwise no data
+    if (opts?.fallbackUrl) {
+      console.warn('[loadScores] Invalid data from primary source, using route-specific fallback:', opts.fallbackUrl);
+      text = await fetchText(opts.fallbackUrl);
+    } else {
+      console.warn('[loadScores] Invalid data from primary source, no fallback configured');
+      return new Map<string, ScoreData>();
+    }
   } else {
     // Check if this looks like the structure sheet (wrong tab exported)
     const firstLine = text.split('\n')[0];
@@ -127,8 +132,8 @@ export async function loadScores(
         console.log('[loadScores] Trying route-specific fallback:', opts.fallbackUrl);
         text = await fetchText(opts.fallbackUrl);
       } else {
-        console.warn('[loadScores] Using general fallback');
-        text = await fetchText('/data/scores_ggv.csv');
+        console.warn('[loadScores] No fallback configured');
+        return new Map<string, ScoreData>();
       }
     }
   }

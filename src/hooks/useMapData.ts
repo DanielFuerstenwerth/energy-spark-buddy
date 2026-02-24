@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ScoreData, loadScores } from '@/utils/dataLoader';
+import { buildMapsConfig } from '@/utils/structureLoader';
 
 interface MapConfig {
   [key: string]: {
@@ -8,29 +9,6 @@ interface MapConfig {
     fallback?: string;
   };
 }
-
-// Create dummy data with all VNBs having score null (Keine Daten)
-const createDummyScoreData = async (): Promise<Map<string, ScoreData>> => {
-  const dummyData = new Map<string, ScoreData>();
-  
-  // Load VNB regions to get all VNB IDs and names
-  const response = await fetch('/data/vnb_regions.json');
-  const vnbRegions = await response.json();
-  
-  vnbRegions.features.forEach((feature: any) => {
-    const vnbId = feature.properties.VNB_ID;
-    const vnbName = feature.properties.VNB_NAME;
-    
-    dummyData.set(vnbId, {
-      vnb_id: vnbId,
-      vnb_name: vnbName,
-      score: null,  // null = "Keine Daten"
-      updated_at: new Date().toISOString()
-    });
-  });
-  
-  return dummyData;
-};
 
 export const useMapData = (route: string) => {
   const [scoreData, setScoreData] = useState<Map<string, ScoreData>>(new Map());
@@ -43,17 +21,14 @@ export const useMapData = (route: string) => {
 
     console.log(`[useMapData] Loading data for route: ${route}`);
 
-    // Load maps config from dynamic structure loader
-    import('@/utils/structureLoader')
-      .then(({ buildMapsConfig }) => buildMapsConfig())
+    // buildMapsConfig is now cached — no re-fetch on every route change
+    buildMapsConfig()
       .then(async (config: MapConfig) => {
         console.log(`[useMapData] Maps config loaded, checking route: ${route}`);
         const routeConfig = config[route];
         
-        // If route not found in config or sheet is null, create zero data
         if (!routeConfig || !routeConfig.sheet) {
           console.warn(`[useMapData] No sheet configured for route: ${route}, using zero data`);
-          console.log(`[useMapData] Available routes:`, Object.keys(config));
           const zeroData = await createZeroScoreData();
           setScoreData(zeroData);
           setLoading(false);
@@ -61,9 +36,7 @@ export const useMapData = (route: string) => {
         }
 
         console.log(`[useMapData] Loading scores from: ${routeConfig.sheet}`);
-        console.log(`[useMapData] Fallback URL: ${routeConfig.fallback || 'none'}`);
         
-        // Load score data from Google Sheets
         const data = await loadScores(routeConfig.sheet, {
           aggregatedColumn: 'aggregated_score',
           requestedColumn: routeConfig.criterion_column,
@@ -71,14 +44,7 @@ export const useMapData = (route: string) => {
         });
         console.log(`[useMapData] Loaded ${data.size} VNB scores`);
         
-        // If this is a criterion-level route, extract only that criterion's column
-        if (routeConfig.criterion_column) {
-          const criterionData = await extractCriterionData(data, routeConfig.criterion_column);
-          setScoreData(criterionData);
-        } else {
-          setScoreData(data);
-        }
-        
+        setScoreData(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -91,7 +57,6 @@ export const useMapData = (route: string) => {
   return { scoreData, loading, error };
 };
 
-// Create data with all scores as 0 instead of null
 const createZeroScoreData = async (): Promise<Map<string, ScoreData>> => {
   const zeroData = new Map<string, ScoreData>();
   
@@ -100,15 +65,12 @@ const createZeroScoreData = async (): Promise<Map<string, ScoreData>> => {
     if (!response.ok) throw new Error('Failed to load VNB regions');
     const vnbRegions = await response.json();
     
-    if (!vnbRegions?.features) {
-      console.warn('No features found in vnb_regions.json');
-      return zeroData;
-    }
+    if (!vnbRegions?.features) return zeroData;
     
     vnbRegions.features.forEach((feature: any) => {
-    const vnbId = feature.properties.VNB_ID;
-    const vnbName = feature.properties.VNB_NAME;
-    
+      const vnbId = feature.properties.VNB_ID;
+      const vnbName = feature.properties.VNB_NAME;
+      
       zeroData.set(vnbId, {
         vnb_id: vnbId,
         vnb_name: vnbName,
@@ -121,18 +83,4 @@ const createZeroScoreData = async (): Promise<Map<string, ScoreData>> => {
   }
   
   return zeroData;
-};
-
-// Extract a specific criterion column from the full score data
-const extractCriterionData = async (
-  fullData: Map<string, ScoreData>,
-  criterionColumn: string
-): Promise<Map<string, ScoreData>> => {
-  console.log('[extractCriterionData] Extracting criterion column:', criterionColumn);
-  console.log('[extractCriterionData] Full data size:', fullData.size);
-  
-  // The fullData already contains the criterion-specific scores because
-  // loadScores was called with the requestedColumn parameter
-  // So we just return the fullData as-is
-  return fullData;
 };
