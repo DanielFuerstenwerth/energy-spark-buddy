@@ -135,9 +135,9 @@ const Methodik = () => {
             <CardContent>
               <div className="space-y-3">
                 <div>
-                  <div className="text-sm font-semibold">v1.0 – 2026-02-24</div>
+                  <div className="text-sm font-semibold">v1.0 (Entwurf) – 2026-02-24</div>
                   <p className="text-sm text-muted-foreground">
-                    Erste vollständige Methodik zur Bewertung der GGV-Umsetzung auf Basis der Umfrageergebnisse veröffentlicht.
+                    Erster Entwurf einer Methodik zur Bewertung der Umfrageergebnisse veröffentlicht.
                   </p>
                   <a
                     href="/data/vnb-transparenz.de-Methodik_v1.0.pdf"
