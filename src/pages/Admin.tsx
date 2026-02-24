@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2, Globe, MessageCircle, FolderOpen, RefreshCw } from 'lucide-react';
+import { invalidateMapsConfigCache } from '@/utils/structureLoader';
 import { lazy, Suspense } from 'react';
 
 const AdminCommentsPanel = lazy(() => import('@/pages/AdminComments').then(m => ({ default: m.AdminCommentsPanel })));
@@ -138,7 +139,8 @@ const Admin = () => {
             onClick={() => {
               localStorage.removeItem('nav_structure_cache_v2');
               localStorage.removeItem('nav_structure_cache');
-              toast.success('Navigations-Cache gelöscht – Seite wird neu geladen…');
+              invalidateMapsConfigCache();
+              toast.success('Alle Caches gelöscht – Seite wird neu geladen…');
               setTimeout(() => window.location.reload(), 500);
             }}
           >
