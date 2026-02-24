@@ -145,7 +145,7 @@ const Admin = () => {
             }}
           >
             <RefreshCw className="w-4 h-4 mr-2" />
-            Nav-Cache zurücksetzen
+            Alle Caches zurücksetzen
           </Button>
           <Tabs defaultValue="survey" className="space-y-6">
             <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-5">
