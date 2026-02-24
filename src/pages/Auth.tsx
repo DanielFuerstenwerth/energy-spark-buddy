@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,20 +15,22 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [forgotMode, setForgotMode] = useState(false);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
   const { toast } = useToast();
 
   useEffect(() => {
     // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        navigate('/');
+        navigate(redirectTo);
       }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
-        navigate('/');
+        navigate(redirectTo);
       }
     });
 
@@ -67,7 +69,7 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
@@ -83,7 +85,17 @@ const Auth = () => {
         title: 'Erfolgreich angemeldet!',
         description: 'Willkommen zurück.'
       });
-      navigate('/');
+
+      // If no explicit redirect, check if user is admin and redirect accordingly
+      if (redirectTo === '/' && data.user) {
+        const { data: isAdmin } = await supabase.rpc('has_role', {
+          _user_id: data.user.id,
+          _role: 'admin'
+        });
+        navigate(isAdmin ? '/admin' : '/');
+      } else {
+        navigate(redirectTo);
+      }
     }
 
     setLoading(false);
