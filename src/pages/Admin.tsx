@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2, Globe, MessageCircle, FolderOpen } from 'lucide-react';
+import { Shield, BarChart3, MessageSquare, ArrowLeft, Download, Loader2, Globe, MessageCircle, FolderOpen, RefreshCw } from 'lucide-react';
 import { lazy, Suspense } from 'react';
 
 const AdminCommentsPanel = lazy(() => import('@/pages/AdminComments').then(m => ({ default: m.AdminCommentsPanel })));
@@ -130,7 +130,21 @@ const Admin = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Zurück zur Startseite
           </Button>
-          
+
+          <Button
+            variant="outline"
+            size="sm"
+            className="mb-4 ml-2"
+            onClick={() => {
+              localStorage.removeItem('nav_structure_cache_v2');
+              localStorage.removeItem('nav_structure_cache');
+              toast.success('Navigations-Cache gelöscht – Seite wird neu geladen…');
+              setTimeout(() => window.location.reload(), 500);
+            }}
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            Nav-Cache zurücksetzen
+          </Button>
           <Tabs defaultValue="survey" className="space-y-6">
             <TabsList className="grid w-full md:w-auto md:inline-grid grid-cols-5">
               <TabsTrigger value="survey" className="flex items-center gap-2">
