@@ -26,6 +26,26 @@ function surveySchemaJsonPlugin(): Plugin {
   };
 }
 
+/**
+ * Vite plugin: syncs public/data/nav.json from the Google Sheet
+ * at every dev-server start and production build.
+ */
+function navJsonSyncPlugin(): Plugin {
+  return {
+    name: "nav-json-sync",
+    buildStart() {
+      try {
+        execSync("npx tsx scripts/sync-nav-json.ts", {
+          stdio: "inherit",
+          cwd: process.cwd(),
+        });
+      } catch {
+        console.warn("⚠️ Could not sync nav.json from Google Sheet");
+      }
+    },
+  };
+}
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
@@ -36,6 +56,7 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     surveySchemaJsonPlugin(),
+    navJsonSyncPlugin(),
   ].filter(Boolean),
   define: {
     __BUILD_TIME__: JSON.stringify(buildTime),
