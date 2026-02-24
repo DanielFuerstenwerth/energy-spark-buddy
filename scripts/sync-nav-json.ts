@@ -61,15 +61,16 @@ function parseCSV(text: string): StructureRow[] {
     }
     fields.push(current.trim());
 
-    if (fields.length >= 7) {
+    // Minimum 6 fields (aligned with runtime structureLoader.ts)
+    if (fields.length >= 6) {
       rows.push({
         kategorie_slug: fields[0],
         kategorie_name: fields[1],
         unterkategorie_slug: fields[2],
         unterkategorie_name: fields[3],
-        kriterium_slug: fields[4],
-        kriterium_name: fields[5],
-        sheet_url: fields[6],
+        kriterium_slug: fields[4] || '',
+        kriterium_name: fields[5] || '',
+        sheet_url: fields[6] || '',
       });
     }
   }

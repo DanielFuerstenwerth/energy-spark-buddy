@@ -36,14 +36,14 @@ export interface NavigationStructure {
 
 const STRUCTURE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/14n61IcOwk5fUZ-MYbO1D4XJOAN5sDdCZxo6XQIgMf8o/export?format=csv&gid=0';
 
+/** Unified timeout for all sheet fetches (ms) */
+const SHEET_FETCH_TIMEOUT = 5000;
+
 export async function loadStructureFromSheet(): Promise<NavigationStructure> {
   console.log('[loadStructureFromSheet] Starting to load structure...');
   try {
-    console.log('[loadStructureFromSheet] Fetching from:', STRUCTURE_SHEET_URL);
-    
-    // Add timeout for fetch
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const timeoutId = setTimeout(() => controller.abort(), SHEET_FETCH_TIMEOUT);
     
     const response = await fetch(STRUCTURE_SHEET_URL, { 
       signal: controller.signal 
@@ -54,22 +54,18 @@ export async function loadStructureFromSheet(): Promise<NavigationStructure> {
     }
     
     const text = await response.text();
-    console.log('[loadStructureFromSheet] Received text length:', text.length);
     
-    // Validate that we got actual CSV data
     if (!text || text.trim().length < 10 || !text.includes('\n')) {
       throw new Error('Invalid or empty response from structure sheet');
     }
     
     const rows = parseCSV(text);
-    console.log('[loadStructureFromSheet] Parsed rows:', rows.length);
     
     if (rows.length === 0) {
       throw new Error('No rows parsed from structure sheet');
     }
     
     const structure = buildNavigationStructure(rows);
-    console.log('[loadStructureFromSheet] Built navigation structure with', structure.kategorien.length, 'categories');
     
     if (!structure.kategorien || structure.kategorien.length === 0) {
       throw new Error('No categories found in structure');
@@ -77,32 +73,30 @@ export async function loadStructureFromSheet(): Promise<NavigationStructure> {
     
     return structure;
   } catch (error) {
-    console.error('[loadStructureFromSheet] Error loading structure from sheet:', error);
-    // Fallback to local nav.json
-    console.log('[loadStructureFromSheet] Falling back to local nav.json');
-    try {
-      const response = await fetch('/data/nav.json');
-      if (!response.ok) {
-        throw new Error(`Failed to load fallback nav.json: ${response.status}`);
-      }
-      const data = await response.json();
-      console.log('[loadStructureFromSheet] Successfully loaded fallback nav.json');
-      return data;
-    } catch (fallbackError) {
-      console.error('[loadStructureFromSheet] Fallback also failed:', fallbackError);
-      // Return minimal structure to prevent app crash
-      return {
-        kategorien: []
-      };
+    console.warn('[loadStructureFromSheet] Sheet fetch failed, falling back to nav.json:', error);
+    return loadNavJsonFallback();
+  }
+}
+
+/** Single fallback loader — used by both loadStructureFromSheet and useNavigation */
+export async function loadNavJsonFallback(): Promise<NavigationStructure> {
+  try {
+    const response = await fetch('/data/nav.json');
+    if (!response.ok) {
+      throw new Error(`Failed to load fallback nav.json: ${response.status}`);
     }
+    const data = await response.json();
+    console.log('[loadNavJsonFallback] Successfully loaded nav.json');
+    return data;
+  } catch (fallbackError) {
+    console.error('[loadNavJsonFallback] Fallback also failed:', fallbackError);
+    return { kategorien: [] };
   }
 }
 
 function parseCSV(text: string): StructureRow[] {
   const lines = text.trim().split(/\r?\n/);
   const rows: StructureRow[] = [];
-  
-  console.log(`[parseCSV] Parsing ${lines.length} lines from structure sheet`);
   
   // Skip header row
   for (let i = 1; i < lines.length; i++) {
@@ -127,6 +121,7 @@ function parseCSV(text: string): StructureRow[] {
     }
     fields.push(currentField.trim());
     
+    // Minimum 6 fields required (aligned with build script)
     if (fields.length >= 6) {
       rows.push({
         kategorie_slug: fields[0],
@@ -144,20 +139,16 @@ function parseCSV(text: string): StructureRow[] {
     }
   }
   
-  console.log(`[parseCSV] Successfully parsed ${rows.length} rows`);
   return rows;
 }
 
 function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
-  console.log('[buildNavigationStructure] Building structure from', rows.length, 'rows');
   const kategorienMap = new Map<string, NavigationKategorie>();
   
-  rows.forEach((row, index) => {
+  rows.forEach((row) => {
     if (!row.kategorie_slug) return;
     
-    // Get or create category
     if (!kategorienMap.has(row.kategorie_slug)) {
-      console.log('[buildNavigationStructure] Creating category:', row.kategorie_slug, '-', row.kategorie_name);
       kategorienMap.set(row.kategorie_slug, {
         slug: row.kategorie_slug,
         title: row.kategorie_name,
@@ -169,22 +160,16 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     
     const kategorie = kategorienMap.get(row.kategorie_slug)!;
     
-    // Determine unterkategorie slug and name
-    // Trim whitespace and check if we have valid data
     const ukSlugRaw = (row.unterkategorie_slug || '').trim();
     const ukNameRaw = (row.unterkategorie_name || '').trim();
     
-    // Use name as slug if slug is empty, but prioritize slug if both exist
     let ukSlug = ukSlugRaw || ukNameRaw;
     let ukName = ukNameRaw || ukSlugRaw;
     
-    // If no valid unterkategorie, check if this is a direct kriterium under category
     if (!ukSlug || ukSlug === '-') {
-      // Try to add as direct kriterium to category
       if (row.kriterium_slug && row.kriterium_name && row.kriterium_name !== '-') {
         const existingKrit = kategorie.kriterien!.find(k => k.slug === row.kriterium_slug);
         if (!existingKrit) {
-          console.log('[buildNavigationStructure] Adding direct kriterium to category:', row.kriterium_slug, '-', row.kriterium_name);
           kategorie.kriterien!.push({
             slug: row.kriterium_slug,
             title: row.kriterium_name
@@ -194,13 +179,11 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
       return;
     }
     
-    // Find or create unterkategorie
     let unterkategorie = kategorie.unterkategorien.find(
       uk => uk.slug === ukSlug
     );
     
     if (!unterkategorie) {
-      console.log('[buildNavigationStructure] Creating unterkategorie:', ukSlug, '-', ukName, 'under', row.kategorie_slug);
       unterkategorie = {
         slug: ukSlug,
         title: ukName,
@@ -209,13 +192,11 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
       kategorie.unterkategorien.push(unterkategorie);
     }
     
-    // Add kriterium if exists
     if (row.kriterium_slug && row.kriterium_name && row.kriterium_name !== '-') {
       const existingKrit = unterkategorie.kriterien.find(
         k => k.slug === row.kriterium_slug
       );
       
-      // Check if this criterion has data (sheet_url is not empty)
       const hasData = !!(row.sheet_url && row.sheet_url.trim() !== '');
       
       if (!existingKrit) {
@@ -228,21 +209,56 @@ function buildNavigationStructure(rows: StructureRow[]): NavigationStructure {
     }
   });
   
-  const result = {
+  return {
     kategorien: Array.from(kategorienMap.values())
   };
-  
-  console.log('[buildNavigationStructure] Final structure:', JSON.stringify(result, null, 2));
-  
-  return result;
 }
 
-// Build maps.json structure from sheet data
-// This function handles MULTIPLE TABS within a single Google Sheets file
-// by extracting the gid (tab identifier) from edit URLs and converting to export URLs
+// ── MapsConfig with module-level cache ──────────────────────────────────
+
+let _mapsConfigCache: Record<string, any> | null = null;
+let _mapsConfigPromise: Promise<Record<string, any>> | null = null;
+
+/** Known local CSV fallbacks keyed by route prefix */
+const LOCAL_FALLBACKS: Record<string, string> = {
+  'TaE/GGV': '/data/scores_ggv.csv',
+  'EHH/zvNE': '/data/scores_ehh_zvne.csv',
+};
+
+/**
+ * Build maps.json structure from sheet data.
+ * Results are cached in memory — only fetched once per page session.
+ */
 export async function buildMapsConfig(): Promise<Record<string, any>> {
+  // Return cached result immediately
+  if (_mapsConfigCache) return _mapsConfigCache;
+  // Deduplicate concurrent calls
+  if (_mapsConfigPromise) return _mapsConfigPromise;
+
+  _mapsConfigPromise = _buildMapsConfigInternal();
   try {
-    const response = await fetch(STRUCTURE_SHEET_URL);
+    _mapsConfigCache = await _mapsConfigPromise;
+    return _mapsConfigCache;
+  } finally {
+    _mapsConfigPromise = null;
+  }
+}
+
+/** Invalidate the MapsConfig cache (e.g. after admin cache-reset). */
+export function invalidateMapsConfigCache() {
+  _mapsConfigCache = null;
+  _mapsConfigPromise = null;
+}
+
+async function _buildMapsConfigInternal(): Promise<Record<string, any>> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SHEET_FETCH_TIMEOUT);
+
+    const response = await fetch(STRUCTURE_SHEET_URL, {
+      signal: controller.signal,
+    }).finally(() => clearTimeout(timeoutId));
+
     if (!response.ok) {
       throw new Error(`Failed to fetch structure sheet: ${response.status}`);
     }
@@ -254,48 +270,31 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
     
     const mapsConfig: Record<string, any> = {};
     
-    // Define local fallback files for known routes
-    const localFallbacks: Record<string, string> = {
-      'EHH/zvNE': '/data/scores_ehh_zvne.csv'
-    };
-    
-    rows.forEach((row, index) => {
-      // Skip rows without required fields
-      if (!row.kategorie_slug || !row.unterkategorie_slug) {
-        return;
-      }
+    rows.forEach((row) => {
+      if (!row.kategorie_slug || !row.unterkategorie_slug) return;
       
       const subKey = `${row.kategorie_slug}/${row.unterkategorie_slug}`;
-      const subKeyLower = subKey.toLowerCase(); // Add lowercase version
+      const subKeyLower = subKey.toLowerCase();
       
-      // Add unterkategorie-level map config
-      // This is for pages like /EHH/zvNE
       if (row.sheet_url && row.sheet_url.trim() !== '' && !mapsConfig[subKey]) {
-        // Extract spreadsheet ID and tab gid from edit URL
-        // Format: https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit?gid={GID}#gid={GID}
         const sheetId = row.sheet_url.match(/\/d\/([^\/]+)/)?.[1];
         const gidMatch = row.sheet_url.match(/[?&#]gid=(\d+)/);
         const gid = gidMatch?.[1];
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-          const config = {
-            sheet: exportUrl,
-            fallback: localFallbacks[subKey] // Add fallback if available
-          };
+          // Route-specific fallback: check exact key first, then category prefix
+          const fallback = LOCAL_FALLBACKS[subKey]
+            || Object.entries(LOCAL_FALLBACKS).find(([k]) => subKey.startsWith(k))?.[1];
+          const config = { sheet: exportUrl, fallback };
           mapsConfig[subKey] = config;
-          mapsConfig[subKeyLower] = config; // Add lowercase version for case-insensitive lookup
-          console.log(`[buildMapsConfig] Added unterkategorie config: ${subKey} (+ lowercase) -> gid=${gid}${localFallbacks[subKey] ? ', fallback=' + localFallbacks[subKey] : ''}`);
-        } else {
-          console.warn(`[buildMapsConfig] Could not extract sheetId or gid from URL in row ${index}:`, row.sheet_url);
+          mapsConfig[subKeyLower] = config;
         }
       }
       
-      // Add criterion-level map config
-      // This is for pages like /EHH/zvNE/modul3-ueber-mako
       if (row.kriterium_slug && row.kriterium_slug !== '-' && row.sheet_url && row.sheet_url.trim() !== '') {
         const critKey = `${row.kategorie_slug}/${row.unterkategorie_slug}/${row.kriterium_slug}`;
-        const critKeyLower = critKey.toLowerCase(); // Add lowercase version
+        const critKeyLower = critKey.toLowerCase();
         
         const sheetId = row.sheet_url.match(/\/d\/([^\/]+)/)?.[1];
         const gidMatch = row.sheet_url.match(/[?&#]gid=(\d+)/);
@@ -303,18 +302,14 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
         
         if (sheetId && gid) {
           const exportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
-          
-          // For now, use the unterkategorie sheet with the aggregated score
-          // Until criterion-specific columns are added to the sheet
+          const fallback = LOCAL_FALLBACKS[`${row.kategorie_slug}/${row.unterkategorie_slug}`];
           const config = {
             sheet: exportUrl,
-            fallback: localFallbacks[subKey], // Use same fallback as parent
-            // Try to use criterion column if it exists, fallback to aggregated_score
+            fallback,
             criterion_column: row.kriterium_slug
           };
           mapsConfig[critKey] = config;
-          mapsConfig[critKeyLower] = config; // Add lowercase version for case-insensitive lookup
-          console.log(`[buildMapsConfig] Added criterion config: ${critKey} (+ lowercase) -> gid=${gid}, column=${row.kriterium_slug} (fallback to aggregated if not found)`);
+          mapsConfig[critKeyLower] = config;
         }
       }
     });
@@ -322,7 +317,7 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
     console.log(`[buildMapsConfig] Built config with ${Object.keys(mapsConfig).length} routes`);
     return mapsConfig;
   } catch (error) {
-    console.error('Error building maps config:', error);
+    console.error('[buildMapsConfig] Error:', error);
     return {};
   }
 }

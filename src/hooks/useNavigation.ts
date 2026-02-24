@@ -35,22 +35,16 @@ export const useNavigation = () => {
 
   useEffect(() => {
     const loadNavigation = async () => {
-      // Set a timeout to ensure loading state doesn't block the app indefinitely
-      const timeoutId = setTimeout(() => {
-        console.warn('[useNavigation] Loading timeout reached, using fallback');
-        setLoading(false);
-      }, 5000); // 5 second timeout
-
       try {
-        // Invalidate old cache key to force reload after updates
+        // Invalidate old cache key
         localStorage.removeItem('nav_structure_cache');
+
         // Check cache first (versioned)
         const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
           try {
             const { data, timestamp } = JSON.parse(cached);
             if (Date.now() - timestamp < CACHE_DURATION) {
-              clearTimeout(timeoutId);
               setNavData(data);
               setLoading(false);
               return;
@@ -61,13 +55,8 @@ export const useNavigation = () => {
           }
         }
 
-        // Load from Google Sheets with timeout
-        const structure = await Promise.race([
-          loadStructureFromSheet(),
-          new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Google Sheets load timeout')), 4000)
-          )
-        ]);
+        // loadStructureFromSheet handles its own timeout and nav.json fallback internally
+        const structure = await loadStructureFromSheet();
         
         // Cache the result
         try {
@@ -79,25 +68,11 @@ export const useNavigation = () => {
           console.warn('[useNavigation] Could not cache navigation:', storageError);
         }
         
-        clearTimeout(timeoutId);
         setNavData(structure as any);
-        setLoading(false);
       } catch (err) {
-        console.error('[useNavigation] Error loading navigation data:', err);
-        
-        // Fallback to local nav.json
-        try {
-          const response = await fetch('/data/nav.json');
-          if (!response.ok) throw new Error(`Failed to load nav.json: ${response.status}`);
-          const data = await response.json();
-          clearTimeout(timeoutId);
-          setNavData(data);
-          setLoading(false);
-        } catch (fallbackErr) {
-          console.error('[useNavigation] Fallback failed:', fallbackErr);
-          clearTimeout(timeoutId);
-          setLoading(false);
-        }
+        console.error('[useNavigation] Unexpected error:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
