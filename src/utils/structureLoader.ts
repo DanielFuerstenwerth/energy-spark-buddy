@@ -127,20 +127,20 @@ function parseCSV(text: string): StructureRow[] {
     }
     fields.push(currentField.trim());
     
-    if (fields.length >= 9) {
+    if (fields.length >= 6) {
       rows.push({
         kategorie_slug: fields[0],
         kategorie_name: fields[1],
         unterkategorie_slug: fields[2],
         unterkategorie_name: fields[3],
-        kriterium_slug: fields[4],
-        kriterium_name: fields[5],
-        sheet_url: fields[6],
-        gewichtung_unterkategorie: fields[7],
-        gewichtung_kategorie: fields[8]
+        kriterium_slug: fields[4] || '',
+        kriterium_name: fields[5] || '',
+        sheet_url: fields[6] || '',
+        gewichtung_unterkategorie: fields[7] || '',
+        gewichtung_kategorie: fields[8] || ''
       });
     } else {
-      console.warn(`[parseCSV] Line ${i} has only ${fields.length} fields, expected 9`);
+      console.warn(`[parseCSV] Line ${i} has only ${fields.length} fields, expected at least 6`);
     }
   }
   
