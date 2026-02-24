@@ -31,7 +31,7 @@ export function SurveyTracker() {
   return (
     <div className="rounded-xl border border-border bg-card/60 backdrop-blur p-4 mb-6">
       <p className="text-xs font-medium text-muted-foreground mb-3 uppercase tracking-wider">
-        Bisher eingetragene Projekterfahrungen
+        Teilnehmende Projekte in der Umfrage
       </p>
       <div className="grid grid-cols-3 gap-3">
         {items.map((item) => (
