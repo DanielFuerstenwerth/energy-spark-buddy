@@ -129,16 +129,17 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                 )}
               </h4>
               <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
-                <div className="flex items-end justify-start h-32 gap-[0.5px]">
+                <div className="flex items-end justify-start h-32">
                   {/* Positive VNBs - links, wider bars to make champions visible */}
-                  {positiveVnbs.map((vnb) => {
+                  {positiveVnbs.map((vnb, idx) => {
                     const isSelected = vnb.id === selectedVnb?.id;
                     const score = vnb.score ?? 0;
                     
                     const heightPercent = 5 + ((score + 100) / 200) * 95;
                     
-                    let fillColor = 'hsl(var(--score-5))';
-                    if (score <= 50) fillColor = 'hsl(var(--score-4))';
+                    const isChampion = score > 50;
+                    const fillColor = isChampion ? 'hsl(var(--score-5))' : 'hsl(var(--score-4))';
+                    const barWidth = isChampion ? 6 : 3;
                     
                     return (
                       <div
@@ -150,8 +151,8 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                           height: `${heightPercent}%`,
                           backgroundColor: fillColor,
                           minHeight: '4px',
-                          minWidth: '4px',
-                          flex: '0 0 6px'
+                          flex: `0 0 ${barWidth}px`,
+                          borderRight: idx < positiveVnbs.length - 1 ? '0.5px solid white' : 'none',
                         }}
                         title={`${vnb.name}: +${score}`}
                         onClick={() => onVnbSelect(vnb.id, vnb.name)}
