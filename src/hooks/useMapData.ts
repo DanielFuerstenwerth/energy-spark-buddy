@@ -25,8 +25,24 @@ export const useMapData = (route: string) => {
     buildMapsConfig()
       .then(async (config: MapConfig) => {
         console.log(`[useMapData] Maps config loaded, checking route: ${route}`);
-        const routeConfig = config[route];
+        let routeConfig = config[route];
         
+        // Fallback: if criterion route not found, inherit from parent subcategory
+        if (!routeConfig || !routeConfig.sheet) {
+          const parts = route.split('/');
+          if (parts.length === 3) {
+            const parentRoute = `${parts[0]}/${parts[1]}`;
+            const parentConfig = config[parentRoute];
+            if (parentConfig?.sheet) {
+              console.log(`[useMapData] Criterion route not found, inheriting from parent: ${parentRoute}, column: ${parts[2]}`);
+              routeConfig = {
+                ...parentConfig,
+                criterion_column: parts[2],
+              };
+            }
+          }
+        }
+
         if (!routeConfig || !routeConfig.sheet) {
           console.warn(`[useMapData] No sheet configured for route: ${route}, using zero data`);
           const zeroData = await createZeroScoreData();
