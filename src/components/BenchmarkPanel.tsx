@@ -122,11 +122,6 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
             <div>
               <h4 className="text-sm font-semibold mb-3">
                 Ranking aller {allVnbs.length} VNB
-                {positiveVnbs.length > 0 && (
-                  <span className="text-xs text-muted-foreground ml-2">
-                    ({positiveVnbs.length} mit positiven Werten, {nonPositiveVnbs.length} mit 0 oder negativen Werten)
-                  </span>
-                )}
               </h4>
               <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
                 <div className="flex items-end justify-start h-32">
@@ -139,7 +134,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     
                     const isChampion = score > 50;
                     const fillColor = isChampion ? 'hsl(var(--score-5))' : 'hsl(var(--score-4))';
-                    const barWidth = isChampion ? 6 : 3;
+                    const barWidth = isChampion ? 6 : 5;
                     
                     return (
                       <div
