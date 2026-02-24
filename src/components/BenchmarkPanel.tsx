@@ -130,7 +130,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
               </h4>
               <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
                 <div className="flex items-end justify-start h-32 gap-[0.5px]">
-                  {/* Positive VNBs - links */}
+                  {/* Positive VNBs - links, wider bars to make champions visible */}
                   {positiveVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
                     const score = vnb.score ?? 0;
@@ -138,19 +138,20 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     const heightPercent = 5 + ((score + 100) / 200) * 95;
                     
                     let fillColor = 'hsl(var(--score-5))';
-                    if (score <= 25) fillColor = 'hsl(var(--score-4))';
+                    if (score <= 50) fillColor = 'hsl(var(--score-4))';
                     
                     return (
                       <div
                         key={vnb.id}
-                        className={`flex-1 cursor-pointer transition-all hover:opacity-80 ${
+                        className={`cursor-pointer transition-all hover:opacity-80 ${
                           isSelected ? 'ring-2 ring-primary ring-offset-2' : ''
                         }`}
                         style={{
                           height: `${heightPercent}%`,
                           backgroundColor: fillColor,
                           minHeight: '4px',
-                          minWidth: '1px'
+                          minWidth: '4px',
+                          flex: '0 0 6px'
                         }}
                         title={`${vnb.name}: +${score}`}
                         onClick={() => onVnbSelect(vnb.id, vnb.name)}
@@ -158,12 +159,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     );
                   })}
                   
-                  {/* Visual separator */}
-                  {positiveVnbs.length > 0 && nonPositiveVnbs.length > 0 && (
-                    <div className="w-1 h-full bg-border/50 mx-1" />
-                  )}
-                  
-                  {/* Non-positive VNBs - rechts */}
+                  {/* Non-positive VNBs - rechts, no gap to positive */}
                   {nonPositiveVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
                     const score = vnb.score ?? 0;
@@ -177,8 +173,8 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                     
                     let fillColor = 'hsl(var(--score-unknown))';
                     if (vnb.score !== null) {
-                      if (score <= -50) fillColor = 'hsl(var(--score-1))';
-                      else if (score <= -25) fillColor = 'hsl(var(--score-2))';
+                      if (score < -50) fillColor = 'hsl(var(--score-1))';
+                      else if (score < 0) fillColor = 'hsl(var(--score-2))';
                       else if (score <= 0) fillColor = 'hsl(var(--score-3))';
                     }
                     
