@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ScoreData, loadScores } from '@/utils/dataLoader';
-import { buildMapsConfig } from '@/utils/structureLoader';
+import { buildMapsConfig, loadNavJsonFallback } from '@/utils/structureLoader';
 
 interface MapConfig {
   [key: string]: {
@@ -8,6 +8,28 @@ interface MapConfig {
     criterion_column?: string;
     fallback?: string;
   };
+}
+
+/** Resolve a criterion slug (e.g. "K16") to its human-readable sheet column name
+ *  by looking it up in the navigation structure. */
+async function resolveColumnName(
+  category: string,
+  subcategory: string,
+  criterionSlug: string
+): Promise<string> {
+  try {
+    const nav = await loadNavJsonFallback();
+    const cat = nav.kategorien?.find((k: any) => k.slug === category);
+    const sub = cat?.unterkategorien?.find((u: any) => u.slug === subcategory);
+    const crit = sub?.kriterien?.find((k: any) => k.slug === criterionSlug);
+    if (crit?.title) {
+      console.log(`[resolveColumnName] ${criterionSlug} → "${crit.title}"`);
+      return crit.title;
+    }
+  } catch (e) {
+    console.warn('[resolveColumnName] Could not resolve:', e);
+  }
+  return criterionSlug; // fallback to slug itself
 }
 
 export const useMapData = (route: string) => {
@@ -51,11 +73,20 @@ export const useMapData = (route: string) => {
           return;
         }
 
+        // Resolve criterion slug to actual sheet column name
+        let columnName = routeConfig.criterion_column;
+        if (columnName) {
+          const parts = route.split('/');
+          if (parts.length >= 2) {
+            columnName = await resolveColumnName(parts[0], parts[1], columnName);
+          }
+        }
+
         console.log(`[useMapData] Loading scores from: ${routeConfig.sheet}`);
         
         const data = await loadScores(routeConfig.sheet, {
           aggregatedColumn: 'aggregated_score',
-          requestedColumn: routeConfig.criterion_column,
+          requestedColumn: columnName,
           fallbackUrl: routeConfig.fallback,
         });
         console.log(`[useMapData] Loaded ${data.size} VNB scores`);
