@@ -13,6 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const navLinks = [
+    { to: "/EWK-Monitoring-BNetzA", label: "Datenexplorer" },
     { to: "/news", label: "News" },
     { to: "/Umfrage-GGV", label: "Umfrage GGV & Co" },
     { to: "/impressum", label: "Kontakt" },
