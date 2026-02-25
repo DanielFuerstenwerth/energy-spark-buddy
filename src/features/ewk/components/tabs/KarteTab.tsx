@@ -15,7 +15,8 @@ interface Props {
 
 function getColorScale(value: number, min: number, max: number): string {
   if (max === min) return 'hsl(217, 91%, 60%)';
-  const t = (value - min) / (max - min);
+  const t = Math.max(0, Math.min(1, (value - min) / (max - min)));
+  // Blue (220°) → Red (0°)
   const h = (1 - t) * 220;
   return `hsl(${h}, 70%, 50%)`;
 }
@@ -92,7 +93,7 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
               info?.value !== null && info?.value !== undefined
                 ? getColorScale(info.value, min, max)
                 : '#e5e7eb';
-            return { fillColor, weight: 0.5, opacity: 1, color: '#333', fillOpacity: 0.7 };
+            return { fillColor, weight: 0.5, opacity: 1, color: '#333', fillOpacity: 1.0 };
           },
           onEachFeature: (feature: any, layer) => {
             const vnbId = feature?.id;
@@ -101,10 +102,10 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
             const val = info?.value !== null && info?.value !== undefined ? info.value : 'keine Angabe';
             layer.bindTooltip(`<strong>${name}</strong><br/>Wert: ${val}`, { sticky: true });
             layer.on('mouseover', function (this: any) {
-              this.setStyle({ weight: 1.5, fillOpacity: 0.9 });
+              this.setStyle({ weight: 1.5, fillOpacity: 1.0 });
             });
             layer.on('mouseout', function (this: any) {
-              this.setStyle({ weight: 0.5, fillOpacity: 0.7 });
+              this.setStyle({ weight: 0.5, fillOpacity: 1.0 });
             });
           },
         }).addTo(map.current);
@@ -149,20 +150,32 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
         />
       )}
 
-      {/* Legend */}
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <div className="w-4 h-3 rounded-sm" style={{ background: getColorScale(min, min, max) }} />
-        <span>{min.toFixed(1)}</span>
-        <div
-          className="flex-1 h-3 rounded-sm"
-          style={{
-            background: `linear-gradient(to right, ${getColorScale(min, min, max)}, ${getColorScale(max, min, max)})`,
-          }}
-        />
-        <span>{max.toFixed(1)}</span>
-        <div className="w-4 h-3 rounded-sm bg-muted ml-3" />
-        <span>keine Angabe</span>
-      </div>
+      {/* Legend: 11 discrete swatches using getColorScale */}
+      {(() => {
+        const steps = Array.from({ length: 11 }, (_, i) => {
+          const val = min + (i * (max - min)) / 10;
+          return { val, color: getColorScale(val, min, max) };
+        });
+        return (
+          <div className="space-y-2">
+            <div className="flex items-center gap-1 flex-wrap text-xs text-muted-foreground">
+              {steps.map((s, i) => (
+                <div key={i} className="flex flex-col items-center gap-0.5">
+                  <div className="w-6 h-4 rounded-sm border border-border" style={{ backgroundColor: s.color }} />
+                  <span className="text-[10px]">{s.val.toFixed(1)}</span>
+                </div>
+              ))}
+              <div className="flex flex-col items-center gap-0.5 ml-3">
+                <div className="w-6 h-4 rounded-sm border border-border bg-muted" />
+                <span className="text-[10px]">k. A.</span>
+              </div>
+            </div>
+            <div className="text-[10px] text-muted-foreground">
+              Debug: min={min.toFixed(2)}, max={max.toFixed(2)}, gültige N={validN}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }
