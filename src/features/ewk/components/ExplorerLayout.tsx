@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import IndicatorFinder from './IndicatorFinder';
+import ScatterYSelector from './ScatterYSelector';
 import ResultPanel from './ResultPanel';
 import ComparisonBasket from './ComparisonBasket';
 
@@ -73,8 +74,15 @@ export default function ExplorerLayout({
             }}
             activeSources={activeSources}
             onSourcesChange={onSourcesChange}
+            recentIds={recentIds}
+          />
+          <ScatterYSelector
+            catalog={catalog}
+            selectedId={selectedId}
             scatterYId={scatterYId}
             onScatterYChange={onScatterYChange}
+            activeSources={activeSources}
+            onSourcesChange={onSourcesChange}
             recentIds={recentIds}
           />
         </div>
