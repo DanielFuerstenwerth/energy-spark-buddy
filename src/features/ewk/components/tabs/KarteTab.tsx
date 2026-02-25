@@ -128,7 +128,7 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
       await exportLeafletMapPng(
         map.current,
         { geoData, valueMap, min, max, validN, indicatorLabel: indicator?.display_label ?? 'Export' },
-        { watermarkSrc: '/favicon.svg', filename: `karte-${indicator?.column_key ?? 'export'}.png` }
+        { watermarkSrc: '/favicon.svg', filename: `EWK_Karte_${(indicator?.column_key ?? 'export').replace(/[^a-zA-Z0-9_-]/g, '_')}.png` }
       );
     } catch (e) {
       console.error('Map export failed', e);
