@@ -36,7 +36,7 @@ export default function Survey() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   // removed: showDraftBanner, savedDraftInfo (no longer needed)
-  const [uploadedDocuments, setUploadedDocuments] = useState<string[]>([]);
+  // uploadedDocuments now lives per-evaluation in useMultiEvaluation
   const [dataUsageConfirmed, setDataUsageConfirmed] = useState(false);
   const [honeypot, setHoneypot] = useState(""); // Maßnahme 11: Honeypot
   const [validationWarnings, setValidationWarnings] = useState<string[]>([]);
@@ -51,6 +51,7 @@ export default function Survey() {
     setActiveEvaluationIndex,
     updateGlobalData,
     updateEvaluationData,
+    updateEvaluationDocuments,
     addEvaluation,
     removeEvaluation,
     renameEvaluation,
@@ -63,7 +64,6 @@ export default function Survey() {
     globalData,
     evaluations,
     sessionGroupId,
-    uploadedDocuments,
   );
 
   // Prefill from query params (ggv-transparenz.de redirect)
@@ -280,8 +280,9 @@ export default function Survey() {
 
     try {
       const mergedSubmissions = getMergedSubmissions();
-      const dbRows = mergedSubmissions.flatMap(sub => {
-        const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments);
+      const dbRows = mergedSubmissions.flatMap((sub, i) => {
+        const evalDocs = evaluations[i]?.uploadedDocuments ?? [];
+        const baseRow = buildDbData(sub, sessionGroupId, evalDocs);
         return expandToLocationRows(baseRow, sub);
       });
 
@@ -427,7 +428,7 @@ export default function Survey() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [getMergedSubmissions, sessionGroupId, uploadedDocuments, honeypot, steps.length]);
+  }, [getMergedSubmissions, sessionGroupId, evaluations, honeypot, steps.length]);
 
   const currentStepDef = steps[currentStep];
   const currentSections = useMemo(() => {
@@ -507,8 +508,8 @@ export default function Survey() {
                 sections={currentSections}
                 data={stepData}
                 updateData={stepUpdateData}
-                uploadedDocuments={uploadedDocuments}
-                setUploadedDocuments={setUploadedDocuments}
+                uploadedDocuments={activeEvaluation.uploadedDocuments}
+                setUploadedDocuments={updateEvaluationDocuments}
                 showPrivacyNotice={currentStepDef?.id === 'about'}
                 showDataUsageCheckbox={currentStepDef?.id === 'final'}
                 dataUsageConfirmed={dataUsageConfirmed}

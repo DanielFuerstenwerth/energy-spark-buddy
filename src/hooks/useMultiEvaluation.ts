@@ -14,6 +14,7 @@ export interface Evaluation {
   id: string;
   label: string;
   data: SurveyData;
+  uploadedDocuments: string[];
 }
 
 function generateId(): string {
@@ -25,6 +26,7 @@ function createDefaultEvaluation(index: number): Evaluation {
     id: generateId(),
     label: index === 0 ? 'Ihre VNB-Bewertung' : `VNB-Bewertung ${index + 1}`,
     data: { ...initialSurveyData },
+    uploadedDocuments: [],
   };
 }
 
@@ -108,6 +110,12 @@ export function useMultiEvaluation() {
     });
   }, [evaluations, globalData, sessionGroupId]);
 
+  const updateEvaluationDocuments = useCallback((docs: string[]) => {
+    setEvaluations(prev => prev.map((ev, i) =>
+      i === activeEvaluationIndex ? { ...ev, uploadedDocuments: docs } : ev
+    ));
+  }, [activeEvaluationIndex]);
+
   /**
    * Restore all state from autosave
    */
@@ -130,6 +138,7 @@ export function useMultiEvaluation() {
     setActiveEvaluationIndex,
     updateGlobalData,
     updateEvaluationData,
+    updateEvaluationDocuments,
     addEvaluation,
     removeEvaluation,
     renameEvaluation,
