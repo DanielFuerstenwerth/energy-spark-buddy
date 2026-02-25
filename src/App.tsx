@@ -33,6 +33,7 @@ import AnliegenBidi from "./pages/anliegen/Bidi";
 import Admin from "./pages/Admin";
 import EmbedGgvMap from "./pages/EmbedGgvMap";
 import SandraChatWidget from "./components/SandraChatWidget";
+import EwkMonitoringBNetzA from "./features/ewk/pages/EwkMonitoringBNetzA";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
           
           {/* Embed Routes */}
           <Route path="/embed/ggv" element={<EmbedGgvMap />} />
+          <Route path="/EWK-Monitoring-BNetzA" element={<EwkMonitoringBNetzA />} />
           
           {/* Anliegen Landing Pages */}
           <Route path="/anliegen/ggv" element={<AnliegenGgv />} />

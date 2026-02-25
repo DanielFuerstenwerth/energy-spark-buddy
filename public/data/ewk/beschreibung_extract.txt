@@ -1,0 +1,10 @@
+Diese Datei besteht aus den folgenden Tabellenreitern:
+„Datensatz_EWK_2024“
+„Umsetzungsquote_2024“
+„Anschlussdauer_2024“
+„Digitalisierungsindex_2024“
+Auf dem ersten Tabellenblatt „Datensatz_EWK_2024“ (blau) sind die Angaben der Verteilernetzbetreiber aus Datenabfrage im Rahmen des Beschlusses GBK-24-02-1#5 zusammengeführt. Zur Übersichtlichkeit wurde der Datenumfang auf die Angaben zum Kalenderjahr 2024 reduziert. Datenstand der Veröffentlichung ist der 22.12.2025. Diese Ausgangsdaten bilden belastbare Grundlagen zur Methodenentwicklung. Zur einheitlichen Datenbearbeitung wurden die Auswahlmöglichkeiten „Ja“ in „1“ und „Nein“ in „0“ umkodiert, dies betrifft insbesondere die Fragen, ob eine Schätzung vorgenommen wurde.
+
+Die Kennzahlenwerte der Energiewendekompetenz sind auf den Tabellenblättern „Umsetzungsquote_2024“ (grün) und „Anschlussdauer_2024“ (gelb) dargestellt. In diesen Tabellen sind zuerst die für die Berechnung notwendigen Datenpunkte aus dem Erhebungsbogen (Überschriften mit Füllfarbe Blau) angegeben und danach die errechneten Kennzahlenwerte (Überschriften mit dem grauen Hintergrund) aufgelistet. Falls für einen Netzbetreiber keine Kennzahl aufgrund von unvollständigen oder unplausiblen Daten gebildet werden konnte, wurden alle Spalten für diesen Netzbetreiber in diesen Tabellen leer gelassen.
+
+Auf dem Tabellenreiter „Digitalisierungsindex_2024“ (lila) finden sich 19 netzbetreiberindividuellen Indizes im Digitalisierungsbereich, beginnend mit dem „Gesamtscore“, Indizes für die jeweilige Dimension („Smart Grids“, „Digitale Prozesse und Systeme“, „Datenmanagement und Analyse“ und „Kundenmanagement“) sowie die Kennzahlenwerte je Spannungsebene für diese Dimensionen, KI-Index und Webportalindex. Falls für einen Netzbetreiber keine Kennzahl aufgrund von unvollständigen Daten gebildet werden konnte, wurden der entsprechende Index und die hierarchisch darüberliegenden Indizes nicht berechnet und die Felder in der Tabelle leer gelassen. Die Beschreibung einzelner Dimensionen und Indizes und inklusive deren Berechnungsformeln und Aggregation zum Gesamtscore ist im Methodenbeschluss angegeben.

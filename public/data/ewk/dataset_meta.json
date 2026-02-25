@@ -1,0 +1,21 @@
+{
+  "source_file": "BNetzA_Veroeffentlichung_Datenstand_2024.xlsx",
+  "sheets": {
+    "Datensatz_EWK_2024": {
+      "rows": 789,
+      "cols": 465
+    },
+    "Umsetzungsquote_2024": {
+      "rows": 789,
+      "cols": 68
+    },
+    "Anschlussdauer_2024": {
+      "rows": 789,
+      "cols": 22
+    },
+    "Digitalisierungsindex_2024": {
+      "rows": 789,
+      "cols": 23
+    }
+  }
+}
