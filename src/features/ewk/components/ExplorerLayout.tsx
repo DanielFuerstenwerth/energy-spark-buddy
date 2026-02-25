@@ -63,19 +63,21 @@ export default function ExplorerLayout({
         <div
           className={`${
             mobileStep === 'finder' ? 'block' : 'hidden'
-          } md:block md:w-72 lg:w-80 border-r border-border bg-card/50 md:max-h-[calc(100vh-240px)] overflow-hidden flex-col`}
+          } md:flex md:w-72 lg:w-80 border-r border-border bg-card/50 md:max-h-[calc(100vh-240px)] flex-col`}
         >
-          <IndicatorFinder
-            catalog={catalog}
-            selectedId={selectedId}
-            onSelect={(id) => {
-              onSelectIndicator(id);
-              setMobileStep('result');
-            }}
-            activeSources={activeSources}
-            onSourcesChange={onSourcesChange}
-            recentIds={recentIds}
-          />
+          <div className="flex-1 overflow-hidden">
+            <IndicatorFinder
+              catalog={catalog}
+              selectedId={selectedId}
+              onSelect={(id) => {
+                onSelectIndicator(id);
+                setMobileStep('result');
+              }}
+              activeSources={activeSources}
+              onSourcesChange={onSourcesChange}
+              recentIds={recentIds}
+            />
+          </div>
           <ScatterYSelector
             catalog={catalog}
             selectedId={selectedId}
