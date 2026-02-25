@@ -1,16 +1,28 @@
-import { AlertTriangle } from 'lucide-react';
+import { Info } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+
+const DISCLAIMER_TEXT =
+  'Nicht-offizielle Aufbereitung veröffentlichter Daten der Bundesnetzagentur; Aufbereitungs- und Visualisierungsfunktionen vollständig KI-basiert; keine Haftung oder Gewähr. Maßgeblich sind die Originaldaten.';
 
 const DisclaimerBanner = () => (
-  <div className="sticky top-[57px] z-40 bg-warning/10 border-b border-warning/30 px-4 py-2.5 text-xs text-foreground space-y-0.5">
-    <div className="container mx-auto max-w-7xl flex items-start gap-2">
-      <AlertTriangle className="h-4 w-4 mt-0.5 shrink-0 text-warning" />
-      <div className="space-y-0.5">
-        <p className="font-medium">Nicht-offizielle Aufbereitung veröffentlichter Daten der Bundesnetzagentur.</p>
-        <p>KI-gestützte Aufbereitung und Visualisierung; kann Fehler enthalten. Maßgeblich sind die Originaldaten.</p>
-        <p className="font-medium">Nicht-öffentlich: Arbeits-/Beta-Seite.</p>
-      </div>
-    </div>
-  </div>
+  <TooltipProvider delayDuration={200}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="mt-3 mb-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-4 py-2 cursor-default">
+          <Info className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground truncate">{DISCLAIMER_TEXT}</p>
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" className="max-w-md text-xs">
+        {DISCLAIMER_TEXT}
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 );
 
 export default DisclaimerBanner;
