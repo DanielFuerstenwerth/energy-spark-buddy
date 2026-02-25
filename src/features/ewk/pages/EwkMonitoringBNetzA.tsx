@@ -3,9 +3,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BarChart3, Map, Download, LayoutDashboard } from 'lucide-react';
+import { BarChart3, Map, Download } from 'lucide-react';
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui/collapsible';
+import { ChevronDown, ExternalLink } from 'lucide-react';
 import DisclaimerBanner from '../components/DisclaimerBanner';
-import UeberblickTab from '../components/tabs/UeberblickTab';
 import ExplorerLayout from '../components/ExplorerLayout';
 import KarteTab from '../components/tabs/KarteTab';
 import DownloadTab from '../components/tabs/DownloadTab';
@@ -66,8 +67,7 @@ export default function EwkMonitoringBNetzA() {
           <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="h-11 bg-transparent p-0 gap-0 border-0 rounded-none w-full justify-start">
-                {[
-                  { value: 'ueberblick', label: 'Überblick', icon: LayoutDashboard },
+              {[
                   { value: 'explorer', label: 'Explorer', icon: BarChart3 },
                   { value: 'karte', label: 'Karte', icon: Map },
                   { value: 'download', label: 'Download & Methodik', icon: Download },
@@ -95,7 +95,6 @@ export default function EwkMonitoringBNetzA() {
             </div>
           ) : (
             <>
-              {activeTab === 'ueberblick' && <UeberblickTab onNavigate={setActiveTab} />}
               {activeTab === 'explorer' && (
                 <ExplorerLayout
                   catalog={catalog}
@@ -124,6 +123,49 @@ export default function EwkMonitoringBNetzA() {
               {activeTab === 'download' && <DownloadTab />}
             </>
           )}
+        </div>
+
+        {/* Dezente Fußnote: Quelle & Hintergrund */}
+        <div className="container mx-auto max-w-7xl px-4 md:px-6 pb-8 pt-4">
+          <Collapsible>
+            <CollapsibleTrigger className="group flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
+              <ChevronDown className="h-3 w-3 transition-transform group-data-[state=open]:rotate-180" />
+              Quelle &amp; Hintergrund
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="mt-3 max-w-2xl space-y-3 text-xs text-muted-foreground leading-relaxed">
+                <p>
+                  Die Bundesnetzagentur hat Verteilnetzbetreiber zu Netzanschlüssen und digitalen Prozessen abgefragt.
+                  Die Werte auf dieser Seite sind die Antworten der Netzbetreiber; sie wurden nicht von uns erhoben oder geprüft.
+                </p>
+                <p>Berichtsjahr: 2024. Datenstand der Veröffentlichung: 22.12.2025.</p>
+                <div className="space-y-1.5">
+                  <p>
+                    Download-Seite, abgerufen am 25.02.2026:{' '}
+                    <a
+                      href="https://www.bundesnetzagentur.de/DE/Beschlusskammern/GBK/GBK_Aktuell/start.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center gap-0.5"
+                    >
+                      bundesnetzagentur.de/…/GBK_Aktuell <ExternalLink className="h-2.5 w-2.5" />
+                    </a>
+                  </p>
+                  <p>
+                    Datenerhebung / Erhebungsbogen:{' '}
+                    <a
+                      href="https://www.bundesnetzagentur.de/1052876"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline inline-flex items-center gap-0.5"
+                    >
+                      bundesnetzagentur.de/1052876 <ExternalLink className="h-2.5 w-2.5" />
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </main>
 

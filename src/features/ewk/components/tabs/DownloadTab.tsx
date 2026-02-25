@@ -15,6 +15,35 @@ export default function DownloadTab() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-8 py-6">
+      {/* Quelle */}
+      <div className="bg-muted/40 rounded-xl border border-border p-4 space-y-1.5">
+        <h3 className="text-xs font-semibold text-muted-foreground">Quelle</h3>
+        <div className="text-xs text-muted-foreground space-y-1">
+          <p>
+            Download-Seite:{' '}
+            <a
+              href="https://www.bundesnetzagentur.de/DE/Beschlusskammern/GBK/GBK_Aktuell/start.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline inline-flex items-center gap-0.5"
+            >
+              bundesnetzagentur.de/…/GBK_Aktuell <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+          </p>
+          <p>
+            Erhebungsbogen:{' '}
+            <a
+              href="https://www.bundesnetzagentur.de/1052876"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline inline-flex items-center gap-0.5"
+            >
+              bundesnetzagentur.de/1052876 <ExternalLink className="h-2.5 w-2.5" />
+            </a>
+          </p>
+        </div>
+      </div>
+
       {/* Downloads */}
       <div className="bg-card rounded-2xl border p-6 md:p-8 space-y-4">
         <h3 className="text-base font-semibold flex items-center gap-2">
