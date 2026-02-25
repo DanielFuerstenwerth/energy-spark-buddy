@@ -5,6 +5,7 @@ import type { IndicatorMeta, VnbRow } from '../../types';
 import { tryParseNum } from '../../utils/csvParser';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
+import DownloadImageButton from '../DownloadImageButton';
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -23,6 +24,7 @@ function getColorScale(value: number, min: number, max: number): string {
 
 export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
+  const karteRef = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
 
@@ -133,11 +135,12 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
   }
 
   return (
-    <div className="space-y-3">
+    <div ref={karteRef} className="space-y-3">
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-sm font-medium">Karte:</span>
         <Badge variant="outline" className="text-xs">{indicator.display_label}</Badge>
         <span className="text-xs text-muted-foreground">Gültige N: {validN}</span>
+        <DownloadImageButton targetRef={karteRef} filename={`karte-${indicator.column_key}`} className="ml-auto" />
       </div>
 
       {loading ? (
