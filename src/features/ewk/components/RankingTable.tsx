@@ -1,5 +1,5 @@
 import { useMemo, useState, useCallback } from 'react';
-import { ArrowUpDown, Download, Search } from 'lucide-react';
+import { ArrowUpDown, Download, Search, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -10,12 +10,13 @@ interface Props {
   rows: VnbRow[];
   colKey: string;
   dataType: string;
+  onAddBnr?: (bnr: string) => void;
 }
 
-type SortField = 'rank' | 'firmenname' | 'bnr' | 'value';
+type SortField = 'rank' | 'firmenname' | 'value';
 type SortDir = 'asc' | 'desc';
 
-export default function RankingTable({ rows, colKey, dataType }: Props) {
+export default function RankingTable({ rows, colKey, dataType, onAddBnr }: Props) {
   const [sortField, setSortField] = useState<SortField>('rank');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [search, setSearch] = useState('');
@@ -53,8 +54,7 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
     if (isNumeric) {
       const valid = entries.filter((e) => e.numVal !== null).sort((a, b) => a.numVal! - b.numVal!);
       valid.forEach((e, i) => (e.rank = i + 1));
-      const invalid = entries.filter((e) => e.numVal === null);
-      invalid.forEach((e) => (e.rank = 99999));
+      entries.filter((e) => e.numVal === null).forEach((e) => (e.rank = 99999));
     }
 
     return entries;
@@ -63,11 +63,7 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
   const sorted = useMemo(() => {
     let list = [...ranked];
     if (debouncedSearch) {
-      list = list.filter(
-        (e) =>
-          e.firmenname.toLowerCase().includes(debouncedSearch) ||
-          e.bnr.includes(debouncedSearch)
-      );
+      list = list.filter((e) => e.firmenname.toLowerCase().includes(debouncedSearch));
     }
     list.sort((a, b) => {
       let cmp = 0;
@@ -77,9 +73,6 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
           break;
         case 'firmenname':
           cmp = a.firmenname.localeCompare(b.firmenname);
-          break;
-        case 'bnr':
-          cmp = a.bnr.localeCompare(b.bnr);
           break;
         case 'value':
           if (a.numVal === null && b.numVal === null) cmp = 0;
@@ -104,9 +97,9 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
   };
 
   const exportCsv = () => {
-    const header = 'Rang,BNR,Firmenname,Wert\n';
+    const header = 'Rang,Firmenname,Wert\n';
     const csvRows = sorted
-      .map((e) => `${e.rank === 99999 ? '' : e.rank},${e.bnr},"${e.firmenname}",${e.raw}`)
+      .map((e) => `${e.rank === 99999 ? '' : e.rank},"${e.firmenname}",${e.raw}`)
       .join('\n');
     const blob = new Blob([header + csvRows], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -128,19 +121,19 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
   );
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-muted-foreground" />
           <Input
             placeholder="Netzbetreiber suchen…"
             value={search}
             onChange={handleSearch}
-            className="pl-9 h-9 text-sm"
+            className="pl-8 h-8 text-xs"
           />
         </div>
-        <Button variant="outline" size="sm" onClick={exportCsv} className="gap-1.5">
-          <Download className="h-3.5 w-3.5" />
+        <Button variant="outline" size="sm" onClick={exportCsv} className="gap-1 h-8 text-xs">
+          <Download className="h-3 w-3" />
           CSV
         </Button>
       </div>
@@ -150,25 +143,23 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
           <TableHeader>
             <TableRow>
               {isNumeric && (
-                <TableHead className="w-16">
+                <TableHead className="w-12 text-xs">
                   <SortButton field="rank" label="#" />
                 </TableHead>
               )}
-              <TableHead className="w-28">
-                <SortButton field="bnr" label="BNR" />
+              <TableHead className="text-xs">
+                <SortButton field="firmenname" label="Netzbetreiber" />
               </TableHead>
-              <TableHead>
-                <SortButton field="firmenname" label="Firmenname" />
-              </TableHead>
-              <TableHead className="text-right w-32">
+              <TableHead className="text-right w-28 text-xs">
                 <SortButton field="value" label="Wert" />
               </TableHead>
+              {onAddBnr && <TableHead className="w-8" />}
             </TableRow>
           </TableHeader>
           <TableBody>
             {visible.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={isNumeric ? 4 : 3} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={isNumeric ? 4 : 3} className="text-center text-muted-foreground py-6 text-xs">
                   Keine Ergebnisse
                 </TableCell>
               </TableRow>
@@ -176,19 +167,29 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
               visible.map((e) => (
                 <TableRow key={e.bnr}>
                   {isNumeric && (
-                    <TableCell className="text-muted-foreground text-xs">
+                    <TableCell className="text-muted-foreground text-xs py-1.5">
                       {e.rank === 99999 ? '–' : e.rank}
                     </TableCell>
                   )}
-                  <TableCell className="font-mono text-xs">{e.bnr}</TableCell>
-                  <TableCell className="text-sm">{e.firmenname}</TableCell>
-                  <TableCell className="text-right font-mono text-sm">
+                  <TableCell className="text-xs py-1.5">{e.firmenname}</TableCell>
+                  <TableCell className="text-right font-mono text-xs py-1.5">
                     {e.raw === '' || e.raw === 'nan' ? (
                       <span className="text-muted-foreground">keine Angabe</span>
                     ) : (
                       e.raw
                     )}
                   </TableCell>
+                  {onAddBnr && (
+                    <TableCell className="py-1.5">
+                      <button
+                        onClick={() => onAddBnr(e.bnr)}
+                        className="text-muted-foreground hover:text-primary transition-colors"
+                        title="Zum Vergleich hinzufügen"
+                      >
+                        <Plus className="h-3.5 w-3.5" />
+                      </button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
@@ -198,7 +199,7 @@ export default function RankingTable({ rows, colKey, dataType }: Props) {
 
       {visibleCount < sorted.length && (
         <div className="text-center">
-          <Button variant="ghost" size="sm" onClick={() => setVisibleCount((c) => c + 100)}>
+          <Button variant="ghost" size="sm" onClick={() => setVisibleCount((c) => c + 100)} className="text-xs">
             Weitere laden ({sorted.length - visibleCount} verbleibend)
           </Button>
         </div>

@@ -1,41 +1,31 @@
-import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import type { IndicatorMeta, SourceKey } from '../../types';
-import { useCsvData } from '../../hooks/useEwkData';
+import type { IndicatorMeta, VnbRow } from '../../types';
 import { tryParseNum } from '../../utils/csvParser';
-import { SOURCE_LABELS, RECOMMENDED_INDICATORS } from '../../types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Badge } from '@/components/ui/badge';
 
 interface Props {
   catalog: IndicatorMeta[];
+  indicator: IndicatorMeta | null;
+  rows: VnbRow[];
+  loading: boolean;
 }
 
 function getColorScale(value: number, min: number, max: number): string {
   if (max === min) return 'hsl(217, 91%, 60%)';
   const t = (value - min) / (max - min);
-  // blue to red scale
   const h = (1 - t) * 220;
   return `hsl(${h}, 70%, 50%)`;
 }
 
-export default function KarteTab({ catalog }: Props) {
-  const numericIndicators = useMemo(
-    () => catalog.filter((i) => (i.data_type === 'numeric' || i.data_type === 'binary_0_1') && i.non_null_count > 0),
-    [catalog]
-  );
-
-  const [selectedId, setSelectedId] = useState<string>(
-    RECOMMENDED_INDICATORS.find((id) => numericIndicators.some((i) => i.indicator_id === id)) ?? numericIndicators[0]?.indicator_id ?? ''
-  );
-
-  const indicator = catalog.find((i) => i.indicator_id === selectedId);
-  const source = indicator?.source as SourceKey | null;
-  const { data: rows, loading } = useCsvData(source);
-
+export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
+
+  const isNumeric = indicator && (indicator.data_type === 'numeric' || indicator.data_type === 'binary_0_1');
 
   const valueMap = useMemo(() => {
     if (!indicator) return new Map<string, { value: number | null; firmenname: string; bnr: string }>();
@@ -62,7 +52,6 @@ export default function KarteTab({ catalog }: Props) {
     };
   }, [valueMap]);
 
-  // Initialize map
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
     map.current = L.map(mapContainer.current, {
@@ -73,7 +62,6 @@ export default function KarteTab({ catalog }: Props) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
-      opacity: 1,
     }).addTo(map.current);
 
     return () => {
@@ -84,9 +72,8 @@ export default function KarteTab({ catalog }: Props) {
     };
   }, []);
 
-  // Update choropleth
   useEffect(() => {
-    if (!map.current || !indicator) return;
+    if (!map.current || !indicator || !isNumeric) return;
 
     if (geoLayer.current) {
       geoLayer.current.remove();
@@ -105,26 +92,14 @@ export default function KarteTab({ catalog }: Props) {
               info?.value !== null && info?.value !== undefined
                 ? getColorScale(info.value, min, max)
                 : '#e5e7eb';
-            return {
-              fillColor,
-              weight: 0.5,
-              opacity: 1,
-              color: '#333',
-              fillOpacity: 0.7,
-            };
+            return { fillColor, weight: 0.5, opacity: 1, color: '#333', fillOpacity: 0.7 };
           },
           onEachFeature: (feature: any, layer) => {
             const vnbId = feature?.id;
             const info = valueMap.get(vnbId);
             const name = info?.firmenname ?? vnbId;
-            const val =
-              info?.value !== null && info?.value !== undefined
-                ? info.value
-                : 'keine Angabe';
-            layer.bindTooltip(
-              `<strong>${name}</strong><br/>BNR: ${info?.bnr ?? '–'}<br/>Wert: ${val}<br/>Gültige N: ${validN}`,
-              { sticky: true }
-            );
+            const val = info?.value !== null && info?.value !== undefined ? info.value : 'keine Angabe';
+            layer.bindTooltip(`<strong>${name}</strong><br/>Wert: ${val}`, { sticky: true });
             layer.on('mouseover', function (this: any) {
               this.setStyle({ weight: 1.5, fillOpacity: 0.9 });
             });
@@ -135,33 +110,34 @@ export default function KarteTab({ catalog }: Props) {
         }).addTo(map.current);
       })
       .catch(console.error);
-  }, [indicator, valueMap, min, max, validN]);
+  }, [indicator, valueMap, min, max, isNumeric]);
 
-  const isNonNumeric = indicator && indicator.data_type === 'text';
+  if (!indicator) {
+    return (
+      <div className="bg-muted/50 rounded-xl p-8 text-center text-sm text-muted-foreground">
+        Wählen Sie im Explorer einen Indikator aus – die Karte zeigt dann den gleichen Indikator.
+      </div>
+    );
+  }
+
+  if (!isNumeric) {
+    return (
+      <div className="space-y-3">
+        <Badge variant="outline">{indicator.display_label}</Badge>
+        <div className="bg-muted/50 border rounded-xl p-6 text-sm text-muted-foreground text-center">
+          Für diesen Indikator keine numerische Darstellung verfügbar.
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      {/* Indicator selector */}
-      <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
-        <label className="text-sm font-medium shrink-0">Indikator:</label>
-        <select
-          className="flex-1 h-9 rounded-md border border-input bg-background px-3 text-sm max-w-lg"
-          value={selectedId}
-          onChange={(e) => setSelectedId(e.target.value)}
-        >
-          {numericIndicators.map((i) => (
-            <option key={i.indicator_id} value={i.indicator_id}>
-              {i.display_label} ({SOURCE_LABELS[i.source as SourceKey]})
-            </option>
-          ))}
-        </select>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="text-sm font-medium">Karte:</span>
+        <Badge variant="outline" className="text-xs">{indicator.display_label}</Badge>
+        <span className="text-xs text-muted-foreground">Gültige N: {validN}</span>
       </div>
-
-      {isNonNumeric && (
-        <div className="bg-muted/50 border rounded-xl p-4 text-sm text-muted-foreground text-center">
-          Für diesen Indikator keine numerische Darstellung.
-        </div>
-      )}
 
       {loading ? (
         <Skeleton className="h-[500px] w-full rounded-xl" />
@@ -174,18 +150,19 @@ export default function KarteTab({ catalog }: Props) {
       )}
 
       {/* Legend */}
-      {indicator && !isNonNumeric && (
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <div className="w-4 h-3 rounded-sm" style={{ background: getColorScale(min, min, max) }} />
-          <span>{min.toFixed(1)}</span>
-          <div className="flex-1 h-3 rounded-sm" style={{
-            background: `linear-gradient(to right, ${getColorScale(min, min, max)}, ${getColorScale(max, min, max)})`
-          }} />
-          <span>{max.toFixed(1)}</span>
-          <div className="w-4 h-3 rounded-sm bg-gray-200 ml-3" />
-          <span>keine Angabe</span>
-        </div>
-      )}
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="w-4 h-3 rounded-sm" style={{ background: getColorScale(min, min, max) }} />
+        <span>{min.toFixed(1)}</span>
+        <div
+          className="flex-1 h-3 rounded-sm"
+          style={{
+            background: `linear-gradient(to right, ${getColorScale(min, min, max)}, ${getColorScale(max, min, max)})`,
+          }}
+        />
+        <span>{max.toFixed(1)}</span>
+        <div className="w-4 h-3 rounded-sm bg-muted ml-3" />
+        <span>keine Angabe</span>
+      </div>
     </div>
   );
 }
