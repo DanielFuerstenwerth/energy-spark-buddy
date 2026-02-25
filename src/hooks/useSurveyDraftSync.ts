@@ -39,7 +39,6 @@ function buildDraftRows(
   globalData: SurveyData,
   evaluations: Evaluation[],
   sessionGroupId: string,
-  uploadedDocuments: string[],
   draftToken: string,
 ): Record<string, unknown>[] {
   const mergedSubmissions: SurveyData[] = evaluations.map((ev) => {
@@ -57,8 +56,9 @@ function buildDraftRows(
     } as SurveyData;
   });
 
-  return mergedSubmissions.flatMap(sub => {
-    const baseRow = buildDbData(sub, sessionGroupId, uploadedDocuments, { skipVisibilityCheck: true });
+  return mergedSubmissions.flatMap((sub, i) => {
+    const evalDocs = evaluations[i]?.uploadedDocuments ?? [];
+    const baseRow = buildDbData(sub, sessionGroupId, evalDocs, { skipVisibilityCheck: true });
     const rows = expandToLocationRows(baseRow, sub);
     return rows.map(row => ({
       ...row,
@@ -84,7 +84,6 @@ export function useSurveyDraftSync(
   globalData: SurveyData,
   evaluations: Evaluation[],
   sessionGroupId: string,
-  uploadedDocuments: string[],
 ) {
   const draftToken = useRef(getOrCreateDraftToken());
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -94,16 +93,16 @@ export function useSurveyDraftSync(
   const isStarted = useRef(false);
 
   // Always keep latest data in a ref so callbacks never read stale closures
-  const latest = useRef({ globalData, evaluations, sessionGroupId, uploadedDocuments });
-  latest.current = { globalData, evaluations, sessionGroupId, uploadedDocuments };
+  const latest = useRef({ globalData, evaluations, sessionGroupId });
+  latest.current = { globalData, evaluations, sessionGroupId };
 
   // ── Core save: atomic RPC (DELETE+INSERT in one transaction) ───────
   const saveDraft = useCallback(async () => {
     if (isSaving.current || errorCount.current >= MAX_CONSECUTIVE_ERRORS) return;
 
-    const { globalData: gd, evaluations: evs, sessionGroupId: sgid, uploadedDocuments: docs } = latest.current;
+    const { globalData: gd, evaluations: evs, sessionGroupId: sgid } = latest.current;
 
-    const rows = buildDraftRows(gd, evs, sgid, docs, draftToken.current);
+    const rows = buildDraftRows(gd, evs, sgid, draftToken.current);
     const hash = JSON.stringify(rows);
     if (hash === lastSavedHash.current) return; // No change since last save
 
