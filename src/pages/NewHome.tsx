@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '@/components/Logo';
+import Header from '@/components/Header';
 import CategoryNav from '@/components/CategoryNav';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -8,31 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 const NewHome = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-background to-muted/20">
-      {/* Header */}
-      <header className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-        <nav className="container mx-auto px-4 md:px-6 py-3 md:py-5">
-          <div className="flex items-center justify-between">
-            <Logo />
-            <div className="hidden md:flex items-center gap-6 md:gap-8">
-              <Link to="/news" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                News
-              </Link>
-              <Link to="/methodik" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Methodik
-              </Link>
-              <Link to="/Umfrage-GGV" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Umfrage GGV & Co
-              </Link>
-              <Link to="/about" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Über uns
-              </Link>
-              <Link to="/impressum" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-                Kontakt
-              </Link>
-            </div>
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       {/* Category Navigation with Hovering Dropdowns */}
       <CategoryNav />
