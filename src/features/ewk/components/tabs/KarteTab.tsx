@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Download, Loader2 } from 'lucide-react';
-import { exportLeafletMapPng } from '../../utils/exportLeafletMap';
+import { exportLeafletMapPng, type MapExportContext } from '../../utils/exportLeafletMap';
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -123,16 +123,19 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
     if (!map.current || exporting) return;
     setExporting(true);
     try {
-      await exportLeafletMapPng(map.current, {
-        watermarkSrc: '/favicon.svg',
-        filename: `karte-${indicator?.column_key ?? 'export'}.png`,
-      });
+      const geoRes = await fetch('/data/vnb_regions.geojson');
+      const geoData = await geoRes.json();
+      await exportLeafletMapPng(
+        map.current,
+        { geoData, valueMap, min, max, validN, indicatorLabel: indicator?.display_label ?? 'Export' },
+        { watermarkSrc: '/favicon.svg', filename: `karte-${indicator?.column_key ?? 'export'}.png` }
+      );
     } catch (e) {
       console.error('Map export failed', e);
     } finally {
       setExporting(false);
     }
-  }, [exporting, indicator]);
+  }, [exporting, indicator, valueMap, min, max, validN]);
 
   if (!indicator) {
     return (
