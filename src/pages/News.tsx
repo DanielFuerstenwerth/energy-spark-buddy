@@ -7,6 +7,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const News = () => {
   const newsItems = [
     {
+      slug: "ewk-datenexplorer",
+      title: "Datenexplorer Energiewendekompetenz",
+      date: "2026-02-25",
+      excerpt: "Neue Beta-Seite: Der Datenexplorer macht veröffentlichte Daten der Bundesnetzagentur zur Energiewendekompetenz durchsuchbar, vergleichbar und auf der Karte sichtbar.",
+      directLink: "/EWK-Monitoring-BNetzA",
+    },
+    {
       slug: "umfrage-ggv-2026",
       title: "Umfrage zur Gemeinschaftlichen Gebäudeversorgung",
       date: "2026-02-19",
@@ -29,27 +36,30 @@ const News = () => {
         <h1 className="text-4xl font-bold mb-8">Neuigkeiten</h1>
         
         <div className="grid gap-6 max-w-3xl">
-          {newsItems.map((item) => (
-            <Card key={item.slug}>
-              <CardHeader>
-                <CardTitle>
-                  <Link to={`/news/${item.slug}`} className="hover:text-primary transition-colors">
-                    {item.title}
+          {newsItems.map((item) => {
+            const linkTarget = (item as any).directLink || `/news/${item.slug}`;
+            return (
+              <Card key={item.slug}>
+                <CardHeader>
+                  <CardTitle>
+                    <Link to={linkTarget} className="hover:text-primary transition-colors">
+                      {item.title}
+                    </Link>
+                  </CardTitle>
+                  <CardDescription>{item.date}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">{item.excerpt}</p>
+                  <Link 
+                    to={linkTarget}
+                    className="text-primary hover:text-accent transition-colors"
+                  >
+                    Weiterlesen →
                   </Link>
-                </CardTitle>
-                <CardDescription>{item.date}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">{item.excerpt}</p>
-                <Link 
-                  to={`/news/${item.slug}`}
-                  className="text-primary hover:text-accent transition-colors"
-                >
-                  Weiterlesen →
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       </main>
 
