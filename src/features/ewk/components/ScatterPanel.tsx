@@ -73,7 +73,7 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
             <YAxis dataKey="y" type="number" tick={{ fontSize: 9 }} />
             <Tooltip
               contentStyle={{ fontSize: 11, borderRadius: 8 }}
-              formatter={(value: number, name: string) => [value.toFixed(2), name === 'x' ? 'X' : 'Y']}
+              formatter={(value: number, name: string) => [value.toFixed(2), name === 'x' ? currentIndicator.display_label : yIndicator!.display_label]}
               labelFormatter={(_, payload) => payload?.[0]?.payload?.name ?? ''}
             />
             <Scatter data={scatterData} fillOpacity={0.7}>
