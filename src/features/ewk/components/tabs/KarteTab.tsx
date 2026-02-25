@@ -1,11 +1,13 @@
-import { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect, useState, useCallback } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { IndicatorMeta, VnbRow } from '../../types';
 import { tryParseNum } from '../../utils/csvParser';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
-import DownloadImageButton from '../DownloadImageButton';
+import { Button } from '@/components/ui/button';
+import { Download, Loader2 } from 'lucide-react';
+import { exportLeafletMapPng } from '../../utils/exportLeafletMap';
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -27,6 +29,7 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
   const karteRef = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
+  const [exporting, setExporting] = useState(false);
 
   const isNumeric = indicator && (indicator.data_type === 'numeric' || indicator.data_type === 'binary_0_1');
 
@@ -65,7 +68,8 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
-    }).addTo(map.current);
+      crossOrigin: 'anonymous',
+    } as any).addTo(map.current);
 
     return () => {
       if (map.current) {
@@ -115,6 +119,21 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
       .catch(console.error);
   }, [indicator, valueMap, min, max, isNumeric]);
 
+  const handleExport = useCallback(async () => {
+    if (!map.current || exporting) return;
+    setExporting(true);
+    try {
+      await exportLeafletMapPng(map.current, {
+        watermarkSrc: '/favicon.svg',
+        filename: `karte-${indicator?.column_key ?? 'export'}.png`,
+      });
+    } catch (e) {
+      console.error('Map export failed', e);
+    } finally {
+      setExporting(false);
+    }
+  }, [exporting, indicator]);
+
   if (!indicator) {
     return (
       <div className="bg-muted/50 rounded-xl p-8 text-center text-sm text-muted-foreground">
@@ -140,7 +159,17 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
         <span className="text-sm font-medium">Karte:</span>
         <Badge variant="outline" className="text-xs">{indicator.display_label}</Badge>
         <span className="text-xs text-muted-foreground">Gültige N: {validN}</span>
-        <DownloadImageButton targetRef={karteRef} filename={`karte-${indicator.column_key}`} className="ml-auto" />
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleExport}
+          disabled={exporting}
+          className="ml-auto h-7 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+          title="Karte als Bild herunterladen"
+        >
+          {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+          {exporting ? 'Export…' : 'Bild'}
+        </Button>
       </div>
 
       {loading ? (
