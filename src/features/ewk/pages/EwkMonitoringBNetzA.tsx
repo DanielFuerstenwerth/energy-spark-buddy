@@ -46,7 +46,6 @@ export default function EwkMonitoringBNetzA() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <DisclaimerBanner />
 
       <main id="main-content" className="flex-1">
         {/* Page header */}
@@ -58,6 +57,7 @@ export default function EwkMonitoringBNetzA() {
             <p className="mt-1.5 text-sm md:text-base text-muted-foreground max-w-2xl">
               Hier werden die veröffentlichten Daten der Bundesnetzagentur sichtbar und vergleichbar.
             </p>
+            <DisclaimerBanner />
           </div>
         </div>
 
