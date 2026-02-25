@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
 import { Badge } from '@/components/ui/badge';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import { tryParseNum } from '../utils/csvParser';
 import { useCsvData } from '../hooks/useEwkData';
+import DownloadImageButton from './DownloadImageButton';
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function ScatterPanel({ catalog, currentIndicator, currentRows, yIndicatorId, highlightedBnrs }: Props) {
+  const scatterRef = useRef<HTMLDivElement>(null);
   const yIndicator = catalog.find((i) => i.indicator_id === yIndicatorId);
   const ySource = yIndicator?.source as SourceKey | null;
   const { data: yRows } = useCsvData(
@@ -56,10 +58,13 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
   }
 
   return (
-    <div className="bg-card rounded-xl border p-4 space-y-2">
-      <h4 className="text-xs font-medium">
-        Scatter: {currentIndicator.display_label} × {yIndicator.display_label}
-      </h4>
+    <div ref={scatterRef} className="bg-card rounded-xl border p-4 space-y-2">
+      <div className="flex items-start justify-between gap-2">
+        <h4 className="text-xs font-medium">
+          Scatter: {currentIndicator.display_label} × {yIndicator.display_label}
+        </h4>
+        <DownloadImageButton targetRef={scatterRef} filename="scatter" />
+      </div>
       <div className="h-56">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 8, right: 8, bottom: 4, left: 4 }}>

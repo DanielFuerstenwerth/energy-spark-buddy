@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { X, Users } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -7,6 +7,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGri
 import type { IndicatorMeta, VnbRow } from '../types';
 import { tryParseNum, computeRanks } from '../utils/csvParser';
 import { useState } from 'react';
+import DownloadImageButton from './DownloadImageButton';
 
 interface Props {
   rows: VnbRow[];
@@ -54,6 +55,8 @@ export default function ComparisonBasket({ rows, indicator, selectedBnrs, onSele
     }).filter((d) => d.value !== null);
   }, [selectedRows, colKey, isNumeric]);
 
+  const basketRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="flex flex-col h-full">
       <div className="p-3 border-b border-border">
@@ -62,6 +65,9 @@ export default function ComparisonBasket({ rows, indicator, selectedBnrs, onSele
           <span className="text-xs font-semibold text-muted-foreground">Vergleichskorb</span>
           {selectedBnrs.length > 0 && (
             <Badge variant="secondary" className="text-[10px] ml-auto">{selectedBnrs.length}</Badge>
+          )}
+          {selectedBnrs.length > 0 && (
+            <DownloadImageButton targetRef={basketRef} filename="vergleich" />
           )}
         </div>
 
@@ -89,7 +95,7 @@ export default function ComparisonBasket({ rows, indicator, selectedBnrs, onSele
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div ref={basketRef} className="flex-1 overflow-y-auto p-3 space-y-3">
         {/* Chips */}
         {selectedBnrs.length > 0 && (
           <div className="flex flex-wrap gap-1">
