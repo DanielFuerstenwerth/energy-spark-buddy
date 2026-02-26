@@ -71,7 +71,7 @@ export default function EwkMonitoringBNetzA() {
         </div>
 
         {/* Tabs */}
-        <div className="sticky top-[97px] z-30 bg-background/95 backdrop-blur border-b border-border">
+        <div className="sticky top-[57px] md:top-[73px] z-30 bg-background/95 backdrop-blur border-b border-border">
           <div className="container mx-auto max-w-7xl px-4 md:px-6">
             <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className="h-11 bg-transparent p-0 gap-0 border-0 rounded-none w-full justify-start">

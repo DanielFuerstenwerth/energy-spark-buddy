@@ -79,9 +79,9 @@ const CategoryNav = () => {
   }
 
   return (
-    <nav ref={navRef} className="border-b border-border bg-background backdrop-blur sticky top-0 z-[99999] touch-pan-y shadow-sm">
+    <nav ref={navRef} className="border-b border-border bg-background backdrop-blur sticky top-[57px] md:top-[73px] z-40 touch-pan-y shadow-sm">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center gap-4 md:gap-8 py-3 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 snap-x">
+        <div className="relative flex items-center gap-4 md:gap-8 py-3 overflow-x-auto scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 snap-x">
           <style>{`
             .scrollbar-hide::-webkit-scrollbar {
               display: none;
@@ -90,17 +90,16 @@ const CategoryNav = () => {
               -ms-overflow-style: none;
               scrollbar-width: none;
             }
-            @media (max-width: 768px) {
-              .scrollbar-hide::after {
-                content: '';
-                position: absolute;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                width: 40px;
-                background: linear-gradient(to left, hsl(var(--background)), transparent);
-                pointer-events: none;
-              }
+            .scrollbar-hide::after {
+              content: '';
+              position: absolute;
+              right: 0;
+              top: 0;
+              bottom: 0;
+              width: 40px;
+              background: linear-gradient(to left, hsl(var(--background)), transparent);
+              pointer-events: none;
+              z-index: 1;
             }
           `}</style>
           {navData.kategorien.map((kategorie) => {
@@ -142,20 +141,20 @@ const CategoryNav = () => {
                 >
                   {kategorie.title}
                 </Link>
-                <button
+                  <button
                   ref={(el) => buttonRefs.current[kategorie.slug] = el}
                   onClick={(e) => {
                     e.stopPropagation();
                     setClickedCategory(clickedCategory === kategorie.slug ? null : kategorie.slug);
                   }}
-                  className={`p-1 ml-1 transition-colors ${
+                  className={`min-h-[44px] min-w-[44px] flex items-center justify-center ml-0.5 transition-colors rounded-md ${
                     isActive 
                       ? 'text-primary' 
                       : 'text-foreground hover:text-primary'
                   }`}
                   aria-label={`${kategorie.title} Untermenü öffnen`}
                 >
-                  <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
               </div>
 
