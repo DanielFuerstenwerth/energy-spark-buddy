@@ -21,6 +21,7 @@ const UniversalCriterionPage = () => {
   }>();
   const [selectedVnb, setSelectedVnb] = useState<{ id: string; name: string } | null>(null);
   const mapRef = useRef<MapGgvHandle>(null);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
   
   const route = `${category}/${subcategory}/${criterion}`;
   const { scoreData, loading, error } = useMapData(route);
@@ -93,7 +94,7 @@ const UniversalCriterionPage = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          <div className="lg:col-span-2 flex flex-col gap-3">
+          <div ref={mapContainerRef} className="lg:col-span-2 flex flex-col gap-3">
             <div className="h-[500px] md:h-[650px] rounded-lg border border-border overflow-hidden isolate">
               <MapGgv
                 ref={mapRef}
@@ -109,6 +110,7 @@ const UniversalCriterionPage = () => {
               scoreData={scoreData}
               selectedVnb={selectedVnb}
               onVnbSelect={handleVnbSelect}
+              mapContainerRef={mapContainerRef}
             />
           </div>
         </div>
