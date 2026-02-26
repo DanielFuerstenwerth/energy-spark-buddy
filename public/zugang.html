@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zugang zu vnb-transparenz.de – Hinweise für Dienst-PCs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1a1a2e;
+      background: #f8f9fa;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+      padding: 2.5rem 2rem;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: .5rem;
+      color: #0f172a;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: .95rem;
+      margin-bottom: 2rem;
+    }
+    h2 {
+      font-size: 1.1rem;
+      margin: 1.5rem 0 .75rem;
+      color: #0f172a;
+    }
+    p, li { font-size: .925rem; color: #334155; }
+    ul, ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+    li { margin-bottom: .4rem; }
+    .info-box {
+      background: #f0f9ff;
+      border-left: 4px solid #3b82f6;
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+    }
+    .info-box p { color: #1e40af; font-size: .875rem; }
+    .copy-box {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: .75rem 1rem;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: .85rem;
+      color: #0f172a;
+      margin: .5rem 0 1rem;
+      word-break: break-all;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: .75rem 0 1.25rem;
+      font-size: .85rem;
+    }
+    th, td {
+      text-align: left;
+      padding: .5rem .75rem;
+      border: 1px solid #e2e8f0;
+    }
+    th { background: #f8fafc; font-weight: 600; color: #0f172a; }
+    td { color: #334155; }
+    .footer-note {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: .8rem;
+      color: #94a3b8;
+    }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .container { padding: 1.5rem 1.25rem; }
+      h1 { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔒 Zugang zu vnb-transparenz.de</h1>
+    <p class="subtitle">
+      Hinweise für Nutzer:innen auf Dienst-PCs mit eingeschränktem Internetzugang
+    </p>
+
+    <h2>Was ist das Problem?</h2>
+    <p>
+      Manche Behörden- und Unternehmens-Netzwerke blockieren den Zugriff auf Websites,
+      die nicht explizit freigegeben sind. Wenn Sie <strong>vnb-transparenz.de</strong>
+      nicht öffnen können, liegt das vermutlich an Ihrem Netzwerk-Proxy oder Ihrer Firewall – nicht an der Website selbst.
+    </p>
+
+    <h2>Was muss freigegeben werden?</h2>
+    <p>Bitten Sie Ihre IT-Abteilung, folgende Einträge auf die Whitelist zu setzen:</p>
+
+    <table>
+      <thead>
+        <tr><th>Typ</th><th>Wert</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Domain</td><td><code>vnb-transparenz.de</code></td></tr>
+        <tr><td>Domain</td><td><code>www.vnb-transparenz.de</code></td></tr>
+        <tr><td>IP-Adresse</td><td><code>185.158.133.1</code></td></tr>
+        <tr><td>Port</td><td><code>443 (HTTPS)</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <p>
+        <strong>Tipp:</strong> Kopieren Sie den folgenden Text und leiten Sie ihn direkt an Ihre IT weiter.
+      </p>
+    </div>
+
+    <h2>Vorlage für Ihre IT-Abteilung</h2>
+    <div class="copy-box">
+      Betreff: Freigabe der Domain vnb-transparenz.de<br><br>
+      Sehr geehrtes IT-Team,<br><br>
+      bitte schalten Sie den Zugriff auf die folgende Website frei, die wir für unsere
+      Arbeit im Bereich Energiewendekompetenz / Verteilnetzbetreiber-Transparenz benötigen:<br><br>
+      • Domain: vnb-transparenz.de / www.vnb-transparenz.de<br>
+      • IP-Adresse: 185.158.133.1<br>
+      • Protokoll: HTTPS (Port 443)<br>
+      • Betreiber: vnb-transparenz.de (gemeinnütziges Transparenzprojekt)<br>
+      • TLS-Zertifikat: Let's Encrypt<br><br>
+      Vielen Dank und freundliche Grüße
+    </div>
+
+    <h2>Alternativer Zugang</h2>
+    <p>
+      Falls eine Freigabe kurzfristig nicht möglich ist, können Sie die Seite
+      auch über ein privates Gerät (z.&nbsp;B. Smartphone im Mobilfunknetz) aufrufen:
+    </p>
+    <div class="copy-box">https://www.vnb-transparenz.de/EWK-Monitoring-BNetzA</div>
+
+    <h2>Fragen?</h2>
+    <p>
+      Bei technischen Rückfragen wenden Sie sich gerne an
+      <a href="mailto:kontakt@vnb-transparenz.de">kontakt@vnb-transparenz.de</a>.
+    </p>
+
+    <p class="footer-note">
+      Diese Seite enthält keine externen Skripte und kann auch aus eingeschränkten Netzwerken geladen
+      oder als PDF gespeichert werden (Strg+P → Als PDF speichern).
+    </p>
+  </div>
+</body>
+</html>

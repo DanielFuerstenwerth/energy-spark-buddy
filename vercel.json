@@ -7,6 +7,10 @@
       "dest": "/audit.html"
     },
     {
+      "src": "/zugang\\.html",
+      "dest": "/zugang.html"
+    },
+    {
       "src": "/umfrage/audit/?$",
       "dest": "/umfrage/audit/index.html"
     },
@@ -22,7 +26,7 @@
       "handle": "filesystem"
     },
     {
-      "src": "/((?!umfrage/audit|audit\\.html|data/).*)",
+      "src": "/((?!umfrage/audit|audit\\.html|zugang\\.html|data/).*)",
       "dest": "/index.html"
     }
   ],
@@ -40,7 +44,7 @@
       "destination": "/data/:path*"
     },
     {
-      "source": "/((?!umfrage/audit|audit\\.html|data/).*)",
+      "source": "/((?!umfrage/audit|audit\\.html|zugang\\.html|data/).*)",
       "destination": "/index.html"
     }
   ],
