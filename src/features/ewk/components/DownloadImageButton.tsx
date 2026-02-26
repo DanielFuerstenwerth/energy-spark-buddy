@@ -9,18 +9,28 @@ interface Props {
   className?: string;
 }
 
-const LOGO_SRC = '/favicon.svg';
 const LOGO_W = 100;
 const LOGO_PAD = 12;
-const LOGO_ALPHA = 0.3;
+const LOGO_ALPHA = 0.35;
 
+/** Rasterise an SVG to a bitmap so canvas drawImage works reliably */
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
+    // Fetch SVG source, convert to data-URI blob to avoid cross-origin & <text> issues
+    fetch(src)
+      .then((r) => r.text())
+      .then((svgText) => {
+        const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = reject;
+        img.src = url;
+      })
+      .catch(reject);
   });
 }
 
@@ -43,7 +53,7 @@ export default function DownloadImageButton({ targetRef, filename = 'chart', cla
       try {
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          const logo = await loadImage(LOGO_SRC);
+          const logo = await loadImage('/favicon.svg');
           const ratio = logo.naturalHeight / logo.naturalWidth;
           const w = LOGO_W * 2; // compensate for scale:2
           const h = w * ratio;
