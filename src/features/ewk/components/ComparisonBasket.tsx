@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
 import type { IndicatorMeta, VnbRow } from '../types';
+import { track } from '@/utils/plausibleTrack';
 import { tryParseNum, computeRanks } from '../utils/csvParser';
 import { useState } from 'react';
 import DownloadImageButton from './DownloadImageButton';
@@ -38,7 +39,11 @@ export default function ComparisonBasket({ rows, indicator, selectedBnrs, onSele
   }, [rows, search, selectedBnrs]);
 
   const addBnr = (bnr: string) => {
-    if (!selectedBnrs.includes(bnr)) onSelectedBnrsChange([...selectedBnrs, bnr]);
+    if (!selectedBnrs.includes(bnr)) {
+      const row = rows.find((r) => r.bnr === bnr);
+      track('EWK Basket Add', { bnr, name: row?.firmenname ?? bnr });
+      onSelectedBnrsChange([...selectedBnrs, bnr]);
+    }
     setSearch('');
   };
 
