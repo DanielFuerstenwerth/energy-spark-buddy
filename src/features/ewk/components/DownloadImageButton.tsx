@@ -8,6 +8,21 @@ interface Props {
   className?: string;
 }
 
+const LOGO_SRC = '/favicon.svg';
+const LOGO_W = 100;
+const LOGO_PAD = 12;
+const LOGO_ALPHA = 0.3;
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
 export default function DownloadImageButton({ targetRef, filename = 'chart', className }: Props) {
   const [busy, setBusy] = useState(false);
 
@@ -22,6 +37,24 @@ export default function DownloadImageButton({ targetRef, filename = 'chart', cla
         useCORS: true,
         logging: false,
       });
+
+      // Stamp watermark logo bottom-right
+      try {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          const logo = await loadImage(LOGO_SRC);
+          const ratio = logo.naturalHeight / logo.naturalWidth;
+          const w = LOGO_W * 2; // compensate for scale:2
+          const h = w * ratio;
+          const pad = LOGO_PAD * 2;
+          ctx.globalAlpha = LOGO_ALPHA;
+          ctx.drawImage(logo, canvas.width - w - pad, canvas.height - h - pad, w, h);
+          ctx.globalAlpha = 1;
+        }
+      } catch (e) {
+        console.warn('Watermark failed', e);
+      }
+
       const link = document.createElement('a');
       link.download = `${filename}.png`;
       link.href = canvas.toDataURL('image/png');
