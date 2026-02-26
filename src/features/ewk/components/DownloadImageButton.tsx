@@ -13,21 +13,30 @@ const LOGO_W = 100;
 const LOGO_PAD = 12;
 const LOGO_ALPHA = 0.35;
 
-/** Rasterise an SVG to a bitmap so canvas drawImage works reliably */
-function loadImage(src: string): Promise<HTMLImageElement> {
+/** Rasterise SVG to a bitmap canvas, then return as an HTMLImageElement.
+ *  This avoids cross-origin and <text>-rendering issues with drawImage. */
+function loadLogo(src: string, size: number): Promise<HTMLCanvasElement> {
   return new Promise((resolve, reject) => {
-    // Fetch SVG source, convert to data-URI blob to avoid cross-origin & <text> issues
     fetch(src)
       .then((r) => r.text())
       .then((svgText) => {
+        // Render SVG into an off-screen canvas via a temporary <img>
         const blob = new Blob([svgText], { type: 'image/svg+xml;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const img = new Image();
         img.onload = () => {
           URL.revokeObjectURL(url);
-          resolve(img);
+          const c = document.createElement('canvas');
+          c.width = size;
+          c.height = size;
+          const cx = c.getContext('2d');
+          if (cx) cx.drawImage(img, 0, 0, size, size);
+          resolve(c);
         };
-        img.onerror = reject;
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('Logo image load failed'));
+        };
         img.src = url;
       })
       .catch(reject);
@@ -53,13 +62,11 @@ export default function DownloadImageButton({ targetRef, filename = 'chart', cla
       try {
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          const logo = await loadImage('/favicon.svg');
-          const ratio = logo.naturalHeight / logo.naturalWidth;
-          const w = LOGO_W * 2; // compensate for scale:2
-          const h = w * ratio;
+          const logoSize = LOGO_W * 2; // compensate for scale:2
+          const logoCanvas = await loadLogo('/favicon.svg', logoSize);
           const pad = LOGO_PAD * 2;
           ctx.globalAlpha = LOGO_ALPHA;
-          ctx.drawImage(logo, canvas.width - w - pad, canvas.height - h - pad, w, h);
+          ctx.drawImage(logoCanvas, canvas.width - logoSize - pad, canvas.height - logoSize - pad);
           ctx.globalAlpha = 1;
         }
       } catch (e) {
