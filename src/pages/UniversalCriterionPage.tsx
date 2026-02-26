@@ -93,8 +93,8 @@ const UniversalCriterionPage = () => {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          <div className="lg:col-span-2 flex flex-col gap-4">
-            <div className="h-[400px] md:h-[600px] rounded-lg border border-border overflow-hidden isolate">
+          <div className="lg:col-span-2 flex flex-col gap-3">
+            <div className="h-[500px] md:h-[650px] rounded-lg border border-border overflow-hidden isolate">
               <MapGgv
                 ref={mapRef}
                 onRegionClick={handleRegionClick}
