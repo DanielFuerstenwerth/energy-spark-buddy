@@ -227,7 +227,14 @@ export async function buildMapsConfig(): Promise<Record<string, any>> {
   if (_mapsConfigCache) return _mapsConfigCache;
   if (_mapsConfigPromise) return _mapsConfigPromise;
 
-  _mapsConfigPromise = _buildMapsConfigInternal();
+  _mapsConfigPromise = _buildMapsConfigInternal().then(result => {
+    // If we got an empty config on first try (timeout), retry once
+    if (Object.keys(result).length === 0 && !_mapsConfigCache) {
+      console.warn('[buildMapsConfig] Empty config on first attempt, retrying...');
+      return _buildMapsConfigInternal();
+    }
+    return result;
+  });
   try {
     _mapsConfigCache = await _mapsConfigPromise;
     return _mapsConfigCache;
