@@ -19,21 +19,19 @@ export interface MapExportContext {
   indicatorLabel: string;
 }
 
-// --- Layout constants ---
-const EXPORT_W = 1600;
-const EXPORT_H = 900;
+// --- Portrait layout constants ---
+const EXPORT_W = 1200;
 const HEADER_H = 90;
-const SIDEBAR_W = 340;
-const MAP_W = EXPORT_W - SIDEBAR_W;
-const MAP_H = EXPORT_H - HEADER_H;
-const SIDEBAR_BG = '#F8FAFC';
+const LEGEND_H = 140;
+const FOOTER_H = 10;
+const BG_COLOR = '#F8FAFC';
 const HEADER_BG = '#FFFFFF';
 
 /**
- * Export a composed "report-like" PNG:
+ * Export a composed portrait "report-like" PNG:
  *   Top: title header
- *   Left: map fitted to Germany
- *   Right: vertical legend sidebar
+ *   Middle: map (no basemap by default – just polygons on light background)
+ *   Bottom: horizontal legend
  *   Bottom-right: logo watermark
  */
 export async function exportLeafletMapPng(
@@ -44,14 +42,17 @@ export async function exportLeafletMapPng(
   const { watermarkSrc, filename = 'karte.png' } = opts;
   const Leaflet = await import('leaflet');
 
-  // --- 1. Offscreen container sized to map region ---
+  // Portrait: width fixed, height = width * 1.45
+  const MAP_H = Math.round(EXPORT_W * 1.05);
+  const EXPORT_H = HEADER_H + MAP_H + LEGEND_H + FOOTER_H;
+
+  // --- 1. Offscreen container ---
   const container = document.createElement('div');
-  // Use 2x for sharper tiles on the map portion
   Object.assign(container.style, {
     position: 'fixed',
     left: '-99999px',
     top: '-99999px',
-    width: `${MAP_W}px`,
+    width: `${EXPORT_W}px`,
     height: `${MAP_H}px`,
     visibility: 'hidden',
   });
@@ -59,20 +60,14 @@ export async function exportLeafletMapPng(
 
   let offMap: L.Map | null = null;
   try {
-    // --- 2. Offscreen map ---
+    // --- 2. Offscreen map (NO basemap – clean background) ---
     offMap = Leaflet.map(container, {
       zoomControl: false,
       attributionControl: false,
       preferCanvas: true,
     });
 
-    // --- 3. Tiles ---
-    const tileLayer = Leaflet.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      { maxZoom: 19, crossOrigin: 'anonymous' } as any
-    ).addTo(offMap);
-
-    // --- 4. GeoJSON with canvas renderer, fit to DE ---
+    // --- 3. GeoJSON with canvas renderer ---
     const canvasRenderer = Leaflet.canvas();
     const geoLayer = Leaflet.geoJSON(ctx.geoData, {
       renderer: canvasRenderer,
@@ -83,29 +78,26 @@ export async function exportLeafletMapPng(
           info?.value !== null && info?.value !== undefined
             ? getColorScale(info.value, ctx.min, ctx.max)
             : '#e5e7eb';
-        return { fillColor, weight: 0.5, opacity: 1, color: '#333', fillOpacity: 1.0 };
+        return { fillColor, weight: 0.6, opacity: 1, color: '#94A3B8', fillOpacity: 1.0 };
       },
     } as any).addTo(offMap);
 
-    // Fit to Germany (polygon bounds) with padding
+    // Fit to Germany
     const bounds = geoLayer.getBounds();
     if (bounds.isValid()) {
-      offMap.fitBounds(bounds, { padding: [30, 30], animate: false });
+      offMap.fitBounds(bounds, { padding: [50, 50], animate: false });
+      offMap.setMaxBounds(bounds.pad(0.05));
     } else {
       offMap.setView([51.1657, 10.4515], 6);
     }
 
-    // Wait for tiles
+    // Wait for map to be ready
     await new Promise<void>((resolve) => {
-      const onLoad = () => { tileLayer.off('load', onLoad); resolve(); };
-      tileLayer.on('load', onLoad);
-      setTimeout(() => { tileLayer.off('load', onLoad); resolve(); }, 6000);
+      offMap!.whenReady(() => resolve());
     });
+    await new Promise((r) => setTimeout(r, 400));
 
-    // Extra delay for canvas polygons
-    await new Promise((r) => setTimeout(r, 500));
-
-    // --- 5. leaflet-image ---
+    // --- 4. leaflet-image ---
     const mod = await import('leaflet-image');
     const leafletImage: (m: L.Map, cb: (err: Error | null, c: HTMLCanvasElement) => void) => void =
       typeof mod.default === 'function' ? mod.default : (mod as any);
@@ -117,38 +109,20 @@ export async function exportLeafletMapPng(
       });
     });
 
-    // --- 6. Compose final canvas ---
+    // --- 5. Compose final portrait canvas ---
     const final = document.createElement('canvas');
     final.width = EXPORT_W;
     final.height = EXPORT_H;
     const c = final.getContext('2d')!;
 
-    // 6a) White background
-    c.fillStyle = '#FFFFFF';
+    // 5a) Light background (replaces basemap)
+    c.fillStyle = BG_COLOR;
     c.fillRect(0, 0, EXPORT_W, EXPORT_H);
 
-    // 6b) Header
-    drawHeader(c, ctx);
+    // 5b) Header
+    drawHeader(c, ctx, EXPORT_W);
 
-    // 6c) Map (draw into left region)
-    c.drawImage(mapCanvas, 0, 0, mapCanvas.width, mapCanvas.height, 0, HEADER_H, MAP_W, MAP_H);
-
-    // 6d) Sidebar border
-    c.strokeStyle = '#E2E8F0';
-    c.lineWidth = 1;
-    c.beginPath();
-    c.moveTo(MAP_W, HEADER_H);
-    c.lineTo(MAP_W, EXPORT_H);
-    c.stroke();
-
-    // 6e) Sidebar background
-    c.fillStyle = SIDEBAR_BG;
-    c.fillRect(MAP_W, HEADER_H, SIDEBAR_W, MAP_H);
-
-    // 6f) Legend in sidebar
-    drawSidebarLegend(c, ctx);
-
-    // 6g) Header bottom border
+    // Header bottom border
     c.strokeStyle = '#E2E8F0';
     c.lineWidth = 1;
     c.beginPath();
@@ -156,15 +130,31 @@ export async function exportLeafletMapPng(
     c.lineTo(EXPORT_W, HEADER_H);
     c.stroke();
 
-    // 6h) Watermark logo
+    // 5c) Map area – draw into full width below header
+    c.drawImage(mapCanvas, 0, 0, mapCanvas.width, mapCanvas.height, 0, HEADER_H, EXPORT_W, MAP_H);
+
+    // Divider above legend
+    c.strokeStyle = '#E2E8F0';
+    c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(0, HEADER_H + MAP_H);
+    c.lineTo(EXPORT_W, HEADER_H + MAP_H);
+    c.stroke();
+
+    // 5d) Legend below map
+    c.fillStyle = '#FFFFFF';
+    c.fillRect(0, HEADER_H + MAP_H, EXPORT_W, LEGEND_H + FOOTER_H);
+    drawBottomLegend(c, ctx, EXPORT_W, HEADER_H + MAP_H);
+
+    // 5e) Watermark logo bottom-right
     if (watermarkSrc) {
       try {
         const img = await loadImage(watermarkSrc);
-        const maxW = 110;
+        const maxW = 100;
         const ratio = img.naturalHeight / img.naturalWidth;
         const w = maxW;
         const h = maxW * ratio;
-        const pad = 16;
+        const pad = 14;
         c.globalAlpha = 0.3;
         c.drawImage(img, EXPORT_W - w - pad, EXPORT_H - h - pad, w, h);
         c.globalAlpha = 1;
@@ -173,7 +163,7 @@ export async function exportLeafletMapPng(
       }
     }
 
-    // --- 7. Download ---
+    // --- 6. Download ---
     const link = document.createElement('a');
     link.download = filename;
     link.href = final.toDataURL('image/png');
@@ -184,111 +174,91 @@ export async function exportLeafletMapPng(
   }
 }
 
-/** Draw the header bar with title + subtitle + N */
-function drawHeader(c: CanvasRenderingContext2D, ctx: MapExportContext) {
+/** Draw header bar */
+function drawHeader(c: CanvasRenderingContext2D, ctx: MapExportContext, W: number) {
   c.fillStyle = HEADER_BG;
-  c.fillRect(0, 0, EXPORT_W, HEADER_H);
+  c.fillRect(0, 0, W, HEADER_H);
 
-  const pad = 28;
+  const pad = 24;
 
   // Title
   c.fillStyle = '#1E293B';
-  c.font = 'bold 22px system-ui, -apple-system, sans-serif';
-  c.fillText('Datenexplorer zur Energiewendekompetenz', pad, 38);
+  c.font = 'bold 20px system-ui, -apple-system, sans-serif';
+  c.fillText('Datenexplorer zur Energiewendekompetenz', pad, 36);
 
-  // Subtitle (indicator)
+  // Subtitle
   c.fillStyle = '#475569';
-  c.font = '15px system-ui, -apple-system, sans-serif';
-  const label = ctx.indicatorLabel.length > 90 ? ctx.indicatorLabel.slice(0, 87) + '…' : ctx.indicatorLabel;
-  c.fillText(label, pad, 62);
+  c.font = '14px system-ui, -apple-system, sans-serif';
+  const label = ctx.indicatorLabel.length > 100 ? ctx.indicatorLabel.slice(0, 97) + '…' : ctx.indicatorLabel;
+  c.fillText(label, pad, 58);
 
-  // N count right-aligned
+  // N count right
   c.fillStyle = '#94A3B8';
-  c.font = '13px system-ui, -apple-system, sans-serif';
+  c.font = '12px system-ui, -apple-system, sans-serif';
   const nText = `Gültige N: ${ctx.validN}`;
-  const nW = c.measureText(nText).width;
-  c.fillText(nText, EXPORT_W - pad - nW, 38);
+  c.fillText(nText, W - pad - c.measureText(nText).width, 36);
 
-  // Source
-  c.fillText('Quelle: BNetzA / vnb-transparenz.de', EXPORT_W - pad - c.measureText('Quelle: BNetzA / vnb-transparenz.de').width, 58);
+  // Source right
+  const src = 'Quelle: BNetzA / vnb-transparenz.de';
+  c.fillText(src, W - pad - c.measureText(src).width, 56);
 }
 
-/** Draw vertical legend in the right sidebar */
-function drawSidebarLegend(c: CanvasRenderingContext2D, ctx: MapExportContext) {
-  const x0 = MAP_W + 24;
-  let y = HEADER_H + 28;
+/** Draw horizontal legend below the map */
+function drawBottomLegend(c: CanvasRenderingContext2D, ctx: MapExportContext, W: number, topY: number) {
+  const pad = 24;
+  let y = topY + 20;
 
   // "Legende" heading
   c.fillStyle = '#1E293B';
-  c.font = 'bold 16px system-ui, -apple-system, sans-serif';
-  c.fillText('Legende', x0, y);
-  y += 28;
+  c.font = 'bold 13px system-ui, -apple-system, sans-serif';
+  c.fillText('Legende', pad, y);
 
-  // Indicator name (wrap to 2 lines max)
+  // Indicator name (truncated)
   c.fillStyle = '#475569';
-  c.font = '13px system-ui, -apple-system, sans-serif';
-  const maxLabelW = SIDEBAR_W - 48;
-  const lines = wrapText(c, ctx.indicatorLabel, maxLabelW, 2);
-  for (const line of lines) {
-    c.fillText(line, x0, y);
-    y += 18;
-  }
-  y += 12;
+  c.font = '12px system-ui, -apple-system, sans-serif';
+  const nameLabel = ctx.indicatorLabel.length > 80 ? ctx.indicatorLabel.slice(0, 77) + '…' : ctx.indicatorLabel;
+  c.fillText(nameLabel, pad + c.measureText('Legende').width + 16, y);
 
-  // Swatches
+  y += 24;
+
+  // Swatches horizontally
   const steps = 11;
-  const swatchSize = 18;
-  const gap = 6;
+  const swatchW = 50;
+  const swatchH = 16;
+  const totalSwatches = steps + 1; // +1 for k.A.
+  const totalW = totalSwatches * (swatchW + 6);
+  const startX = Math.max(pad, (W - totalW) / 2); // center
 
   for (let i = 0; i < steps; i++) {
     const val = ctx.min + (i * (ctx.max - ctx.min)) / (steps - 1);
     const color = getColorScale(val, ctx.min, ctx.max);
+    const sx = startX + i * (swatchW + 6);
 
     c.fillStyle = color;
-    c.fillRect(x0, y, swatchSize, swatchSize);
+    c.fillRect(sx, y, swatchW, swatchH);
     c.strokeStyle = '#CBD5E1';
     c.lineWidth = 0.5;
-    c.strokeRect(x0, y, swatchSize, swatchSize);
+    c.strokeRect(sx, y, swatchW, swatchH);
 
     c.fillStyle = '#475569';
-    c.font = '12px system-ui, -apple-system, sans-serif';
-    c.fillText(val.toFixed(1), x0 + swatchSize + 10, y + 14);
-
-    y += swatchSize + gap;
+    c.font = '10px system-ui, -apple-system, sans-serif';
+    const valText = val.toFixed(1);
+    const tw = c.measureText(valText).width;
+    c.fillText(valText, sx + (swatchW - tw) / 2, y + swatchH + 13);
   }
 
   // k. A. swatch
-  y += 6;
+  const kaX = startX + steps * (swatchW + 6) + 12;
   c.fillStyle = '#e5e7eb';
-  c.fillRect(x0, y, swatchSize, swatchSize);
+  c.fillRect(kaX, y, swatchW, swatchH);
   c.strokeStyle = '#CBD5E1';
   c.lineWidth = 0.5;
-  c.strokeRect(x0, y, swatchSize, swatchSize);
+  c.strokeRect(kaX, y, swatchW, swatchH);
   c.fillStyle = '#475569';
-  c.font = '12px system-ui, -apple-system, sans-serif';
-  c.fillText('keine Angabe', x0 + swatchSize + 10, y + 14);
-}
-
-/** Simple text wrapper */
-function wrapText(c: CanvasRenderingContext2D, text: string, maxW: number, maxLines: number): string[] {
-  const words = text.split(' ');
-  const lines: string[] = [];
-  let current = '';
-  for (const word of words) {
-    const test = current ? `${current} ${word}` : word;
-    if (c.measureText(test).width > maxW && current) {
-      lines.push(current);
-      if (lines.length >= maxLines) {
-        lines[lines.length - 1] += '…';
-        return lines;
-      }
-      current = word;
-    } else {
-      current = test;
-    }
-  }
-  if (current) lines.push(current);
-  return lines;
+  c.font = '10px system-ui, -apple-system, sans-serif';
+  const kaText = 'k. A.';
+  const kaW = c.measureText(kaText).width;
+  c.fillText(kaText, kaX + (swatchW - kaW) / 2, y + swatchH + 13);
 }
 
 function loadImage(src: string): Promise<HTMLImageElement> {
