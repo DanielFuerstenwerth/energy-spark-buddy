@@ -90,10 +90,12 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
   return (
     <div ref={scatterRef} className="bg-card rounded-xl border p-4 space-y-2">
       <div className="flex items-start justify-between gap-2">
-        <h4 className="text-xs font-medium">
+        <h4 className="text-xs font-medium min-w-0 break-words">
           Scatter: {currentIndicator.display_label} × {yIndicator.display_label}
         </h4>
-        <DownloadImageButton targetRef={scatterRef} filename="scatter" />
+        <div className="shrink-0">
+          <DownloadImageButton targetRef={scatterRef} filename="scatter" />
+        </div>
       </div>
       <div className="h-56">
         <ResponsiveContainer width="100%" height="100%">
