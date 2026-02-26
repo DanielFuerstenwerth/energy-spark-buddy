@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { track } from '@/utils/plausibleTrack';
 
 interface Props {
   targetRef: React.RefObject<HTMLElement>;
@@ -54,6 +55,8 @@ export default function DownloadImageButton({ targetRef, filename = 'chart', cla
       } catch (e) {
         console.warn('Watermark failed', e);
       }
+
+      track('EWK Image Download', { filename });
 
       const link = document.createElement('a');
       link.download = `${filename}.png`;

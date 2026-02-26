@@ -13,10 +13,16 @@ import DownloadTab from '../components/tabs/DownloadTab';
 import { useIndicatorCatalog, useCsvData } from '../hooks/useEwkData';
 import type { SourceKey } from '../types';
 import { RECOMMENDED_INDICATORS } from '../types';
+import { track } from '@/utils/plausibleTrack';
 
 export default function EwkMonitoringBNetzA() {
   const { catalog, loading } = useIndicatorCatalog();
   const [activeTab, setActiveTab] = useState('explorer');
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    track('EWK Tab View', { tab });
+  };
 
   // Shared indicator state — used by Explorer + Karte
   const [selectedId, setSelectedId] = useState<string>(RECOMMENDED_INDICATORS[0]);
@@ -38,6 +44,8 @@ export default function EwkMonitoringBNetzA() {
 
   const handleSelectIndicator = (id: string) => {
     setSelectedId(id);
+    const ind = catalog.find((i) => i.indicator_id === id);
+    track('EWK Indicator Select', { indicator: id, label: ind?.display_label ?? id });
     setRecentIds((prev) => {
       const next = [id, ...prev.filter((x) => x !== id)];
       return next.slice(0, 5);
@@ -65,7 +73,7 @@ export default function EwkMonitoringBNetzA() {
         {/* Tabs */}
         <div className="sticky top-[97px] z-30 bg-background/95 backdrop-blur border-b border-border">
           <div className="container mx-auto max-w-7xl px-4 md:px-6">
-            <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <Tabs value={activeTab} onValueChange={handleTabChange}>
               <TabsList className="h-11 bg-transparent p-0 gap-0 border-0 rounded-none w-full justify-start">
               {[
                   { value: 'explorer', label: 'Explorer', icon: BarChart3 },

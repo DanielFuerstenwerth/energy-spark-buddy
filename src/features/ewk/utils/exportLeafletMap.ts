@@ -1,4 +1,5 @@
 import type L from 'leaflet';
+import { track } from '@/utils/plausibleTrack';
 
 /**
  * Color scale identical to KarteTab – Blue (220°) → Red (0°).
@@ -40,6 +41,7 @@ export async function exportLeafletMapPng(
   opts: { watermarkSrc?: string; filename?: string } = {}
 ): Promise<void> {
   const { watermarkSrc, filename = 'karte.png' } = opts;
+  track('EWK Image Download', { filename, type: 'map' });
   const Leaflet = await import('leaflet');
 
   // Portrait: width fixed, height = width * 1.45
