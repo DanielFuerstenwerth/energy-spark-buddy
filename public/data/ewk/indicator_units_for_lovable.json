@@ -1,0 +1,866 @@
+{
+  "Datensatz_EWK_2024:c016": {
+    "unit": "km²",
+    "code": "2.1.7",
+    "display_label": "2.1.7 Versorgte Fläche NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c017": {
+    "unit": "km²",
+    "code": "2.1.7",
+    "display_label": "2.1.7 Versorgte Fläche NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c018": {
+    "unit": "kW",
+    "code": "2.1.8",
+    "display_label": "2.1.8 Zeitgleiche Jahreshöchstlast abzüglich der Entnahmen von fremden NS-Netzen (NS) 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c019": {
+    "unit": "kW",
+    "code": "2.1.8",
+    "display_label": "2.1.8 Zeitgleiche Jahreshöchstlast aller Entnahmen in NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c020": {
+    "unit": "kW",
+    "code": "2.1.9",
+    "display_label": "2.1.9 Zeitgleiche Jahreshöchstlast aller Entnahmen in NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c021": {
+    "unit": "kW",
+    "code": "2.1.9",
+    "display_label": "2.1.9 Zeitgleiche Jahreshöchstlast aller Entnahmen in NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c022": {
+    "unit": "km",
+    "code": "2.1.10",
+    "display_label": "2.1.10 Stromkreislänge in NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c023": {
+    "unit": "km",
+    "code": "2.1.10",
+    "display_label": "2.1.10 Stromkreislänge in NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c026": {
+    "unit": "kW",
+    "code": "2.2.2",
+    "display_label": "2.2.2 Summenleistung existierender Anschlusspunkte in MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c027": {
+    "unit": "kW",
+    "code": "2.2.2",
+    "display_label": "2.2.2 Summenleistung existierender Anschlusspunkte in MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c030": {
+    "unit": "kW",
+    "code": "2.2.4",
+    "display_label": "2.2.4 Summenleistung existierender Einspeisepunkte in MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c031": {
+    "unit": "kW",
+    "code": "2.2.4",
+    "display_label": "2.2.4 Summenleistung existierender Einspeisepunkte in MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c034": {
+    "unit": "kW",
+    "code": "2.2.6",
+    "display_label": "2.2.6 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Anschlusspunkte in MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c035": {
+    "unit": "kW",
+    "code": "2.2.6",
+    "display_label": "2.2.6 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Anschlusspunkte in MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c038": {
+    "unit": "kW",
+    "code": "2.2.8",
+    "display_label": "2.2.8 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Einspeisepunkte in MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c039": {
+    "unit": "kW",
+    "code": "2.2.8",
+    "display_label": "2.2.8 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Einspeisepunkte in MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c040": {
+    "unit": "kW",
+    "code": "2.2.9",
+    "display_label": "2.2.9 Maximaler Betrag vertikaler Netzlast (Austausch zum vorgelagerten NB) in MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c041": {
+    "unit": "kW",
+    "code": "2.2.9",
+    "display_label": "2.2.9 Maximaler Betrag vertikaler Netzlast (Austausch zum vorgelagerten NB) in MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c042": {
+    "unit": "km²",
+    "code": "2.2.10",
+    "display_label": "2.2.10 Geographische Fläche der Netzausdehnung der Mittelspannungsebene 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c043": {
+    "unit": "km²",
+    "code": "2.2.10",
+    "display_label": "2.2.10 Geographische Fläche der Netzausdehnung der Mittelspannungsebene 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c048": {
+    "unit": "kW",
+    "code": "2.2.13",
+    "display_label": "2.2.13 Zeitgleiche Jahreshöchstlast abzüglich der Entnahmen von fremden MS-Netzen (MS) 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c049": {
+    "unit": "kW",
+    "code": "2.2.13",
+    "display_label": "2.2.13 Zeitgleiche Jahreshöchstlast abzüglich der Entnahmen von fremden MS-Netzen (MS) 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c050": {
+    "unit": "kW",
+    "code": "2.2.14",
+    "display_label": "2.2.14 Zeitgleiche Jahreshöchstlast aller Entnahmen in MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c051": {
+    "unit": "kW",
+    "code": "2.2.14",
+    "display_label": "2.2.14 Zeitgleiche Jahreshöchstlast aller Entnahmen in MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c052": {
+    "unit": "km",
+    "code": "2.2.15",
+    "display_label": "2.2.15 Stromkreislänge in MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c053": {
+    "unit": "km",
+    "code": "2.2.15",
+    "display_label": "2.2.15 Stromkreislänge in MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c056": {
+    "unit": "kW",
+    "code": "2.3.2",
+    "display_label": "2.3.2 Summenleistung existierender Anschlusspunkte in HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c057": {
+    "unit": "kW",
+    "code": "2.3.2",
+    "display_label": "2.3.2 Summenleistung existierender Anschlusspunkte in HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c060": {
+    "unit": "kW",
+    "code": "2.3.4",
+    "display_label": "2.3.4 Summenleistung existierender Einspeisepunkte in HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c061": {
+    "unit": "kW",
+    "code": "2.3.4",
+    "display_label": "2.3.4 Summenleistung existierender Einspeisepunkte in HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c064": {
+    "unit": "kW",
+    "code": "2.3.6",
+    "display_label": "2.3.6 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Anschlusspunkte in HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c065": {
+    "unit": "kW",
+    "code": "2.3.6",
+    "display_label": "2.3.6 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Anschlusspunkte in HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c068": {
+    "unit": "kW",
+    "code": "2.3.8",
+    "display_label": "2.3.8 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Einspeisepunkte in HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c069": {
+    "unit": "kW",
+    "code": "2.3.8",
+    "display_label": "2.3.8 Summenleistung der im Betrachtungsjahr neu realisierten oder verstärkten Einspeisepunkte in HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c070": {
+    "unit": "kW",
+    "code": "2.3.9",
+    "display_label": "2.3.9 Maximaler Betrag vertikaler Netzlast (Austausch zum vorgelagerten NB) in HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c071": {
+    "unit": "kW",
+    "code": "2.3.9",
+    "display_label": "2.3.9 Maximaler Betrag vertikaler Netzlast (Austausch zum vorgelagerten NB) in HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c072": {
+    "unit": "km²",
+    "code": "2.3.10",
+    "display_label": "2.3.10 Geographische Fläche der Netzausdehnung der Hochspannungsebene 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c073": {
+    "unit": "km²",
+    "code": "2.3.10",
+    "display_label": "2.3.10 Geographische Fläche der Netzausdehnung der Hochspannungsebene 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c078": {
+    "unit": "kW",
+    "code": "2.3.13",
+    "display_label": "2.3.13 Zeitgleiche Jahreshöchstlast abzüglich der Entnahmen von fremden HS-Netzen (HS) 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c079": {
+    "unit": "kW",
+    "code": "2.3.13",
+    "display_label": "2.3.13 Zeitgleiche Jahreshöchstlast abzüglich der Entnahmen von fremden HS-Netzen (HS) 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c080": {
+    "unit": "kW",
+    "code": "2.3.14",
+    "display_label": "2.3.14 Zeitgleiche Jahreshöchstlast aller Entnahmen in HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c081": {
+    "unit": "kW",
+    "code": "2.3.14",
+    "display_label": "2.3.14 Zeitgleiche Jahreshöchstlast aller Entnahmen in HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c082": {
+    "unit": "km",
+    "code": "2.3.15",
+    "display_label": "2.3.15 Stromkreislänge in HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c083": {
+    "unit": "km",
+    "code": "2.3.15",
+    "display_label": "2.3.15 Stromkreislänge in HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c084": {
+    "unit": "kW",
+    "code": "3.1.1",
+    "display_label": "3.1.1 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c085": {
+    "unit": "kW",
+    "code": "3.1.1",
+    "display_label": "3.1.1 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c086": {
+    "unit": "kW",
+    "code": "3.1.2",
+    "display_label": "3.1.2 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c087": {
+    "unit": "kW",
+    "code": "3.1.2",
+    "display_label": "3.1.2 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c088": {
+    "unit": "kW",
+    "code": "3.1.3",
+    "display_label": "3.1.3 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c089": {
+    "unit": "kW",
+    "code": "3.1.3",
+    "display_label": "3.1.3 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c090": {
+    "unit": "kW",
+    "code": "3.1.4",
+    "display_label": "3.1.4 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c091": {
+    "unit": "kW",
+    "code": "3.1.4",
+    "display_label": "3.1.4 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c092": {
+    "unit": "kW",
+    "code": "3.1.5",
+    "display_label": "3.1.5 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c093": {
+    "unit": "kW",
+    "code": "3.1.5",
+    "display_label": "3.1.5 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c094": {
+    "unit": "kW",
+    "code": "3.1.6",
+    "display_label": "3.1.6 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c095": {
+    "unit": "kW",
+    "code": "3.1.6",
+    "display_label": "3.1.6 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c096": {
+    "unit": "kW",
+    "code": "3.1.7",
+    "display_label": "3.1.7 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c097": {
+    "unit": "kW",
+    "code": "3.1.7",
+    "display_label": "3.1.7 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Solarenergie in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c098": {
+    "unit": "kW",
+    "code": "3.1.8",
+    "display_label": "3.1.8 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c099": {
+    "unit": "kW",
+    "code": "3.1.8",
+    "display_label": "3.1.8 Installierte Erzeugungsleistung aller EEG-Erzeugungsanlagen aus Windenergie in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c100": {
+    "unit": "kW",
+    "code": "3.1.9",
+    "display_label": "3.1.9 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c101": {
+    "unit": "kW",
+    "code": "3.1.9",
+    "display_label": "3.1.9 Installierte Erzeugungsleistung aller sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c102": {
+    "unit": "kWh",
+    "code": "3.2.1",
+    "display_label": "3.2.1 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c103": {
+    "unit": "kWh",
+    "code": "3.2.1",
+    "display_label": "3.2.1 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c104": {
+    "unit": "kWh",
+    "code": "3.2.2",
+    "display_label": "3.2.2 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c105": {
+    "unit": "kWh",
+    "code": "3.2.2",
+    "display_label": "3.2.2 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c106": {
+    "unit": "kWh",
+    "code": "3.2.3",
+    "display_label": "3.2.3 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c107": {
+    "unit": "kWh",
+    "code": "3.2.3",
+    "display_label": "3.2.3 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c108": {
+    "unit": "kWh",
+    "code": "3.2.4",
+    "display_label": "3.2.4 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der MS, MS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c109": {
+    "unit": "kWh",
+    "code": "3.2.4",
+    "display_label": "3.2.4 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der MS, MS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c110": {
+    "unit": "kWh",
+    "code": "3.2.5",
+    "display_label": "3.2.5 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der MS, MS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c111": {
+    "unit": "kWh",
+    "code": "3.2.5",
+    "display_label": "3.2.5 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der MS, MS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c112": {
+    "unit": "kWh",
+    "code": "3.2.6",
+    "display_label": "3.2.6 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der MS, MS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c113": {
+    "unit": "kWh",
+    "code": "3.2.6",
+    "display_label": "3.2.6 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der MS, MS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c114": {
+    "unit": "kWh",
+    "code": "3.2.7",
+    "display_label": "3.2.7 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c115": {
+    "unit": "kWh",
+    "code": "3.2.7",
+    "display_label": "3.2.7 Einspeisung aller EEG-Erzeugungsanlagen aus Solarenergie in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c116": {
+    "unit": "kWh",
+    "code": "3.2.8",
+    "display_label": "3.2.8 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c117": {
+    "unit": "kWh",
+    "code": "3.2.8",
+    "display_label": "3.2.8 Einspeisung aller EEG-Erzeugungsanlagen aus Windenergie in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c118": {
+    "unit": "kWh",
+    "code": "3.2.9",
+    "display_label": "3.2.9 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c119": {
+    "unit": "kWh",
+    "code": "3.2.9",
+    "display_label": "3.2.9 Einspeisung aller sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c120": {
+    "unit": "kW",
+    "code": "3.3.1",
+    "display_label": "3.3.1 Vereinbarte Anschlussleistung aller angeschlossenen Ladeeinrichtungen für Elektromobile in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c121": {
+    "unit": "kW",
+    "code": "3.3.1",
+    "display_label": "3.3.1 Vereinbarte Anschlussleistung aller angeschlossenen Ladeeinrichtungen für Elektromobile in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c122": {
+    "unit": "kW",
+    "code": "3.3.2",
+    "display_label": "3.3.2 Vereinbarte Anschlussleistung aller angeschlossenen Wärmepumpen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c123": {
+    "unit": "kW",
+    "code": "3.3.2",
+    "display_label": "3.3.2 Vereinbarte Anschlussleistung aller angeschlossenen Wärmepumpen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c124": {
+    "unit": "kW",
+    "code": "3.3.3",
+    "display_label": "3.3.3 Vereinbarte Anschlussleistung aller angeschlossenen Speicher in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c125": {
+    "unit": "kW",
+    "code": "3.3.3",
+    "display_label": "3.3.3 Vereinbarte Anschlussleistung aller angeschlossenen Speicher in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c126": {
+    "unit": "kW",
+    "code": "3.3.4",
+    "display_label": "3.3.4 Vereinbarte Anschlussleistung aller Wasserstoffelektrolyseure in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c127": {
+    "unit": "kW",
+    "code": "3.3.4",
+    "display_label": "3.3.4 Vereinbarte Anschlussleistung aller Wasserstoffelektrolyseure in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c128": {
+    "unit": "kW",
+    "code": "3.3.5",
+    "display_label": "3.3.5 Vereinbarte Anschlussleistung aller Ladeeinrichtungen für Elektromobile in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c129": {
+    "unit": "kW",
+    "code": "3.3.5",
+    "display_label": "3.3.5 Vereinbarte Anschlussleistung aller Ladeeinrichtungen für Elektromobile in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c130": {
+    "unit": "kW",
+    "code": "3.3.6",
+    "display_label": "3.3.6 Vereinbarte Anschlussleistung aller Wärmepumpen in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c131": {
+    "unit": "kW",
+    "code": "3.3.6",
+    "display_label": "3.3.6 Vereinbarte Anschlussleistung aller Wärmepumpen in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c132": {
+    "unit": "kW",
+    "code": "3.3.7",
+    "display_label": "3.3.7 Vereinbarte Anschlussleistung aller Speicher in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c133": {
+    "unit": "kW",
+    "code": "3.3.7",
+    "display_label": "3.3.7 Vereinbarte Anschlussleistung aller Speicher in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c134": {
+    "unit": "kW",
+    "code": "3.3.8",
+    "display_label": "3.3.8 Vereinbarte Anschlussleistung aller Wasserstoffelektrolyseure in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c135": {
+    "unit": "kW",
+    "code": "3.3.8",
+    "display_label": "3.3.8 Vereinbarte Anschlussleistung aller Wasserstoffelektrolyseure in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c136": {
+    "unit": "kW",
+    "code": "3.3.9",
+    "display_label": "3.3.9 Vereinbarte Anschlussleistung aller Wärmepumpen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c137": {
+    "unit": "kW",
+    "code": "3.3.9",
+    "display_label": "3.3.9 Vereinbarte Anschlussleistung aller Wärmepumpen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c138": {
+    "unit": "kW",
+    "code": "3.3.10",
+    "display_label": "3.3.10 Vereinbarte Anschlussleistung aller Speicher in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c139": {
+    "unit": "kW",
+    "code": "3.3.10",
+    "display_label": "3.3.10 Vereinbarte Anschlussleistung aller Speicher in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c158": {
+    "unit": "kW",
+    "code": "4.2.1",
+    "display_label": "4.2.1 Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c159": {
+    "unit": "kW",
+    "code": "4.2.1",
+    "display_label": "4.2.1 Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von EEG-Erzeugungsanlagen aus Solarenergie in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c174": {
+    "unit": "kW",
+    "code": "4.2.9",
+    "display_label": "4.2.9 Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c175": {
+    "unit": "kW",
+    "code": "4.2.9",
+    "display_label": "4.2.9 Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von sonstigen EEG-Erzeugungsanlagen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c176": {
+    "unit": "Tage",
+    "code": "4.3.1",
+    "display_label": "4.3.1 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c177": {
+    "unit": "Tage",
+    "code": "4.3.1",
+    "display_label": "4.3.1 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c178": {
+    "unit": "Tage",
+    "code": "4.3.2",
+    "display_label": "4.3.2 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c179": {
+    "unit": "Tage",
+    "code": "4.3.2",
+    "display_label": "4.3.2 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c180": {
+    "unit": "Tage",
+    "code": "4.3.3",
+    "display_label": "4.3.3 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c181": {
+    "unit": "Tage",
+    "code": "4.3.3",
+    "display_label": "4.3.3 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c182": {
+    "unit": "Tage",
+    "code": "4.3.4",
+    "display_label": "4.3.4 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c183": {
+    "unit": "Tage",
+    "code": "4.3.4",
+    "display_label": "4.3.4 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c184": {
+    "unit": "Tage",
+    "code": "4.3.5",
+    "display_label": "4.3.5 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c185": {
+    "unit": "Tage",
+    "code": "4.3.5",
+    "display_label": "4.3.5 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c186": {
+    "unit": "Tage",
+    "code": "4.3.6",
+    "display_label": "4.3.6 Median der Dauer je Vorgang  \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c187": {
+    "unit": "Tage",
+    "code": "4.3.6",
+    "display_label": "4.3.6 Median der Dauer je Vorgang  \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c256": {
+    "unit": "kW",
+    "code": "5.2.1",
+    "display_label": "5.2.1  Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von Ladeeinrichtungen für Elektromobile in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c257": {
+    "unit": "kW",
+    "code": "5.2.1",
+    "display_label": "5.2.1  Summenleistung aller vollständigen/qualifizierten Anschlussbegehren von Ladeeinrichtungen für Elektromobile in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c280": {
+    "unit": "kW",
+    "code": "5.2.13",
+    "display_label": "5.2.13  Summenleistung aller sonstigen vollständigen/qualifizierten Anschlussbegehren von Verbrauchseinrichtungen in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c281": {
+    "unit": "kW",
+    "code": "5.2.13",
+    "display_label": "5.2.13  Summenleistung aller sonstigen vollständigen/qualifizierten Anschlussbegehren von Verbrauchseinrichtungen in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c282": {
+    "unit": "Tage",
+    "code": "5.3.1",
+    "display_label": "5.3.1  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c283": {
+    "unit": "Tage",
+    "code": "5.3.1",
+    "display_label": "5.3.1  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c284": {
+    "unit": "Tage",
+    "code": "5.3.2",
+    "display_label": "5.3.2  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c285": {
+    "unit": "Tage",
+    "code": "5.3.2",
+    "display_label": "5.3.2  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c286": {
+    "unit": "Tage",
+    "code": "5.3.3",
+    "display_label": "5.3.3  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c287": {
+    "unit": "Tage",
+    "code": "5.3.3",
+    "display_label": "5.3.3  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c288": {
+    "unit": "Tage",
+    "code": "5.3.4",
+    "display_label": "5.3.4  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c289": {
+    "unit": "Tage",
+    "code": "5.3.4",
+    "display_label": "5.3.4  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c290": {
+    "unit": "Tage",
+    "code": "5.3.5",
+    "display_label": "5.3.5  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c291": {
+    "unit": "Tage",
+    "code": "5.3.5",
+    "display_label": "5.3.5  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c292": {
+    "unit": "Tage",
+    "code": "5.3.6",
+    "display_label": "5.3.6  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS 2024",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Datensatz_EWK_2024:c293": {
+    "unit": "Tage",
+    "code": "5.3.6",
+    "display_label": "5.3.6  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS 2024 Schätzung (ja=1/nein=0)",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c001": {
+    "unit": "Tage",
+    "code": "4.3.1",
+    "display_label": "4.3.1 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der NS, MS/NS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c002": {
+    "unit": "Tage",
+    "code": "4.3.2",
+    "display_label": "4.3.2 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der NS, MS/NS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c004": {
+    "unit": "Tage",
+    "code": "4.3.3",
+    "display_label": "4.3.3 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der MS, HS/MS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c005": {
+    "unit": "Tage",
+    "code": "4.3.4",
+    "display_label": "4.3.4 Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der MS, HS/MS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c007": {
+    "unit": "Tage",
+    "code": "4.3.5",
+    "display_label": "4.3.5 Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von EEG-Erzeugungsanlagen in der HS, HöS/HS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c008": {
+    "unit": "Tage",
+    "code": "4.3.6",
+    "display_label": "4.3.6 Median der Dauer je Vorgang  \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von EEG-Erzeugungsanlagen in der HS, HöS/HS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c010": {
+    "unit": "Tage",
+    "code": "5.3.1",
+    "display_label": "5.3.1  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c011": {
+    "unit": "Tage",
+    "code": "5.3.2",
+    "display_label": "5.3.2  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Ladeeinrichtungen für Elektromobile, Wärmepumpen, Speichern und sonstigen Verbrauchseinrichtungen in der NS, MS/NS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c013": {
+    "unit": "Tage",
+    "code": "5.3.3",
+    "display_label": "5.3.3  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c014": {
+    "unit": "Tage",
+    "code": "5.3.4",
+    "display_label": "5.3.4  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der MS, HS/MS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c016": {
+    "unit": "Tage",
+    "code": "5.3.5",
+    "display_label": "5.3.5  Median der Dauer je Vorgang \"vollständiges/qualifiziertes Anschlussbegehren bis Netzanschlusszusage\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  },
+  "Anschlussdauer_2024:c017": {
+    "unit": "Tage",
+    "code": "5.3.6",
+    "display_label": "5.3.6  Median der Dauer je Vorgang \"Annahme Netzanschlusszusage bis Inbetriebnahme Netzanschluss oder Bereitstellung der Netzanschlusskapazität\" von Verbrauchseinrichtungen und Speichern in der HS, HöS/HS ",
+    "unit_source": "Erhebungsbogen_final.xlsx:Definitionen"
+  }
+}

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, BarChart3, GitCompareArrows } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
+import type { UnitsMap } from '../utils/units';
 import IndicatorFinder from './IndicatorFinder';
 import ScatterYSelector from './ScatterYSelector';
 import ResultPanel from './ResultPanel';
@@ -21,6 +22,7 @@ interface Props {
   scatterYId: string | null;
   onScatterYChange: (id: string | null) => void;
   recentIds: string[];
+  unitsMap: UnitsMap;
 }
 
 const MOBILE_TABS = [
@@ -43,6 +45,7 @@ export default function ExplorerLayout({
   scatterYId,
   onScatterYChange,
   recentIds,
+  unitsMap,
 }: Props) {
   const [mobileStep, setMobileStep] = useState<'finder' | 'result' | 'compare'>('result');
   const isMobile = useIsMobile();
@@ -93,6 +96,7 @@ export default function ExplorerLayout({
             catalog={catalog}
             selectedBnrs={selectedBnrs}
             scatterYId={scatterYId}
+            unitsMap={unitsMap}
             onAddBnr={(bnr) => {
               if (!selectedBnrs.includes(bnr)) {
                 onSelectedBnrsChange([...selectedBnrs, bnr]);

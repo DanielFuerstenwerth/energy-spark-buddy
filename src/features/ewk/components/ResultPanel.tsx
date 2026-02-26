@@ -3,6 +3,8 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import { SOURCE_LABELS } from '../types';
+import type { UnitsMap } from '../utils/units';
+import { getUnit } from '../utils/units';
 import RankingTable from './RankingTable';
 import DistributionChart from './DistributionChart';
 import ScatterPanel from './ScatterPanel';
@@ -14,6 +16,7 @@ interface Props {
   catalog: IndicatorMeta[];
   selectedBnrs: string[];
   scatterYId: string | null;
+  unitsMap: UnitsMap;
   onAddBnr: (bnr: string) => void;
 }
 
@@ -24,6 +27,7 @@ export default function ResultPanel({
   catalog,
   selectedBnrs,
   scatterYId,
+  unitsMap,
   onAddBnr,
 }: Props) {
   if (!indicator) {
@@ -49,6 +53,7 @@ export default function ResultPanel({
 
   const isNumeric = indicator.data_type === 'numeric' || indicator.data_type === 'binary_0_1';
   const showScatter = isNumeric && scatterYId;
+  const unit = getUnit(unitsMap, indicator.indicator_id);
 
   return (
     <div className="p-4 md:p-5 space-y-4">
@@ -59,13 +64,18 @@ export default function ResultPanel({
           <Badge variant="outline" className="text-[10px]">
             {SOURCE_LABELS[indicator.source as SourceKey]}
           </Badge>
+          {unit && (
+            <Badge variant="secondary" className="text-[10px]">
+              Einheit: {unit}
+            </Badge>
+          )}
           <span>Gültige N: {indicator.non_null_count}</span>
         </div>
       </div>
 
       {/* Distribution always on top for numeric */}
       {indicator.data_type !== 'text' && (
-        <DistributionChart rows={rows} colKey={indicator.column_key} dataType={indicator.data_type} indicatorLabel={indicator.display_label} />
+        <DistributionChart rows={rows} colKey={indicator.column_key} dataType={indicator.data_type} indicatorLabel={indicator.display_label} unit={unit} />
       )}
 
       {/* Scatter if Y selected */}
@@ -76,6 +86,7 @@ export default function ResultPanel({
           currentRows={rows}
           yIndicatorId={scatterYId}
           highlightedBnrs={selectedBnrs}
+          unitsMap={unitsMap}
         />
       )}
 
@@ -84,6 +95,7 @@ export default function ResultPanel({
         rows={rows}
         colKey={indicator.column_key}
         dataType={indicator.data_type}
+        unit={unit}
         onAddBnr={onAddBnr}
       />
     </div>

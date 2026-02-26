@@ -9,9 +9,10 @@ interface Props {
   colKey: string;
   dataType: string;
   indicatorLabel?: string;
+  unit?: string;
 }
 
-export default function DistributionChart({ rows, colKey, dataType, indicatorLabel }: Props) {
+export default function DistributionChart({ rows, colKey, dataType, indicatorLabel, unit = '' }: Props) {
   if (dataType === 'text') {
     return (
       <div className="text-sm text-muted-foreground bg-muted/50 rounded-xl p-6 text-center">
@@ -24,7 +25,7 @@ export default function DistributionChart({ rows, colKey, dataType, indicatorLab
     return <BinaryDistribution rows={rows} colKey={colKey} indicatorLabel={indicatorLabel} />;
   }
 
-  return <NumericDistribution rows={rows} colKey={colKey} indicatorLabel={indicatorLabel} />;
+  return <NumericDistribution rows={rows} colKey={colKey} indicatorLabel={indicatorLabel} unit={unit} />;
 }
 
 function BinaryDistribution({ rows, colKey, indicatorLabel }: { rows: VnbRow[]; colKey: string; indicatorLabel?: string }) {
@@ -90,7 +91,7 @@ function BinaryDistribution({ rows, colKey, indicatorLabel }: { rows: VnbRow[]; 
   );
 }
 
-function NumericDistribution({ rows, colKey, indicatorLabel }: { rows: VnbRow[]; colKey: string; indicatorLabel?: string }) {
+function NumericDistribution({ rows, colKey, indicatorLabel, unit = '' }: { rows: VnbRow[]; colKey: string; indicatorLabel?: string; unit?: string }) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   const { histogram, stats, validN } = useMemo(() => {
@@ -144,7 +145,7 @@ function NumericDistribution({ rows, colKey, indicatorLabel }: { rows: VnbRow[];
       {/* Exportable chart area */}
       <div ref={chartRef} className="bg-card rounded-lg p-4">
         <div className="flex items-start justify-between gap-2 mb-1">
-          <h4 className="text-sm font-medium min-w-0">{indicatorLabel ?? 'Verteilung'}</h4>
+          <h4 className="text-sm font-medium min-w-0">{indicatorLabel ?? 'Verteilung'}{unit ? ` (${unit})` : ''}</h4>
           <div className="shrink-0">
             <DownloadImageButton targetRef={chartRef} filename={`verteilung-${colKey}`} />
           </div>
@@ -159,7 +160,7 @@ function NumericDistribution({ rows, colKey, indicatorLabel }: { rows: VnbRow[];
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={histogram}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis dataKey="label" tick={{ fontSize: 10 }} interval="preserveStartEnd" />
+              <XAxis dataKey="label" tick={{ fontSize: 10 }} interval="preserveStartEnd" label={unit ? { value: unit, position: 'insideBottomRight', offset: -4, fontSize: 10 } : undefined} />
               <YAxis tick={{ fontSize: 10 }} />
               <Tooltip
                 contentStyle={{ fontSize: 12, borderRadius: 8 }}
