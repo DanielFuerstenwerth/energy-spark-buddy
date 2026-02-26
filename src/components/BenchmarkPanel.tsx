@@ -65,6 +65,29 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
     1
   );
 
+  // Category helpers & counts for highlight layer
+  const getBarColor = (score: number): string => {
+    if (score === 0) return 'hsl(220, 13%, 91%)';
+    if (score > 50) return 'hsl(158, 64%, 32%)';
+    if (score > 0) return 'hsl(142, 76%, 45%)';
+    if (score >= -50) return 'hsl(20, 85%, 55%)';
+    return 'hsl(350, 80%, 35%)';
+  };
+
+  const getBarCategory = (score: number): string => {
+    if (score === 0) return 'zero';
+    if (score > 50) return 'highPos';
+    if (score > 0) return 'lowPos';
+    if (score >= -50) return 'lowNeg';
+    return 'highNeg';
+  };
+
+  const categoryCounts: Record<string, number> = {};
+  for (const v of chartVnbs) {
+    const cat = getBarCategory(v.score);
+    categoryCounts[cat] = (categoryCounts[cat] ?? 0) + 1;
+  }
+
   if (loading) {
     return (
       <Card className="h-full flex flex-col">
@@ -146,27 +169,13 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
                 <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border z-10" />
                 <div className="absolute left-1/2 -translate-x-1/2 top-1 text-[10px] text-muted-foreground z-10 bg-muted/20 px-1 rounded">0</div>
                 
-                {/* Bars container */}
-                <div className="flex items-center h-full px-2">
+                {/* All-layer: thin 1px bars */}
+                <div className="flex items-center h-full px-2 absolute inset-0">
                   {chartVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
                     const score = vnb.score;
-                    const barPercent = (Math.abs(score) / maxAbs) * 50; // 50% = half width
-                    
-                    let fillColor: string;
-                    if (score === 0) {
-                      fillColor = 'hsl(220, 13%, 91%)';
-                    } else if (score > 50) {
-                      fillColor = 'hsl(158, 64%, 32%)';
-                    } else if (score > 0) {
-                      fillColor = 'hsl(142, 76%, 45%)';
-                    } else if (score >= -50) {
-                      fillColor = 'hsl(20, 85%, 55%)';
-                    } else {
-                      fillColor = 'hsl(350, 80%, 35%)';
-                    }
-
-                    // Position: positive bars extend right from center, negative extend left
+                    const barPercent = (Math.abs(score) / maxAbs) * 50;
+                    const fillColor = getBarColor(score);
                     const isPositive = score >= 0;
 
                     return (
@@ -186,6 +195,46 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
                             ...(isPositive
                               ? { left: '50%' }
                               : { right: '50%' }),
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Highlight-layer: wide bars for rare categories (count ≤ 5), pointer-events disabled */}
+                <div className="flex items-center h-full px-2 absolute inset-0 pointer-events-none" style={{ zIndex: 15 }}>
+                  {chartVnbs.map((vnb) => {
+                    const score = vnb.score;
+                    const cat = getBarCategory(score);
+                    const catCount = categoryCounts[cat] ?? 0;
+                    const isRare = catCount <= 5 && cat !== 'noData';
+                    if (!isRare) return <div key={vnb.id} className="flex-1" style={{ minWidth: '1px' }} />;
+
+                    const barPercent = (Math.abs(score) / maxAbs) * 50;
+                    const fillColor = getBarColor(score);
+                    const isPositive = score >= 0;
+
+                    return (
+                      <div
+                        key={vnb.id}
+                        className="flex-1 relative"
+                        style={{ height: '100%', minWidth: '1px' }}
+                      >
+                        <div
+                          style={{
+                            position: 'absolute',
+                            backgroundColor: fillColor,
+                            height: '100%',
+                            width: '6px',
+                            transform: 'translateX(-50%)',
+                            ...(isPositive
+                              ? { left: `calc(50% + ${barPercent}% / 2)` }
+                              : { left: `calc(50% - ${barPercent}% / 2)` }),
+                            // center the 6px bar at the same position as the thin bar's tip
+                            ...(isPositive
+                              ? { left: `calc(50% + ${barPercent * 0.5}%)`, transform: 'translateX(-3px)' }
+                              : { right: `calc(50% + ${barPercent * 0.5}%)`, left: 'auto', transform: 'translateX(3px)' }),
                           }}
                         />
                       </div>
