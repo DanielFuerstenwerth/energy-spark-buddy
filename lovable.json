@@ -6,7 +6,8 @@
       "/umfrage/audit/",
       "/umfrage/audit/index.html",
       "/data/*",
-      "/audit.html"
+      "/audit.html",
+      "/zugang.html"
     ]
   },
   "rewrites": [
@@ -22,6 +23,6 @@
   "fallback": {
     "source": "/(.*)",
     "destination": "/index.html",
-    "exclude": ["/umfrage/audit*", "/data/*", "/audit.html"]
+    "exclude": ["/umfrage/audit*", "/data/*", "/audit.html", "/zugang.html"]
   }
 }

@@ -1,5 +1,6 @@
 # Netlify redirects - static files first, then SPA fallback
 /audit.html       /audit.html                  200
+/zugang.html      /zugang.html                 200
 /umfrage/audit    /umfrage/audit/index.html    200
 /umfrage/audit/   /umfrage/audit/index.html    200
 /data/*           /data/:splat                 200
