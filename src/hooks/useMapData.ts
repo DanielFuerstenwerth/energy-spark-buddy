@@ -40,20 +40,22 @@ export const useMapData = (route: string) => {
     setLoading(true);
     setError(null);
 
-    console.log(`[useMapData] Loading data for route: ${route}`);
+    console.log(`[useMapData] Loading data for route: "${route}" (pathname: ${window.location.pathname})`);
 
     // buildMapsConfig is now cached — no re-fetch on every route change
     buildMapsConfig()
       .then(async (config: MapConfig) => {
-        console.log(`[useMapData] Maps config loaded, checking route: ${route}`);
-        let routeConfig = config[route];
+        // Case-insensitive route lookup: try exact, then lowercase
+        let routeConfig = config[route] || config[route.toLowerCase()];
         
+        console.log(`[useMapData] Maps config loaded (${Object.keys(config).length} keys), route "${route}" → ${routeConfig ? 'found' : 'NOT found'}`);
+
         // Fallback: if criterion route not found, inherit from parent subcategory
         if (!routeConfig || !routeConfig.sheet) {
           const parts = route.split('/');
           if (parts.length === 3) {
             const parentRoute = `${parts[0]}/${parts[1]}`;
-            const parentConfig = config[parentRoute];
+            const parentConfig = config[parentRoute] || config[parentRoute.toLowerCase()];
             if (parentConfig?.sheet) {
               console.log(`[useMapData] Criterion route not found, inheriting from parent: ${parentRoute}, column: ${parts[2]}`);
               routeConfig = {
@@ -65,7 +67,7 @@ export const useMapData = (route: string) => {
         }
 
         if (!routeConfig || !routeConfig.sheet) {
-          console.warn(`[useMapData] No sheet configured for route: ${route}, using zero data`);
+          console.warn(`[useMapData] No sheet configured for route: "${route}", available keys:`, Object.keys(config).slice(0, 20));
           const zeroData = await createZeroScoreData();
           setScoreData(zeroData);
           setLoading(false);
@@ -87,7 +89,7 @@ export const useMapData = (route: string) => {
           aggregatedColumn: 'aggregated_score',
           requestedColumn: columnName,
         });
-        console.log(`[useMapData] Loaded ${data.size} VNB scores`);
+        console.log(`[useMapData] Loaded ${data.size} VNB scores for route "${route}"`);
         
         setScoreData(data);
         setLoading(false);

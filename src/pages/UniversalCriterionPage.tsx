@@ -24,6 +24,12 @@ const UniversalCriterionPage = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   
   const route = `${category}/${subcategory}/${criterion}`;
+
+  // Debug: log URL vs route for deep-linking diagnostics
+  if (import.meta.env.DEV) {
+    console.log(`[UniversalCriterionPage] pathname="${window.location.pathname}" → route="${route}"`);
+  }
+
   const { scoreData, loading, error } = useMapData(route);
   const { navData } = useNavigation();
 

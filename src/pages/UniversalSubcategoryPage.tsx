@@ -20,6 +20,12 @@ const UniversalSubcategoryPage = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   
   const route = `${category}/${subcategory}`;
+
+  // Debug: log URL vs route for deep-linking diagnostics
+  if (import.meta.env.DEV) {
+    console.log(`[UniversalSubcategoryPage] pathname="${window.location.pathname}" → category="${category}", subcategory="${subcategory}", route="${route}"`);
+  }
+
   const { scoreData, loading, error } = useMapData(route);
   const { navData } = useNavigation();
 
