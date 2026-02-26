@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Search, BarChart3, GitCompareArrows } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import IndicatorFinder from './IndicatorFinder';
 import ScatterYSelector from './ScatterYSelector';
@@ -23,6 +23,12 @@ interface Props {
   recentIds: string[];
 }
 
+const MOBILE_TABS = [
+  { key: 'finder' as const, label: 'Indikator', icon: Search },
+  { key: 'result' as const, label: 'Ergebnis', icon: BarChart3 },
+  { key: 'compare' as const, label: 'Vergleich', icon: GitCompareArrows },
+];
+
 export default function ExplorerLayout({
   catalog,
   selectedIndicator,
@@ -38,27 +44,12 @@ export default function ExplorerLayout({
   onScatterYChange,
   recentIds,
 }: Props) {
-  // Mobile step navigation
   const [mobileStep, setMobileStep] = useState<'finder' | 'result' | 'compare'>('result');
+  const isMobile = useIsMobile();
 
   return (
     <>
-      {/* Mobile step nav */}
-      <div className="flex md:hidden gap-1 mb-3">
-        {(['finder', 'result', 'compare'] as const).map((step) => (
-          <Button
-            key={step}
-            variant={mobileStep === step ? 'default' : 'outline'}
-            size="sm"
-            className="flex-1 text-xs"
-            onClick={() => setMobileStep(step)}
-          >
-            {step === 'finder' ? 'Indikator' : step === 'result' ? 'Ergebnis' : 'Vergleich'}
-          </Button>
-        ))}
-      </div>
-
-      <div className="flex gap-0 min-h-[600px] rounded-xl border border-border overflow-hidden bg-card/30">
+      <div className="flex gap-0 min-h-[600px] md:min-h-[600px] rounded-xl border border-border overflow-hidden bg-card/30 mb-16 md:mb-0">
         {/* Left: Finder */}
         <div
           className={`${
@@ -124,6 +115,35 @@ export default function ExplorerLayout({
           />
         </div>
       </div>
+
+      {/* Mobile bottom tab bar */}
+      {isMobile && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-background border-t border-border flex md:hidden">
+          {MOBILE_TABS.map((tab) => {
+            const isActive = mobileStep === tab.key;
+            const badge = tab.key === 'compare' && selectedBnrs.length > 0 ? selectedBnrs.length : null;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setMobileStep(tab.key)}
+                className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))] min-h-[56px] transition-colors ${
+                  isActive ? 'text-primary' : 'text-muted-foreground'
+                }`}
+              >
+                <div className="relative">
+                  <tab.icon className="h-5 w-5" />
+                  {badge && (
+                    <span className="absolute -top-1.5 -right-2.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
+                      {badge}
+                    </span>
+                  )}
+                </div>
+                <span className={`text-[10px] font-medium ${isActive ? 'text-primary' : ''}`}>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
