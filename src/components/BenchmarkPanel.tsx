@@ -1,14 +1,17 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getColor, ScoreData, loadAllVnbNames } from "@/utils/dataLoader";
-import { CheckCircle2, MessageSquare } from "lucide-react";
+import { CheckCircle2, MessageSquare, Download, Loader2 } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
-import { useEffect, useState } from "react";
+import { Button } from "./ui/button";
+import { useEffect, useState, useRef, useCallback } from "react";
+import { exportMapContainerAsTiff } from "@/utils/exportTiff";
 
 interface BenchmarkPanelProps {
   scoreData: Map<string, ScoreData>;
   selectedVnb: { id: string; name: string } | null;
   onVnbSelect: (vnbId: string, vnbName: string) => void;
+  mapContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 interface VnbItem {
@@ -17,55 +20,50 @@ interface VnbItem {
   score: number | null;
 }
 
-const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
+const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }: BenchmarkPanelProps) => {
   const [allVnbs, setAllVnbs] = useState<VnbItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     const loadAllVnbs = async () => {
       try {
         const vnbNamesMap = await loadAllVnbNames();
-        
-        // Create a complete list by merging vnbNamesMap with scoreData
         const completeList: VnbItem[] = [];
-        
         vnbNamesMap.forEach((name, id) => {
           const scoreInfo = scoreData.get(id);
-          completeList.push({
-            id,
-            name,
-            score: scoreInfo?.score ?? null
-          });
+          completeList.push({ id, name, score: scoreInfo?.score ?? null });
         });
         
-        // Split into positive and non-positive, then sort
-        const positiveVnbs = completeList
-          .filter(v => v.score !== null && v.score > 0)
-          .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-
-        const nonPositiveVnbs = completeList
-          .filter(v => v.score === null || v.score <= 0)
-          .sort((a, b) => {
-            if (a.score === null && b.score === null) return 0;
-            if (a.score === null) return 1;
-            if (b.score === null) return -1;
-            return (b.score ?? 0) - (a.score ?? 0);
-          });
-
-        setAllVnbs([...positiveVnbs, ...nonPositiveVnbs]);
+        const sorted = completeList.sort((a, b) => (b.score ?? -Infinity) - (a.score ?? -Infinity));
+        setAllVnbs(sorted);
         setLoading(false);
       } catch (error) {
         console.error('Error loading all VNBs:', error);
         setLoading(false);
       }
     };
-
     loadAllVnbs();
   }, [scoreData]);
 
-  const positiveVnbs = allVnbs.filter(v => v.score !== null && v.score > 0);
-  const nonPositiveVnbs = allVnbs.filter(v => v.score === null || v.score <= 0);
-  const selectedVnbData = selectedVnb ? allVnbs.find(v => v.id === selectedVnb.id) : null;
+  const handleExportTiff = useCallback(async () => {
+    if (!mapContainerRef?.current || exporting) return;
+    setExporting(true);
+    try {
+      await exportMapContainerAsTiff(mapContainerRef.current);
+    } catch (e) {
+      console.error('TIFF export failed', e);
+    } finally {
+      setExporting(false);
+    }
+  }, [mapContainerRef, exporting]);
+
+  // Compute chart data: sorted by score descending
+  const chartVnbs = allVnbs.filter(v => v.score !== null) as (VnbItem & { score: number })[];
+  const maxAbs = Math.max(
+    ...chartVnbs.map(v => Math.abs(v.score)),
+    1
+  );
 
   if (loading) {
     return (
@@ -81,11 +79,30 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
     );
   }
 
+  const selectedVnbData = selectedVnb ? allVnbs.find(v => v.id === selectedVnb.id) : null;
+
   return (
     <Card className="h-full flex flex-col">
-      <CardHeader>
-        <CardTitle>Benchmark-Analyse</CardTitle>
-        <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Benchmark-Analyse</CardTitle>
+            <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
+          </div>
+          {mapContainerRef && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleExportTiff}
+              disabled={exporting}
+              className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+              title="Karte als TIFF herunterladen"
+            >
+              {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+              {exporting ? 'Export…' : 'TIFF'}
+            </Button>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
         <Tabs defaultValue="performance" className="w-full flex-1 flex flex-col">
@@ -119,79 +136,68 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
               </div>
             )}
 
+            {/* Diverging Bar Chart around zero axis */}
             <div>
               <h4 className="text-sm font-semibold mb-3">
                 Ranking aller {allVnbs.length} VNB
               </h4>
-              <div className="relative bg-muted/20 rounded-lg overflow-hidden p-4">
-                <div className="flex items-end justify-start h-32">
-                  {/* Positive VNBs - links, wider bars to make champions visible */}
-                  {positiveVnbs.map((vnb, idx) => {
+              <div className="relative bg-muted/20 rounded-lg overflow-hidden" style={{ height: '200px' }}>
+                {/* Zero axis label */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-border z-10" />
+                <div className="absolute left-1/2 -translate-x-1/2 top-1 text-[10px] text-muted-foreground z-10 bg-muted/20 px-1 rounded">0</div>
+                
+                {/* Bars container */}
+                <div className="flex items-center h-full px-2">
+                  {chartVnbs.map((vnb) => {
                     const isSelected = vnb.id === selectedVnb?.id;
-                    const score = vnb.score ?? 0;
+                    const score = vnb.score;
+                    const barPercent = (Math.abs(score) / maxAbs) * 50; // 50% = half width
                     
-                    const heightPercent = 5 + ((score + 100) / 200) * 95;
-                    
-                    const isChampion = score > 50;
-                    const fillColor = isChampion ? 'hsl(var(--score-5))' : 'hsl(var(--score-4))';
-                    const barWidth = isChampion ? 6 : 5;
-                    
-                    return (
-                      <div
-                        key={vnb.id}
-                        className={`cursor-pointer transition-all hover:opacity-80 ${
-                          isSelected ? 'ring-2 ring-primary ring-offset-2' : ''
-                        }`}
-                        style={{
-                          height: `${heightPercent}%`,
-                          backgroundColor: fillColor,
-                          minHeight: '4px',
-                          flex: `0 0 ${barWidth}px`,
-                          borderRight: idx < positiveVnbs.length - 1 ? '0.5px solid white' : 'none',
-                        }}
-                        title={`${vnb.name}: +${score}`}
-                        onClick={() => onVnbSelect(vnb.id, vnb.name)}
-                      />
-                    );
-                  })}
-                  
-                  {/* Non-positive VNBs - rechts, no gap to positive */}
-                  {nonPositiveVnbs.map((vnb) => {
-                    const isSelected = vnb.id === selectedVnb?.id;
-                    const score = vnb.score ?? 0;
-                    
-                    let heightPercent;
-                    if (vnb.score === null || vnb.score === 0) {
-                      heightPercent = 5;
+                    let fillColor: string;
+                    if (score === 0) {
+                      fillColor = 'hsl(220, 13%, 91%)';
+                    } else if (score > 50) {
+                      fillColor = 'hsl(158, 64%, 32%)';
+                    } else if (score > 0) {
+                      fillColor = 'hsl(142, 76%, 45%)';
+                    } else if (score >= -50) {
+                      fillColor = 'hsl(20, 85%, 55%)';
                     } else {
-                      heightPercent = 5 + ((score + 100) / 200) * 95;
+                      fillColor = 'hsl(350, 80%, 35%)';
                     }
-                    
-                    let fillColor = 'hsl(var(--score-unknown))';
-                    if (vnb.score !== null) {
-                      if (score < -50) fillColor = 'hsl(var(--score-1))';
-                      else if (score < 0) fillColor = 'hsl(var(--score-2))';
-                      else if (score <= 0) fillColor = 'hsl(var(--score-3))';
-                    }
-                    
+
+                    // Position: positive bars extend right from center, negative extend left
+                    const isPositive = score >= 0;
+
                     return (
                       <div
                         key={vnb.id}
-                        className={`flex-1 cursor-pointer transition-all hover:opacity-80 ${
-                          isSelected ? 'ring-2 ring-primary ring-offset-2' : ''
-                        }`}
-                        style={{
-                          height: `${heightPercent}%`,
-                          backgroundColor: fillColor,
-                          minHeight: '4px',
-                          minWidth: '1px'
-                        }}
-                        title={`${vnb.name}: ${vnb.score !== null ? (vnb.score > 0 ? '+' : '') + vnb.score : 'N/A'}`}
+                        className="flex-1 relative cursor-pointer group"
+                        style={{ height: '100%', minWidth: '1px' }}
+                        title={`${vnb.name}: ${score > 0 ? '+' : ''}${score}`}
                         onClick={() => onVnbSelect(vnb.id, vnb.name)}
-                      />
+                      >
+                        <div
+                          className={`absolute transition-all ${isSelected ? 'ring-1 ring-primary z-20' : 'hover:brightness-110'}`}
+                          style={{
+                            backgroundColor: fillColor,
+                            height: '100%',
+                            width: `${barPercent}%`,
+                            ...(isPositive
+                              ? { left: '50%' }
+                              : { right: '50%' }),
+                          }}
+                        />
+                      </div>
                     );
                   })}
                 </div>
+              </div>
+              {/* Scale labels */}
+              <div className="flex justify-between text-[10px] text-muted-foreground mt-1 px-2">
+                <span>−{maxAbs}</span>
+                <span>0</span>
+                <span>+{maxAbs}</span>
               </div>
             </div>
 
@@ -229,7 +235,6 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
             <div className="space-y-6">
               <div className="prose prose-sm max-w-none">
                 <h3 className="text-lg font-semibold mb-4">Best Practices</h3>
-                
                 <div className="space-y-4">
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
@@ -237,14 +242,12 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
                       Digitale Prozesse
                     </h4>
                   </div>
-
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5" />
                       Kommunikation
                     </h4>
                   </div>
-
                   <div className="p-4 bg-muted/50 rounded-lg">
                     <h4 className="font-semibold mb-2 flex items-center gap-2">
                       <CheckCircle2 className="w-5 h-5" />
