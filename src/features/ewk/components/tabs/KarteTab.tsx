@@ -62,6 +62,17 @@ export default function KarteTab({ catalog, indicator, rows, loading, unitsMap }
     };
   }, [valueMap]);
 
+  // ResizeObserver to keep tiles aligned with polygons
+  useEffect(() => {
+    const el = mapContainer.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      map.current?.invalidateSize(false);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
     map.current = L.map(mapContainer.current, {
@@ -122,6 +133,12 @@ export default function KarteTab({ catalog, indicator, rows, loading, unitsMap }
             });
           },
         }).addTo(map.current);
+
+        // Ensure alignment after adding layer
+        map.current.invalidateSize(true);
+        requestAnimationFrame(() => {
+          map.current?.invalidateSize(true);
+        });
       })
       .catch(console.error);
   }, [indicator, valueMap, min, max, isNumeric, unitsMap]);

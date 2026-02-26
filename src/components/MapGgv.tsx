@@ -48,21 +48,33 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
     }
   }));
 
+  // ResizeObserver to keep tiles aligned with polygons
+  useEffect(() => {
+    const el = mapContainer.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => {
+      map.current?.invalidateSize(false);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
     // Initialize map
-    map.current = L.map(mapContainer.current, {
+    const m = L.map(mapContainer.current, {
       zoomControl: true,
       attributionControl: true
     }).setView([51.1657, 10.4515], 6);
+    map.current = m;
 
     // Add OSM tile layer
-    const tileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
       opacity: 1
-    }).addTo(map.current);
+    }).addTo(m);
 
     // Load real GeoJSON and scores (use external if provided)
     const scoresPromise = externalScoreData 
@@ -114,7 +126,14 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
         }
       }).addTo(map.current);
 
-      map.current.fitBounds(geoLayer.current.getBounds());
+      // Ensure container size is correct before fitting bounds
+      map.current.invalidateSize(true);
+      requestAnimationFrame(() => {
+        if (map.current && geoLayer.current) {
+          map.current.invalidateSize(true);
+          map.current.fitBounds(geoLayer.current.getBounds());
+        }
+      });
 
       if (pendingZoomId.current) {
         const targetId = pendingZoomId.current;
