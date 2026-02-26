@@ -3,6 +3,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import type { IndicatorMeta, VnbRow } from '../../types';
 import { tryParseNum } from '../../utils/csvParser';
+import type { UnitsMap } from '../../utils/units';
+import { getUnit } from '../../utils/units';
+import { formatDisplay } from '../../utils/format';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,6 +17,7 @@ interface Props {
   indicator: IndicatorMeta | null;
   rows: VnbRow[];
   loading: boolean;
+  unitsMap: UnitsMap;
 }
 
 function getColorScale(value: number, min: number, max: number): string {
@@ -24,7 +28,7 @@ function getColorScale(value: number, min: number, max: number): string {
   return `hsl(${h}, 70%, 50%)`;
 }
 
-export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
+export default function KarteTab({ catalog, indicator, rows, loading, unitsMap }: Props) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const karteRef = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
@@ -105,8 +109,11 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
             const vnbId = feature?.id;
             const info = valueMap.get(vnbId);
             const name = info?.firmenname ?? vnbId;
-            const val = info?.value !== null && info?.value !== undefined ? info.value : 'keine Angabe';
-            layer.bindTooltip(`<strong>${name}</strong><br/>Wert: ${val}`, { sticky: true });
+            const u = indicator ? getUnit(unitsMap, indicator.indicator_id) : '';
+            const valStr = info?.value !== null && info?.value !== undefined
+              ? formatDisplay(info.value, u)
+              : 'keine Angabe';
+            layer.bindTooltip(`<strong>${name}</strong><br/>Wert: ${valStr}`, { sticky: true });
             layer.on('mouseover', function (this: any) {
               this.setStyle({ weight: 1.5, fillOpacity: 1.0 });
             });
@@ -117,7 +124,7 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
         }).addTo(map.current);
       })
       .catch(console.error);
-  }, [indicator, valueMap, min, max, isNumeric]);
+  }, [indicator, valueMap, min, max, isNumeric, unitsMap]);
 
   const handleExport = useCallback(async () => {
     if (!map.current || exporting) return;
@@ -160,7 +167,7 @@ export default function KarteTab({ catalog, indicator, rows, loading }: Props) {
     <div ref={karteRef} className="space-y-3">
       <div className="flex items-center gap-2 flex-wrap">
         <span className="text-sm font-medium">Karte:</span>
-        <Badge variant="outline" className="text-xs">{indicator.display_label}</Badge>
+        <Badge variant="outline" className="text-xs">{indicator.display_label}{(() => { const u = getUnit(unitsMap, indicator.indicator_id); return u ? ` (${u})` : ''; })()}</Badge>
         <span className="text-xs text-muted-foreground">Gültige N: {validN}</span>
         <Button
           variant="ghost"

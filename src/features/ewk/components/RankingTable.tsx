@@ -5,18 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { VnbRow } from '../types';
 import { tryParseNum } from '../utils/csvParser';
+import { formatDisplay } from '../utils/format';
 
 interface Props {
   rows: VnbRow[];
   colKey: string;
   dataType: string;
+  unit?: string;
   onAddBnr?: (bnr: string) => void;
 }
 
 type SortField = 'rank' | 'firmenname' | 'value';
 type SortDir = 'asc' | 'desc';
 
-export default function RankingTable({ rows, colKey, dataType, onAddBnr }: Props) {
+export default function RankingTable({ rows, colKey, dataType, unit = '', onAddBnr }: Props) {
   const [sortField, setSortField] = useState<SortField>('rank');
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [search, setSearch] = useState('');
@@ -151,7 +153,7 @@ export default function RankingTable({ rows, colKey, dataType, onAddBnr }: Props
                 <SortButton field="firmenname" label="Netzbetreiber" />
               </TableHead>
               <TableHead className="text-right w-28 text-xs">
-                <SortButton field="value" label="Wert" />
+                <SortButton field="value" label={unit ? `Wert (${unit})` : 'Wert'} />
               </TableHead>
               {onAddBnr && <TableHead className="w-8" />}
             </TableRow>
@@ -176,7 +178,7 @@ export default function RankingTable({ rows, colKey, dataType, onAddBnr }: Props
                     {e.raw === '' || e.raw === 'nan' ? (
                       <span className="text-muted-foreground">keine Angabe</span>
                     ) : (
-                      e.raw
+                      formatDisplay(e.raw, unit)
                     )}
                   </TableCell>
                   {onAddBnr && (

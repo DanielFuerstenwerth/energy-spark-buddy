@@ -3,20 +3,22 @@ import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Cart
 import { Badge } from '@/components/ui/badge';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import { tryParseNum } from '../utils/csvParser';
+import type { UnitsMap } from '../utils/units';
+import { getUnit } from '../utils/units';
+import { formatDisplay } from '../utils/format';
 import { useCsvData } from '../hooks/useEwkData';
 import DownloadImageButton from './DownloadImageButton';
 
 /* ---- custom tooltip ---- */
-function EwkScatterTooltip({ active, payload, xLabel, yLabel }: any) {
+function EwkScatterTooltip({ active, payload, xLabel, yLabel, xUnit, yUnit }: any) {
   if (!active || !payload?.length) return null;
   const p = payload[0]?.payload;
   if (!p) return null;
-  const fmt = (v: number) => (Number.isFinite(v) ? v.toLocaleString('de-DE', { maximumFractionDigits: 2 }) : 'keine Angabe');
   return (
     <div className="rounded-lg border bg-background px-3 py-2 text-xs shadow-xl space-y-0.5">
       <div className="font-semibold text-sm">{p.name}</div>
-      <div className="text-muted-foreground">{xLabel}: <span className="font-medium text-foreground">{fmt(p.x)}</span></div>
-      <div className="text-muted-foreground">{yLabel}: <span className="font-medium text-foreground">{fmt(p.y)}</span></div>
+      <div className="text-muted-foreground">{xLabel}: <span className="font-medium text-foreground">{formatDisplay(p.x, xUnit)}</span></div>
+      <div className="text-muted-foreground">{yLabel}: <span className="font-medium text-foreground">{formatDisplay(p.y, yUnit)}</span></div>
     </div>
   );
 }
@@ -42,9 +44,10 @@ interface Props {
   currentRows: VnbRow[];
   yIndicatorId: string | null;
   highlightedBnrs: string[];
+  unitsMap: UnitsMap;
 }
 
-export default function ScatterPanel({ catalog, currentIndicator, currentRows, yIndicatorId, highlightedBnrs }: Props) {
+export default function ScatterPanel({ catalog, currentIndicator, currentRows, yIndicatorId, highlightedBnrs, unitsMap }: Props) {
   const scatterRef = useRef<HTMLDivElement>(null);
   const yIndicator = catalog.find((i) => i.indicator_id === yIndicatorId);
   const ySource = yIndicator?.source as SourceKey | null;
@@ -87,6 +90,11 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
     );
   }
 
+  const xUnit = getUnit(unitsMap, currentIndicator.indicator_id);
+  const yUnit = getUnit(unitsMap, yIndicator.indicator_id);
+  const xAxisLabel = currentIndicator.display_label + (xUnit ? ` (${xUnit})` : '');
+  const yAxisLabel = yIndicator.display_label + (yUnit ? ` (${yUnit})` : '');
+
   return (
     <div ref={scatterRef} className="bg-card rounded-xl border p-4 space-y-2">
       <div className="flex items-start justify-between gap-2">
@@ -101,10 +109,10 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 8, right: 8, bottom: 4, left: 4 }}>
             <CartesianGrid strokeDasharray="3 3" className="opacity-20" />
-            <XAxis dataKey="x" type="number" tick={{ fontSize: 9 }} />
-            <YAxis dataKey="y" type="number" tick={{ fontSize: 9 }} />
+            <XAxis dataKey="x" type="number" tick={{ fontSize: 9 }} name={xAxisLabel} />
+            <YAxis dataKey="y" type="number" tick={{ fontSize: 9 }} name={yAxisLabel} />
             <Tooltip
-              content={<EwkScatterTooltip xLabel={currentIndicator.display_label} yLabel={yIndicator!.display_label} />}
+              content={<EwkScatterTooltip xLabel={currentIndicator.display_label} yLabel={yIndicator!.display_label} xUnit={xUnit} yUnit={yUnit} />}
               cursor={{ strokeDasharray: '3 3' }}
             />
             <Scatter

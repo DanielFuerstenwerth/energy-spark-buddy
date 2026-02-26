@@ -11,12 +11,15 @@ import ExplorerLayout from '../components/ExplorerLayout';
 import KarteTab from '../components/tabs/KarteTab';
 import DownloadTab from '../components/tabs/DownloadTab';
 import { useIndicatorCatalog, useCsvData } from '../hooks/useEwkData';
+import { useUnitsMap } from '../hooks/useUnitsMap';
+import type { UnitsMap } from '../utils/units';
 import type { SourceKey } from '../types';
 import { RECOMMENDED_INDICATORS } from '../types';
 import { track } from '@/utils/plausibleTrack';
 
 export default function EwkMonitoringBNetzA() {
   const { catalog, loading } = useIndicatorCatalog();
+  const unitsMap = useUnitsMap();
   const [activeTab, setActiveTab] = useState('explorer');
 
   const handleTabChange = (tab: string) => {
@@ -118,6 +121,7 @@ export default function EwkMonitoringBNetzA() {
                   scatterYId={scatterYId}
                   onScatterYChange={setScatterYId}
                   recentIds={recentIds}
+                  unitsMap={unitsMap}
                 />
               )}
               {activeTab === 'karte' && (
@@ -126,6 +130,7 @@ export default function EwkMonitoringBNetzA() {
                   indicator={selectedIndicator}
                   rows={rows}
                   loading={rowsLoading}
+                  unitsMap={unitsMap}
                 />
               )}
               {activeTab === 'download' && <DownloadTab />}
