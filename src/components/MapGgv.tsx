@@ -69,12 +69,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
     }).setView([51.1657, 10.4515], 6);
     map.current = m;
 
-    // Add OSM tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '© OpenStreetMap contributors',
-      maxZoom: 19,
-      opacity: 1
-    }).addTo(m);
+    // No tile layer – polygons are rendered opaque to avoid alignment issues
 
     // Load real GeoJSON and scores (use external if provided)
     const scoresPromise = externalScoreData 
@@ -100,7 +95,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
             weight: 0.5,
             opacity: 1,
             color: '#333333',
-            fillOpacity: 0.35
+            fillOpacity: 1.0
           };
         },
         onEachFeature: (feature: any, layer) => {
@@ -118,10 +113,10 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
 
           layer.on('click', () => onRegionClick(vnbId, vnbName));
           layer.on('mouseover', function(this: any) {
-            this.setStyle({ weight: 1.5, fillOpacity: 0.55 });
+            this.setStyle({ weight: 1.5, fillOpacity: 1.0 });
           });
           layer.on('mouseout', function(this: any) {
-            this.setStyle({ weight: 0.5, fillOpacity: 0.35 });
+            this.setStyle({ weight: 0.5, fillOpacity: 1.0 });
           });
         }
       }).addTo(map.current);
