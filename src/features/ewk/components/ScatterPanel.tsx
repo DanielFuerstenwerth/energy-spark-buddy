@@ -1,10 +1,40 @@
 import { useMemo, useRef } from 'react';
-import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts';
+import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { Badge } from '@/components/ui/badge';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import { tryParseNum } from '../utils/csvParser';
 import { useCsvData } from '../hooks/useEwkData';
 import DownloadImageButton from './DownloadImageButton';
+
+/* ---- custom tooltip ---- */
+function EwkScatterTooltip({ active, payload, xLabel, yLabel }: any) {
+  if (!active || !payload?.length) return null;
+  const p = payload[0]?.payload;
+  if (!p) return null;
+  const fmt = (v: number) => (Number.isFinite(v) ? v.toLocaleString('de-DE', { maximumFractionDigits: 2 }) : 'keine Angabe');
+  return (
+    <div className="rounded-lg border bg-background px-3 py-2 text-xs shadow-xl space-y-0.5">
+      <div className="font-semibold text-sm">{p.name}</div>
+      <div className="text-muted-foreground">{xLabel}: <span className="font-medium text-foreground">{fmt(p.x)}</span></div>
+      <div className="text-muted-foreground">{yLabel}: <span className="font-medium text-foreground">{fmt(p.y)}</span></div>
+    </div>
+  );
+}
+
+/* ---- custom dot shapes ---- */
+function ScatterDot(props: any) {
+  const { cx, cy, payload } = props;
+  if (cx == null || cy == null) return null;
+  const hl = payload?.highlighted;
+  return <circle cx={cx} cy={cy} r={hl ? 5 : 4} fill={hl ? 'hsl(0,72%,51%)' : 'hsl(var(--primary))'} fillOpacity={0.8} style={{ pointerEvents: 'all' }} />;
+}
+
+function ScatterActiveDot(props: any) {
+  const { cx, cy, payload } = props;
+  if (cx == null || cy == null) return null;
+  const hl = payload?.highlighted;
+  return <circle cx={cx} cy={cy} r={7} fill={hl ? 'hsl(0,72%,51%)' : 'hsl(var(--primary))'} fillOpacity={1} stroke="#fff" strokeWidth={2} style={{ pointerEvents: 'all' }} />;
+}
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -72,21 +102,15 @@ export default function ScatterPanel({ catalog, currentIndicator, currentRows, y
             <XAxis dataKey="x" type="number" tick={{ fontSize: 9 }} />
             <YAxis dataKey="y" type="number" tick={{ fontSize: 9 }} />
             <Tooltip
-              contentStyle={{ fontSize: 11, borderRadius: 8 }}
-              formatter={(value: number, name: string) => [value.toFixed(2), name === 'x' ? currentIndicator.display_label : yIndicator!.display_label]}
-              labelFormatter={(_, payload) => payload?.[0]?.payload?.name ?? ''}
+              content={<EwkScatterTooltip xLabel={currentIndicator.display_label} yLabel={yIndicator!.display_label} />}
+              cursor={{ strokeDasharray: '3 3' }}
             />
-            <Scatter data={scatterData} fillOpacity={0.7}>
-              {scatterData.map((entry, i) => (
-                <Cell
-                  key={i}
-                  fill={entry.highlighted ? 'hsl(0, 72%, 51%)' : 'hsl(var(--primary))'}
-                  r={entry.highlighted ? 6 : 3}
-                  stroke={entry.highlighted ? 'hsl(0, 72%, 51%)' : 'none'}
-                  strokeWidth={entry.highlighted ? 2 : 0}
-                />
-              ))}
-            </Scatter>
+            <Scatter
+              data={scatterData}
+              isAnimationActive={false}
+              shape={<ScatterDot />}
+              activeShape={<ScatterActiveDot />}
+            />
           </ScatterChart>
         </ResponsiveContainer>
       </div>
