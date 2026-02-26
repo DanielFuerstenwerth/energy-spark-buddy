@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import type { IndicatorMeta, SourceKey } from '../types';
 import IndicatorFinderContent from './IndicatorFinderContent';
+import { track } from '@/utils/plausibleTrack';
 
 interface Props {
   catalog: IndicatorMeta[];
@@ -57,6 +58,8 @@ export default function ScatterYSelector({
                 selectedId={scatterYId}
                 onSelect={(id) => {
                   onScatterYChange(id);
+                  const ind = catalog.find((i) => i.indicator_id === id);
+                  track('EWK Scatter Y Select', { indicator: id, label: ind?.display_label ?? id });
                   setOpen(false);
                 }}
                 activeSources={activeSources}
