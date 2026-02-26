@@ -1,13 +1,11 @@
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { IndicatorMeta, VnbRow, SourceKey } from '../types';
 import { SOURCE_LABELS } from '../types';
 import RankingTable from './RankingTable';
 import DistributionChart from './DistributionChart';
 import ScatterPanel from './ScatterPanel';
-import DownloadImageButton from './DownloadImageButton';
 
 interface Props {
   indicator: IndicatorMeta | null;
@@ -28,8 +26,6 @@ export default function ResultPanel({
   scatterYId,
   onAddBnr,
 }: Props) {
-  const panelRef = useRef<HTMLDivElement>(null);
-
   if (!indicator) {
     return (
       <div className="flex items-center justify-center h-full text-muted-foreground text-sm py-20">
@@ -55,24 +51,21 @@ export default function ResultPanel({
   const showScatter = isNumeric && scatterYId;
 
   return (
-    <div ref={panelRef} className="p-4 md:p-5 space-y-4">
+    <div className="p-4 md:p-5 space-y-4">
       {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="space-y-1.5">
-          <h2 className="text-base font-semibold leading-tight">{indicator.display_label}</h2>
-          <div className="flex flex-wrap gap-1.5 items-center text-xs text-muted-foreground">
-            <Badge variant="outline" className="text-[10px]">
-              {SOURCE_LABELS[indicator.source as SourceKey]}
-            </Badge>
-            <span>Gültige N: {indicator.non_null_count}</span>
-          </div>
+      <div className="space-y-1.5">
+        <h2 className="text-base font-semibold leading-tight">{indicator.display_label}</h2>
+        <div className="flex flex-wrap gap-1.5 items-center text-xs text-muted-foreground">
+          <Badge variant="outline" className="text-[10px]">
+            {SOURCE_LABELS[indicator.source as SourceKey]}
+          </Badge>
+          <span>Gültige N: {indicator.non_null_count}</span>
         </div>
-        <DownloadImageButton targetRef={panelRef} filename={`ergebnis-${indicator.column_key}`} />
       </div>
 
       {/* Distribution always on top for numeric */}
       {indicator.data_type !== 'text' && (
-        <DistributionChart rows={rows} colKey={indicator.column_key} dataType={indicator.data_type} />
+        <DistributionChart rows={rows} colKey={indicator.column_key} dataType={indicator.data_type} indicatorLabel={indicator.display_label} />
       )}
 
       {/* Scatter if Y selected */}
