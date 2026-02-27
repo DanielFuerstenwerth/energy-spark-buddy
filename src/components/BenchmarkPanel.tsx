@@ -52,7 +52,7 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
       const geoRes = await fetch('/data/vnb_regions.geojson');
       const geoData = await geoRes.json();
       await exportLeafletToTiff(
-        { geoData, scoreData, getColor },
+        { geoData, scoreData, getColor, title: 'Gemeinschaftliche Gebäudeversorgung (GGV)' },
         { width: 4000, height: 5000, includeBasemap: false }
       );
     } catch (e) {
