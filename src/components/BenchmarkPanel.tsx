@@ -50,6 +50,15 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
     if (!mapContainerRef?.current || exporting) return;
     setExporting(true);
     try {
+      // Force Leaflet to recalculate before capture
+      const mapEl = mapContainerRef.current.querySelector('.leaflet-container') as HTMLElement;
+      if (mapEl && (mapEl as any)._leaflet_id) {
+        // Access the Leaflet map instance via the container's internal reference
+        const mapInstance = (window as any).L?.DomUtil?.get?.(mapEl)?._leaflet_id;
+        // Simpler: dispatch resize to trigger invalidateSize via ResizeObserver
+        window.dispatchEvent(new Event('resize'));
+        await new Promise(r => setTimeout(r, 300));
+      }
       await exportMapContainerAsTiff(mapContainerRef.current);
     } catch (e) {
       console.error('TIFF export failed', e);
