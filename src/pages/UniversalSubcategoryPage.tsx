@@ -110,7 +110,6 @@ const UniversalSubcategoryPage = () => {
                 scoreData={scoreData}
                 selectedVnb={selectedVnb}
                 onVnbSelect={handleVnbSelect}
-                mapContainerRef={mapContainerRef}
               />
             </div>
           </div>

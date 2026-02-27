@@ -116,7 +116,6 @@ const UniversalCriterionPage = () => {
               scoreData={scoreData}
               selectedVnb={selectedVnb}
               onVnbSelect={handleVnbSelect}
-              mapContainerRef={mapContainerRef}
             />
           </div>
         </div>

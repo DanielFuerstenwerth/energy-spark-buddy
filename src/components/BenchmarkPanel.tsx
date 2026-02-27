@@ -4,14 +4,13 @@ import { getColor, ScoreData, loadAllVnbNames } from "@/utils/dataLoader";
 import { CheckCircle2, MessageSquare, Download, Loader2 } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
 import { Button } from "./ui/button";
-import { useEffect, useState, useRef, useCallback } from "react";
-import { exportMapContainerAsTiff } from "@/utils/exportTiff";
+import { useEffect, useState, useCallback } from "react";
+import { exportLeafletToTiff } from "@/utils/exportTiff";
 
 interface BenchmarkPanelProps {
   scoreData: Map<string, ScoreData>;
   selectedVnb: { id: string; name: string } | null;
   onVnbSelect: (vnbId: string, vnbName: string) => void;
-  mapContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 interface VnbItem {
@@ -20,7 +19,7 @@ interface VnbItem {
   score: number | null;
 }
 
-const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }: BenchmarkPanelProps) => {
+const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
   const [allVnbs, setAllVnbs] = useState<VnbItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
@@ -47,25 +46,21 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
   }, [scoreData]);
 
   const handleExportTiff = useCallback(async () => {
-    if (!mapContainerRef?.current || exporting) return;
+    if (exporting) return;
     setExporting(true);
     try {
-      // Force Leaflet to recalculate before capture
-      const mapEl = mapContainerRef.current.querySelector('.leaflet-container') as HTMLElement;
-      if (mapEl && (mapEl as any)._leaflet_id) {
-        // Access the Leaflet map instance via the container's internal reference
-        const mapInstance = (window as any).L?.DomUtil?.get?.(mapEl)?._leaflet_id;
-        // Simpler: dispatch resize to trigger invalidateSize via ResizeObserver
-        window.dispatchEvent(new Event('resize'));
-        await new Promise(r => setTimeout(r, 300));
-      }
-      await exportMapContainerAsTiff(mapContainerRef.current);
+      const geoRes = await fetch('/data/vnb_regions.geojson');
+      const geoData = await geoRes.json();
+      await exportLeafletToTiff(
+        { geoData, scoreData, getColor },
+        { width: 4000, height: 5000, includeBasemap: false }
+      );
     } catch (e) {
       console.error('TIFF export failed', e);
     } finally {
       setExporting(false);
     }
-  }, [mapContainerRef, exporting]);
+  }, [exporting, scoreData]);
 
   // Compute chart data: sorted by score descending
   const chartVnbs = allVnbs.filter(v => v.score !== null) as (VnbItem & { score: number })[];
@@ -121,19 +116,17 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
             <CardTitle>Benchmark-Analyse</CardTitle>
             <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
           </div>
-          {mapContainerRef && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleExportTiff}
-              disabled={exporting}
-              className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
-              title="Karte als TIFF herunterladen"
-            >
-              {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
-              {exporting ? 'Export…' : 'TIFF'}
-            </Button>
-          )}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleExportTiff}
+            disabled={exporting}
+            className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            title="Karte als TIFF herunterladen"
+          >
+            {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+            {exporting ? 'Export…' : 'TIFF'}
+          </Button>
         </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
@@ -240,7 +233,6 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapContainerRef }
                             ...(isPositive
                               ? { left: `calc(50% + ${barPercent}% / 2)` }
                               : { left: `calc(50% - ${barPercent}% / 2)` }),
-                            // center the 6px bar at the same position as the thin bar's tip
                             ...(isPositive
                               ? { left: `calc(50% + ${barPercent * 0.5}%)`, transform: 'translateX(-3px)' }
                               : { right: `calc(50% + ${barPercent * 0.5}%)`, left: 'auto', transform: 'translateX(3px)' }),
