@@ -15,7 +15,7 @@ export async function exportMapContainerAsTiff(
   const canvas = await html2canvas(containerEl, {
     useCORS: true,
     allowTaint: true,
-    scale: 2, // retina quality
+    scale: 6, // A0 print quality (~300 DPI)
     backgroundColor: '#ffffff',
     logging: false,
   });
