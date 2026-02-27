@@ -99,7 +99,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
             weight: 0.5,
             opacity: 1,
             color: '#333333',
-            fillOpacity: 0.85
+            fillOpacity: 0.95
           };
         },
         onEachFeature: (feature: any, layer) => {
@@ -117,10 +117,10 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
 
           layer.on('click', () => onRegionClick(vnbId, vnbName));
           layer.on('mouseover', function(this: any) {
-            this.setStyle({ weight: 1.5, fillOpacity: 0.9 });
+            this.setStyle({ weight: 1.5, fillOpacity: 1.0 });
           });
           layer.on('mouseout', function(this: any) {
-            this.setStyle({ weight: 0.5, fillOpacity: 0.85 });
+            this.setStyle({ weight: 0.5, fillOpacity: 0.95 });
           });
         }
       }).addTo(map.current);
