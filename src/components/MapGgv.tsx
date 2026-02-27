@@ -12,6 +12,7 @@ interface MapGgvProps {
 
 export interface MapGgvHandle {
   zoomToVnb: (vnbId: string) => void;
+  getViewportBounds: () => { south: number; west: number; north: number; east: number } | null;
 }
 
 const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData }, ref) => {
@@ -45,7 +46,17 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
       if (!found) {
         console.warn('VNB not found on map for id:', vnbId);
       }
-    }
+    },
+    getViewportBounds: () => {
+      if (!map.current) return null;
+      const b = map.current.getBounds();
+      return {
+        south: b.getSouth(),
+        west: b.getWest(),
+        north: b.getNorth(),
+        east: b.getEast(),
+      };
+    },
   }));
 
   // ResizeObserver to keep tiles aligned with polygons
