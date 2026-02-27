@@ -31,6 +31,10 @@ export async function exportLeafletToTiff(
     height?: number;
     includeBasemap?: boolean;
     filename?: string;
+    /** If provided, export only this viewport instead of fitting all data */
+    viewportBounds?: { south: number; west: number; north: number; east: number };
+    /** Fill opacity for polygons (default 1.0) */
+    fillOpacity?: number;
   } = {}
 ): Promise<void> {
   const {
@@ -38,6 +42,8 @@ export async function exportLeafletToTiff(
     height = DEFAULT_H,
     includeBasemap = false,
     filename = `benchmark_karte_${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.tif`,
+    viewportBounds,
+    fillOpacity = 1.0,
   } = opts;
 
   track('TIFF Download', { filename });
@@ -89,17 +95,25 @@ export async function exportLeafletToTiff(
           weight: 0.6,
           opacity: 1,
           color: '#333333',
-          fillOpacity: 1.0,
+          fillOpacity,
         };
       },
     } as any).addTo(exportMap);
 
-    // --- 5. Fit bounds ---
-    const bounds = geoLayer.getBounds();
-    if (bounds.isValid()) {
-      exportMap.fitBounds(bounds, { padding: [60, 60], animate: false });
+    // --- 5. Fit bounds (viewport or full extent) ---
+    if (viewportBounds) {
+      const vb = Leaflet.latLngBounds(
+        [viewportBounds.south, viewportBounds.west],
+        [viewportBounds.north, viewportBounds.east],
+      );
+      exportMap.fitBounds(vb, { padding: [0, 0], animate: false });
     } else {
-      exportMap.setView([51.1657, 10.4515], 6);
+      const bounds = geoLayer.getBounds();
+      if (bounds.isValid()) {
+        exportMap.fitBounds(bounds, { padding: [60, 60], animate: false });
+      } else {
+        exportMap.setView([51.1657, 10.4515], 6);
+      }
     }
 
     // --- 6. Wait for Leaflet to finish ---

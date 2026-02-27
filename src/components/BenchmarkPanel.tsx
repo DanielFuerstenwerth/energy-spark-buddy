@@ -1,16 +1,18 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { getColor, ScoreData, loadAllVnbNames } from "@/utils/dataLoader";
-import { CheckCircle2, MessageSquare, Download, Loader2 } from "lucide-react";
+import { CheckCircle2, MessageSquare, Download, Loader2, Map } from "lucide-react";
 import { VnbCombobox } from "./VnbCombobox";
 import { Button } from "./ui/button";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, RefObject } from "react";
 import { exportLeafletToTiff } from "@/utils/exportTiff";
+import type { MapGgvHandle } from "./MapGgv";
 
 interface BenchmarkPanelProps {
   scoreData: Map<string, ScoreData>;
   selectedVnb: { id: string; name: string } | null;
   onVnbSelect: (vnbId: string, vnbName: string) => void;
+  mapRef?: RefObject<MapGgvHandle | null>;
 }
 
 interface VnbItem {
@@ -19,10 +21,11 @@ interface VnbItem {
   score: number | null;
 }
 
-const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelProps) => {
+const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect, mapRef }: BenchmarkPanelProps) => {
   const [allVnbs, setAllVnbs] = useState<VnbItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [exportingView, setExportingView] = useState(false);
 
   useEffect(() => {
     const loadAllVnbs = async () => {
@@ -61,6 +64,24 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
       setExporting(false);
     }
   }, [exporting, scoreData]);
+
+  const handleExportViewTiff = useCallback(async () => {
+    if (exportingView) return;
+    setExportingView(true);
+    try {
+      const geoRes = await fetch('/data/vnb_regions.geojson');
+      const geoData = await geoRes.json();
+      const viewportBounds = mapRef?.current?.getViewportBounds() ?? undefined;
+      await exportLeafletToTiff(
+        { geoData, scoreData, getColor, title: 'Gemeinschaftliche Gebäudeversorgung (GGV)' },
+        { width: 4000, height: 5000, includeBasemap: true, fillOpacity: 0.55, viewportBounds }
+      );
+    } catch (e) {
+      console.error('TIFF view export failed', e);
+    } finally {
+      setExportingView(false);
+    }
+  }, [exportingView, scoreData, mapRef]);
 
   // Compute chart data: sorted by score descending
   const chartVnbs = allVnbs.filter(v => v.score !== null) as (VnbItem & { score: number })[];
@@ -116,17 +137,30 @@ const BenchmarkPanel = ({ scoreData, selectedVnb, onVnbSelect }: BenchmarkPanelP
             <CardTitle>Benchmark-Analyse</CardTitle>
             <CardDescription>Vergleich der Verteilnetzbetreiber</CardDescription>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleExportTiff}
-            disabled={exporting}
-            className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
-            title="Karte als TIFF herunterladen"
-          >
-            {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
-            {exporting ? 'Export…' : 'TIFF'}
-          </Button>
+          <div className="flex gap-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleExportTiff}
+              disabled={exporting}
+              className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+              title="Karte als TIFF herunterladen"
+            >
+              {exporting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+              {exporting ? 'Export…' : 'TIFF'}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleExportViewTiff}
+              disabled={exportingView}
+              className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+              title="Aktuelle Kartenansicht als TIFF inkl. Basemap herunterladen"
+            >
+              {exportingView ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Map className="h-3.5 w-3.5" />}
+              {exportingView ? 'Export…' : 'TIFF inkl. Karte'}
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col">
