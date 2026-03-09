@@ -2,8 +2,41 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import MapFeedback, { FeedbackEntry } from '@/components/MapFeedback';
-import { supabase } from '@/integrations/supabase/client';
-import { getVnbIdFromName, normalizeVnbName } from '@/utils/vnbMapping';
+import { getVnbIdFromName } from '@/utils/vnbMapping';
+
+/** Simple CSV parser that handles quoted fields */
+function parseCsvRows(text: string): Record<string, string>[] {
+  const lines = text.split('\n').filter((l) => l.trim());
+  if (lines.length < 2) return [];
+
+  const headers = parseCSVLine(lines[0]);
+  return lines.slice(1).map((line) => {
+    const vals = parseCSVLine(line);
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => { row[h] = (vals[i] ?? '').trim(); });
+    return row;
+  });
+}
+
+function parseCSVLine(line: string): string[] {
+  const result: string[] = [];
+  let current = '';
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"' && line[i + 1] === '"') { current += '"'; i++; }
+      else if (ch === '"') { inQuotes = false; }
+      else { current += ch; }
+    } else {
+      if (ch === '"') { inQuotes = true; }
+      else if (ch === ',') { result.push(current); current = ''; }
+      else { current += ch; }
+    }
+  }
+  result.push(current);
+  return result;
+}
 
 const FeedbackMap = () => {
   const [feedbackData, setFeedbackData] = useState<Map<string, FeedbackEntry>>(new Map());
@@ -16,39 +49,24 @@ const FeedbackMap = () => {
 
   async function loadFeedbackData() {
     setLoading(true);
-
     try {
-      // Query submitted survey responses, get vnb_name
-      const { data, error } = await supabase
-        .from('survey_responses')
-        .select('vnb_name')
-        .eq('status', 'submitted');
+      const res = await fetch('/data/vnb_feedback_map_ready_submitted_only.csv');
+      const text = await res.text();
+      const rows = parseCsvRows(text);
 
-      if (error) {
-        console.error('[FeedbackMap] DB query error:', error);
-        setLoading(false);
-        return;
-      }
-
-      // Count feedbacks per vnb_name
-      const countByName = new Map<string, number>();
-      for (const row of data || []) {
-        const name = (row.vnb_name || '').trim();
-        if (!name) continue;
-        countByName.set(name, (countByName.get(name) || 0) + 1);
-      }
-
-      console.log(`[FeedbackMap] ${countByName.size} unique VNB names from ${data?.length || 0} submitted responses`);
-
-      // Map vnb_name → vnb_id (GeoJSON join key)
       const result = new Map<string, FeedbackEntry>();
       const unmatchedNames: string[] = [];
       let matched = 0;
+      let totalFeedback = 0;
 
-      for (const [name, count] of countByName) {
+      for (const row of rows) {
+        const name = row.bnetza_name || '';
+        const count = parseInt(row.feedback_count, 10) || 0;
+        if (!name) continue;
+        totalFeedback += count;
+
         const vnbId = getVnbIdFromName(name);
 
-        // If getVnbIdFromName returns the name itself, it's unmatched
         if (vnbId === name) {
           console.warn(`[FeedbackMap] UNMATCHED VNB: "${name}" (${count} Rückmeldungen)`);
           unmatchedNames.push(`${name} (${count}×)`);
@@ -63,20 +81,15 @@ const FeedbackMap = () => {
         }
       }
 
-      console.log(`[FeedbackMap] Matched: ${matched}, Unmatched: ${unmatchedNames.length}`);
+      console.log(`[FeedbackMap] CSV: ${rows.length} Zeilen, Matched: ${matched}, Unmatched: ${unmatchedNames.length}`);
       if (unmatchedNames.length > 0) {
         console.warn('[FeedbackMap] Unmatched VNBs:', unmatchedNames);
       }
 
       setFeedbackData(result);
-      setStats({
-        total: data?.length || 0,
-        matched,
-        unmatched: unmatchedNames.length,
-        unmatchedNames,
-      });
+      setStats({ total: totalFeedback, matched, unmatched: unmatchedNames.length, unmatchedNames });
     } catch (err) {
-      console.error('[FeedbackMap] Error:', err);
+      console.error('[FeedbackMap] CSV load error:', err);
     } finally {
       setLoading(false);
     }
