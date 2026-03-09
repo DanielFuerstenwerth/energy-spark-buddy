@@ -16,6 +16,7 @@ const Header = () => {
     { to: "/EWK-Monitoring-BNetzA", label: "Datenexplorer" },
     { to: "/news", label: "News" },
     { to: "/Umfrage-GGV", label: "Umfrage GGV & Co" },
+    { to: "/feedback-karte", label: "Feedback-Karte" },
     { to: "/impressum", label: "Kontakt" },
   ];
 
