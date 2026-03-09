@@ -60,6 +60,7 @@ const App = () => (
           {/* Embed Routes */}
           <Route path="/embed/ggv" element={<EmbedGgvMap />} />
           <Route path="/EWK-Monitoring-BNetzA" element={<EwkMonitoringBNetzA />} />
+          <Route path="/feedback-karte" element={<FeedbackMap />} />
           
           {/* Anliegen Landing Pages */}
           <Route path="/anliegen/ggv" element={<AnliegenGgv />} />
