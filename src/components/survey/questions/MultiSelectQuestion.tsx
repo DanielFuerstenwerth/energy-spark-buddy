@@ -119,6 +119,22 @@ export function MultiSelectQuestion({
               {option.inlineHint && isChecked && (
                 <div className="px-3 py-2 border-b border-border bg-primary/5">
                   <p className="ml-7 text-sm text-muted-foreground italic">{option.inlineHint}</p>
+                  {option.value === 'dienstleister' && (
+                    <p className="ml-7 mt-1.5 text-sm text-muted-foreground">
+                      💡 Sie betreuen viele VNB-Gebiete?{" "}
+                      <a
+                        href="/data/Umfrage_Input_fuer_Profis.xlsx"
+                        download
+                        className="underline font-medium text-primary hover:text-primary/80"
+                      >
+                        Laden Sie unsere Excel-Vorlage herunter
+                      </a>
+                      {" "}und senden Sie diese ausgefüllt an{" "}
+                      <a href="mailto:kontakt@vnb-transparenz.de" className="underline font-medium text-primary hover:text-primary/80">
+                        kontakt@vnb-transparenz.de
+                      </a>.
+                    </p>
+                  )}
                 </div>
               )}
               {option.hasTextField && isChecked && (
