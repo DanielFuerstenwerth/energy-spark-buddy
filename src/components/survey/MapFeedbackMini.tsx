@@ -1,0 +1,112 @@
+import { useEffect, useRef } from 'react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+export interface FeedbackEntry {
+  vnb_id: string;
+  vnb_name: string;
+  feedback_count: number;
+}
+
+/** More saturated color scale for better gray/blue distinction */
+function getColor(count: number): string {
+  if (count === 0) return '#E0E0E0';
+  if (count === 1) return '#90C2FF';
+  if (count === 2) return '#4A9AFF';
+  if (count <= 4) return '#1A6FE0';
+  return '#0A4DA0';
+}
+
+const LEGEND = [
+  { color: '#E0E0E0', label: 'Noch offen' },
+  { color: '#90C2FF', label: '1' },
+  { color: '#4A9AFF', label: '2' },
+  { color: '#1A6FE0', label: '3–4' },
+  { color: '#0A4DA0', label: '5+' },
+];
+
+interface Props {
+  feedbackData: Map<string, FeedbackEntry>;
+}
+
+export function MapFeedbackMini({ feedbackData }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<L.Map | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(() => mapRef.current?.invalidateSize(false));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current || mapRef.current) return;
+
+    const m = L.map(containerRef.current, {
+      zoomControl: false,
+      attributionControl: false,
+      dragging: false,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      touchZoom: false,
+      boxZoom: false,
+      keyboard: false,
+    }).setView([51.2, 10.4], 6);
+    mapRef.current = m;
+
+    // Minimal light tile layer
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+      maxZoom: 8,
+      crossOrigin: 'anonymous',
+    } as any).addTo(m);
+
+    fetch('/data/vnb_regions.geojson')
+      .then(r => r.json())
+      .then(geo => {
+        if (!mapRef.current) return;
+        L.geoJSON(geo, {
+          style: (feature: any) => {
+            const entry = feature?.id ? feedbackData.get(feature.id) : null;
+            return {
+              fillColor: getColor(entry?.feedback_count ?? 0),
+              weight: 0.3,
+              opacity: 0.6,
+              color: '#666',
+              fillOpacity: 0.65,
+            };
+          },
+          interactive: false,
+        }).addTo(mapRef.current);
+        mapRef.current.invalidateSize(true);
+      });
+
+    return () => {
+      mapRef.current?.remove();
+      mapRef.current = null;
+    };
+  }, [feedbackData]);
+
+  return (
+    <div className="space-y-2">
+      <div
+        ref={containerRef}
+        className="w-full rounded-lg overflow-hidden"
+        style={{ height: '260px' }}
+        role="img"
+        aria-label="Übersichtskarte der Umfrage-Beteiligung"
+      />
+      {/* Compact inline legend */}
+      <div className="flex items-center gap-3 justify-center">
+        <span className="text-[10px] text-muted-foreground">Rückmeldungen:</span>
+        {LEGEND.map(item => (
+          <div key={item.label} className="flex items-center gap-1">
+            <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: item.color }} />
+            <span className="text-[10px] text-muted-foreground">{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

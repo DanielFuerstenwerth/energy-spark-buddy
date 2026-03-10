@@ -15,11 +15,11 @@ interface MapFeedbackProps {
 
 /** Choropleth color by feedback count */
 function getFeedbackColor(count: number): string {
-  if (count === 0) return '#D9D9D9';
-  if (count === 1) return '#CFE8FF';
-  if (count === 2) return '#9DCCFF';
-  if (count <= 4) return '#5AA9FF';
-  return '#0B5CAD';
+  if (count === 0) return '#E0E0E0';
+  if (count === 1) return '#90C2FF';
+  if (count === 2) return '#4A9AFF';
+  if (count <= 4) return '#1A6FE0';
+  return '#0A4DA0';
 }
 
 function getFeedbackLabel(count: number): string {
@@ -28,11 +28,11 @@ function getFeedbackLabel(count: number): string {
 }
 
 const LEGEND_ITEMS = [
-  { color: '#D9D9D9', label: '0 Rückmeldungen' },
-  { color: '#CFE8FF', label: '1 Rückmeldung' },
-  { color: '#9DCCFF', label: '2 Rückmeldungen' },
-  { color: '#5AA9FF', label: '3–4 Rückmeldungen' },
-  { color: '#0B5CAD', label: '5+ Rückmeldungen' },
+  { color: '#E0E0E0', label: '0 Rückmeldungen' },
+  { color: '#90C2FF', label: '1 Rückmeldung' },
+  { color: '#4A9AFF', label: '2 Rückmeldungen' },
+  { color: '#1A6FE0', label: '3–4 Rückmeldungen' },
+  { color: '#0A4DA0', label: '5+ Rückmeldungen' },
 ];
 
 const MapFeedback = ({ feedbackData }: MapFeedbackProps) => {
