@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Zap, Home, Share2, MapPin, Users, TrendingUp } from "lucide-react";
+import { Zap, Home, Share2, MapPin, Users } from "lucide-react";
 import { getVnbIdFromName } from "@/utils/vnbMapping";
+import { MapFeedbackMini, FeedbackEntry } from "./MapFeedbackMini";
 
 interface SurveyStats {
   total: number;
@@ -11,12 +11,11 @@ interface SurveyStats {
   energy_sharing: number;
 }
 
-/** Simple CSV parser that handles quoted fields */
 function parseCsvRows(text: string): Record<string, string>[] {
-  const lines = text.split('\n').filter((l) => l.trim());
+  const lines = text.split('\n').filter(l => l.trim());
   if (lines.length < 2) return [];
   const headers = parseCSVLine(lines[0]);
-  return lines.slice(1).map((line) => {
+  return lines.slice(1).map(line => {
     const vals = parseCSVLine(line);
     const row: Record<string, string> = {};
     headers.forEach((h, i) => { row[h] = (vals[i] ?? '').trim(); });
@@ -46,38 +45,40 @@ function parseCSVLine(line: string): string[] {
 
 export function SurveyMotivation() {
   const [stats, setStats] = useState<SurveyStats | null>(null);
-  const [feedbackTotal, setFeedbackTotal] = useState(0);
+  const [feedbackData, setFeedbackData] = useState<Map<string, FeedbackEntry>>(new Map());
   const [vnbCount, setVnbCount] = useState(0);
 
   useEffect(() => {
-    // Load survey stats
     supabase.rpc("get_survey_stats").then(({ data }) => {
       if (data) setStats(data as unknown as SurveyStats);
     });
 
-    // Load feedback map CSV for region count
     fetch('/data/vnb_feedback_map_ready_submitted_only.csv')
       .then(res => res.text())
       .then(text => {
         const rows = parseCsvRows(text);
-        let total = 0;
-        const matched = new Set<string>();
+        const result = new Map<string, FeedbackEntry>();
         for (const row of rows) {
           const name = row.bnetza_name || '';
           const count = parseInt(row.feedback_count, 10) || 0;
           if (!name) continue;
-          total += count;
           const vnbId = getVnbIdFromName(name);
-          if (vnbId !== name) matched.add(vnbId);
+          if (vnbId === name) continue;
+          const existing = result.get(vnbId);
+          result.set(vnbId, {
+            vnb_id: vnbId,
+            vnb_name: name,
+            feedback_count: (existing?.feedback_count || 0) + count,
+          });
         }
-        setFeedbackTotal(total);
-        setVnbCount(matched.size);
+        setFeedbackData(result);
+        setVnbCount(result.size);
       })
       .catch(() => {});
   }, []);
 
   const hasStats = stats && (stats.ggv > 0 || stats.mieterstrom > 0 || stats.energy_sharing > 0);
-  const hasMap = feedbackTotal > 0;
+  const hasMap = vnbCount > 0;
 
   if (!hasStats && !hasMap) return null;
 
@@ -89,8 +90,8 @@ export function SurveyMotivation() {
 
   return (
     <div className="mb-6 rounded-xl border border-border bg-card/60 backdrop-blur overflow-hidden">
-      {/* Social proof header */}
-      <div className="px-5 pt-5 pb-4">
+      {/* Header */}
+      <div className="px-5 pt-5 pb-3">
         <div className="flex items-center gap-2 mb-1">
           <Users className="w-4 h-4 text-primary" />
           <p className="text-xs font-semibold text-primary uppercase tracking-wider">
@@ -102,53 +103,46 @@ export function SurveyMotivation() {
         </p>
       </div>
 
-      {/* Stats row */}
-      <div className="px-5 pb-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {/* Total feedback counter */}
+      {/* Stats + Map side by side on desktop, stacked on mobile */}
+      <div className="px-5 pb-5">
+        <div className="flex flex-col md:flex-row gap-5">
+          {/* Left: Stats */}
+          <div className="flex flex-col gap-4 md:w-48 shrink-0 justify-center">
+            {/* Region counter */}
+            {hasMap && (
+              <div className="flex items-center gap-3">
+                <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                  <MapPin className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold leading-tight tabular-nums">{vnbCount}</p>
+                  <p className="text-[11px] text-muted-foreground leading-tight">Netzgebiete</p>
+                </div>
+              </div>
+            )}
+
+            {/* Project type breakdown */}
+            {projectItems.map(item => (
+              <div key={item.label} className="flex items-center gap-3">
+                <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-muted">
+                  <item.icon className={`w-5 h-5 ${item.color}`} />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold leading-tight tabular-nums">{item.value}</p>
+                  <p className="text-[11px] text-muted-foreground leading-tight truncate">{item.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Right: Inline mini map */}
           {hasMap && (
-            <div className="flex items-center gap-3">
-              <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
-                <TrendingUp className="w-5 h-5 text-primary" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-2xl font-bold leading-tight tabular-nums">{feedbackTotal}</p>
-                <p className="text-[11px] text-muted-foreground leading-tight">Rückmeldungen</p>
-              </div>
+            <div className="flex-1 min-w-0">
+              <MapFeedbackMini feedbackData={feedbackData} />
             </div>
           )}
-
-          {/* Project type breakdown */}
-          {projectItems.map((item) => (
-            <div key={item.label} className="flex items-center gap-3">
-              <div className={`shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-muted`}>
-                <item.icon className={`w-5 h-5 ${item.color}`} />
-              </div>
-              <div className="min-w-0">
-                <p className="text-2xl font-bold leading-tight tabular-nums">{item.value}</p>
-                <p className="text-[11px] text-muted-foreground leading-tight truncate">{item.label}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
-
-      {/* Map teaser strip */}
-      {hasMap && (
-        <Link
-          to="/feedback-karte"
-          className="flex items-center gap-3 px-5 py-3 bg-muted/50 border-t border-border hover:bg-muted transition-colors group"
-        >
-          <MapPin className="w-4 h-4 text-primary shrink-0" />
-          <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-            <strong className="text-foreground">{vnbCount} Netzgebiete</strong> haben bereits teilgenommen
-            <span className="hidden sm:inline"> – sieh auf der Karte, wo noch Lücken sind</span>
-          </span>
-          <span className="ml-auto text-xs text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-            Karte ansehen →
-          </span>
-        </Link>
-      )}
     </div>
   );
 }
