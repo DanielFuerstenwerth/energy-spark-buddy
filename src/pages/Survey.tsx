@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
-import { SurveyTracker } from "@/components/survey/SurveyTracker";
+import { SurveyMotivation } from "@/components/survey/SurveyMotivation";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
 import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
 import Header from "@/components/Header";
