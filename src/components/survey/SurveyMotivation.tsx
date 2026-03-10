@@ -92,14 +92,9 @@ export function SurveyMotivation() {
     <div className="mb-6 rounded-xl border border-border bg-card/60 backdrop-blur overflow-hidden">
       {/* Header */}
       <div className="px-5 pt-5 pb-3">
-        <div className="flex items-center gap-2 mb-1">
-          <Users className="w-4 h-4 text-primary" />
-          <p className="text-xs font-semibold text-primary uppercase tracking-wider">
-            Community-Beteiligung
-          </p>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Schon viele Akteure haben ihre Erfahrungen geteilt – Ihre Stimme macht den Unterschied.
+        <p className="text-sm font-medium text-foreground">
+          <Users className="w-4 h-4 text-primary inline -mt-0.5 mr-1.5" />
+          Viele Akteure haben bereits ihre Erfahrungen geteilt – machen Sie mit!
         </p>
       </div>
 
