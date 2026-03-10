@@ -83,23 +83,18 @@ export function SurveyMotivation() {
   if (!hasStats && !hasMap) return null;
 
   const projectItems = hasStats ? [
-    { label: "GGV", value: stats!.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
-    { label: "Mieterstrom", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
-    { label: "Energy Sharing", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
+    { label: "GGV-Projekte", value: stats!.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
+    { label: "Mieterstrom-Projekte", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
+    { label: "Energy-Sharing-Projekte", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
   ].filter(i => i.value > 0) : [];
 
   return (
     <div className="mb-6 rounded-xl border border-border bg-card/60 backdrop-blur overflow-hidden">
       {/* Header */}
       <div className="px-5 pt-5 pb-3">
-        <div className="flex items-center gap-2 mb-1">
-          <Users className="w-4 h-4 text-primary" />
-          <p className="text-xs font-semibold text-primary uppercase tracking-wider">
-            Community-Beteiligung
-          </p>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Schon viele Akteure haben ihre Erfahrungen geteilt – Ihre Stimme macht den Unterschied.
+        <p className="text-sm font-medium text-foreground">
+          <Users className="w-4 h-4 text-primary inline -mt-0.5 mr-1.5" />
+          Viele Akteure haben bereits ihre Erfahrungen geteilt – machen Sie mit!
         </p>
       </div>
 
