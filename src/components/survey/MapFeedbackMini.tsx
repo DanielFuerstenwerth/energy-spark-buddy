@@ -82,7 +82,20 @@ export function MapFeedbackMini({ feedbackData }: Props) {
               fillOpacity: 0.65,
             };
           },
-          interactive: false,
+          onEachFeature: (feature: any, layer) => {
+            const vnbId = feature?.id;
+            const entry = feedbackData.get(vnbId);
+            const name = entry?.vnb_name || `VNB ${vnbId}`;
+            const count = entry?.feedback_count ?? 0;
+            const label = count === 0 ? 'Noch offen' : `${count} Rückmeldung${count > 1 ? 'en' : ''}`;
+            layer.bindTooltip(`<strong>${name}</strong><br/>${label}`, { sticky: true });
+            layer.on('mouseover', function (this: any) {
+              this.setStyle({ weight: 1.5, fillOpacity: 0.8 });
+            });
+            layer.on('mouseout', function (this: any) {
+              this.setStyle({ weight: 0.3, fillOpacity: 0.65 });
+            });
+          },
         }).addTo(mapRef.current);
         mapRef.current.invalidateSize(true);
       });
