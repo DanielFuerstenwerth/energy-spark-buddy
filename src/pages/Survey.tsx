@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { SurveyHeader } from "@/components/survey/SurveyHeader";
-import { SurveyTracker } from "@/components/survey/SurveyTracker";
+import { SurveyMotivation } from "@/components/survey/SurveyMotivation";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
 import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
 import Header from "@/components/Header";
@@ -483,7 +483,7 @@ export default function Survey() {
       
       <main className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
-          <SurveyTracker />
+          <SurveyMotivation />
           {/* Draft banner removed — drafts are now saved directly to DB */}
           <SurveyProgress currentStep={currentStep} totalSteps={steps.length} steps={steps} onStepClick={(step) => { setCurrentStep(step); window.scrollTo(0, 0); }} />
           
