@@ -8,7 +8,7 @@ import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, Loader2, Zap, AlertTriangle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, Loader2, Zap, AlertTriangle, FileSpreadsheet } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
