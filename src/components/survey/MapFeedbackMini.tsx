@@ -45,17 +45,20 @@ export function MapFeedbackMini({ feedbackData }: Props) {
     if (!containerRef.current || mapRef.current) return;
 
     const m = L.map(containerRef.current, {
-      zoomControl: false,
+      zoomControl: true,
       attributionControl: false,
       dragging: true,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       doubleClickZoom: true,
       touchZoom: true,
-      boxZoom: false,
+      boxZoom: true,
       keyboard: false,
       minZoom: 5,
       maxZoom: 9,
     }).setView([51.2, 10.4], 6);
+
+    // Move zoom control to top-right for cleaner look
+    m.zoomControl.setPosition('topright');
     mapRef.current = m;
 
     // Minimal light tile layer
