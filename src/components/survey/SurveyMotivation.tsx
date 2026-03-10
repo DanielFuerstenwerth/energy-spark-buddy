@@ -83,9 +83,9 @@ export function SurveyMotivation() {
   if (!hasStats && !hasMap) return null;
 
   const projectItems = hasStats ? [
-    { label: "GGV", value: stats!.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
-    { label: "Mieterstrom", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
-    { label: "Energy Sharing", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
+    { label: "GGV-Projekte", value: stats!.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
+    { label: "Mieterstrom-Projekte", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
+    { label: "Energy-Sharing-Projekte", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
   ].filter(i => i.value > 0) : [];
 
   return (

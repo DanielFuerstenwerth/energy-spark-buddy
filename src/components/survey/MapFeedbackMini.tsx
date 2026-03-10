@@ -47,12 +47,14 @@ export function MapFeedbackMini({ feedbackData }: Props) {
     const m = L.map(containerRef.current, {
       zoomControl: false,
       attributionControl: false,
-      dragging: false,
+      dragging: true,
       scrollWheelZoom: false,
-      doubleClickZoom: false,
-      touchZoom: false,
+      doubleClickZoom: true,
+      touchZoom: true,
       boxZoom: false,
       keyboard: false,
+      minZoom: 5,
+      maxZoom: 9,
     }).setView([51.2, 10.4], 6);
     mapRef.current = m;
 
