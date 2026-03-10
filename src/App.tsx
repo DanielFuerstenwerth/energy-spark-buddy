@@ -34,7 +34,7 @@ import Admin from "./pages/Admin";
 import EmbedGgvMap from "./pages/EmbedGgvMap";
 import SandraChatWidget from "./components/SandraChatWidget";
 import EwkMonitoringBNetzA from "./features/ewk/pages/EwkMonitoringBNetzA";
-import FeedbackMap from "./pages/FeedbackMap";
+
 
 const queryClient = new QueryClient();
 
