@@ -8,7 +8,7 @@ import { getVisibleSteps, isGlobalStep } from "@/data/surveySteps";
 import { SurveyRenderer, isSectionVisible } from "@/components/survey/SurveyRenderer";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ChevronLeft, ChevronRight, Send, Loader2, Zap, AlertTriangle } from "lucide-react";
+import { ChevronLeft, ChevronRight, Send, Loader2, Zap, AlertTriangle, FileSpreadsheet } from "lucide-react";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
@@ -498,6 +498,26 @@ export default function Survey() {
             />
           )}
           
+          {globalData.actorTypes?.includes('dienstleister') && (
+            <div className="flex items-center gap-2 rounded-lg border border-border bg-muted px-4 py-2.5 text-sm text-muted-foreground">
+              <FileSpreadsheet className="h-4 w-4 shrink-0 text-primary" />
+              <span>
+                Sie betreuen viele VNB-Gebiete?{" "}
+                <a
+                  href="/data/Umfrage_Input_fuer_Profis.xlsx"
+                  download
+                  className="underline font-medium text-primary hover:text-primary/80"
+                >
+                  Excel-Vorlage herunterladen
+                </a>
+                {" "}und an{" "}
+                <a href="mailto:kontakt@vnb-transparenz.de" className="underline font-medium text-primary hover:text-primary/80">
+                  kontakt@vnb-transparenz.de
+                </a>{" "}senden.
+              </span>
+            </div>
+          )}
+
           <Card>
             <CardHeader>
               <CardTitle>{currentStepDef?.title}</CardTitle>
