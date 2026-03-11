@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
+import { getVnbNameFromId } from '@/utils/vnbMapping';
 import 'leaflet/dist/leaflet.css';
 
 export interface FeedbackEntry {
