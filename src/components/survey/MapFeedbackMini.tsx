@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
+import { getVnbNameFromId } from '@/utils/vnbMapping';
 import 'leaflet/dist/leaflet.css';
 
 export interface FeedbackEntry {
@@ -85,7 +86,7 @@ export function MapFeedbackMini({ feedbackData }: Props) {
           onEachFeature: (feature: any, layer) => {
             const vnbId = feature?.id;
             const entry = feedbackData.get(vnbId);
-            const name = entry?.vnb_name || `VNB ${vnbId}`;
+            const name = entry?.vnb_name || getVnbNameFromId(vnbId) || `VNB ${vnbId}`;
             const count = entry?.feedback_count ?? 0;
             const label = count === 0 ? 'Noch offen' : `${count} Rückmeldung${count > 1 ? 'en' : ''}`;
             layer.bindTooltip(`<strong>${name}</strong><br/>${label}`, { sticky: true });
