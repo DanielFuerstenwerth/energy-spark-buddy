@@ -44,8 +44,8 @@ export default function DotRankingChart({ vnbs, selectedVnb, onSelectVnb }: Prop
       >
         {/* Background zones */}
         <div className="absolute inset-0 flex">
-          <div className="w-1/2 bg-red-50" />
-          <div className="w-1/2 bg-green-50" />
+          <div className="w-1/2" style={{ backgroundColor: 'hsla(0, 70%, 50%, 0.06)' }} />
+          <div className="w-1/2" style={{ backgroundColor: 'hsla(140, 70%, 40%, 0.06)' }} />
         </div>
 
         {/* Zero line */}
