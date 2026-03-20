@@ -54,6 +54,7 @@ const About = () => {
                 <li>Best Practices sichtbar machen</li>
                 <li>Regulierungsbehörden bessere Datengrundlagen geben</li>
                 <li>Öffentlichen Druck auf ineffiziente VNBs unterstützen</li>
+                <li>Verteilnetzbetreiber befähigen, ihre eigenen Schwachstellen und Stärken zu identifizieren</li>
               </ul>
             </CardContent>
           </Card>
