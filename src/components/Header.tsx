@@ -14,6 +14,7 @@ const Header = () => {
 
   const navLinks = [
     { to: "/EWK-Monitoring-BNetzA", label: "Datenexplorer" },
+    { to: "https://www.vnb-benchmark.de", label: "Benchmarking", external: true },
     { to: "/news", label: "News" },
     { to: "/Umfrage-GGV", label: "Umfrage GGV & Co" },
     { to: "/impressum", label: "Kontakt" },
@@ -36,13 +37,25 @@ const Header = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link 
-                key={link.to}
-                to={link.to} 
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
-              >
-                {link.label}
-              </Link>
+              link.external ? (
+                <a
+                  key={link.to}
+                  href={link.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link 
+                  key={link.to}
+                  to={link.to} 
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  {link.label}
+                </Link>
+              )
             ))}
             
             {/* Admin Badge + Logout (nur für Admins) */}
@@ -79,14 +92,27 @@ const Header = () => {
             <SheetContent side="right" className="w-[280px] sm:w-[320px]">
               <div className="flex flex-col gap-6 mt-8">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
+                  link.external ? (
+                    <a
+                      key={link.to}
+                      href={link.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  )
                 ))}
                 
                 {/* Admin Badge + Logout (Mobile, nur für Admins) */}

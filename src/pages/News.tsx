@@ -7,6 +7,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const News = () => {
   const newsItems = [
     {
+      slug: "vnb-benchmarking",
+      title: "Neues Benchmarking-Tool für Verteilnetzbetreiber",
+      date: "2026-03-20",
+      excerpt: "Ab sofort können sich CEOs und Verteilnetzbetreiber direkt vergleichen: Wo steht mein VNB bei der Energiewendekompetenz? Das neue Benchmarking-Tool macht den Vergleich einfach, datenbasiert und transparent – auf Basis der gleichen BNetzA-Daten wie unser Datenexplorer.",
+      directLink: "https://www.vnb-benchmark.de",
+    },
+    {
       slug: "ewk-datenexplorer",
       title: "Datenexplorer Energiewendekompetenz",
       date: "2026-02-25",
@@ -38,24 +45,25 @@ const News = () => {
         <div className="grid gap-6 max-w-3xl">
           {newsItems.map((item) => {
             const linkTarget = (item as any).directLink || `/news/${item.slug}`;
+            const isExternal = linkTarget.startsWith('http');
+            const LinkOrA = isExternal
+              ? ({ children, className }: any) => <a href={linkTarget} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>
+              : ({ children, className }: any) => <Link to={linkTarget} className={className}>{children}</Link>;
             return (
               <Card key={item.slug}>
                 <CardHeader>
                   <CardTitle>
-                    <Link to={linkTarget} className="hover:text-primary transition-colors">
+                    <LinkOrA className="hover:text-primary transition-colors">
                       {item.title}
-                    </Link>
+                    </LinkOrA>
                   </CardTitle>
                   <CardDescription>{item.date}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{item.excerpt}</p>
-                  <Link 
-                    to={linkTarget}
-                    className="text-primary hover:text-accent transition-colors"
-                  >
+                  <LinkOrA className="text-primary hover:text-accent transition-colors">
                     Weiterlesen →
-                  </Link>
+                  </LinkOrA>
                 </CardContent>
               </Card>
             );
