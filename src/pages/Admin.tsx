@@ -188,20 +188,32 @@ const Admin = () => {
                 </CardHeader>
                 <CardContent>
                   <Button
-                    onClick={handleExport}
+                    onClick={() => handleExport()}
                     disabled={exporting}
                     variant="outline"
                     className="gap-2"
                   >
                     {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                    {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
+                    {exporting ? 'Exportiere...' : 'Umfrage-Daten als XLSX exportieren'}
                   </Button>
                    <p className="text-xs text-muted-foreground mt-2">
-                     CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel. Antworten werden als Klartext (nicht IDs) exportiert.
+                     Excel-Datei mit 5 Sheets: Daten, Methodik, Freitexte, Codebook, Normalisierung. Qualitätsflags und differenzierte fehlende Werte inklusive.
                    </p>
-                   <div className="mt-4 pt-4 border-t">
+                   <div className="mt-3">
                      <Button
-                       onClick={handleCodebookExport}
+                       onClick={() => handleExport('anon')}
+                       disabled={exportingAnon}
+                       variant="outline"
+                       size="sm"
+                       className="gap-2"
+                     >
+                       {exportingAnon ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                       {exportingAnon ? 'Exportiere...' : 'Anonymisierter Export (ohne PII)'}
+                     </Button>
+                     <p className="text-xs text-muted-foreground mt-1">
+                       Ohne E-Mail-Adressen, Adressen, Projektnamen – für journalistische Weitergabe.
+                     </p>
+                   </div>
                        disabled={exportingCodebook}
                        variant="outline"
                        size="sm"
