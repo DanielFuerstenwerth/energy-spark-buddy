@@ -23,6 +23,7 @@ const Admin = () => {
   const { isAdmin, loading, user } = useIsAdmin();
   useSessionTimeout(isAdmin);
   const [exporting, setExporting] = useState(false);
+  const [exportingAnon, setExportingAnon] = useState(false);
   const [exportingCodebook, setExportingCodebook] = useState(false);
 
   const handleCodebookExport = async () => {
@@ -48,8 +49,12 @@ const Admin = () => {
       toast.error(`Codebook-Export fehlgeschlagen: ${error.message}`);
     } finally { setExportingCodebook(false); }
   };
-  const handleExport = async () => {
-    setExporting(true);
+  const handleExport = async (mode?: 'anon') => {
+    if (mode === 'anon') {
+      setExportingAnon(true);
+    } else {
+      setExporting(true);
+    }
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
@@ -58,8 +63,9 @@ const Admin = () => {
       }
 
       const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const queryParam = mode === 'anon' ? '?mode=anon' : '';
       const res = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/export-survey`,
+        `https://${projectId}.supabase.co/functions/v1/export-survey${queryParam}`,
         {
           method: 'GET',
           headers: {
@@ -78,17 +84,18 @@ const Admin = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'umfrage-export.csv';
+      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || `umfrage-export${mode === 'anon' ? '-anon' : ''}.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-      toast.success('Export erfolgreich heruntergeladen');
+      toast.success(mode === 'anon' ? 'Anonymisierter Export heruntergeladen' : 'Export erfolgreich heruntergeladen');
     } catch (error: any) {
       console.error('Export error:', error);
       toast.error(`Export fehlgeschlagen: ${error.message}`);
     } finally {
       setExporting(false);
+      setExportingAnon(false);
     }
   };
 
@@ -181,32 +188,47 @@ const Admin = () => {
                 </CardHeader>
                 <CardContent>
                   <Button
-                    onClick={handleExport}
+                    onClick={() => handleExport()}
                     disabled={exporting}
                     variant="outline"
                     className="gap-2"
                   >
                     {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                    {exporting ? 'Exportiere...' : 'Umfrage-Daten als CSV exportieren'}
+                    {exporting ? 'Exportiere...' : 'Umfrage-Daten als XLSX exportieren'}
                   </Button>
                    <p className="text-xs text-muted-foreground mt-2">
-                     CSV mit Semikolon-Trennung, UTF-8 BOM – öffnet direkt in Excel. Antworten werden als Klartext (nicht IDs) exportiert.
+                     Excel-Datei mit 5 Sheets: Daten, Methodik, Freitexte, Codebook, Normalisierung. Qualitätsflags und differenzierte fehlende Werte inklusive.
                    </p>
-                   <div className="mt-4 pt-4 border-t">
+                   <div className="mt-3">
                      <Button
-                       onClick={handleCodebookExport}
-                       disabled={exportingCodebook}
+                       onClick={() => handleExport('anon')}
+                       disabled={exportingAnon}
                        variant="outline"
                        size="sm"
                        className="gap-2"
                      >
-                       {exportingCodebook ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                       {exportingCodebook ? 'Exportiere...' : 'Codebook (alle Fragen & Antwortoptionen) herunterladen'}
+                       {exportingAnon ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                       {exportingAnon ? 'Exportiere...' : 'Anonymisierter Export (ohne PII)'}
                      </Button>
                      <p className="text-xs text-muted-foreground mt-1">
-                       Referenzdatei mit allen Fragen, DB-Spalten und möglichen Antworten – versioniert.
+                       Ohne E-Mail-Adressen, Adressen, Projektnamen – für journalistische Weitergabe.
                      </p>
                    </div>
+                   <div className="mt-4 pt-4 border-t">
+                      <Button
+                        onClick={handleCodebookExport}
+                        disabled={exportingCodebook}
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                      >
+                        {exportingCodebook ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                        {exportingCodebook ? 'Exportiere...' : 'Codebook (CSV) herunterladen'}
+                      </Button>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Referenzdatei mit allen Fragen, DB-Spalten und möglichen Antworten – versioniert.
+                      </p>
+                    </div>
                 </CardContent>
               </Card>
             </TabsContent>
