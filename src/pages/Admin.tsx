@@ -214,18 +214,21 @@ const Admin = () => {
                        Ohne E-Mail-Adressen, Adressen, Projektnamen – für journalistische Weitergabe.
                      </p>
                    </div>
-                       disabled={exportingCodebook}
-                       variant="outline"
-                       size="sm"
-                       className="gap-2"
-                     >
-                       {exportingCodebook ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                       {exportingCodebook ? 'Exportiere...' : 'Codebook (alle Fragen & Antwortoptionen) herunterladen'}
-                     </Button>
-                     <p className="text-xs text-muted-foreground mt-1">
-                       Referenzdatei mit allen Fragen, DB-Spalten und möglichen Antworten – versioniert.
-                     </p>
-                   </div>
+                   <div className="mt-4 pt-4 border-t">
+                      <Button
+                        onClick={handleCodebookExport}
+                        disabled={exportingCodebook}
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                      >
+                        {exportingCodebook ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+                        {exportingCodebook ? 'Exportiere...' : 'Codebook (CSV) herunterladen'}
+                      </Button>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Referenzdatei mit allen Fragen, DB-Spalten und möglichen Antworten – versioniert.
+                      </p>
+                    </div>
                 </CardContent>
               </Card>
             </TabsContent>
