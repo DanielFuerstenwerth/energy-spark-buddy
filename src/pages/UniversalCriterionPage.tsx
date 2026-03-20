@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, lazy, Suspense } from 'react';
 import Header from '@/components/Header';
 import Banner from '@/components/Banner';
 import CategoryNav from '@/components/CategoryNav';
@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import MapGgv, { MapGgvHandle } from '@/components/MapGgv';
 import MapLegend from '@/components/MapLegend';
 import BenchmarkPanel from '@/components/BenchmarkPanel';
+import DdvRoqBenchmarkPanel from '@/components/ddv-roq/DdvRoqBenchmarkPanel';
 import CommentsSection from '@/components/CommentsSection';
 import { useMapData } from '@/hooks/useMapData';
 import { useNavigation } from '@/hooks/useNavigation';
