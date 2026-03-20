@@ -60,10 +60,22 @@ const News = () => {
                   <CardDescription>{item.date}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-4">{item.excerpt}</p>
-                  <LinkOrA className="text-primary hover:text-accent transition-colors">
-                    {(item as any).directLink ? 'Ausprobieren →' : 'Weiterlesen →'}
-                  </LinkOrA>
+                  {item.excerpt.includes('\n\n') ? (
+                    item.excerpt.split('\n\n').map((para, i) => (
+                      <p key={i} className="text-muted-foreground mb-4">{para}</p>
+                    ))
+                  ) : (
+                    <p className="text-muted-foreground mb-4">{item.excerpt}</p>
+                  )}
+                  {(item as any).directLink ? (
+                    <LinkOrA className="inline-block mt-2 px-5 py-2.5 bg-accent text-white font-semibold rounded-md hover:bg-accent/90 transition-colors text-sm">
+                      Jetzt analysieren →
+                    </LinkOrA>
+                  ) : (
+                    <LinkOrA className="text-primary hover:text-accent transition-colors">
+                      Weiterlesen →
+                    </LinkOrA>
+                  )}
                 </CardContent>
               </Card>
             );
