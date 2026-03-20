@@ -113,12 +113,19 @@ const UniversalCriterionPage = () => {
           </div>
           
           <div className="lg:col-span-1">
-            <BenchmarkPanel 
-              scoreData={scoreData}
-              selectedVnb={selectedVnb}
-              onVnbSelect={handleVnbSelect}
-              mapRef={mapRef}
-            />
+            {category === 'DdV' && subcategory === 'RoQ' ? (
+              <DdvRoqBenchmarkPanel
+                selectedVnb={selectedVnb}
+                onVnbSelect={handleVnbSelect}
+              />
+            ) : (
+              <BenchmarkPanel 
+                scoreData={scoreData}
+                selectedVnb={selectedVnb}
+                onVnbSelect={handleVnbSelect}
+                mapRef={mapRef}
+              />
+            )}
           </div>
         </div>
 
