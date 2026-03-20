@@ -67,15 +67,9 @@ const News = () => {
                   ) : (
                     <p className="text-muted-foreground mb-4">{item.excerpt}</p>
                   )}
-                  {(item as any).directLink ? (
-                    <LinkOrA className="inline-block mt-2 px-5 py-2.5 bg-accent text-white font-semibold rounded-md hover:bg-accent/90 transition-colors text-sm">
-                      Jetzt analysieren →
-                    </LinkOrA>
-                  ) : (
-                    <LinkOrA className="text-primary hover:text-accent transition-colors">
-                      Weiterlesen →
-                    </LinkOrA>
-                  )}
+                  <LinkOrA className="text-primary hover:text-accent transition-colors font-medium">
+                    {(item as any).directLink ? 'Jetzt analysieren →' : 'Weiterlesen →'}
+                  </LinkOrA>
                 </CardContent>
               </Card>
             );
