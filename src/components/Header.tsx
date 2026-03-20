@@ -14,6 +14,7 @@ const Header = () => {
 
   const navLinks = [
     { to: "/EWK-Monitoring-BNetzA", label: "Datenexplorer" },
+    { to: "https://www.vnb-benchmark.de", label: "Benchmarking", external: true },
     { to: "/news", label: "News" },
     { to: "/Umfrage-GGV", label: "Umfrage GGV & Co" },
     { to: "/impressum", label: "Kontakt" },

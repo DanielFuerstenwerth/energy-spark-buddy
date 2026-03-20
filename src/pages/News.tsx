@@ -7,6 +7,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const News = () => {
   const newsItems = [
     {
+      slug: "vnb-benchmarking",
+      title: "Neues Benchmarking-Tool für Verteilnetzbetreiber",
+      date: "2026-03-20",
+      excerpt: "Ab sofort können sich CEOs und Verteilnetzbetreiber direkt vergleichen: Wo steht mein VNB bei der Energiewendekompetenz? Das neue Benchmarking-Tool macht den Vergleich einfach, datenbasiert und transparent – auf Basis der gleichen BNetzA-Daten wie unser Datenexplorer.",
+      directLink: "https://www.vnb-benchmark.de",
+    },
+    {
       slug: "ewk-datenexplorer",
       title: "Datenexplorer Energiewendekompetenz",
       date: "2026-02-25",
