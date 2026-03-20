@@ -23,6 +23,7 @@ const Admin = () => {
   const { isAdmin, loading, user } = useIsAdmin();
   useSessionTimeout(isAdmin);
   const [exporting, setExporting] = useState(false);
+  const [exportingAnon, setExportingAnon] = useState(false);
   const [exportingCodebook, setExportingCodebook] = useState(false);
 
   const handleCodebookExport = async () => {
