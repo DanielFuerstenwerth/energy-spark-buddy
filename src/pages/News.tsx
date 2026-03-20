@@ -10,8 +10,8 @@ const News = () => {
       slug: "vnb-benchmarking",
       title: "Wo steht Ihr VNB? Jetzt selbst benchmarken.",
       date: "20.03.2026",
-      excerpt: "Ab sofort können sich CEOs und Verteilnetzbetreiber direkt vergleichen: Wo steht mein VNB bei der Energiewendekompetenz? Das neue Benchmarking-Tool macht den Vergleich einfach, datenbasiert und transparent – auf Basis der gleichen BNetzA-Daten wie unser Datenexplorer.",
-      directLink: "https://www.vnb-benchmark.de",
+      excerpt: "Die BNetzA hat die Daten — jetzt können Sie sie nutzen. Unser neues Benchmarking-Tool zeigt Geschäftsführern von Verteilnetzbetreibern erstmals, wo ihr Unternehmen bei Digitalisierung und Anschlussgeschwindigkeit steht: im Vergleich zu selbst gewählten Peers, auf Basis der offiziellen BNetzA-Erhebung (Datenstand Dezember 2024).\n\nAb 2026 werden diese Zahlen öffentlich — für Kunden, Kommunen und Wettbewerber sichtbar. Wissen Sie bereits, in welchem Quartil Sie liegen?",
+      directLink: "https://www.vnb-benchmarking.de",
     },
     {
       slug: "ewk-datenexplorer",
@@ -60,10 +60,22 @@ const News = () => {
                   <CardDescription>{item.date}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground mb-4">{item.excerpt}</p>
-                  <LinkOrA className="text-primary hover:text-accent transition-colors">
-                    {(item as any).directLink ? 'Ausprobieren →' : 'Weiterlesen →'}
-                  </LinkOrA>
+                  {item.excerpt.includes('\n\n') ? (
+                    item.excerpt.split('\n\n').map((para, i) => (
+                      <p key={i} className="text-muted-foreground mb-4">{para}</p>
+                    ))
+                  ) : (
+                    <p className="text-muted-foreground mb-4">{item.excerpt}</p>
+                  )}
+                  {(item as any).directLink ? (
+                    <LinkOrA className="inline-block mt-2 px-5 py-2.5 bg-accent text-white font-semibold rounded-md hover:bg-accent/90 transition-colors text-sm">
+                      Jetzt analysieren →
+                    </LinkOrA>
+                  ) : (
+                    <LinkOrA className="text-primary hover:text-accent transition-colors">
+                      Weiterlesen →
+                    </LinkOrA>
+                  )}
                 </CardContent>
               </Card>
             );
