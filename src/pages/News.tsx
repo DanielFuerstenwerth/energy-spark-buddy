@@ -62,7 +62,7 @@ const News = () => {
                 <CardContent>
                   <p className="text-muted-foreground mb-4">{item.excerpt}</p>
                   <LinkOrA className="text-primary hover:text-accent transition-colors">
-                    Weiterlesen →
+                    {(item as any).directLink ? 'Ausprobieren →' : 'Weiterlesen →'}
                   </LinkOrA>
                 </CardContent>
               </Card>
