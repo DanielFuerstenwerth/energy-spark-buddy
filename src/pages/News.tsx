@@ -8,8 +8,8 @@ const News = () => {
   const newsItems = [
     {
       slug: "vnb-benchmarking",
-      title: "Neues Benchmarking-Tool für Verteilnetzbetreiber",
-      date: "2026-03-20",
+      title: "Wo steht Ihr VNB? Jetzt selbst benchmarken.",
+      date: "20.03.2026",
       excerpt: "Ab sofort können sich CEOs und Verteilnetzbetreiber direkt vergleichen: Wo steht mein VNB bei der Energiewendekompetenz? Das neue Benchmarking-Tool macht den Vergleich einfach, datenbasiert und transparent – auf Basis der gleichen BNetzA-Daten wie unser Datenexplorer.",
       directLink: "https://www.vnb-benchmark.de",
     },
