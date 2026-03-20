@@ -48,8 +48,12 @@ const Admin = () => {
       toast.error(`Codebook-Export fehlgeschlagen: ${error.message}`);
     } finally { setExportingCodebook(false); }
   };
-  const handleExport = async () => {
-    setExporting(true);
+  const handleExport = async (mode?: 'anon') => {
+    if (mode === 'anon') {
+      setExportingAnon(true);
+    } else {
+      setExporting(true);
+    }
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
@@ -58,8 +62,9 @@ const Admin = () => {
       }
 
       const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const queryParam = mode === 'anon' ? '?mode=anon' : '';
       const res = await fetch(
-        `https://${projectId}.supabase.co/functions/v1/export-survey`,
+        `https://${projectId}.supabase.co/functions/v1/export-survey${queryParam}`,
         {
           method: 'GET',
           headers: {
@@ -78,17 +83,18 @@ const Admin = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'umfrage-export.csv';
+      a.download = res.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || `umfrage-export${mode === 'anon' ? '-anon' : ''}.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
       URL.revokeObjectURL(url);
-      toast.success('Export erfolgreich heruntergeladen');
+      toast.success(mode === 'anon' ? 'Anonymisierter Export heruntergeladen' : 'Export erfolgreich heruntergeladen');
     } catch (error: any) {
       console.error('Export error:', error);
       toast.error(`Export fehlgeschlagen: ${error.message}`);
     } finally {
       setExporting(false);
+      setExportingAnon(false);
     }
   };
 
