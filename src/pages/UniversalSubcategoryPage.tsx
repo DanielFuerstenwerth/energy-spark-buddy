@@ -37,6 +37,7 @@ const UniversalSubcategoryPage = () => {
   const subcategoryData = categoryData?.unterkategorien?.find(u => u.slug === subcategory);
   const pageTitle = subcategoryData?.title || subcategory;
   const categoryTitle = categoryData?.title || category;
+  const isDdvRoQ = category === 'DdV' && subcategory === 'RoQ';
 
   const handleRegionClick = useCallback((vnbId: string, vnbName: string) => {
     setSelectedVnb({ id: vnbId, name: vnbName });
