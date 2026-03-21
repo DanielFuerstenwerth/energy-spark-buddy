@@ -8,6 +8,7 @@ import { getVnbNameFromId } from '@/utils/vnbMapping';
 interface MapGgvProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
   scoreData?: Map<string, ScoreData>;
+  colorFn?: (score: number | null | undefined) => string;
 }
 
 export interface MapGgvHandle {
@@ -15,7 +16,7 @@ export interface MapGgvHandle {
   getViewportBounds: () => { south: number; west: number; north: number; east: number } | null;
 }
 
-const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData }, ref) => {
+const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData, colorFn }, ref) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
@@ -103,8 +104,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const scoreData = vnbId ? scoresMap.get(vnbId) : null;
           const score = scoreData?.score;
           
-          // 6-category system: null ≠ 0
-          const fillColor = getColor(score ?? null);
+          const fillColor = colorFn ? colorFn(score ?? null) : getColor(score ?? null);
           return {
             fillColor,
             weight: 0.5,

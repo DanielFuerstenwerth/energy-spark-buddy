@@ -8,11 +8,13 @@ import SubNav from "@/components/SubNav";
 import PageBreadcrumb from "@/components/PageBreadcrumb";
 import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
 import MapLegend from "@/components/MapLegend";
+import MapLegendRoQ from "@/components/ddv-roq/MapLegendRoQ";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
 import DdvRoqBenchmarkPanel from "@/components/ddv-roq/DdvRoqBenchmarkPanel";
 import CommentsSection from "@/components/CommentsSection";
 import { useMapData } from "@/hooks/useMapData";
 import { useNavigation } from "@/hooks/useNavigation";
+import { getDdvRoqColor } from "@/utils/ddvRoqColors";
 
 const UniversalSubcategoryPage = () => {
   const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
@@ -35,6 +37,7 @@ const UniversalSubcategoryPage = () => {
   const subcategoryData = categoryData?.unterkategorien?.find(u => u.slug === subcategory);
   const pageTitle = subcategoryData?.title || subcategory;
   const categoryTitle = categoryData?.title || category;
+  const isDdvRoQ = category === 'DdV' && subcategory === 'RoQ';
 
   const handleRegionClick = useCallback((vnbId: string, vnbName: string) => {
     setSelectedVnb({ id: vnbId, name: vnbName });
@@ -101,9 +104,14 @@ const UniversalSubcategoryPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             <div ref={mapContainerRef} className="flex flex-col gap-3">
               <div className="h-[500px] md:h-[600px] rounded-lg border border-border overflow-hidden isolate">
-                <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
+                <MapGgv
+                  ref={mapRef}
+                  onRegionClick={handleRegionClick}
+                  scoreData={scoreData}
+                  colorFn={isDdvRoQ ? getDdvRoqColor : undefined}
+                />
               </div>
-              <MapLegend />
+              {isDdvRoQ ? <MapLegendRoQ /> : <MapLegend />}
             </div>
 
             <div>
