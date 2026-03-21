@@ -14,6 +14,7 @@ import DdvRoqBenchmarkPanel from "@/components/ddv-roq/DdvRoqBenchmarkPanel";
 import CommentsSection from "@/components/CommentsSection";
 import { useMapData } from "@/hooks/useMapData";
 import { useNavigation } from "@/hooks/useNavigation";
+import { getDdvRoqColor } from "@/utils/ddvRoqColors";
 
 const UniversalSubcategoryPage = () => {
   const { category, subcategory } = useParams<{ category: string; subcategory: string }>();
