@@ -8,6 +8,7 @@ import SubNav from "@/components/SubNav";
 import PageBreadcrumb from "@/components/PageBreadcrumb";
 import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
 import MapLegend from "@/components/MapLegend";
+import MapLegendRoQ from "@/components/ddv-roq/MapLegendRoQ";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
 import DdvRoqBenchmarkPanel from "@/components/ddv-roq/DdvRoqBenchmarkPanel";
 import CommentsSection from "@/components/CommentsSection";
