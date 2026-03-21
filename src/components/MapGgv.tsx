@@ -16,7 +16,7 @@ export interface MapGgvHandle {
   getViewportBounds: () => { south: number; west: number; north: number; east: number } | null;
 }
 
-const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData }, ref) => {
+const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData: externalScoreData, colorFn }, ref) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const geoLayer = useRef<L.GeoJSON | null>(null);
