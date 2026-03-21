@@ -104,9 +104,14 @@ const UniversalSubcategoryPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 md:mb-8">
             <div ref={mapContainerRef} className="flex flex-col gap-3">
               <div className="h-[500px] md:h-[600px] rounded-lg border border-border overflow-hidden isolate">
-                <MapGgv ref={mapRef} onRegionClick={handleRegionClick} scoreData={scoreData} />
+                <MapGgv
+                  ref={mapRef}
+                  onRegionClick={handleRegionClick}
+                  scoreData={scoreData}
+                  colorFn={isDdvRoQ ? getDdvRoqColor : undefined}
+                />
               </div>
-              <MapLegend />
+              {isDdvRoQ ? <MapLegendRoQ /> : <MapLegend />}
             </div>
 
             <div>
