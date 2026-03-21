@@ -104,8 +104,7 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const scoreData = vnbId ? scoresMap.get(vnbId) : null;
           const score = scoreData?.score;
           
-          // 6-category system: null ≠ 0
-          const fillColor = getColor(score ?? null);
+          const fillColor = colorFn ? colorFn(score ?? null) : getColor(score ?? null);
           return {
             fillColor,
             weight: 0.5,
