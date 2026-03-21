@@ -107,12 +107,19 @@ const UniversalSubcategoryPage = () => {
             </div>
 
             <div>
-              <BenchmarkPanel 
-                scoreData={scoreData}
-                selectedVnb={selectedVnb}
-                onVnbSelect={handleVnbSelect}
-                mapRef={mapRef}
-              />
+              {category === 'DdV' && subcategory === 'RoQ' ? (
+                <DdvRoqBenchmarkPanel
+                  selectedVnb={selectedVnb}
+                  onVnbSelect={handleVnbSelect}
+                />
+              ) : (
+                <BenchmarkPanel 
+                  scoreData={scoreData}
+                  selectedVnb={selectedVnb}
+                  onVnbSelect={handleVnbSelect}
+                  mapRef={mapRef}
+                />
+              )}
             </div>
           </div>
 
