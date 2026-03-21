@@ -9,6 +9,7 @@ import PageBreadcrumb from "@/components/PageBreadcrumb";
 import MapGgv, { MapGgvHandle } from "@/components/MapGgv";
 import MapLegend from "@/components/MapLegend";
 import BenchmarkPanel from "@/components/BenchmarkPanel";
+import DdvRoqBenchmarkPanel from "@/components/ddv-roq/DdvRoqBenchmarkPanel";
 import CommentsSection from "@/components/CommentsSection";
 import { useMapData } from "@/hooks/useMapData";
 import { useNavigation } from "@/hooks/useNavigation";
