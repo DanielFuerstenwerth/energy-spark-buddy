@@ -8,6 +8,7 @@ import { getVnbNameFromId } from '@/utils/vnbMapping';
 interface MapGgvProps {
   onRegionClick: (vnbId: string, vnbName: string) => void;
   scoreData?: Map<string, ScoreData>;
+  colorFn?: (score: number | null | undefined) => string;
 }
 
 export interface MapGgvHandle {
