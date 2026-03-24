@@ -133,14 +133,17 @@ function buildDatenSheet(
     return m ? `${m.questionLabel}` : c;
   });
 
-  const header = [...headerLabels, ...flagKeys.map(k => `[QF] ${k}`)];
+  // "Formularstatus" as first meta column, then QF flags
+  const header = [...headerLabels, "Formularstatus", ...flagKeys.map(k => `[QF] ${k}`)];
   const rows = [header];
 
   responses.forEach((r, idx) => {
     const tag = r.project_type_tag as string | null;
     const flags = qualityFlags(r, dupes.has(idx));
     const vals = cols.map((c) => resolveExportValue(c, r[c], tag));
-    rows.push([...vals, ...flagKeys.map((k) => flags[k as keyof typeof flags])]);
+    // Derive Formularstatus: status field is authoritative
+    const formularstatus = r.status === "submitted" ? "abgeschickt" : "Entwurf";
+    rows.push([...vals, formularstatus, ...flagKeys.map((k) => flags[k as keyof typeof flags])]);
   });
 
   return XLSX.utils.aoa_to_sheet(rows);
@@ -167,9 +170,9 @@ function buildMethodikSheet(
     ["Exportmodus", isAnon ? "Anonymisiert (ohne personenbezogene Daten)" : "Vollständig"],
     ["Feldzeitraum", `${minDate} bis ${maxDate}`],
     ["Anzahl Responses gesamt (im Export)", responses.length],
-    ["Anzahl vollständiger Responses (submitted)", submitted.length],
+    ["  davon abgeschickt (submitted)", submitted.length],
+    ["  davon Entwürfe (draft)", draftCount],
     ["Anzahl mit fehlenden Schlüsselfeldern (submitted)", missingKey],
-    ["Anzahl Entwürfe / Drafts (nicht im Export)", draftCount],
     ["Schema-Version(en)", versions.join(", ")],
     ["Export-Schema-Version", SCHEMA_VERSION],
     [],
@@ -179,7 +182,8 @@ function buildMethodikSheet(
     ["3.", "Fehlende Werte werden differenziert: '(keine Antwort)' = nicht beantwortet, '(n.z.)' = Frage nicht zutreffend für diesen Projekttyp, '(leer)' = technisch leerer String."],
     ["4.", "VNB-Namen werden normalisiert (Original und normalisierter Wert, siehe Sheet 'Normalisierung')."],
     ["5.", "Qualitätsflags werden berechnet (Spalten [QF]… im Daten-Sheet)."],
-    ["6.", "Jede Zeile im Daten-Sheet entspricht einer VNB-Bewertung. Mehrere Bewertungen einer Sitzung sind über session_group_id verknüpft."],
+    ["6.", "Spalte 'Formularstatus' zeigt pro Zeile 'abgeschickt' oder 'Entwurf' (basiert auf DB-Feld 'status')."],
+    ["7.", "Jede Zeile im Daten-Sheet entspricht einer VNB-Bewertung. Mehrere Bewertungen einer Sitzung sind über session_group_id verknüpft."],
     [],
     ["Definitionen", ""],
     ["GGV", "Gemeinschaftliche Gebäudeversorgung nach §42b EnWG"],
@@ -219,13 +223,14 @@ function buildFreitexteSheet(
   isAnon: boolean
 ) {
   const header = [
-    "response_id", "Export-Header", "Interner Feldname",
+    "response_id", "Formularstatus", "Export-Header", "Interner Feldname",
     "Abschnitt", "Frage-Nr", "Fragetext", "Freitextinhalt", "created_at",
   ];
   const rows: string[][] = [header];
 
   for (const r of responses) {
     const id = r.id as string;
+    const formularstatus = r.status === "submitted" ? "abgeschickt" : "Entwurf";
     const createdAt = (r.created_at as string || "").slice(0, 19);
     for (const col of columns) {
       const meta = COLUMN_LABELS[col];
@@ -240,6 +245,7 @@ function buildFreitexteSheet(
       if (!cleaned.trim()) continue;
       rows.push([
         id,
+        formularstatus,
         meta.questionLabel,
         col,
         meta.section,
@@ -253,7 +259,7 @@ function buildFreitexteSheet(
 
   const ws = XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"] = [
-    { wch: 36 }, { wch: 40 }, { wch: 30 },
+    { wch: 36 }, { wch: 14 }, { wch: 40 }, { wch: 30 },
     { wch: 20 }, { wch: 8 }, { wch: 40 }, { wch: 80 }, { wch: 19 },
   ];
   return ws;
@@ -375,7 +381,7 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const isAnon = url.searchParams.get("mode") === "anon";
 
-    // 3. Fetch all submitted responses (paginated)
+    // 3. Fetch ALL responses (submitted + draft), paginated
     const PAGE_SIZE = 1000;
     let allResponses: Record<string, unknown>[] = [];
     let offset = 0;
@@ -385,7 +391,7 @@ Deno.serve(async (req) => {
       const { data: page, error: fetchError } = await supabaseAdmin
         .from("survey_responses")
         .select("*")
-        .eq("status", "submitted")
+        .in("status", ["submitted", "draft"])
         .order("created_at", { ascending: false })
         .range(offset, offset + PAGE_SIZE - 1);
 
@@ -413,11 +419,9 @@ Deno.serve(async (req) => {
       });
     }
 
-    // 4. Fetch draft count for Methodik
-    const { count: draftCount } = await supabaseAdmin
-      .from("survey_responses")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "draft");
+    // 4. Count drafts vs submitted for Methodik
+    const draftCount = allResponses.filter((r) => r.status === "draft").length;
+    const submittedCount = allResponses.filter((r) => r.status === "submitted").length;
 
     // 5. Determine column order from COLUMN_LABELS (survey flow order)
     const allDbKeys = new Set(Object.keys(allResponses[0]));
@@ -436,7 +440,7 @@ Deno.serve(async (req) => {
     const wsDaten = buildDatenSheet(allResponses, orderedColumns, isAnon);
     XLSX.utils.book_append_sheet(wb, wsDaten, "Daten");
 
-    const wsMethodik = buildMethodikSheet(allResponses, draftCount || 0, isAnon);
+    const wsMethodik = buildMethodikSheet(allResponses, draftCount, isAnon);
     XLSX.utils.book_append_sheet(wb, wsMethodik, "Methodik");
 
     const wsFreitexte = buildFreitexteSheet(allResponses, orderedColumns, isAnon);
