@@ -1,0 +1,73 @@
+logik_id,quelle_frage_id,bedingung,ziel_frage_id,ziel_section_id,aktion,bemerkung
+1,actorTypes,"actorTypes enthält ""dienstleister""",actorDienstleisterCategory,about,anzeigen,
+2,actorTypes,"actorTypes enthält ""dienstleister""",dienstleisterWebsite,about,anzeigen,
+3,actorTypes,"actorTypes enthält ""dienstleister""",dienstleisterKontakt,about,anzeigen,
+4,projectTypes,"projectTypes enthält eines von [ggv, mieterstrom, ggv_oder_mieterstrom]",planningStatus,project,anzeigen,
+5,projectTypes,"(projectTypes enthält ""mieterstrom"") UND (projectTypes enthält eines von [ggv, ggv_oder_mieterstrom])",mieterstromPlanningStatus,project,anzeigen,
+6,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvProjectType,project,anzeigen,
+7,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvPvSizeKw,project,anzeigen,
+8,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvPartyCount,project,anzeigen,
+9,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvBuildingType,project,anzeigen,
+10,projectTypes,"(projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]) UND (ggvProjectType == ""multiple"")",ggvBuildingCount,project,anzeigen,
+11,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvAdditionalInfo,project,anzeigen,
+12,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",projectLocations,project,anzeigen,
+13,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromProjectType,project,anzeigen,
+14,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromPvSizeKw,project,anzeigen,
+15,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromPartyCount,project,anzeigen,
+16,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromBuildingType,project,anzeigen,
+17,projectTypes,"(projectTypes enthält ""mieterstrom"") UND (mieterstromProjectType == ""multiple"")",mieterstromBuildingCount,project,anzeigen,
+18,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromAdditionalInfo,project,anzeigen,
+19,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromFoerderung,project,anzeigen,
+20,projectTypes,"(projectTypes enthält ""mieterstrom"") UND (mieterstromFoerderung == ""nein"")",mieterstromFoerderungNeinGrund,project,anzeigen,
+21,projectTypes,"projectTypes enthält ""mieterstrom""",mieterstromProjectLocations,project,anzeigen,
+22,projectTypes,"projectTypes enthält eines von [ggv, mieterstrom, ggv_oder_mieterstrom]",,planning,section_anzeigen,"Section ""3. Planung: Allgemeines – Planungsstand"" nur sichtbar wenn Bedingung erfüllt"
+23,projectTypes,"((projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]) UND (NICHT((projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft"")))) ODER ((projectTypes enthält eines von [mieterstrom, ggv_oder_mieterstrom]) UND (NICHT((projectTypes enthält ""mieterstrom"") UND ((mieterstromPlanningStatus enthält ""pv_laeuft_ggv_laeuft"") ODER ((NICHT(projectTypes enthält eines von [ggv, ggv_oder_mieterstrom])) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft""))))))",ggvOrMieterstromDecision,planning,anzeigen,
+24,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",ggvDecisionReasons,planning,anzeigen,
+25,projectTypes,"projectTypes enthält eines von [mieterstrom, ggv_oder_mieterstrom]",mieterstromDecisionReasons,planning,anzeigen,
+26,projectTypes,"projectTypes enthält eines von [ggv, mieterstrom, ggv_oder_mieterstrom]",,challenges,section_anzeigen,"Section ""3. Planung: Allgemeines – Herausforderungen"" nur sichtbar wenn Bedingung erfüllt"
+27,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",,vnb-planning,section_anzeigen,"Section ""4. Planung: Modellspezifisch – GGV"" nur sichtbar wenn Bedingung erfüllt"
+28,vnbResponse,"vnbResponse enthält ""moeglich_wmsb""",vnbMsbTimeline,vnb-planning,anzeigen,
+29,vnbResponse,"vnbResponse enthält ""nicht_moeglich""",vnbRejectionTimeline,vnb-planning,anzeigen,
+30,vnbResponse,"vnbResponse enthält ""moeglich_gmssb""",,vnb-msb,section_anzeigen,"Section ""4. Planung: Modellspezifisch – GGV - MSB Details"" nur sichtbar wenn Bedingung erfüllt"
+31,vnbAdditionalCosts,"vnbAdditionalCosts == ""ja""",vnbAdditionalCostsOneTime,vnb-msb,anzeigen,
+32,vnbAdditionalCosts,"vnbAdditionalCosts == ""ja""",vnbAdditionalCostsYearly,vnb-msb,anzeigen,
+33,vnbDataCost,"vnbDataCost == ""mehr_3_eur""",vnbDataCostAmount,vnb-msb,anzeigen,
+34,vnbEsaCost,"vnbEsaCost == ""mehr_3_eur""",vnbEsaCostAmount,vnb-msb,anzeigen,
+35,vnbResponse,"vnbResponse enthält eines von [moeglich_gmssb, moeglich_wmsb]",,ggv-messkonzept,section_anzeigen,"Section ""GGV-Messkonzept"" nur sichtbar wenn Bedingung erfüllt"
+36,vnbWandlermessung,"vnbWandlermessung IN [ja, wissen_nicht]",vnbWandlermessungComment,ggv-messkonzept,anzeigen,
+37,vnbWandlermessung,"vnbWandlermessung IN [ja, wissen_nicht]",vnbWandlermessungDocuments,ggv-messkonzept,anzeigen,
+38,projectTypes,"projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]",,vnb-support,section_anzeigen,"Section ""Online-Unterstützung des Verteilnetzbetreibers für die GGV"" nur sichtbar wenn Bedingung erfüllt"
+39,(projectTypes,"(projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft"")",,ggv-operation,section_anzeigen,"Section ""5. Betrieb: Modellspezifisch – GGV"" nur sichtbar wenn Bedingung erfüllt"
+40,operationWandlermessung,"operationWandlermessung == ""ja""",operationWandlermessungComment,ggv-operation,anzeigen,
+41,operationMsbProvider,"operationMsbProvider == ""gmsb""",operationMsbDuration,ggv-operation,anzeigen,
+42,operationMsbProvider,"operationMsbProvider == ""gmsb""",operationMsbAdditionalCosts,ggv-operation,anzeigen,
+43,operationMsbAdditionalCosts,"operationMsbAdditionalCosts == ""ja""",operationMsbAdditionalCostsOneTime,ggv-operation,anzeigen,
+44,operationMsbAdditionalCosts,"operationMsbAdditionalCosts == ""ja""",operationMsbAdditionalCostsYearly,ggv-operation,anzeigen,
+45,operationMsbProvider,"operationMsbProvider == ""gmsb""",operationDataFormat,ggv-operation,anzeigen,
+46,operationDataProvider,"operationDataProvider == ""gmsb""",operationDataCost,ggv-operation,anzeigen,
+47,operationDataCost,"operationDataCost == ""mehr_3_eur""",operationDataCostAmount,ggv-operation,anzeigen,
+48,operationMsbProvider,"operationMsbProvider == ""gmsb""",operationEsaCost,ggv-operation,anzeigen,
+49,operationEsaCost,"operationEsaCost == ""mehr_3_eur""",operationEsaCostAmount,ggv-operation,anzeigen,
+50,((projectTypes,"((projectTypes enthält eines von [ggv, ggv_oder_mieterstrom]) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft"")) ODER ((projectTypes enthält ""mieterstrom"") UND ((mieterstromPlanningStatus enthält ""pv_laeuft_ggv_laeuft"") ODER ((NICHT(projectTypes enthält eines von [ggv, ggv_oder_mieterstrom])) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft""))))",,service-provider,section_anzeigen,"Section ""5. Betrieb: Modellspezifisch – Dienstleister (GGV)"" nur sichtbar wenn Bedingung erfüllt"
+51,serviceProviderName,serviceProviderName ist ausgefüllt,serviceProviderServices,service-provider,anzeigen,
+52,serviceProviderName,serviceProviderName ist ausgefüllt,serviceProviderComments,service-provider,anzeigen,
+53,serviceProviderName,serviceProviderName ist ausgefüllt,serviceProvider2Name,service-provider,anzeigen,
+54,serviceProvider2Name,serviceProvider2Name ist ausgefüllt,serviceProvider2Services,service-provider,anzeigen,
+55,serviceProvider2Name,serviceProvider2Name ist ausgefüllt,serviceProvider2Comments,service-provider,anzeigen,
+56,projectTypes,"projectTypes enthält ""mieterstrom""",,mieterstrom-planning,section_anzeigen,"Section ""4. Planung: Modellspezifisch – Mieterstrom"" nur sichtbar wenn Bedingung erfüllt"
+57,mieterstromVirtuellAllowed,"mieterstromVirtuellAllowed == ""nein""",mieterstromVirtuellDeniedReason,mieterstrom-planning,anzeigen,
+58,mieterstromVirtuellAllowed,"mieterstromVirtuellAllowed == ""nein""",mieterstromVirtuellDeniedDocuments,mieterstrom-planning,anzeigen,
+59,mieterstromVirtuellAllowed,"mieterstromVirtuellAllowed == ""ja""",mieterstromVirtuellWandlermessung,mieterstrom-planning,anzeigen,
+60,mieterstromVirtuellWandlermessung,"mieterstromVirtuellWandlermessung == ""ja""",mieterstromVirtuellWandlermessungDocuments,mieterstrom-planning,anzeigen,
+61,mieterstromVnbResponse,"mieterstromVnbResponse enthält ""moeglich_gmsb""",,mieterstrom-vnb-offer,section_anzeigen,"Section ""4. Planung: Modellspezifisch – Mieterstrom - Verteilnetzbetreiber Angebot"" nur sichtbar wenn Bedingung erfüllt"
+62,mieterstromMsbCosts,"mieterstromMsbCosts == ""ja""",mieterstromMsbCostsOneTime,mieterstrom-vnb-offer,anzeigen,
+63,mieterstromMsbCosts,"mieterstromMsbCosts == ""ja""",mieterstromMsbCostsYearly,mieterstrom-vnb-offer,anzeigen,
+64,(projectTypes,"(projectTypes enthält ""mieterstrom"") UND ((mieterstromPlanningStatus enthält ""pv_laeuft_ggv_laeuft"") ODER ((NICHT(projectTypes enthält eines von [ggv, ggv_oder_mieterstrom])) UND (planningStatus enthält ""pv_laeuft_ggv_laeuft"")))",,mieterstrom-operation,section_anzeigen,"Section ""5. Betrieb: Modellspezifisch – Mieterstrom"" nur sichtbar wenn Bedingung erfüllt"
+65,mieterstromOperationCosts,"mieterstromOperationCosts == ""ja""",mieterstromOperationCostsOneTime,mieterstrom-operation,anzeigen,
+66,mieterstromOperationCosts,"mieterstromOperationCosts == ""ja""",mieterstromOperationCostsYearly,mieterstrom-operation,anzeigen,
+67,projectTypes,"projectTypes enthält ""energysharing""",,energy-sharing,section_anzeigen,"Section ""4. Planung: Modellspezifisch – Energy Sharing"" nur sichtbar wenn Bedingung erfüllt"
+68,esStatus,"esStatus enthält eines von [in_betrieb_vollversorgung, in_betrieb_42c]",esInOperationDetails,energy-sharing,anzeigen,
+69,esStatus,"esStatus enthält eines von [in_betrieb_vollversorgung, in_betrieb_42c]",esOperatorDetails,energy-sharing,anzeigen,
+70,esVnbContact,"esVnbContact == ""ja""",esVnbResponse,energy-sharing,anzeigen,
+71,esVnbContact,"esVnbContact == ""ja""",esNetzentgelteDiscussion,energy-sharing,anzeigen,
+72,projectTypes,"projectTypes enthält eines von [ggv, mieterstrom, ggv_oder_mieterstrom]",npsScore,final,anzeigen,
