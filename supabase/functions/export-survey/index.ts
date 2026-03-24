@@ -230,6 +230,7 @@ function buildFreitexteSheet(
 
   for (const r of responses) {
     const id = r.id as string;
+    const formularstatus = r.status === "submitted" ? "abgeschickt" : "Entwurf";
     const createdAt = (r.created_at as string || "").slice(0, 19);
     for (const col of columns) {
       const meta = COLUMN_LABELS[col];
