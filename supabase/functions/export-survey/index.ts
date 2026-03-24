@@ -259,7 +259,7 @@ function buildFreitexteSheet(
 
   const ws = XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"] = [
-    { wch: 36 }, { wch: 40 }, { wch: 30 },
+    { wch: 36 }, { wch: 14 }, { wch: 40 }, { wch: 30 },
     { wch: 20 }, { wch: 8 }, { wch: 40 }, { wch: 80 }, { wch: 19 },
   ];
   return ws;
