@@ -133,14 +133,17 @@ function buildDatenSheet(
     return m ? `${m.questionLabel}` : c;
   });
 
-  const header = [...headerLabels, ...flagKeys.map(k => `[QF] ${k}`)];
+  // "Formularstatus" as first meta column, then QF flags
+  const header = [...headerLabels, "Formularstatus", ...flagKeys.map(k => `[QF] ${k}`)];
   const rows = [header];
 
   responses.forEach((r, idx) => {
     const tag = r.project_type_tag as string | null;
     const flags = qualityFlags(r, dupes.has(idx));
     const vals = cols.map((c) => resolveExportValue(c, r[c], tag));
-    rows.push([...vals, ...flagKeys.map((k) => flags[k as keyof typeof flags])]);
+    // Derive Formularstatus: status field is authoritative
+    const formularstatus = r.status === "submitted" ? "abgeschickt" : "Entwurf";
+    rows.push([...vals, formularstatus, ...flagKeys.map((k) => flags[k as keyof typeof flags])]);
   });
 
   return XLSX.utils.aoa_to_sheet(rows);
