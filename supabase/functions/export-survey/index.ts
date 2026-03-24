@@ -413,11 +413,9 @@ Deno.serve(async (req) => {
       });
     }
 
-    // 4. Fetch draft count for Methodik
-    const { count: draftCount } = await supabaseAdmin
-      .from("survey_responses")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "draft");
+    // 4. Count drafts vs submitted for Methodik
+    const draftCount = allResponses.filter((r) => r.status === "draft").length;
+    const submittedCount = allResponses.filter((r) => r.status === "submitted").length;
 
     // 5. Determine column order from COLUMN_LABELS (survey flow order)
     const allDbKeys = new Set(Object.keys(allResponses[0]));
