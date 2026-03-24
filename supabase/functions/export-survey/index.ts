@@ -223,7 +223,7 @@ function buildFreitexteSheet(
   isAnon: boolean
 ) {
   const header = [
-    "response_id", "Export-Header", "Interner Feldname",
+    "response_id", "Formularstatus", "Export-Header", "Interner Feldname",
     "Abschnitt", "Frage-Nr", "Fragetext", "Freitextinhalt", "created_at",
   ];
   const rows: string[][] = [header];
