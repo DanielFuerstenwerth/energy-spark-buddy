@@ -375,7 +375,7 @@ Deno.serve(async (req) => {
     const url = new URL(req.url);
     const isAnon = url.searchParams.get("mode") === "anon";
 
-    // 3. Fetch all submitted responses (paginated)
+    // 3. Fetch ALL responses (submitted + draft), paginated
     const PAGE_SIZE = 1000;
     let allResponses: Record<string, unknown>[] = [];
     let offset = 0;
@@ -385,7 +385,7 @@ Deno.serve(async (req) => {
       const { data: page, error: fetchError } = await supabaseAdmin
         .from("survey_responses")
         .select("*")
-        .eq("status", "submitted")
+        .in("status", ["submitted", "draft"])
         .order("created_at", { ascending: false })
         .range(offset, offset + PAGE_SIZE - 1);
 
