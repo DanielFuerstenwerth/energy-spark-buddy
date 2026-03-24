@@ -245,6 +245,7 @@ function buildFreitexteSheet(
       if (!cleaned.trim()) continue;
       rows.push([
         id,
+        formularstatus,
         meta.questionLabel,
         col,
         meta.section,
