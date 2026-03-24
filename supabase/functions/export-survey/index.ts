@@ -437,7 +437,7 @@ Deno.serve(async (req) => {
     const wsDaten = buildDatenSheet(allResponses, orderedColumns, isAnon);
     XLSX.utils.book_append_sheet(wb, wsDaten, "Daten");
 
-    const wsMethodik = buildMethodikSheet(allResponses, draftCount || 0, isAnon);
+    const wsMethodik = buildMethodikSheet(allResponses, draftCount, isAnon);
     XLSX.utils.book_append_sheet(wb, wsMethodik, "Methodik");
 
     const wsFreitexte = buildFreitexteSheet(allResponses, orderedColumns, isAnon);
