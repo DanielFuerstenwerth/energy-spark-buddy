@@ -98,6 +98,14 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
     ]).then(([geoData, scoresMap]) => {
       if (!map.current) return;
 
+      // Helper: compute fill opacity based on zoom level
+      const opacityForZoom = (z: number) => {
+        if (z <= 8) return 0.55;
+        if (z >= 12) return 0.3;
+        // linear interpolation between zoom 8 and 12
+        return 0.55 - (z - 8) * (0.25 / 4);
+      };
+
       geoLayer.current = L.geoJSON(geoData, {
         style: (feature: any) => {
           const vnbId = feature?.id;
@@ -105,18 +113,18 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
           const score = scoreData?.score;
           
           const fillColor = colorFn ? colorFn(score ?? null) : getColor(score ?? null);
+          const currentZoom = map.current?.getZoom() ?? 6;
           return {
             fillColor,
             weight: 0.5,
             opacity: 1,
             color: '#333333',
-            fillOpacity: 0.55
+            fillOpacity: opacityForZoom(currentZoom)
           };
         },
         onEachFeature: (feature: any, layer) => {
           const vnbId = feature?.id;
           const scoreData = scoresMap.get(vnbId);
-          // Use scoreData.vnb_name first, then lookup by ID, then fall back to showing the ID
           const vnbName = scoreData?.vnb_name || getVnbNameFromId(vnbId) || `VNB ${vnbId}`;
 
           layer.bindTooltip(
@@ -128,15 +136,21 @@ const MapGgv = forwardRef<MapGgvHandle, MapGgvProps>(({ onRegionClick, scoreData
 
           layer.on('click', () => onRegionClick(vnbId, vnbName));
           layer.on('mouseover', function(this: any) {
-            this.setStyle({ weight: 1.5, fillOpacity: 0.7 });
+            this.setStyle({ weight: 1.5, fillOpacity: Math.min(opacityForZoom(map.current?.getZoom() ?? 6) + 0.15, 0.85) });
           });
           layer.on('mouseout', function(this: any) {
-            this.setStyle({ weight: 0.5, fillOpacity: 0.55 });
+            this.setStyle({ weight: 0.5, fillOpacity: opacityForZoom(map.current?.getZoom() ?? 6) });
           });
         }
       }).addTo(map.current);
 
-      // Ensure container size is correct before fitting bounds
+      // Adjust opacity on zoom change
+      map.current.on('zoomend', () => {
+        const z = map.current?.getZoom() ?? 6;
+        const op = opacityForZoom(z);
+        geoLayer.current?.setStyle({ fillOpacity: op });
+      });
+
       map.current.invalidateSize(true);
       requestAnimationFrame(() => {
         if (map.current && geoLayer.current) {
