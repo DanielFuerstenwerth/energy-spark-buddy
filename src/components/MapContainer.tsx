@@ -69,22 +69,26 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
         .then((geoData) => {
           if (!map.current) return;
 
+          const opacityForZoom = (z: number) => {
+            if (z <= 8) return 0.55;
+            if (z >= 12) return 0.3;
+            return 0.55 - (z - 8) * (0.25 / 4);
+          };
+
           geoLayer.current = L.geoJSON(geoData, {
             style: (feature: any) => {
               const vnbId = feature?.id;
               const data = vnbId ? scoreData.get(vnbId) : null;
               const score = data?.score;
-
-              // Fixed 5-category system
-              // Treat 0 and null as 0 (keine Daten)
               const fillColor = getColor(score);
+              const currentZoom = map.current?.getZoom() ?? 6;
 
               return {
                 fillColor,
                 weight: 0.5,
                 opacity: 1,
                 color: '#333333',
-                fillOpacity: 0.7,
+                fillOpacity: opacityForZoom(currentZoom),
               };
             },
             onEachFeature: (feature: any, layer) => {
@@ -105,13 +109,18 @@ const MapContainer = forwardRef<MapContainerHandle, MapContainerProps>(
 
               layer.on('click', () => onRegionClick(vnbId, vnbName));
               layer.on('mouseover', function (this: any) {
-                this.setStyle({ weight: 1.5, fillOpacity: 0.9 });
+                this.setStyle({ weight: 1.5, fillOpacity: Math.min(opacityForZoom(map.current?.getZoom() ?? 6) + 0.15, 0.85) });
               });
               layer.on('mouseout', function (this: any) {
-                this.setStyle({ weight: 0.5, fillOpacity: 0.7 });
+                this.setStyle({ weight: 0.5, fillOpacity: opacityForZoom(map.current?.getZoom() ?? 6) });
               });
             },
           }).addTo(map.current);
+
+          map.current.on('zoomend', () => {
+            const z = map.current?.getZoom() ?? 6;
+            geoLayer.current?.setStyle({ fillOpacity: opacityForZoom(z) });
+          });
 
           map.current.fitBounds(geoLayer.current.getBounds());
 

@@ -240,17 +240,16 @@ export async function loadScores(
 }
 
 export function getColor(score: number | null | undefined): string {
-  // 6-category system: null ≠ 0
-  if (score === null || score === undefined || Number.isNaN(score)) return 'hsl(220, 14%, 96%)'; // keine Daten: very light gray
-  if (score === 0) return 'hsl(220, 13%, 91%)';              // exactly 0: light gray
+  // 5-category system: 0 and null/undefined merged as "keine Daten"
+  if (score === null || score === undefined || Number.isNaN(score) || score === 0) return 'hsl(220, 14%, 96%)';
   if (score < -50) return 'hsl(350, 80%, 35%)';              // -100 bis -50: deep crimson
   if (score < 0) return 'hsl(20, 85%, 55%)';                 // -50 bis 0: warm orange-red
-  if (score <= 50) return 'hsl(142, 76%, 45%)';              // 0 bis 50: green
-  return 'hsl(158, 64%, 32%)';                               // 50 bis 100: dark green
+  if (score <= 50) return 'hsl(142, 68%, 36%)';              // 0 bis 50: clear green
+  return 'hsl(158, 72%, 26%)';                               // 50 bis 100: strong dark green
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['-100 bis -50', '-50 bis 0', '0', '0 bis 50', '50 bis 100', 'keine Daten'];
+  const labels = ['-100 bis -50', '-50 bis 0', '0 bis 50', '50 bis 100', 'keine Daten'];
   return labels[index] || '';
 }
 
@@ -258,10 +257,9 @@ export function getColorByIndex(index: number): string {
   const colors = [
     'hsl(350, 80%, 35%)',    // -100 bis -50: deep crimson
     'hsl(20, 85%, 55%)',     // -50 bis 0: warm orange-red
-    'hsl(220, 13%, 91%)',    // 0: light gray
-    'hsl(142, 76%, 45%)',    // 0 bis 50: green
-    'hsl(158, 64%, 32%)',    // 50 bis 100: dark green
+    'hsl(142, 68%, 36%)',    // 0 bis 50: clear green
+    'hsl(158, 72%, 26%)',    // 50 bis 100: strong dark green
     'hsl(220, 14%, 96%)',    // keine Daten: very light gray
   ];
-  return colors[index] || 'hsl(220, 13%, 91%)';
+  return colors[index] || 'hsl(220, 14%, 96%)';
 }
