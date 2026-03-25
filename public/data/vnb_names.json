@@ -1,4 +1,43 @@
 {
+  "13711914": {
+    "name": "Albstadtwerke GmbH"
+  },
+  "23943550": {
+    "name": "EWR GmbH"
+  },
+  "24606857": {
+    "name": "Alliander Netz Heinsberg GmbH"
+  },
+  "24968672": {
+    "name": "FischerStrom KG"
+  },
+  "28241647": {
+    "name": "Gemeindewerke Markt Lichtenau"
+  },
+  "29280743": {
+    "name": "Stadtwerke Gengenbach"
+  },
+  "32092119": {
+    "name": "Stadtwerke Rendsburg GmbH"
+  },
+  "49976619": {
+    "name": "KEW Kommunale Energie- und Wasserversorgung AG"
+  },
+  "54968043": {
+    "name": "Feuchter Gemeindewerke GmbH"
+  },
+  "73527997": {
+    "name": "SÜC Energie und H2O GmbH"
+  },
+  "83741450": {
+    "name": "Stadtwerke Rostock Netzgesellschaft mbH"
+  },
+  "96682984": {
+    "name": "Kraftwerk Farchant A. Poettinger & Co. KG"
+  },
+  "99056138": {
+    "name": "badenovaNetze GmbH"
+  },
   "0b2d22e0": {
     "name": "SachsenNetze GmbH"
   },
@@ -323,9 +362,6 @@
   "e4f87ce9": {
     "name": "EWN Entsorgungswerk für Nuklearanlagen GmbH"
   },
-  "83741450": {
-    "name": "Stadtwerke Rostock Netzgesellschaft mbH"
-  },
   "6a39aa02": {
     "name": "Stromnetz24 GmbH"
   },
@@ -448,9 +484,6 @@
   },
   "38b7e0a9": {
     "name": "Stadtwerke Nortorf AöR"
-  },
-  "32092119": {
-    "name": "Stadtwerke Rendsburg GmbH"
   },
   "b24a34c2": {
     "name": "Schleswig-Holstein Netz GmbH"
@@ -672,7 +705,10 @@
     "name": "Stadtwerke Oerlinghausen GmbH"
   },
   "c4f28584": {
-    "name": "Städtische Werke Netz + Service GmbH"
+    "name": "Städtische Werke Netz + Service GmbH",
+    "aliases": [
+      "Städtische Werke Netz+Service GmbH"
+    ]
   },
   "c63351b7": {
     "name": "EAM Netz GmbH"
@@ -881,9 +917,6 @@
   "71d3b897": {
     "name": "SWS Netze Solingen GmbH"
   },
-  "23943550": {
-    "name": "EWR GmbH"
-  },
   "e90f7462": {
     "name": "Dortmunder Netz GmbH"
   },
@@ -1073,9 +1106,6 @@
   "043bb473": {
     "name": "NEW Netz GmbH"
   },
-  "24606857": {
-    "name": "Alliander Netz Heinsberg GmbH"
-  },
   "dc7f9cfd": {
     "name": "Bonn-Netz GmbH"
   },
@@ -1248,7 +1278,10 @@
     "name": "Stadtwerke Groß-Gerau Versorgungs GmbH"
   },
   "8abc0aa9": {
-    "name": "GGEW, Gruppen-Gas- und Elektrizitätswerk Bergstraße Aktiengesellschaft"
+    "name": "GGEW, Gruppen-Gas- und Elektrizitätswerk Bergstraße Aktiengesellschaft",
+    "aliases": [
+      "GGEW, Gruppen-Gas- und Elektrizitätswerk Bergstraße AG"
+    ]
   },
   "7cc4df57": {
     "name": "Stadtwerke Wiesbaden Netz GmbH"
@@ -1294,9 +1327,6 @@
   },
   "5bb35872": {
     "name": "Stadtwerke Zweibrücken GmbH"
-  },
-  "49976619": {
-    "name": "KEW Kommunale Energie- und Wasserversorgung AG"
   },
   "5d919e49": {
     "name": "SSW Netz GmbH"
@@ -1458,7 +1488,10 @@
     "name": "Stadtwerke Backnang GmbH"
   },
   "a3925546": {
-    "name": "Stadtwerke Ludwigsburg-Kornwestheim GmbH"
+    "name": "Stadtwerke Ludwigsburg-Kornwestheim GmbH",
+    "aliases": [
+      "Stadtwerke Ludwigsburg - Kornwestheim GmbH"
+    ]
   },
   "6e00ef90": {
     "name": "Stadtwerke Tübingen GmbH"
@@ -1495,9 +1528,6 @@
   },
   "52353b5b": {
     "name": "Netze Hechingen GmbH & Co. KG"
-  },
-  "13711914": {
-    "name": "Albstadtwerke GmbH"
   },
   "50c50f93": {
     "name": "Stadtwerke Sigmaringen GmbH"
@@ -1658,9 +1688,6 @@
   "dabe5129": {
     "name": "Stadtwerke Haslach"
   },
-  "29280743": {
-    "name": "Stadtwerke Gengenbach"
-  },
   "86e2806c": {
     "name": "Gemeindewerke Schutterwald"
   },
@@ -1708,9 +1735,6 @@
   },
   "3c279b27": {
     "name": "Stadtwerke Schramberg GmbH & Co. KG"
-  },
-  "99056138": {
-    "name": "badenovaNetze GmbH"
   },
   "c235c9e9": {
     "name": "Stadtwerke Waldkirch GmbH"
@@ -1764,7 +1788,10 @@
     "name": "Stromnetz Weilheim GmbH & Co.KG"
   },
   "cc5c918a": {
-    "name": "Gemeindewerke Peißenberg KU"
+    "name": "Gemeindewerke Peißenberg KU",
+    "aliases": [
+      "Kommunalunternehmen Gemeindewerke Peißenberg"
+    ]
   },
   "3d11f022": {
     "name": "Elektrizitätsvereinigung Böbing eG"
@@ -1777,9 +1804,6 @@
   },
   "9e8a1981": {
     "name": "KEW Karwendel Energie & Wasser GmbH"
-  },
-  "96682984": {
-    "name": "Kraftwerk Farchant A. Poettinger & Co. KG"
   },
   "186dc51b": {
     "name": "Stadtwerke Rosenheim Netze GmbH"
@@ -1855,9 +1879,6 @@
   },
   "5154960b": {
     "name": "Stadtwerke Wasserburg a. Inn"
-  },
-  "24968672": {
-    "name": "FischerStrom KG"
   },
   "3a81ad4e": {
     "name": "Gemeindewerke Holzkirchen GmbH"
@@ -2090,9 +2111,6 @@
   "68748c74": {
     "name": "Gemeindewerke Wendelstein Kommunalunternehmen"
   },
-  "54968043": {
-    "name": "Feuchter Gemeindewerke GmbH"
-  },
   "4e09025b": {
     "name": "Gemeindewerke Schwarzenbruck GmbH"
   },
@@ -2188,9 +2206,6 @@
   },
   "2707763f": {
     "name": "Stadtwerke Windsbach"
-  },
-  "28241647": {
-    "name": "Gemeindewerke Markt Lichtenau"
   },
   "80ad5a12": {
     "name": "Stadtwerke Burgbernheim"
@@ -2341,9 +2356,6 @@
   },
   "4be8a402": {
     "name": "Elektrizitätsgenossenschaft Nordhalben und Umgebung eG"
-  },
-  "73527997": {
-    "name": "SÜC Energie und H2O GmbH"
   },
   "9ab37c7f": {
     "name": "SWN Stadtwerke Neustadt GmbH"
