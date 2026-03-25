@@ -1,4 +1,5 @@
 import { useMemo, useState, useRef } from 'react';
+import { getColor } from '@/utils/dataLoader';
 
 interface VnbItem {
   id: string;
@@ -12,25 +13,15 @@ interface Props {
   onBarClick: (vnbId: string) => void;
 }
 
-/**
- * Clean vertical bar chart for CSV-based VNB benchmark.
- * - Only VNBs with a score are shown
- * - Sorted descending by score
- * - Selected VNB is highlighted with accent color + label
- * - Hover shows tooltip with name, value, rank
- * - Rare positive outliers get wider bars for visibility
- */
 export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number } | null>(null);
 
-  // Filter to only scored VNBs, sort descending
   const ranked = useMemo(() => {
     const scored = vnbs
       .filter((v) => v.score !== null && v.score !== undefined)
       .sort((a, b) => b.score! - a.score!) as (VnbItem & { score: number })[];
-
     return scored.map((v, i) => ({ ...v, rank: i + 1 }));
   }, [vnbs]);
 
@@ -39,7 +30,6 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
     [ranked]
   );
 
-  // Count how many bars are in the "strongly positive" zone (>50)
   const strongPositiveCount = useMemo(
     () => ranked.filter((v) => v.score > 50).length,
     [ranked]
@@ -56,6 +46,7 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
   }
 
   const chartHeight = 160;
+  const halfHeight = chartHeight / 2;
 
   const handleMouseMove = (e: React.MouseEvent, vnbId: string) => {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -69,7 +60,6 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
 
   return (
     <div className="space-y-1">
-      {/* Selected VNB label */}
       {selectedVnb && (
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xs font-semibold text-foreground truncate max-w-[200px]">
@@ -81,44 +71,27 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
         </div>
       )}
 
-      {/* Bar chart */}
       <div
         ref={containerRef}
         className="relative select-none"
         style={{ height: chartHeight }}
-        onMouseLeave={() => {
-          setHoveredId(null);
-          setTooltipPos(null);
-        }}
+        onMouseLeave={() => { setHoveredId(null); setTooltipPos(null); }}
       >
-        {/* Bars container */}
-        <div className="flex items-end h-full gap-px">
+        <div className="flex items-stretch h-full gap-px">
           {ranked.map((vnb) => {
             const isSelected = vnb.id === selectedVnbId;
             const isHovered = vnb.id === hoveredId;
+            const ratio = Math.abs(vnb.score) / maxAbs;
+            const barH = Math.max(ratio * (halfHeight - 2), 1);
+            const isPositive = vnb.score >= 0;
 
-            // Bar height proportional to score magnitude
-            const barH = (Math.abs(vnb.score) / maxAbs) * (chartHeight - 4);
-
-            // Determine if this bar should be wider (rare strongly positive outlier)
             const isRarePositive = vnb.score > 50 && strongPositiveCount <= 5;
             const widthMultiplier = isRarePositive
               ? Math.min(3, Math.max(1.5, 8 / Math.max(strongPositiveCount, 1)))
               : 1;
 
-            // Colors: selected = primary accent, positive = muted blue, negative = muted warm
-            let bgColor: string;
-            if (isSelected) {
-              bgColor = 'hsl(var(--primary))';
-            } else if (vnb.score > 0) {
-              bgColor = 'hsl(210, 60%, 65%)';
-            } else if (vnb.score === 0) {
-              bgColor = 'hsl(var(--muted-foreground) / 0.25)';
-            } else {
-              bgColor = 'hsl(20, 50%, 65%)';
-            }
-
-            const opacity = isSelected || isHovered ? 1 : 0.75;
+            const fillColor = isSelected ? 'hsl(var(--primary))' : getColor(vnb.score);
+            const opacity = isSelected || isHovered ? 1 : 0.8;
 
             return (
               <div
@@ -129,30 +102,50 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
                   minWidth: isRarePositive ? 4 : 1,
                   height: '100%',
                   display: 'flex',
-                  alignItems: 'flex-end',
+                  flexDirection: 'column',
                 }}
                 onClick={() => onBarClick(vnb.id)}
                 onMouseMove={(e) => handleMouseMove(e, vnb.id)}
               >
-                <div
-                  style={{
-                    width: '100%',
-                    height: Math.max(barH, 1),
-                    backgroundColor: bgColor,
-                    opacity,
-                    borderRadius: '1px 1px 0 0',
-                    transition: 'opacity 75ms',
-                  }}
-                />
+                {/* Top half: positive bars grow upward from center */}
+                <div style={{ height: halfHeight, display: 'flex', alignItems: 'flex-end' }}>
+                  {isPositive && (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: barH,
+                        backgroundColor: fillColor,
+                        opacity,
+                        borderRadius: '1px 1px 0 0',
+                        transition: 'opacity 75ms',
+                      }}
+                    />
+                  )}
+                </div>
+                {/* Bottom half: negative bars grow downward from center */}
+                <div style={{ height: halfHeight, display: 'flex', alignItems: 'flex-start' }}>
+                  {!isPositive && (
+                    <div
+                      style={{
+                        width: '100%',
+                        height: barH,
+                        backgroundColor: fillColor,
+                        opacity,
+                        borderRadius: '0 0 1px 1px',
+                        transition: 'opacity 75ms',
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}
         </div>
 
-        {/* Zero baseline (for context) */}
+        {/* Zero line */}
         <div
           className="absolute left-0 right-0 border-t border-border"
-          style={{ bottom: 0 }}
+          style={{ top: halfHeight }}
         />
 
         {/* Tooltip */}
@@ -167,14 +160,12 @@ export default function BenchmarkBarChart({ vnbs, selectedVnbId, onBarClick }: P
           >
             <p className="font-semibold truncate">{hoveredVnb.name}</p>
             <p className="text-muted-foreground">
-              Wert: {hoveredVnb.score > 0 ? '+' : ''}
-              {hoveredVnb.score} · Rang {hoveredVnb.rank}/{total}
+              Wert: {hoveredVnb.score > 0 ? '+' : ''}{hoveredVnb.score} · Rang {hoveredVnb.rank}/{total}
             </p>
           </div>
         )}
       </div>
 
-      {/* Axis hint */}
       <div className="flex justify-between text-[10px] text-muted-foreground px-0.5">
         <span>beste Bewertung</span>
         <span>schlechteste Bewertung</span>
