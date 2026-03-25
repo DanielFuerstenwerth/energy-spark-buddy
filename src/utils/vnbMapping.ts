@@ -17,12 +17,18 @@ async function loadVnbMappings() {
       Object.entries(data).map(([id, obj]: [string, any]) => [id, obj.name])
     );
     
-    // Build Name to ID map (reverse)
-    vnbNameToIdMap = Object.fromEntries(
-      Object.entries(idToVnbNameMap).map(([id, name]) => [name, id])
-    );
+    // Build Name to ID map (reverse), including aliases
+    vnbNameToIdMap = {};
+    for (const [id, obj] of Object.entries(data) as [string, any][]) {
+      vnbNameToIdMap[obj.name] = id;
+      if (Array.isArray(obj.aliases)) {
+        for (const alias of obj.aliases) {
+          vnbNameToIdMap[alias] = id;
+        }
+      }
+    }
     
-    console.log(`Loaded ${Object.keys(idToVnbNameMap).length} VNB mappings`);
+    console.log(`Loaded ${Object.keys(idToVnbNameMap).length} VNB mappings (${Object.keys(vnbNameToIdMap).length} incl. aliases)`);
   } catch (error) {
     console.error('Failed to load VNB mappings:', error);
   }
