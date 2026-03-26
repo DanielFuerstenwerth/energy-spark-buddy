@@ -385,6 +385,42 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_question_catalog: {
+        Row: {
+          field_key: string
+          is_active: boolean
+          project_scope: string | null
+          question_number: string | null
+          question_text: string
+          schema_version: string | null
+          section_key: string | null
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          field_key: string
+          is_active?: boolean
+          project_scope?: string | null
+          question_number?: string | null
+          question_text: string
+          schema_version?: string | null
+          section_key?: string | null
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          field_key?: string
+          is_active?: boolean
+          project_scope?: string | null
+          question_number?: string | null
+          question_text?: string
+          schema_version?: string | null
+          section_key?: string | null
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       survey_responses: {
         Row: {
           actor_dienstleister_category: string[] | null
