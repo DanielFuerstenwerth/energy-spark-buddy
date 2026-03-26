@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.approve-ggv-export]
 verify_jwt = false
+
+[functions.sync-question-catalog]
+verify_jwt = false
