@@ -30,9 +30,8 @@ Deno.serve(async (req) => {
     // Auth: require admin user token OR service-role key
     const authHeader = req.headers.get("Authorization");
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
-    const anonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const token = authHeader?.replace("Bearer ", "") ?? "";
-    const isServiceRole = token === serviceRoleKey || token === anonKey;
+    const isServiceRole = token === serviceRoleKey;
     const isServiceRole = token === serviceRoleKey;
 
     const supabaseAdmin = createClient(
