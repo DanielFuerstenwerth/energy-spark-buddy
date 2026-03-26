@@ -452,6 +452,44 @@ Deno.serve(async (req) => {
     const wsNorm = buildNormalisierungSheet(allResponses);
     XLSX.utils.book_append_sheet(wb, wsNorm, "Normalisierung");
 
+    // Fragenkatalog sheet — from survey_question_catalog table
+    try {
+      const { data: catalog } = await supabaseAdmin
+        .from("survey_question_catalog")
+        .select("field_key, question_number, question_text, section_key, project_scope, sort_order, schema_version, is_active")
+        .order("sort_order", { ascending: true });
+
+      if (catalog && catalog.length > 0) {
+        const catalogHeader = [
+          "field_key", "question_number", "question_text",
+          "section_key", "project_scope", "sort_order",
+          "schema_version", "is_active",
+        ];
+        const catalogRows: (string | number | boolean)[][] = [catalogHeader];
+        for (const row of catalog) {
+          catalogRows.push([
+            row.field_key ?? "",
+            row.question_number ?? "",
+            row.question_text ?? "",
+            row.section_key ?? "",
+            row.project_scope ?? "",
+            row.sort_order ?? 0,
+            row.schema_version ?? "",
+            row.is_active ? "ja" : "nein",
+          ]);
+        }
+        const wsKatalog = XLSX.utils.aoa_to_sheet(catalogRows);
+        wsKatalog["!cols"] = [
+          { wch: 40 }, { wch: 12 }, { wch: 60 },
+          { wch: 22 }, { wch: 12 }, { wch: 10 },
+          { wch: 14 }, { wch: 8 },
+        ];
+        XLSX.utils.book_append_sheet(wb, wsKatalog, "Fragenkatalog");
+      }
+    } catch (catalogErr) {
+      console.warn("Could not add Fragenkatalog sheet:", catalogErr);
+    }
+
     // 7. Generate binary
     const buf = XLSX.write(wb, { type: "array", bookType: "xlsx" });
 
