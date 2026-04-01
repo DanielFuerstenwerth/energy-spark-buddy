@@ -66,29 +66,46 @@ export async function loadScores(
       .replace(/[^a-z0-9]/g, '');
   }
 
-  function parseCSVLine(line: string): string[] {
-    const out: string[] = [];
-    let cur = '';
+  function parseCSVRows(csvText: string): string[][] {
+    const rows: string[][] = [];
+    let currentRow: string[] = [];
+    let currentField = '';
     let inQuotes = false;
-    for (let i = 0; i < line.length; i++) {
-      const ch = line[i];
+
+    for (let i = 0; i < csvText.length; i++) {
+      const ch = csvText[i];
+
       if (ch === '"') {
-        // handle escaped quote
-        if (inQuotes && line[i + 1] === '"') {
-          cur += '"';
+        if (inQuotes && csvText[i + 1] === '"') {
+          currentField += '"';
           i++;
         } else {
           inQuotes = !inQuotes;
         }
       } else if (ch === ',' && !inQuotes) {
-        out.push(cur);
-        cur = '';
+        currentRow.push(currentField.trim());
+        currentField = '';
+      } else if ((ch === '\n' || ch === '\r') && !inQuotes) {
+        if (ch === '\r' && csvText[i + 1] === '\n') i++;
+        currentRow.push(currentField.trim());
+        currentField = '';
+        if (currentRow.some((field) => field !== '')) {
+          rows.push(currentRow);
+        }
+        currentRow = [];
       } else {
-        cur += ch;
+        currentField += ch;
       }
     }
-    out.push(cur);
-    return out.map((p) => p.trim());
+
+    if (currentField.length > 0 || currentRow.length > 0) {
+      currentRow.push(currentField.trim());
+      if (currentRow.some((field) => field !== '')) {
+        rows.push(currentRow);
+      }
+    }
+
+    return rows;
   }
 
   async function fetchText(u: string): Promise<string> {
@@ -107,7 +124,7 @@ export async function loadScores(
   // Ensure VNB name→ID mappings are loaded before parsing
   await ensureVnbMappingsLoaded();
 
-  let text = await fetchText(url);
+  const text = await fetchText(url);
 
   const looksInvalid =
     !text ||
@@ -120,25 +137,29 @@ export async function loadScores(
     return new Map<string, ScoreData>();
   }
 
+  const rows = parseCSVRows(text);
+  if (rows.length === 0) {
+    console.warn('[loadScores] No parsable rows found');
+    return new Map<string, ScoreData>();
+  }
+
   // Check if this looks like the structure sheet (wrong tab exported)
-  const firstLine = text.split('\n')[0];
-  if (firstLine.includes('Kategorie_slug') || firstLine.includes('Kategorie_name')) {
+  const firstRow = rows[0].map(normalizeHeader);
+  if (firstRow.includes(normalizeHeader('Kategorie_slug')) || firstRow.includes(normalizeHeader('Kategorie_name'))) {
     console.warn('[loadScores] Detected structure sheet instead of scores data');
     return new Map<string, ScoreData>();
   }
-  
-  const lines = text.trim().split(/\r?\n/);
-  console.log('[loadScores] Parsing', lines.length, 'lines');
+
+  console.log('[loadScores] Parsing', rows.length, 'rows');
   const scoreMap = new Map<string, ScoreData>();
-  if (lines.length === 0) return scoreMap;
 
   // Find header row dynamically (look for vnb_id and either aggregated_score or requestedColumn)
   let headerLineIdx = 0;
   let header: string[] = [];
   let normHeaders: string[] = [];
 
-  for (let i = 0; i < Math.min(lines.length, 25); i++) { // search first 25 rows for header
-    const cand = parseCSVLine(lines[i]);
+  for (let i = 0; i < Math.min(rows.length, 25); i++) {
+    const cand = rows[i];
     const norm = cand.map(normalizeHeader);
     const hasId = norm.includes(normalizeHeader('vnb_id')) || norm.includes(normalizeHeader('vnbid'));
     const needs = normalizeHeader(opts?.requestedColumn || opts?.aggregatedColumn || 'aggregated_score');
@@ -150,8 +171,9 @@ export async function loadScores(
       break;
     }
   }
+
   if (header.length === 0) {
-    header = parseCSVLine(lines[0]);
+    header = rows[0];
     normHeaders = header.map(normalizeHeader);
   }
 
@@ -192,11 +214,10 @@ export async function loadScores(
   console.log('[loadScores] Column indices:', { idIdx, nameIdx, aggIdx, requestedIdx, updatedIdx });
 
   // Data rows start after headerLineIdx
-  for (let i = headerLineIdx + 1; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
+  for (let i = headerLineIdx + 1; i < rows.length; i++) {
+    const parts = rows[i];
+    if (!parts.some((part) => part !== '')) continue;
 
-    const parts = parseCSVLine(line);
     const vnb_name = (parts[nameIdx] ?? '').trim();
     
     // ALWAYS use VNB name to look up GeoJSON ID
