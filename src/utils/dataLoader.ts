@@ -1,5 +1,5 @@
 import * as topojson from 'topojson-client';
-import { getVnbIdFromName } from './vnbMapping';
+import { getVnbIdFromName, ensureVnbMappingsLoaded } from './vnbMapping';
 
 export interface ScoreData {
   vnb_id: string;
