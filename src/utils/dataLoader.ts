@@ -253,7 +253,7 @@ export function getColor(score: number | null | undefined): string {
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['-100 bis -50', '-50 bis 0', '0 (Pflicht erfüllt)', '> 0 bis 50', '50 bis 100', 'keine Daten'];
+  const labels = ['Verhinderer (-100 bis -50)', 'Verzögerer (-50 bis 0)', 'Pflichterfüller (0)', 'Unterstützer (> 0 bis 50)', 'Champion (50 bis 100)', 'keine Daten'];
   return labels[index] || '';
 }
 
