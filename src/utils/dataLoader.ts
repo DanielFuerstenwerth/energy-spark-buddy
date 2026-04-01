@@ -1,5 +1,5 @@
 import * as topojson from 'topojson-client';
-import { getVnbIdFromName } from './vnbMapping';
+import { getVnbIdFromName, ensureVnbMappingsLoaded } from './vnbMapping';
 
 export interface ScoreData {
   vnb_id: string;
@@ -103,6 +103,9 @@ export async function loadScores(
       return '';
     }
   }
+
+  // Ensure VNB name→ID mappings are loaded before parsing
+  await ensureVnbMappingsLoaded();
 
   let text = await fetchText(url);
 
