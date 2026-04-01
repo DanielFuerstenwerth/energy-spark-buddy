@@ -121,24 +121,44 @@
           "title": "Gemeinschaftliche Gebäudeversorgung",
           "kriterien": [
             {
-              "slug": "K16",
-              "title": "VNB setzt GGV als gMSB um"
+              "slug": "GGV-1",
+              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich"
             },
             {
-              "slug": "K17",
-              "title": "VNB lässt Umsetzung durch wMSB zu"
+              "slug": "GGV-2",
+              "title": "VNB ermöglicht Umsetzung durch wMSB im Gewerbe"
             },
             {
-              "slug": "K18",
-              "title": "Umsetzung ohne physikalischen Zähler am Hausanschluss möglich"
+              "slug": "GGV-3",
+              "title": "VNB ermöglicht Umsetzung durch wMSB für Wohngebäude >4 WE"
             },
             {
-              "slug": "K19",
-              "title": "VNB stellt Daten an ESA bereit"
+              "slug": "GGV-4",
+              "title": "gMSB führt Messwertverrechnung durch"
             },
             {
-              "slug": "K20",
-              "title": "VNB stellt Daten an Endnutzer bereit"
+              "slug": "GGV-5",
+              "title": "Bereitstellung der Daten direkt an Betreiber"
+            },
+            {
+              "slug": "GGV-6",
+              "title": "Bereitstellung der Daten via ESA"
+            },
+            {
+              "slug": "GGV-7",
+              "title": "Massentaugliche Umsetzung für alle Nutzer"
+            },
+            {
+              "slug": "GGV-8",
+              "title": "Bonus: gMSB führt aktuell IT-Prozesse für signifikante Verbesserungen ein (Release <3 Monate)"
+            },
+            {
+              "slug": "GGV-9",
+              "title": "Malus: VNB ermöglicht Umsetzung durch wMSB one Komplikationen"
+            },
+            {
+              "slug": "GGV-10",
+              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich"
             }
           ]
         },
