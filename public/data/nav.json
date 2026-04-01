@@ -122,19 +122,23 @@
           "kriterien": [
             {
               "slug": "GGV-1",
-              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich"
+              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich",
+              "hasData": true
             },
             {
               "slug": "GGV-2",
-              "title": "VNB ermöglicht Umsetzung durch wMSB im Gewerbe"
+              "title": "VNB ermöglicht Umsetzung durch wMSB im Gewerbe",
+              "hasData": true
             },
             {
               "slug": "GGV-3",
-              "title": "VNB ermöglicht Umsetzung durch wMSB für Wohngebäude >4 WE"
+              "title": "VNB ermöglicht Umsetzung durch wMSB für Wohngebäude >4 WE",
+              "hasData": true
             },
             {
               "slug": "GGV-4",
-              "title": "gMSB führt Messwertverrechnung durch"
+              "title": "gMSB führt Messwertverrechnung durch",
+              "hasData": true
             },
             {
               "slug": "GGV-5",
@@ -142,11 +146,13 @@
             },
             {
               "slug": "GGV-6",
-              "title": "Bereitstellung der Daten via ESA"
+              "title": "Bereitstellung der Daten via ESA",
+              "hasData": true
             },
             {
               "slug": "GGV-7",
-              "title": "Massentaugliche Umsetzung für alle Nutzer"
+              "title": "Massentaugliche Umsetzung für alle Nutzer",
+              "hasData": true
             },
             {
               "slug": "GGV-8",
@@ -158,7 +164,8 @@
             },
             {
               "slug": "GGV-10",
-              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich"
+              "title": "Umsetzung GGV ist ohne physischen Zähler am Hausanschluss möglich",
+              "hasData": true
             }
           ]
         },
