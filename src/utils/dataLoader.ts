@@ -104,6 +104,9 @@ export async function loadScores(
     }
   }
 
+  // Ensure VNB name→ID mappings are loaded before parsing
+  await ensureVnbMappingsLoaded();
+
   let text = await fetchText(url);
 
   const looksInvalid =
