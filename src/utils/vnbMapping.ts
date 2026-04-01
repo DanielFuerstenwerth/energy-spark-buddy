@@ -3,39 +3,47 @@
  */
 let idToVnbNameMap: Record<string, string> = {};
 let vnbNameToIdMap: Record<string, string> = {};
+let loadPromise: Promise<void> | null = null;
 
 /**
- * Load VNB mappings from JSON file
+ * Load VNB mappings from JSON file (idempotent, returns cached promise)
  */
-async function loadVnbMappings() {
-  try {
-    const response = await fetch('/data/vnb_names.json');
-    const data = await response.json();
-    
-    // Build ID to Name map
-    idToVnbNameMap = Object.fromEntries(
-      Object.entries(data).map(([id, obj]: [string, any]) => [id, obj.name])
-    );
-    
-    // Build Name to ID map (reverse), including aliases
-    vnbNameToIdMap = {};
-    for (const [id, obj] of Object.entries(data) as [string, any][]) {
-      vnbNameToIdMap[obj.name] = id;
-      if (Array.isArray(obj.aliases)) {
-        for (const alias of obj.aliases) {
-          vnbNameToIdMap[alias] = id;
+export async function ensureVnbMappingsLoaded(): Promise<void> {
+  if (Object.keys(vnbNameToIdMap).length > 0) return;
+  if (!loadPromise) {
+    loadPromise = (async () => {
+      try {
+        const response = await fetch('/data/vnb_names.json');
+        const data = await response.json();
+        
+        // Build ID to Name map
+        idToVnbNameMap = Object.fromEntries(
+          Object.entries(data).map(([id, obj]: [string, any]) => [id, obj.name])
+        );
+        
+        // Build Name to ID map (reverse), including aliases
+        vnbNameToIdMap = {};
+        for (const [id, obj] of Object.entries(data) as [string, any][]) {
+          vnbNameToIdMap[obj.name] = id;
+          if (Array.isArray(obj.aliases)) {
+            for (const alias of obj.aliases) {
+              vnbNameToIdMap[alias] = id;
+            }
+          }
         }
+        
+        console.log(`Loaded ${Object.keys(idToVnbNameMap).length} VNB mappings (${Object.keys(vnbNameToIdMap).length} incl. aliases)`);
+      } catch (error) {
+        console.error('Failed to load VNB mappings:', error);
+        loadPromise = null; // allow retry on failure
       }
-    }
-    
-    console.log(`Loaded ${Object.keys(idToVnbNameMap).length} VNB mappings (${Object.keys(vnbNameToIdMap).length} incl. aliases)`);
-  } catch (error) {
-    console.error('Failed to load VNB mappings:', error);
+    })();
   }
+  return loadPromise;
 }
 
-// Load mappings on module initialization
-loadVnbMappings();
+// Start loading on module initialization (fire-and-forget for early start)
+ensureVnbMappingsLoaded();
 
 /**
  * Get VNB name from ID
