@@ -264,7 +264,7 @@ export async function loadScores(
 }
 
 export function getColor(score: number | null | undefined): string {
-  if (score === null || score === undefined || Number.isNaN(score)) return '#BFBFBF';
+  if (score === null || score === undefined || Number.isNaN(score)) return '#F2F2F2';
   if (score < -75) return '#C00000';             // Verhinderer: -100 bis < -75
   if (score < 0) return '#E97132';               // Verzögerer: -75 bis 0
   if (score === 0) return '#BFBFBF';             // Pflichterfüller: 0
@@ -284,7 +284,7 @@ export function getColorByIndex(index: number): string {
     '#BFBFBF',    // Pflichterfüller: 0
     '#E97132',    // Verzögerer: -75 bis 0
     '#C00000',    // Verhinderer: -100 bis -75
-    '#BFBFBF',    // keine Daten
+    '#F2F2F2',    // keine Daten
   ];
   return colors[index] || '#BFBFBF';
 }
