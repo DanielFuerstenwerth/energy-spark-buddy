@@ -264,28 +264,27 @@ export async function loadScores(
 }
 
 export function getColor(score: number | null | undefined): string {
-  // 6-category system: 0 is a valid score, separated from "keine Daten"
-  if (score === null || score === undefined || Number.isNaN(score)) return 'hsl(220, 14%, 96%)';
-  if (score < -50) return 'hsl(350, 80%, 35%)';              // -100 bis -50: deep crimson
-  if (score < 0) return 'hsl(20, 85%, 55%)';                 // -50 bis 0: warm orange-red
-  if (score === 0) return 'hsl(45, 30%, 80%)';               // exactly 0: warm neutral
-  if (score <= 50) return 'hsl(142, 68%, 36%)';              // >0 bis 50: clear green
-  return 'hsl(158, 72%, 26%)';                               // >50 bis 100: strong dark green
+  if (score === null || score === undefined || Number.isNaN(score)) return '#BFBFBF';
+  if (score <= -75) return '#C00000';            // Verhinderer: -100 bis <-75
+  if (score < 0) return '#E97132';               // Verzögerer: -75 bis 0
+  if (score === 0) return '#BFBFBF';             // Pflichterfüller: 0
+  if (score <= 50) return '#4EA72E';             // Unterstützer: >0 bis 50
+  return '#196B24';                              // Champion: >50 bis 100
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['Verhinderer (-100 bis -50)', 'Verzögerer (-50 bis 0)', 'Pflichterfüller (0)', 'Unterstützer (> 0 bis 50)', 'Champion (50 bis 100)', 'keine Daten'];
+  const labels = ['Champion (50 bis 100)', 'Unterstützer (> 0 bis 50)', 'Pflichterfüller (0)', 'Verzögerer (-75 bis 0)', 'Verhinderer (-100 bis -75)', 'keine Daten'];
   return labels[index] || '';
 }
 
 export function getColorByIndex(index: number): string {
   const colors = [
-    'hsl(350, 80%, 35%)',    // -100 bis -50: deep crimson
-    'hsl(20, 85%, 55%)',     // -50 bis 0: warm orange-red
-    'hsl(45, 30%, 80%)',     // 0: warm neutral
-    'hsl(142, 68%, 36%)',    // >0 bis 50: clear green
-    'hsl(158, 72%, 26%)',    // >50 bis 100: strong dark green
-    'hsl(220, 14%, 96%)',    // keine Daten: very light gray
+    '#196B24',    // Champion: >50 bis 100
+    '#4EA72E',    // Unterstützer: >0 bis 50
+    '#BFBFBF',    // Pflichterfüller: 0
+    '#E97132',    // Verzögerer: -75 bis 0
+    '#C00000',    // Verhinderer: -100 bis -75
+    '#BFBFBF',    // keine Daten
   ];
-  return colors[index] || 'hsl(220, 14%, 96%)';
+  return colors[index] || '#BFBFBF';
 }
