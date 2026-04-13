@@ -265,7 +265,7 @@ export async function loadScores(
 
 export function getColor(score: number | null | undefined): string {
   if (score === null || score === undefined || Number.isNaN(score)) return '#BFBFBF';
-  if (score <= -75) return '#C00000';            // Verhinderer: -100 bis <-75
+  if (score < -75) return '#C00000';             // Verhinderer: -100 bis < -75
   if (score < 0) return '#E97132';               // Verzögerer: -75 bis 0
   if (score === 0) return '#BFBFBF';             // Pflichterfüller: 0
   if (score <= 50) return '#4EA72E';             // Unterstützer: >0 bis 50
@@ -273,7 +273,7 @@ export function getColor(score: number | null | undefined): string {
 }
 
 export function getColorLabel(index: number): string {
-  const labels = ['Champion (50 bis 100)', 'Unterstützer (> 0 bis 50)', 'Pflichterfüller (0)', 'Verzögerer (-75 bis 0)', 'Verhinderer (-100 bis -75)', 'keine Daten'];
+  const labels = ['Champion (50 bis 100)', 'Unterstützer (> 0 bis 50)', 'Pflichterfüller (0)', 'Verzögerer (-75 bis 0)', 'Verhinderer (-100 bis < -75)', 'keine Daten'];
   return labels[index] || '';
 }
 
