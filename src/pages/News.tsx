@@ -7,6 +7,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 const News = () => {
   const newsItems = [
     {
+      slug: "umfrage-ergebnisse-ggv",
+      title: "Erste Ergebnisse: Umsetzung der GGV und Mieterstrom durch Verteilnetzbetreiber",
+      date: "2026-04-14",
+      excerpt: "Die Auswertung unserer bundesweiten Umfrage liegt vor: Wie gut setzen Verteilnetzbetreiber die gemeinschaftliche Gebäudeversorgung und Mieterstrom mit virtuellem Summenzähler um? Die Analyse bewertet die Performance einzelner VNB, zeigt Hindernisse bei der Umsetzung auf und liefert einen Überblick über die Kosten der GGV.",
+      directLink: "/data/VNB_Umfrage_Ergebnisse.pdf",
+    },
+    {
       slug: "vnb-benchmarking",
       title: "Wo steht Ihr VNB? Jetzt selbst benchmarken.",
       date: "20.03.2026",
@@ -68,7 +75,7 @@ const News = () => {
                     <p className="text-muted-foreground mb-4">{item.excerpt}</p>
                   )}
                   <LinkOrA className="text-primary hover:text-accent transition-colors font-medium">
-                    {(item as any).directLink ? 'Jetzt analysieren →' : 'Weiterlesen →'}
+                    {linkTarget.endsWith('.pdf') ? 'Ergebnisse herunterladen (PDF) →' : (item as any).directLink ? 'Jetzt analysieren →' : 'Weiterlesen →'}
                   </LinkOrA>
                 </CardContent>
               </Card>
