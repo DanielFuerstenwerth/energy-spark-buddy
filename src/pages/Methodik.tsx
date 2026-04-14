@@ -10,10 +10,10 @@ const Methodik = () => {
       <Header />
 
       <main id="main-content" className="flex-1 container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-4 text-destructive">Methodik v1.0</h1>
+        <h1 className="text-4xl font-bold mb-4 text-foreground">Methodik v1.1</h1>
 
         <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground mb-8">
-          <strong>Hinweis:</strong> Das Transparenzportal befindet sich im Aufbau – ebenso wie die Methodik. Erste Analysen erfolgen ab dem 08.03.2026.
+          <strong>Hinweis:</strong> Das Transparenzportal befindet sich im Aufbau – ebenso wie die Methodik.
         </div>
 
         <div className="max-w-3xl space-y-8">
