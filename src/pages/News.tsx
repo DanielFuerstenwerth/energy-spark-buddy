@@ -75,7 +75,7 @@ const News = () => {
                     <p className="text-muted-foreground mb-4">{item.excerpt}</p>
                   )}
                   <LinkOrA className="text-primary hover:text-accent transition-colors font-medium">
-                    {(item as any).directLink ? 'Jetzt analysieren →' : 'Weiterlesen →'}
+                    {linkTarget.endsWith('.pdf') ? 'Ergebnisse herunterladen (PDF) →' : (item as any).directLink ? 'Jetzt analysieren →' : 'Weiterlesen →'}
                   </LinkOrA>
                 </CardContent>
               </Card>
