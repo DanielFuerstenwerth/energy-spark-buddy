@@ -10,10 +10,10 @@ const Methodik = () => {
       <Header />
 
       <main id="main-content" className="flex-1 container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-4 text-destructive">Methodik v1.0</h1>
+        <h1 className="text-4xl font-bold mb-4 text-foreground">Methodik v1.1</h1>
 
         <div className="bg-muted p-4 rounded-lg text-sm text-muted-foreground mb-8">
-          <strong>Hinweis:</strong> Das Transparenzportal befindet sich im Aufbau – ebenso wie die Methodik. Erste Analysen erfolgen ab dem 08.03.2026.
+          <strong>Hinweis:</strong> Das Transparenzportal befindet sich im Aufbau – ebenso wie die Methodik.
         </div>
 
         <div className="max-w-3xl space-y-8">
@@ -134,6 +134,20 @@ const Methodik = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
+                <div>
+                  <div className="text-sm font-semibold">v1.1 – 2026-04-14</div>
+                  <p className="text-sm text-muted-foreground">
+                    Die Methodik im Bereich „Teilhabe an der Energiewende" wurde weiterentwickelt und auf die entsprechenden Umfragedaten angewandt.
+                  </p>
+                  <a
+                    href="/data/vnb-transparenz.de-Methodik_v1.1.pdf"
+                    download
+                    className="inline-flex items-center gap-1.5 mt-1.5 text-sm font-medium text-primary hover:underline"
+                  >
+                    <FileDown className="h-4 w-4" />
+                    Methodik v1.1 herunterladen (PDF)
+                  </a>
+                </div>
                 <div>
                   <div className="text-sm font-semibold">v1.0 (Entwurf) – 2026-02-24</div>
                   <p className="text-sm text-muted-foreground">
