@@ -135,6 +135,20 @@ const Methodik = () => {
             <CardContent>
               <div className="space-y-3">
                 <div>
+                  <div className="text-sm font-semibold">v1.1 – 2026-04-14</div>
+                  <p className="text-sm text-muted-foreground">
+                    Die Methodik im Bereich „Teilhabe an der Energiewende" wurde weiterentwickelt und auf die entsprechenden Umfragedaten angewandt.
+                  </p>
+                  <a
+                    href="/data/vnb-transparenz.de-Methodik_v1.1.pdf"
+                    download
+                    className="inline-flex items-center gap-1.5 mt-1.5 text-sm font-medium text-primary hover:underline"
+                  >
+                    <FileDown className="h-4 w-4" />
+                    Methodik v1.1 herunterladen (PDF)
+                  </a>
+                </div>
+                <div>
                   <div className="text-sm font-semibold">v1.0 (Entwurf) – 2026-02-24</div>
                   <p className="text-sm text-muted-foreground">
                     Erster Entwurf einer Methodik zur Bewertung der Umfrageergebnisse veröffentlicht.
