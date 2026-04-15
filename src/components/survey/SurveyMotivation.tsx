@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Zap, Home, Share2, MapPin, Users, Megaphone, ArrowRight } from "lucide-react";
+import { Zap, Home, Share2, MapPin, Users } from "lucide-react";
 import { getVnbIdFromName } from "@/utils/vnbMapping";
 import { MapFeedbackMini, FeedbackEntry } from "./MapFeedbackMini";
-import { Link } from "react-router-dom";
 
 interface SurveyStats {
   total: number;
@@ -85,82 +84,55 @@ export function SurveyMotivation() {
 
   const projectItems = hasStats ? [
     { label: "GGV-Projekte", value: stats!.ggv, icon: Zap, color: "text-amber-600 dark:text-amber-400" },
-    { label: "Mieterstrom", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
-    { label: "Energy Sharing", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
+    { label: "Mieterstrom-Projekte", value: stats!.mieterstrom, icon: Home, color: "text-emerald-600 dark:text-emerald-400" },
+    { label: "Energy-Sharing-Projekte", value: stats!.energy_sharing, icon: Share2, color: "text-sky-600 dark:text-sky-400" },
   ].filter(i => i.value > 0) : [];
 
   return (
-    <div className="mb-8 rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-card to-accent/5 shadow-lg overflow-hidden">
-      {/* Prominent header banner */}
-      <div className="bg-primary/10 border-b border-primary/15 px-6 py-4 flex items-center gap-3">
-        <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full bg-primary/15">
-          <Megaphone className="w-5 h-5 text-primary" />
-        </div>
-        <div className="flex-1">
-          <p className="text-base font-semibold text-foreground">
-            Erste Auswertung ist erfolgt!
-          </p>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Viele Akteure haben bereits ihre Erfahrungen geteilt – machen Sie mit!
-          </p>
-        </div>
+    <div className="mb-6 rounded-xl border border-border bg-card/60 backdrop-blur overflow-hidden">
+      {/* Header */}
+      <div className="px-5 pt-5 pb-3">
+        <p className="text-sm font-medium text-foreground">
+          <Users className="w-4 h-4 text-primary inline -mt-0.5 mr-1.5" />
+          Viele Akteure haben bereits ihre Erfahrungen geteilt – machen Sie mit!
+        </p>
       </div>
 
-      {/* Links row */}
-      <div className="px-6 py-3 flex flex-wrap gap-4 border-b border-border/50 bg-card/40">
-        <Link
-          to="/TaE/GGV"
-          className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors"
-        >
-          <MapPin className="w-4 h-4" />
-          Interaktive Karte ansehen
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
-        <Link
-          to="/news/umfrage-ergebnisse-ggv"
-          className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors"
-        >
-          <Megaphone className="w-4 h-4" />
-          Ergebnisse lesen (PDF)
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
-      </div>
-
-      {/* Stats + Map – large layout */}
-      <div className="p-6">
-        <div className="flex flex-col md:flex-row gap-6">
+      {/* Stats + Map side by side on desktop, stacked on mobile */}
+      <div className="px-5 pb-5">
+        <div className="flex flex-col md:flex-row gap-5">
           {/* Left: Stats */}
-          <div className="flex flex-col gap-5 md:w-56 shrink-0 justify-center">
+          <div className="flex flex-col gap-4 md:w-48 shrink-0 justify-center">
             {/* Region counter */}
             {hasMap && (
-              <div className="flex items-center gap-4">
-                <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10">
-                  <MapPin className="w-7 h-7 text-primary" />
+              <div className="flex items-center gap-3">
+                <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10">
+                  <MapPin className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <p className="text-3xl font-bold leading-tight tabular-nums">{vnbCount}</p>
-                  <p className="text-xs text-muted-foreground leading-tight">Netzgebiete</p>
+                  <p className="text-2xl font-bold leading-tight tabular-nums">{vnbCount}</p>
+                  <p className="text-[11px] text-muted-foreground leading-tight">Netzgebiete</p>
                 </div>
               </div>
             )}
 
             {/* Project type breakdown */}
             {projectItems.map(item => (
-              <div key={item.label} className="flex items-center gap-4">
-                <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-xl bg-muted">
-                  <item.icon className={`w-7 h-7 ${item.color}`} />
+              <div key={item.label} className="flex items-center gap-3">
+                <div className="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg bg-muted">
+                  <item.icon className={`w-5 h-5 ${item.color}`} />
                 </div>
                 <div>
-                  <p className="text-3xl font-bold leading-tight tabular-nums">{item.value}</p>
-                  <p className="text-xs text-muted-foreground leading-tight">{item.label}</p>
+                  <p className="text-2xl font-bold leading-tight tabular-nums">{item.value}</p>
+                  <p className="text-[11px] text-muted-foreground leading-tight truncate">{item.label}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Right: Large mini map */}
+          {/* Right: Inline mini map */}
           {hasMap && (
-            <div className="flex-1 min-w-0 min-h-[350px] md:min-h-[400px]">
+            <div className="flex-1 min-w-0">
               <MapFeedbackMini feedbackData={feedbackData} />
             </div>
           )}
