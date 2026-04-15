@@ -14,7 +14,7 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import { SurveyHeader } from "@/components/survey/SurveyHeader";
+import { SurveyHeader, SurveyUpdateBanner } from "@/components/survey/SurveyHeader";
 import { SurveyMotivation } from "@/components/survey/SurveyMotivation";
 import { SurveyProgress } from "@/components/survey/SurveyProgress";
 import { EvaluationTabs } from "@/components/survey/EvaluationTabs";
