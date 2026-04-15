@@ -69,7 +69,7 @@ export function SurveyUpdateBanner() {
             </p>
           </div>
           <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary mt-0.5 shrink-0 transition-colors" />
-        </Link>
+        </a>
       </div>
     </div>
   );
