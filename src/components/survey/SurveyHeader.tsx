@@ -53,8 +53,10 @@ export function SurveyUpdateBanner() {
           <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary mt-0.5 shrink-0 transition-colors" />
         </Link>
 
-        <Link
-          to="/news/umfrage-ergebnisse-ggv"
+        <a
+          href="/data/VNB_Umfrage_Ergebnisse.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
           className="group flex items-start gap-3 rounded-lg border border-border bg-background/60 p-4 hover:border-primary/40 hover:shadow-sm transition-all"
         >
           <FileText className="w-5 h-5 text-primary mt-0.5 shrink-0" />
