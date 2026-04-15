@@ -53,7 +53,8 @@ const News = () => {
           {newsItems.map((item) => {
             const linkTarget = (item as any).directLink || `/news/${item.slug}`;
             const isExternal = linkTarget.startsWith('http');
-            const LinkOrA = isExternal
+            const isFile = linkTarget.match(/\.\w+$/) !== null;
+            const LinkOrA = (isExternal || isFile)
               ? ({ children, className }: any) => <a href={linkTarget} target="_blank" rel="noopener noreferrer" className={className}>{children}</a>
               : ({ children, className }: any) => <Link to={linkTarget} className={className}>{children}</Link>;
             return (
